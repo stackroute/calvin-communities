@@ -12,7 +12,7 @@ app.get('/hello', (req, res) => {
 })
 
 app.get('/welcome', (req, res) => {
-  res.send({msg: 'Welcome to the app'});
+  res.send({msg: 'Welcome to app'});
 })
 
 app.use((req, res) => {
