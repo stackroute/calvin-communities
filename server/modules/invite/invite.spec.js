@@ -1,6 +1,5 @@
-const chai = require('chai');
+require('chai').should();
 
-const should = chai.should();
 const app = require('../../app');
 
 const request = require('supertest');
@@ -16,9 +15,9 @@ describe('/invitation ', () => {
   };
   const updatestatus = { status: 'sent' };
 
-  it('Test PUT method for updating status', (done) => {
+  it('Test PATCH method for updating status', (done) => {
     request(app)
-      .put('/api/invitation/action/daf6757f06284cb6bd200e1b0828b31b')
+      .patch('/api/invitation/action/daf6757f06284cb6bd200e1b0828b31b')
       .send(updatestatus)
       .set('Accept', 'application/json')
       .end((err, res) => {
@@ -38,7 +37,7 @@ describe('/invitation ', () => {
   });
 
 
-it('Test Delete method for rejecting', (done) => {
+  it('Test Delete method for rejecting', (done) => {
     request(app)
       .delete('/api/invitation/delete/921604397d134c7184cbcaef3299e549')
       .send()

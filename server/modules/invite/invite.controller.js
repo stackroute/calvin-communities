@@ -21,22 +21,36 @@ function createInvitation(req, res) {
   const query = ('insert into invite_request(id,email , domainname  , type , status, approver) values(:id,:email,:domainname,:type,:status,:approver)');
   client.execute(query, params, (err) => {
     if (err) throw res.send(err);
-    res.status(201).send();
+    return res.status(201).send();
   });
 }
 
 
 function updateInvite(req, res) {
-  const params = {
-    status: req.body.status,
-    id: req.params.id,
-  };
-  const query = ('update invite_request set status = :status where id = :id');
+  if (req.body.status === 'approved') {
+    const params = {
+      status: req.body.status,
+      id: req.params.id,
+      approver: req.body.approver,
+    };
+    const query = ('update invite_request set status = :status, approver = :approver where id = :id');
+    client.execute(query, params, (err) => {
+      if (err) throw res.send(err);
+      return res.status(200).send();
+    });
+  }
+  else {
+    const params = {
+      status: req.body.status,
+      id: req.params.id,
+    };
+    const query = ('update invite_request set status = :status where id = :id');
 
-  client.execute(query, params, (err) => {
-    if (err) throw res.send(err);
-    res.status(200).send();
-  });
+    client.execute(query, params, (err) => {
+      if (err) throw res.send(err);
+      return res.status(200).send();
+    });
+  }
 }
 
 function deleterequest(req, res) {
@@ -55,5 +69,5 @@ function deleterequest(req, res) {
 module.exports = {
   updateInvite,
   createInvitation,
-  deleterequest
+  deleterequest,
 };
