@@ -6,10 +6,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+
+
     "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint ",
 
+    "lint": "ng lint",
 
-    "lint": "./node_modules/.bin/eslint *.js server/modules/community/*.js",
 
 
     "e2e": "ng e2e",

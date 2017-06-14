@@ -1,45 +1,87 @@
 const model = require('cassandra-driver');
-
-const connectionString = require('../../connect');
-
-const client = new model.Client({
-  contactPoints: [connectionString.contact],
-  protocolOptions: { port: connectionString.port },
-  keyspace: connectionString.keyspace,
-});
+const service = require('./invite.service');
 
 
 function createInvitation(req, res) {
-  const params = {
-    email: req.body.email,
-    domain: req.body.domain,
-    status: req.body.status,
-    type: req.body.type,
-    approver: req.body.approver,
-    id: model.types.Uuid.random().toString().split('-').join(''),
-  };
-  const query = ('insert into invite_request(id,email , domain  , type , status, approver) values(:id,:email,:domain,:type,:status,:approver)');
-  res.status(201);
-  client.execute(query, params, (err) => {
-    if (err) {
-      res.status(404).send(err);
-      return;
+  if (req.body.email) {
+    if (req.body.domain) {
+      if (req.body.email !== null && req.body.domain !== null) {
+        const params = {
+
+          email: req.body.email,
+
+          domain: req.body.domain,
+          status: req.body.status,
+          type: req.body.type,
+          approver: req.body.approver,
+          id: model.types.Uuid.random().toString().split('-').join(''),
+        };
+
+        service.insert(params, (err) => {
+          res.status(201);
+
+          if (err) {
+            res.status(404).send(err);
+          }
+        });
+        res.send();
+      }
+    } else {
+      res.status(404).send('please enter domain field!!');
     }
-    res.send();
-  });
+  } else {
+    res.status(404).send('please enter email fields!!');
+  }
 }
 
 
 function updateInvite(req, res) {
-  if (req.body.status === 'approved') {
+  if ((req.params.id).length > 4) {
+    if ((req.body.status) && req.body.status !== null) {
+      if ((req.body.status === 'approved')) {
+        if ((req.body.approver) && req.body.approver !== null) {
+          const params = {
+            status: req.body.status,
+            id: req.params.id,
+            approver: req.body.approver,
+          };
+          service.update(params, (err) => {
+            if (err) {
+              res.status(404);
+            }
+            // res.send(results);
+          });
+        } else {
+          res.status(404).send('approver should not be empty!!');
+        }
+      } else {
+        const params = {
+          status: req.body.status,
+          id: req.params.id,
+        };
+        service.statusupdate(params, (err) => {
+          if (err) {
+            res.status(404);
+          }
+          // res.send(results);
+        });
+      }
+    } else {
+      res.status(404).send('status should not be empty!!');
+    }
+  } else {
+    res.status(404).send('id should not be empty!!');
+  }
+}
+
+function deleteRequest(req, res) {
+  if ((req.params.id).length > 4) {
     const params = {
-      status: req.body.status,
       id: req.params.id,
-      approver: req.body.approver,
     };
-    const query = ('update invite_request set status = :status, approver = :approver where id = :id');
-    res.status(200);
-    client.execute(query, params, (err) => {
+    service.rejected(params, (err) => {
+      res.status(201);
+
       if (err) {
         res.status(404).send(err);
         return;
@@ -47,40 +89,13 @@ function updateInvite(req, res) {
       res.send();
     });
   } else {
-    const params = {
-      status: req.body.status,
-      id: req.params.id,
-    };
-    const query = ('update invite_request set status = :status where id = :id');
-    res.status(200);
-    client.execute(query, params, (err) => {
-      if (err) {
-        res.status(404).send(err);
-        return;
-      }
-      res.send();
-    });
+    res.status(404).send('id should not be empty!!');
   }
-}
-
-function deleterequest(req, res) {
-  const params = {
-    id: req.params.id,
-  };
-  const query = ('delete from invite_request where id = :id IF EXISTS');
-  res.status(200);
-  client.execute(query, params, (err) => {
-    if (err) {
-      res.status(404).send(err);
-      return;
-    }
-    res.send();
-  });
 }
 
 
 module.exports = {
   updateInvite,
   createInvitation,
-  deleterequest,
+  deleteRequest,
 };
