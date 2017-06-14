@@ -1,8 +1,13 @@
+/* ---------------------ROUTER----------------------*/
+
+
 const express = require('express');
 
 const controller = require('./tools.controller');
 
 const router = express.Router();
+
+// Router methods
 
 router.get('/', controller.getTools);
 
@@ -12,7 +17,7 @@ router.patch('/:id/:tool', controller.modifyTool);
 
 router.delete('/:id', controller.deleteTool);
 
-router.delete('/action/:id/:tool/:index/', controller.deleteAction);
+router.delete('/action/:id/:tool/:index', controller.deleteAction);
 
 router.delete('/event/:id/:tool/:index', controller.deleteEvent);
 

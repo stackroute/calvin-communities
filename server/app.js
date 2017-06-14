@@ -5,6 +5,8 @@ const app = express();
 
 const clientPath = path.resolve(__dirname, '..', 'dist');
 
+app.use(require('body-parser').json());
+
 
 const community = require('./modules/community/index');
 const members = require('./modules/members/index');
