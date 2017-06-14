@@ -17,6 +17,8 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
+app.use('/community', require('./modules/communityTemplates'));
+
 app.use((req, res) => {
   res.status(404).send({ error: 'Resource not found' });
 });
