@@ -10,7 +10,7 @@ describe('/invitation ', () => {
     email: 'marie@gmail.com',
     type: 'invite',
     status: 'rejected',
-    domainname: 'engine',
+    domain: 'engine',
     approver: 'mohan',
   };
   const updatestatus = { status: 'sent' };

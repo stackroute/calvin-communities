@@ -30,12 +30,17 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
+<<<<<<< HEAD
+// middleware function
+app.use('/community', require('./modules/communityTemplates'));
+=======
 
 
 app.use('/api/community', community );
 app.use('/api/invitation',invite);
 
 app.use('/api/tools', tools);
+>>>>>>> 405c90a59ebd5b1ce61bb855d6b8622f9143ded4
 
 app.use((req, res) => {
   res.status(404).send({ error: 'Resource not found' });
