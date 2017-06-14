@@ -8,13 +8,13 @@ router.get('/', controller.getTools);
 
 router.post('/', controller.postTools);
 
-router.patch('/:id', controller.modifyTool);
+router.patch('/:id/:tool', controller.modifyTool);
 
 router.delete('/:id', controller.deleteTool);
 
-router.delete('/action/:id/:index', controller.deleteAction);
+router.delete('/action/:id/:tool/:index/', controller.deleteAction);
 
-router.delete('/event/:id/:index', controller.deleteEvent);
+router.delete('/event/:id/:tool/:index', controller.deleteEvent);
 
 
 module.exports = router;
