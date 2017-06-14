@@ -12,7 +12,6 @@ router.post('/send', (req, res) => {
   try {
     res.send(controller.createInvitation(req, res));
   } catch (err) {
-    console.log('Error happned in ... ', err);
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
@@ -21,16 +20,14 @@ router.patch('/action/:id', (req, res) => {
   try {
     res.send(controller.updateInvite(req, res));
   } catch (err) {
-    console.log('Error happned in ... ', err);
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
 router.delete('/delete/:id', (req, res) => {
   try {
-    res.send(controller.deleterequest(req, res));
+    res.send(controller.deleteRequest(req, res));
   } catch (err) {
-    console.log('Error happned in ... ', err);
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
