@@ -9,7 +9,7 @@
     "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint ",
 
 
-    "lint": "./node_modules/.bin/eslint *.js server/modules/communityTemplates/*.js",
+    "lint": "./node_modules/.bin/eslint *.js server/modules/community/*.js",
 
 
     "e2e": "ng e2e",

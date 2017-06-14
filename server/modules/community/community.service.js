@@ -17,9 +17,9 @@ function getallcommunities() {
 }
 
 function addcommunity(com) {
-  const query = (`INSERT INTO communities (domain, name, status, template,tags, owner,
-  	description, avatar, poster, roles, createdby, createdon, updatedby, updatedon) 
-  	VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(now()) ) `);
+  const query = (`INSERT INTO communities (domain, name, status, template,tags, owner, 
+description, avatar, poster, roles, createdby, createdon, updatedby, updatedon) 
+VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(now()) ) `);
   const param = [com.body.domain, com.body.name,
     com.body.status, com.body.template, com.body.tags,
     com.body.createdby, com.body.description,
