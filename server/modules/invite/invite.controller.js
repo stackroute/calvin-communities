@@ -30,51 +30,67 @@ function createInvitation(req, res) {
       res.status(404).send('please enter domain field!!');
     }
   } else {
-    res.status(404).send('please enter all fields!!');
+    res.status(404).send('please enter email fields!!');
   }
 }
 
 
 function updateInvite(req, res) {
-  if ((req.body.status === 'approved')) {
-    const params = {
-      status: req.body.status,
-      id: req.params.id,
-      approver: req.body.approver,
-    };
-    service.update(params, (err) => {
-      if (err) {
-        res.status(404);
+  if ((req.params.id).length > 4) {
+    if ((req.body.status) && req.body.status !== null) {
+      if ((req.body.status === 'approved')) {
+        if ((req.body.approver) && req.body.approver !== null) {
+          const params = {
+            status: req.body.status,
+            id: req.params.id,
+            approver: req.body.approver,
+          };
+          service.update(params, (err) => {
+            if (err) {
+              res.status(404);
+            }
+            // res.send(results);
+          });
+        } else {
+          res.status(404).send('approver should not be empty!!');
+        }
+      } else {
+        const params = {
+          status: req.body.status,
+          id: req.params.id,
+        };
+        service.statusupdate(params, (err) => {
+          if (err) {
+            res.status(404);
+          }
+          // res.send(results);
+        });
       }
-      // res.send(results);
-    });
+    } else {
+      res.status(404).send('status should not be empty!!');
+    }
   } else {
-    const params = {
-      status: req.body.status,
-      id: req.params.id,
-    };
-    service.statusupdate(params, (err) => {
-      if (err) {
-        res.status(404);
-      }
-      // res.send(results);
-    });
+    res.status(404).send('id should not be empty!!');
   }
 }
 
 function deleteRequest(req, res) {
-  const params = {
-    id: req.params.id,
-  };
-  service.rejected(params, (err) => {
-    res.status(201);
+  if ((req.params.id).length > 4) {
+    const params = {
+      id: req.params.id,
+    };
+    service.rejected(params, (err) => {
+      res.status(201);
 
-    if (err) {
-      res.status(404).send(err);
-      return;
-    }
-    res.send();
-  });
+      if (err) {
+        res.status(404).send(err);
+        return;
+      }
+      res.send();
+    });
+  } else {
+    res.status(404).send('id should not be empty!!');
+  }
 }
 
 
