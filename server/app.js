@@ -5,6 +5,17 @@ const app = express();
 
 const clientPath = path.resolve(__dirname, '..', 'dist');
 
+
+const community = require('./modules/community/index');
+const members = require('./modules/members/index');
+const tools = require('./modules/tools/index');
+const invite = require('./modules/invite/index');
+
+
+const PORT = process.env.PORT || 4000;
+
+console.log('Hosting static path ', clientPath);
+
 app.use(express.static(clientPath));
 
 app.get('/hello', (req, res) => res.send({ msg: 'Howdy partner ' }));
@@ -17,11 +28,27 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
+<<<<<<< HEAD
 // middleware function
 app.use('/community', require('./modules/communityTemplates'));
+=======
+
+
+app.use('/api/community', community );
+app.use('/api/invitation',invite);
+
+app.use('/api/tools', tools);
+>>>>>>> 405c90a59ebd5b1ce61bb855d6b8622f9143ded4
 
 app.use((req, res) => {
   res.status(404).send({ error: 'Resource not found' });
 });
+
+app.listen(PORT, () => {
+console.log('basics! on port', PORT);
+
+});
+
+
 
 module.exports = app;
