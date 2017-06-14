@@ -5,6 +5,42 @@ const request = require('supertest');
 
 const wrongdata = { message: 'Wrong Data Inputs' };
 
+const rowcreated = { message: 'Community created.' };
+
+const data = {
+    "domain" : "runrabitrun",
+    "name": "qwvwqvv",
+    "owner": "pssssss",
+    "tags" : ["ortho","eyes","physicist"],
+    "roles": {
+    "first": "random",
+    "second": "againthesame"
+    }
+}
+const getdomain = {
+        "domain": "janani",
+        "avatar": null,
+        "createdby": null,
+        "createdon": "2017-06-14T19:53:43.968Z",
+        "description": null,
+        "name": "qwvwqvv",
+        "owner": null,
+        "poster": null,
+        "roles": {
+            "first": "random",
+            "second": "againthesame"
+        },
+        "status": null,
+        "tags": [
+            "eyes",
+            "ortho",
+            "physicist"
+        ],
+        "template": null,
+        "updatedby": null,
+        "updatedon": "2017-06-14T19:53:43.968Z"
+    }
+
 const dataAttheMoment = [
     {
         "domain": "asdfgh",
@@ -256,7 +292,7 @@ const dataAttheMoment = [
         "domain": "janani",
         "avatar": null,
         "createdby": null,
-        "createdon": "2017-06-14T18:39:31.719Z",
+        "createdon": "2017-06-14T19:14:32.904Z",
         "description": null,
         "name": "qwvwqvv",
         "owner": null,
@@ -273,7 +309,7 @@ const dataAttheMoment = [
         ],
         "template": null,
         "updatedby": null,
-        "updatedon": "2017-06-14T18:39:31.719Z"
+        "updatedon": "2017-06-14T19:14:32.904Z"
     },
     {
         "domain": "fgh",
@@ -393,4 +429,33 @@ describe('/post data in database', () => {
     });
   });
 });
+//post data in database
+describe('/post data in database', () => {
+  it('should post data in database', (done) => {
+    request(app)
+    .post('/api/community')
+    .send(data)
+    .set('Content-Type', 'application/json')
+    .end((err, res) => {
+      if (err) { done(err); return; }
+      res.body.should.deep.equal(rowcreated);
+      done();
+    });
+  });
+});
+
+
+//get data for particular domain
+describe('/get data from database with :domain', () => {
+	it('should get data for domain specified', (done) => {
+	request(app)
+	.get('/api/community/' + getdomain.domain)
+	.end((err,res) => {
+		if(err) {done(err); return; }
+		res.body.should.deep.equal([getdomain]);
+		done();
+		}); 
+	})
+})
+
 

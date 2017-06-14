@@ -17,14 +17,16 @@ function getallcommunities() {
 }
 
 function addcommunity(com) {
-  const query = ('INSERT INTO communities (domain, name, status, template,tags, owner, description, avatar, poster, roles, createdby, createdon, updatedby, updatedon) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(now()) ) ');
+  const query = (`INSERT INTO communities (domain, name, status, template,tags, owner,
+  	description, avatar, poster, roles, createdby, createdon, updatedby, updatedon) 
+  	VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(now()) ) `);
   const param = [com.body.domain, com.body.name,
     com.body.status, com.body.template, com.body.tags,
     com.body.createdby, com.body.description,
     com.body.avatar, com.body.poster, com.body.roles,
     com.body.createdby, com.body.createdby];
   return client.execute(query, param, { hints: ['text', 'text', 'text', 'text', 'set',
-    'text', 'text', 'text', 'text', 'map', 'text', 'timestamp', 'text', 'timestamp'] });
+    'text', 'text', 'text', 'text', 'map', 'text', 'text'] });
 }
 
 function getcommunity(domainname) {
