@@ -5,9 +5,12 @@ const app = express();
 
 const clientPath = path.resolve(__dirname, '..', 'dist');
 
+
 const community = require('./modules/community/index');
 const members = require('./modules/members/index');
 const tools = require('./modules/tools/index');
+const invite = require('./modules/invite/index');
+
 
 const PORT = process.env.PORT || 4000;
 
@@ -28,6 +31,7 @@ app.get('/users', (req, res) => {
 
 
 app.use('/api/community', community );
+app.use('/api/invitation',invite);
 
 app.use('/api/tools', tools);
 
@@ -36,6 +40,10 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
+console.log('basics! on port', PORT);
+
 });
+
+
 
 module.exports = app;

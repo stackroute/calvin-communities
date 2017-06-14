@@ -6,7 +6,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+<<<<<<< HEAD
     "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint ",
+=======
+
+    "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint",
+>>>>>>> db416d7e3498cebedae0adbbd469f2605fd4127f
     "lint": "ng lint",
     "e2e": "ng e2e",
     "serve": "concurrently \"ng build --watch\" \"nodemon bin/www\""
