@@ -17,6 +17,7 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
+// middleware function
 app.use('/community', require('./modules/communityTemplates'));
 
 app.use((req, res) => {

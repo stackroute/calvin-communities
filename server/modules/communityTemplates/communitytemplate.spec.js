@@ -1,6 +1,4 @@
-const chai = require('chai');
-
-const should = chai.should();
+require('chai').should();
 
 const app = require('../../app');
 const request = require('supertest');
@@ -10,8 +8,8 @@ const professional = require('./templates/professional');
 const sports = require('./templates/sports');
 const teachers = require('./templates/teachers');
 
-describe('/templates', function() {
-  it('it should retrieve specified template data for technical', function (done) {
+describe('/templates', () => {
+  it('it should retrieve specified template data for technical', (done) => {
     request(app)
       .get('/community/templates/technical')
       .end((err, res) => {
@@ -20,7 +18,7 @@ describe('/templates', function() {
         done();
       });
   });
-  it('it should retrieve specified template data for medical', function (done) {
+  it('it should retrieve specified template data for medical', (done) => {
     request(app)
       .get('/community/templates/medical')
       .end((err, res) => {
@@ -29,7 +27,7 @@ describe('/templates', function() {
         done();
       });
   });
-  it('it should retrieve specified template data for professional', function (done) {
+  it('it should retrieve specified template data for professional', (done) => {
     request(app)
       .get('/community/templates/professional')
       .end((err, res) => {
@@ -38,7 +36,7 @@ describe('/templates', function() {
         done();
       });
   });
-  it('it should retrieve specified template data for sports', function (done) {
+  it('it should retrieve specified template data for sports', (done) => {
     request(app)
       .get('/community/templates/sports')
       .end((err, res) => {
@@ -47,13 +45,21 @@ describe('/templates', function() {
         done();
       });
   });
-  it('it should retrieve specified template data for teachers', function (done) {
+  it('it should retrieve specified template data for teachers', (done) => {
     request(app)
       .get('/community/templates/teachers')
       .end((err, res) => {
         if (err) { done(err); return; }
         res.body.should.deep.equal(teachers);
         done();
+      });
+  });
+  it('the template is not existed', (done) => {
+    request(app)
+      .get('/community/templates/')
+      .end((err, res) => {
+        if (err) { done(err); return; }
+        res.status.should.be.equal(404);
       });
   });
 });

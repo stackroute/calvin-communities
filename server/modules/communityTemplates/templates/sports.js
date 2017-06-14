@@ -1,12 +1,11 @@
-module.exports ={
-    "purposes":[
-        {
-            "name":"Indoor Games", 
-            "tool_id":["10","20","30"]
-        },
-        {
-            "name":"Outdoor Games", 
-            "tool_id":["20","30","40"]
-        }]
-    
+module.exports = {
+  purposes: [
+    {
+      name: 'IndoorGames',
+      tool_id: ['10', '20', '30'],
+    },
+    {
+      name: 'OutdoorGames',
+      tool_id: ['20', '30', '40'],
+    }],
 };
