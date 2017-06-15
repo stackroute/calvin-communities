@@ -14,7 +14,6 @@ const client = new model.Client({
 
 function insert(data, callback) {
   const query = (`insert into invite_request (id,email,domain,type,status,approver) values('${data.id}','${data.email}','${data.domain}','${data.type}','${data.status}','${data.approver}')`);
-
   client.execute(query, err => callback(err));
 }
 
@@ -43,11 +42,8 @@ function getMember(callback) {
 }
 
 function getMemberById(data, callback) {
-  console.log('in service GET');
-  console.log(`data.id:${data.id}`);
   const query = (`SELECT * from invite_request where id= '${data.id}' `);
   return client.execute(query, (err, result) => {
-    console.log(result);
     callback(err, result);
   });
 }

@@ -12,19 +12,14 @@ function createInvitation(req, res) {
     if (req.body.domain) {
       if (req.body.email !== null && req.body.domain !== null) {
         statusstring.forEach((a) => {
-          console.log(a);
           if (req.body.status.includes(a)) {
-            console.log(a);
             flag = true;
           }
         });
-        console.log(flag);
+
         if (flag) {
-          console.log(flag);
           const params = {
-
             email: req.body.email,
-
             domain: req.body.domain,
             status: req.body.status,
             type: req.body.type,
@@ -54,14 +49,11 @@ function createInvitation(req, res) {
 function updateInvitation(req, res) {
   let flag = false;
   const value = { id: req.params.id };
-  console.log(value);
   service.getMemberById(value, (err1, result) => {
     if (err1) {
       res.status(304).send(err1);
     }
     const ress = result.rows[0].type;
-    console.log(`gasuay${ress}`);
-
     if ((req.params.id).length > 4) {
       if ((req.body.status) && req.body.status !== null) {
         statusstring.forEach((a) => {
