@@ -10,7 +10,7 @@ const router = express.Router();
 // router.delete('/delete/:id', controller.deleterequest);
 router.post('/send', (req, res) => {
   try {
-    res.send(controller.createInvitation(req, res));
+    controller.createInvitation(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -18,15 +18,31 @@ router.post('/send', (req, res) => {
 
 router.patch('/action/:id', (req, res) => {
   try {
-    res.send(controller.updateInvite(req, res));
+    controller.updateInvitation(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
-router.delete('/delete/:id', (req, res) => {
+router.delete('/rejected/:id', (req, res) => {
   try {
-    res.send(controller.deleteRequest(req, res));
+    controller.rejectedInviteRequest(req, res);
+  } catch (err) {
+    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
+});
+
+router.get('/lists', (req, res) => {
+  try {
+    controller.gettingMembers(req, res);
+  } catch (err) {
+    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
+});
+
+router.get('/:id', (req, res) => {
+  try {
+    controller.gettingMembersById(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }

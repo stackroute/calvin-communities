@@ -35,11 +35,31 @@ function rejected(data, callback) {
   client.execute(query, err => callback(err));
 }
 
+function getMember(callback) {
+  const query = ('SELECT * from invite_request');
+  return client.execute(query, (err, result) => {
+    callback(err, result);
+  });
+}
+
+function getMemberById(data, callback) {
+  console.log('in service GET');
+  console.log(`data.id:${data.id}`);
+  const query = (`SELECT * from invite_request where id= '${data.id}' `);
+  return client.execute(query, (err, result) => {
+    console.log(result);
+    callback(err, result);
+  });
+}
+
+
 module.exports = {
   insert,
   update,
   statusupdate,
   rejected,
+  getMember,
+  getMemberById,
 
 };
 

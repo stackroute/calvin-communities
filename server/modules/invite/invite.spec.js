@@ -17,7 +17,7 @@ describe('/invitation ', () => {
 
   it('Test PATCH method for updating status', (done) => {
     request(app)
-      .patch('/api/invitation/action/daf6757f06284cb6bd200e1b0828b31b')
+      .patch('/api/membership/action/daf6757f06284cb6bd200e1b0828b31b')
       .send(updatestatus)
       .set('Accept', 'application/json')
       .end((err, res) => {
@@ -28,7 +28,7 @@ describe('/invitation ', () => {
 
   it('it should insert a invite email in invite table', (done) => {
     request(app)
-      .post('/api/invitation/send')
+      .post('/api/membership/send')
       .send(Inviting)
       .end((err, res) => {
         res.status.should.be.equal(201);
@@ -39,7 +39,7 @@ describe('/invitation ', () => {
 
   it('Test Delete method for rejecting', (done) => {
     request(app)
-      .delete('/api/invitation/delete/921604397d134c7184cbcaef3299e549')
+      .delete('/api/membership/rejected/921604397d134c7184cbcaef3299e549')
       .send()
       .set('Accept', 'application/json')
       .end((err, res) => {
