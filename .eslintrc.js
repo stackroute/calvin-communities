@@ -3,5 +3,8 @@ module.exports = {
     "installedESLint": true,
     "plugins": [
         "import"
-    ]
+    ],
+    "env": {
+        "mocha": true
+    }
 };

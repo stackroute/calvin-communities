@@ -1,99 +1,118 @@
-const model = require('cassandra-driver');
 
-const connectionString = require('../../connect');
+/* ---------------------CONTROLLER----------------------*/
 
-const client = new model.Client({
-  contactPoints: [connectionString.contact],
-  protocolOptions: { port: connectionString.port },
-  keyspace: connectionString.keyspace,
-});
+const service = require('./tools.services'); //
 
-
-function postTools(req, res) {
-  try {
-    const query = (`insert into tools (domain,toolid,actions,activityevents) values('${req.body.domain}','${req.body.id}',{${req.body.action}},{${req.body.events}})`);
-    const param = [req.body.events];
-    console.log(param);
-    res.status(201).send(`${param} added`);
-    client.execute(query, (err, result) => {
-      if (err) throw console.log(err);
-      console.log(result);
-    });
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
-  }
-}
+// Function for Getting tools
 
 function getTools(req, res) {
   try {
-    const query = ('SELECT * from tools');
-    console.log('Got values!!');
-    client.execute(query, (err, result) => {
-      if (err) throw console.log(err, result);
-      console.log('success');
-      res.send(result.rows);
+    service.getTools((err, result) => {
+      if (err) {
+        console.log('error occured', err);
+      }
+      console.log(result.rows);
+      res.status(200).send(result.rows);
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 }
+
+// Function for Posting tools
+
+function postTools(req, res) {
+  try {
+    if (req.body.domain) {
+      if (req.body.id) {
+        if (req.body.domain !== null && req.body.id !== null) {
+          service.addTools(req.body, (err) => {
+            if (err) {
+              console.log('error occured', err);
+            }
+            console.log('new tool added');
+            res.status(201).send('new tool added');
+          });
+        } else {
+          res.status(404).send('NULL value entered!!');
+        }
+      } else {
+        res.status(404).send('please fill out all fields!!');
+      }
+    } else {
+      res.status(404).send('please fill out all fields!!');
+    }
+  } catch (err) {
+    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
+}
+
+// To add actions and activity events to existing tools
 
 function modifyTool(req, res) {
   try {
-    const query = (`UPDATE tools SET actions=actions+{'${req.body.action}'},activityevents=activityevents+{'${req.body.events}'} where domain='${req.params.id}' AND toolid='${req.params.tool}' IF EXISTS`);
-    const params = [req.body.action, req.body.events, req.params.id];
-    console.log(params);
-    res.send(`${params} added`);
-    client.execute(query, (err) => {
-      if (err) throw console.log(err);
-      console.log('success');
+    service.updateTools(req.body, req.params, (err) => {
+      if (err) {
+        console.log('error occured', err);
+      }
+      console.log('tool updated');
+      res.status(201).send('tool updated');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 }
+
+// To delete an action from a tool
 
 function deleteAction(req, res) {
   try {
-    const query = ('DELETE actions[?] FROM tools where domain=? and toolid=? IF EXISTS');
-    const params = [req.params.index, req.params.id, req.params.tool];
-    res.status(204).send(' deleted');
-    client.execute(query, params, (err) => {
-      if (err) throw console.log(err);
-      console.log('success');
-    });
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
-  }
-}
-function deleteEvent(req, res) {
-  try {
-    const query = ('DELETE activityevents[?] FROM tools where domain=? and toolid=? IF EXISTS');
-    const params = [req.params.index, req.params.id, req.params.tool];
-    client.execute(query, params, (err) => {
-      if (err) throw res.send(err);
-      res.status(204).send(`${req.body.index} deleted`);
+    service.deleteAction(req.params, (err) => {
+      if (err) {
+        console.log('error occured', err);
+      }
+      console.log('action deleted');
+      res.status(201).send('action deleted');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 }
 
+// To delete an event from a tool
+
+function deleteEvent(req, res) {
+  try {
+    service.deleteEvent(req.params, (err) => {
+      if (err) {
+        console.log('error occured', err);
+      }
+      console.log('event deleted');
+      res.status(201).send('event deleted');
+    });
+  } catch (err) {
+    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
+}
+
+// To delete a tool
 
 function deleteTool(req, res) {
   try {
-    const query = ('DELETE FROM tools where domain=?');
-    const param = [req.params.id];
-    console.log(param);
-    res.status(204).send(`${param} deleted`);
-    client.execute(query, [req.params.id], (err, result) => {
-      if (err) throw console.log(err);
-      console.log(result);
+    service.deleteTool(req.params, (err) => {
+      if (err) {
+        console.log('error occured', err);
+      }
+      console.log('tool deleted');
+      res.status(201).send('tool deleted');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 }
+
+// Exporting the functions to be used in router
+
 module.exports = {
   deleteTool,
   modifyTool,

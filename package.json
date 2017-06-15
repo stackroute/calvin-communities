@@ -6,13 +6,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-<<<<<<< HEAD
-    "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint ",
-=======
 
-    "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint",
->>>>>>> db416d7e3498cebedae0adbbd469f2605fd4127f
-    "lint": "ng lint",
+
+    "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint ",
+	"lint": "./node_modules/.bin/eslint *.js server/modules/**/*.js",
+
+
+
     "e2e": "ng e2e",
     "serve": "concurrently \"ng build --watch\" \"nodemon bin/www\""
   },
@@ -27,9 +27,13 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "body-parser": "^1.17.2",
+
+    "chai": "^4.0.2",
+
     "cassandra-driver": "^3.2.2",
     "core-js": "^2.4.1",
     "express": "^4.15.3",
+    "mocha": "^3.4.2",
     "morgan": "^1.8.2",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
@@ -54,6 +58,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "nodemon": "^1.11.0",
     "protractor": "~5.1.0",
+    "supertest": "^3.0.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
     "typescript": "~2.2.0"
