@@ -19,32 +19,29 @@ function getTools(req, res) {
   }
 }
 
-// Function for Postng tools
+// Function for Posting tools
 
 function postTools(req, res) {
   try {
-    if(req.body.domain){
-      if(req.body.id){
-        if(req.body.domain!==null && req.body.id!==null){
-    service.addTools(req.body, (err) => {
-      if (err) {
-        console.log('error occured', err);
+    if (req.body.domain) {
+      if (req.body.id) {
+        if (req.body.domain !== null && req.body.id !== null) {
+          service.addTools(req.body, (err) => {
+            if (err) {
+              console.log('error occured', err);
+            }
+            console.log('new tool added');
+            res.status(201).send('new tool added');
+          });
+        } else {
+          res.status(404).send('NULL value entered!!');
+        }
+      } else {
+        res.status(404).send('please fill out all fields!!');
       }
-      console.log('new tool added');
-      res.status(201).send('new tool added');
-    });
-  }
-  else{
-  res.status(404).send('NULL value entered!!');
-}
-}
-else{
-  res.status(404).send('please fill out all fields!!');
-}
-}
-else{
-  res.status(404).send('please fill out all fields!!');
-}
+    } else {
+      res.status(404).send('please fill out all fields!!');
+    }
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
