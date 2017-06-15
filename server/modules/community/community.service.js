@@ -25,8 +25,7 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(n
     com.body.createdby, com.body.description,
     com.body.avatar, com.body.poster, com.body.roles,
     com.body.createdby, com.body.createdby];
-  return client.execute(query, param, { hints: ['text', 'text', 'text', 'text', 'set',
-    'text', 'text', 'text', 'text', 'map', 'text', 'text'] });
+  return client.execute(query, param);
 }
 
 function getcommunity(domainname) {
