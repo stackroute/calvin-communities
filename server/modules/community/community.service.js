@@ -33,10 +33,20 @@ function getcommunity(domainname) {
   return client.execute(query, [domainname]);
 }
 
+function updatecommunity(domainname, body) {
+
+  const query = (`update communities set name = ? , description = ?, 
+    status = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
+  let param = [body.name, body.description, body.status,
+  body.tags, body.updatedby, domainname];
+  return client.execute(query, param);
+}
+
 
 module.exports = {
   getallcommunities,
   addcommunity,
   getcommunity,
+  updatecommunity
 
 };
