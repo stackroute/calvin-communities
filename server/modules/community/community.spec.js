@@ -8,22 +8,19 @@ const values = require('./testdata');
 
 const arrayoutput = values.getdomain;
 
-const service = require('./community.service')
-
-
+const service = require('./community.service');
 
 
 // get data for all communities
 describe('/get data from database for all communities', () => {
   it('should get data for all communities', (done) => {
     request(app)
-    .get(`/api/community/`)
+    .get('/api/community/')
     .end((err, res) => {
       if (err) { done(err); return; }
       service.getallcommunities()
-      .then((result) => {res.body.should.deep.equal(result.rows) })
-      	.catch((error) => {error})
-     
+      .then((result) => { res.body.should.deep.equal(result.rows); })
+      .catch((error) => { done(error); });
       done();
     });
   });
@@ -86,85 +83,86 @@ describe('/post data in database, give error as empty string is passed for prope
 
 
 // post data in database, only necessary columns
-describe('/post data in database, only necessary columns given', ()=> {
+describe('/post data in database, only necessary columns given', () => {
   it('should post data in database for columns given', (done) => {
     request(app)
     .post('/api/community')
     .send(values.data)
     .end((err, res) => {
-      if(err) {done(err); return;}
+      if (err) { done(err); return; }
       res.body.should.deep.equal(values.rowcreated);
       done();
-    })
-  })
-})
+    });
+  });
+});
 
-//post data in database, all values given
-describe('/post data in database, all  columns given', ()=> {
+// post data in database, all values given
+describe('/post data in database, all  columns given', () => {
   it('should post data in database for all columns ', (done) => {
     request(app)
     .post('/api/community')
     .send(values.completepost)
     .end((err, res) => {
-      if(err) {done(err); return;}
-      res.body.should.be.deep.equal(values.rowcreated)})
-      done();
-    })
-  })
+      if (err) { done(err); return; }
+      res.body.should.be.deep.equal(values.rowcreated);
+    });
+    done();
+  });
+});
 
 
-//post data in database, empty tags given
-describe('/post data in database, error to show for giving empty tags', ()=> {
+// post data in database, empty tags given
+describe('/post data in database, error to show for giving empty tags', () => {
   it('should not post data in database as tags are empty', (done) => {
     request(app)
     .post('/api/community')
     .send(values.notags)
     .end((err, res) => {
-      if(err) {done(err); return;}
+      if (err) { done(err); return; }
       res.body.should.deep.equal(values.wrongdata);
       done();
-    })
-  })
-})
+    });
+  });
+});
 
-//patch data in database
-describe('/patch data in database, update community details', ()=> {
+// patch data in database
+describe('/patch data in database, update community details', () => {
   it('should patch data in database, update community', (done) => {
     request(app)
     .patch(`/api/community/${values.patchcorrect.domain}`)
     .send(values.patchcorrect)
     .end((err, res) => {
-      if(err) {done(err); return;}
+      if (err) { done(err); return; }
       res.body.should.deep.equal(values.updatemsg);
       done();
-    })
-  })
-})
+    });
+  });
+});
 
-//patch data in database, no updater details, ERROR
-describe('/patch data in database, no updater details, ERROR', ()=> {
+// patch data in database, no updater details, ERROR
+describe('/patch data in database, no updater details, ERROR', () => {
   it('should not patch data in database, no updater details, ERROR', (done) => {
     request(app)
     .patch(`/api/community/${values.patchcorrect.domain}`)
     .send(values.patchnoowner)
     .end((err, res) => {
-      if(err) {done(err); return;}
+      if (err) { done(err); return; }
       res.body.should.deep.equal(values.wrongdata);
       done();
-    })
-  })
-})
+    });
+  });
+});
 
-//patch data in database, no tags given, ERROR
-describe('/patch data in database, no tag details, ERROR', ()=> {
+// patch data in database, no tags given, ERROR
+describe('/patch data in database, no tag details, ERROR', () => {
   it('should not patch data in database, no tag details, ERROR', (done) => {
     request(app)
     .patch(`/api/community/${values.patchcorrect.domain}`)
     .send(values.patchnotags)
     .end((err, res) => {
-      if(err) {done(err); return;}
+      if (err) { done(err); return; }
       res.body.should.deep.equal(values.wrongdata);
       done();
-    })
-  })
-})
+    });
+  });
+});

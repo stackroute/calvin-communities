@@ -5,34 +5,34 @@ const updatemsg = { message: 'Community updated.' };
 const rowcreated = { message: 'Community created.' };
 
 const completepost = {
-        "domain": "prubhy",
-        "avatar": "/wqvveev.jpg",
-        "description": "This ia a random community, you must ignore it just...",
-        "name": "neelanjan",
-        "owner": "simar",
-        "poster": "/dvwvw.jpg",
-        "roles": [
-            "againthesame",
-            "random"
-        ],
-        "status": "active",
-        "tags": [
-            "eyes",
-            "ortho",
-            "physicist"
-        ],
-        "template": "doctors"
-     }
+  domain: 'prubhy',
+  avatar: '/wqvveev.jpg',
+  description: 'This ia a random community, you must ignore it just...',
+  name: 'neelanjan',
+  owner: 'simar',
+  poster: '/dvwvw.jpg',
+  roles: [
+    'againthesame',
+    'random',
+  ],
+  status: 'active',
+  tags: [
+    'eyes',
+    'ortho',
+    'physicist',
+  ],
+  template: 'doctors',
+};
 
 const notags = {
   domain: 'runrabitrun',
   name: 'qwvwqvv',
   owner: 'pssssss',
   template: 'ewvewv',
-  tags: "",
+  tags: '',
   roles: ['random', 'againthesame'],
-  
-}
+
+};
 
 const data = {
   domain: 'runrabitrun',
@@ -42,7 +42,7 @@ const data = {
   tags: ['ortho', 'eyes', 'physicist'],
   status: 'Active',
   roles: ['random', 'againthesame'],
-  
+
 };
 
 const patchnotags = {
@@ -50,25 +50,25 @@ const patchnotags = {
   name: 'illuminati',
   updatedby: 'pk',
   description: 'to update and patch checking',
-  updatedby: 'pk',
   status: 'Active',
-}
+};
+
 const patchcorrect = {
   domain: 'raster',
   name: 'illuminati',
   description: 'to update and patch checking',
   updatedby: 'pk',
   status: 'Active',
-  tags: ['new','tags','here']
-}
+  tags: ['new', 'tags', 'here'],
+};
 
 const patchnoowner = {
   domain: 'raster',
   name: 'illuminati',
   description: 'to update and patch checking',
   status: 'Active',
-  tags: ['new','tags','here']
-}
+  tags: ['new', 'tags', 'here'],
+};
 
 const noname = {
   domain: 'runrabitrun',
@@ -114,11 +114,12 @@ module.exports = {
   rowcreated,
   data,
   noname,
+  notags,
   emptyname,
   getdomain,
   completepost,
   patchcorrect,
   patchnoowner,
   patchnotags,
-  updatemsg
+  updatemsg,
 };
