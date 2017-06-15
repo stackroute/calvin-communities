@@ -1,20 +1,25 @@
+/* ---------------------ROUTER----------------------*/
+
+
 const express = require('express');
 
 const controller = require('./tools.controller');
 
 const router = express.Router();
 
+// Router methods
+
 router.get('/', controller.getTools);
 
 router.post('/', controller.postTools);
 
-router.patch('/:id', controller.modifyTool);
+router.patch('/:domain/:tool', controller.modifyTool);
 
-router.delete('/:id', controller.deleteTool);
+router.delete('/:domain', controller.deleteTool);
 
-router.delete('/action/:id/:index', controller.deleteAction);
+router.delete('/action/:domain/:tool/:name', controller.deleteAction);
 
-router.delete('/event/:id/:index', controller.deleteEvent);
+router.delete('/event/:domain/:tool/:name', controller.deleteEvent);
 
 
 module.exports = router;

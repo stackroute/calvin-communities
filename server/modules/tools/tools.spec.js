@@ -1,53 +1,75 @@
 const chai = require('chai');
-const should = chai.should();
 
+const should = chai.should(); // eslint-disable-line no-unused-vars
 const app = require('../../app');
+
 const request = require('supertest');
 
-  it('it should create a new cartoon', function(done) {
+
+describe('/tools ', () => {
+  const tools = {
+    domain: 'engineer',
+    id: '2507',
+    action: ["'broadcast'", "'write'"],
+    events: ["'postmessage'"],
+  };
+
+  const updatetools = {
+    action: 'actionname',
+    events: 'eventname',
+  };
+
+  it('Test PATCH method for updating tools', (done) => {
     request(app)
-      .post('/cartoons')
-      .send(cartoonToCreate)
-      .expect(201)
+      .patch('/api/tools/doctors/1234/')
+      .send(updatetools)
+      .set('Accept', 'application/json')
       .end((err, res) => {
-        if(err) { done(err); return; }
         res.status.should.be.equal(200);
         done();
       });
   });
 
-  it('it should create a new cartoon', function(done) {
+  it('it should add values to the tool table', (done) => {
     request(app)
-      .post('/cartoons')
-      .send(cartoonToCreate)
-      .expect(201)
+      .post('/api/tools/')
+      .send(tools)
       .end((err, res) => {
-        if(err) { done(err); return; }
-        res.body.name.should.be.equal(cartoonToCreate.name);
-        res.body.author.should.be.equal(cartoonToCreate.author);
-        res.body.id.should.be.equal(1);
+        res.status.should.be.equal(201);
         done();
       });
   });
 
-  it('it should retrieve list of cartoons', function(done) {
+
+  it('Test Delete method for deleting the column', (done) => {
     request(app)
-      .get('/cartoons')
+      .delete('/api/tools/doctors/')
+      .send()
+      .set('Accept', 'application/json')
       .end((err, res) => {
-        if(err) { done(err); return; }
-        res.body.should.have.lengthOf(2);
+        res.status.should.be.equal(204);
         done();
       });
   });
 
-  it('it should retrieve cartoon by id', function(done) {
+  it('Test Delete method for deleting actions in tools', (done) => {
     request(app)
-      .get('/cartoons/0')
+      .delete('/api/tools/action/doctors/1234/updatenew')
+      .send()
+      .set('Accept', 'application/json')
       .end((err, res) => {
-        if(err) { done(err); return; }
-        console.log('body:', res.body);
-        res.body.name.should.be.equal(cartoonToCreate.name);
-        res.body.author.should.be.equal(cartoonToCreate.author);
+        res.status.should.be.equal(204);
+        done();
+      });
+  });
+
+  it('Test Delete method for deleting actions in tools', (done) => {
+    request(app)
+      .delete('/api/tools/event/doctors/1234/broadcastsecond')
+      .send()
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        res.status.should.be.equal(204);
         done();
       });
   });

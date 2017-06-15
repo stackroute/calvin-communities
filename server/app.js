@@ -5,6 +5,8 @@ const app = express();
 
 const clientPath = path.resolve(__dirname, '..', 'dist');
 
+app.use(require('body-parser').json());
+
 
 const community = require('./modules/community/index');
 const members = require('./modules/members/index');
@@ -28,11 +30,10 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
-
-
+// middleware function
+app.use('/community', require('./modules/communityTemplates'));
 app.use('/api/community', community );
 app.use('/api/invitation',invite);
-
 app.use('/api/tools', tools);
 
 
