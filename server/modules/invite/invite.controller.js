@@ -18,13 +18,11 @@ function createInvitation(req, res) {
         };
 
         service.insert(params, (err) => {
-          res.status(201);
-
           if (err) {
             res.status(404).send(err);
           }
         });
-        res.send();
+        res.status(201).send('Inserted');
       }
     } else {
       res.status(404).send('please enter domain field!!');
@@ -47,10 +45,10 @@ function updateInvite(req, res) {
           };
           service.update(params, (err) => {
             if (err) {
-              res.status(404);
+              res.status(404).send(err);
             }
-            // res.send(results);
           });
+          res.status(201).send('Updated');
         } else {
           res.status(404).send('approver should not be empty!!');
         }
@@ -61,10 +59,10 @@ function updateInvite(req, res) {
         };
         service.statusupdate(params, (err) => {
           if (err) {
-            res.status(404);
+            res.status(404).send(err);
           }
-          // res.send(results);
         });
+        res.status(201).send('Updated');
       }
     } else {
       res.status(404).send('status should not be empty!!');
@@ -80,14 +78,12 @@ function deleteRequest(req, res) {
       id: req.params.id,
     };
     service.rejected(params, (err) => {
-      res.status(201);
-
       if (err) {
         res.status(404).send(err);
-        return;
       }
-      res.send();
     });
+
+    res.status(202).send('deleted');
   } else {
     res.status(404).send('id should not be empty!!');
   }
