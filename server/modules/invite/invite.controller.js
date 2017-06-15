@@ -20,15 +20,16 @@ function createInvitation(req, res) {
         service.insert(params, (err) => {
           if (err) {
             res.status(404).send(err);
+            return;
           }
         });
-        res.status(201).send('Inserted');
+        res.status(201).send('Created');
       }
     } else {
-      res.status(404).send('please enter domain field!!');
+      res.status(204).send('please enter domain field!!');
     }
   } else {
-    res.status(404).send('please enter email fields!!');
+    res.status(204).send('please enter email fields!!');
   }
 }
 
@@ -45,12 +46,13 @@ function updateInvite(req, res) {
           };
           service.update(params, (err) => {
             if (err) {
-              res.status(404).send(err);
+              res.status(304).send(err);
+              return;
             }
           });
-          res.status(201).send('Updated');
+          res.status(202).send('Updated');
         } else {
-          res.status(404).send('approver should not be empty!!');
+          res.status(204).send('approver should not be empty!!');
         }
       } else {
         const params = {
@@ -59,13 +61,14 @@ function updateInvite(req, res) {
         };
         service.statusupdate(params, (err) => {
           if (err) {
-            res.status(404).send(err);
+            res.status(304).send(err);
+            return;
           }
         });
-        res.status(201).send('Updated');
+        res.status(202).send('Updated');
       }
     } else {
-      res.status(404).send('status should not be empty!!');
+      res.status(204).send('status should not be empty!!');
     }
   } else {
     res.status(404).send('id should not be empty!!');
@@ -80,10 +83,11 @@ function deleteRequest(req, res) {
     service.rejected(params, (err) => {
       if (err) {
         res.status(404).send(err);
+        return;
       }
     });
 
-    res.status(202).send('deleted');
+    res.status(200).send('deleted');
   } else {
     res.status(404).send('id should not be empty!!');
   }
