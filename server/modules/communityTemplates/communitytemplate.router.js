@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const controller = require('./communitytemplate.controller');
+const templateList = require('./templates');
 
 // route to display the list of templates
 router.get('/templates', (req, res) => {
   try {
-    res.send(controller.getListOfTemplates());
+    res.send(controller.getListOfTemplates(templateList));
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -13,7 +14,7 @@ router.get('/templates', (req, res) => {
 // route to display the specified template data
 router.get('/templates/:templatename', (req, res) => {
   try {
-    res.send(controller.getSpecifiedTemplateData(req.params.templatename));
+    res.send(JSON.stringify(controller.getSpecifiedTemplateData(req.params.templatename)));
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
