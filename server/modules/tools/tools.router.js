@@ -13,13 +13,13 @@ router.get('/', controller.getTools);
 
 router.post('/', controller.postTools);
 
-router.patch('/:id/:tool', controller.modifyTool);
+router.patch('/:domain/:tool', controller.modifyTool);
 
-router.delete('/:id', controller.deleteTool);
+router.delete('/:domain', controller.deleteTool);
 
-router.delete('/action/:id/:tool/:index', controller.deleteAction);
+router.delete('/action/:domain/:tool/:name', controller.deleteAction);
 
-router.delete('/event/:id/:tool/:index', controller.deleteEvent);
+router.delete('/event/:domain/:tool/:name', controller.deleteEvent);
 
 
 module.exports = router;

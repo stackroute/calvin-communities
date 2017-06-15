@@ -35,7 +35,7 @@ function addTools(data, callback) {
 
 function updateTools(data, value, callback) {
   console.log(data.action);
-  const query = (`UPDATE tools SET actions=actions+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.id}' AND toolid='${value.tool}' IF EXISTS`);
+  const query = (`UPDATE tools SET actions=actions+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}' IF EXISTS`);
   return client.execute(query, (err, result) => {
     callback(err, result);
   });
@@ -44,7 +44,7 @@ function updateTools(data, value, callback) {
 // Deleting action
 
 function deleteAction(value, callback) {
-  const query = (`DELETE actions['${value.index}'] FROM tools where domain='${value.id}' and toolid='${value.tool}' IF EXISTS`);
+  const query = (`DELETE actions['${value.name}'] FROM tools where domain='${value.domain}' and toolid='${value.tool}' IF EXISTS`);
   return client.execute(query, (err, result) => {
     callback(err, result);
   });
@@ -53,7 +53,7 @@ function deleteAction(value, callback) {
 // Deleting events
 
 function deleteEvent(value, callback) {
-  const query = (`DELETE activityevents['${value.index}'] FROM tools where domain='${value.id}' and toolid='${value.tool}' IF EXISTS`);
+  const query = (`DELETE activityevents['${value.name}'] FROM tools where domain='${value.domain}' and toolid='${value.tool}' IF EXISTS`);
   return client.execute(query, (err, result) => {
     callback(err, result);
   });
@@ -62,7 +62,7 @@ function deleteEvent(value, callback) {
 // Deleting a row from tools table
 
 function deleteTool(value, callback) {
-  const query = (`DELETE FROM tools where domain='${value.id}'`);
+  const query = (`DELETE FROM tools where domain='${value.domain}'`);
   return client.execute(query, (err, result) => {
     callback(err, result);
   });

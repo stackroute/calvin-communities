@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const controller = require('./tools.router');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
 
 app.use((res, req, next) => {
