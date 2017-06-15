@@ -3,11 +3,9 @@ const express = require('express');
 const controller = require('./invite.controller');
 
 const router = express.Router();
-// router.get('/', controller.retrieveAllCartoons);
-// router.get('/:id', controller.retrieveCartoon);
-// router.post('/send', controller.createInvitation);
-// router.put('/action/:id', controller.updateInvite);
-// router.delete('/delete/:id', controller.deleterequest);
+
+// calling a method for inserting all the values into the table
+
 router.post('/send', (req, res) => {
   try {
     controller.createInvitation(req, res);
@@ -15,6 +13,8 @@ router.post('/send', (req, res) => {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
+
+// calling a method for updating the status
 
 router.patch('/action/:id', (req, res) => {
   try {
@@ -24,6 +24,8 @@ router.patch('/action/:id', (req, res) => {
   }
 });
 
+// calling a method for rejecting the status
+
 router.delete('/rejected/:id', (req, res) => {
   try {
     controller.rejectedInviteRequest(req, res);
@@ -32,6 +34,8 @@ router.delete('/rejected/:id', (req, res) => {
   }
 });
 
+// calling the method for getting all values from the table
+
 router.get('/lists', (req, res) => {
   try {
     controller.gettingMembers(req, res);
@@ -39,6 +43,8 @@ router.get('/lists', (req, res) => {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
+
+// calling the method for getting the values for the particular id
 
 router.get('/:id', (req, res) => {
   try {
