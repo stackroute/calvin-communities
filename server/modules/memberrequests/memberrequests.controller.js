@@ -1,5 +1,5 @@
 const model = require('cassandra-driver');
-const service = require('./invite.service');
+const service = require('./memberrequests.service');
 
 const statusstring = [
   'approved', 'invitesent', 'accepted', 'requested',
@@ -48,9 +48,9 @@ function updateInvitation(req, res) {
 
   service.getMemberById(value, (error, result) => {
     if (error) res.status(304).send(error);
-    const gettype = result.rows[0].type;
+    const inviteType = result.rows[0].type;
 
-    if (((req.params.id).length > 4) && (req.body.status) && (req.body.status !== null)) {
+    if ((req.params.id) && (req.params.id !== null) && (req.body.status) && (req.body.status !== null)) {
       statusstring.forEach((a) => {
         if (req.body.status.includes(a)) {
           flag = true;
@@ -59,7 +59,7 @@ function updateInvitation(req, res) {
     }
 
     if (flag) {
-      if ((req.body.status === 'approved') && gettype === 'request') {
+      if ((req.body.status === 'approved') && inviteType === 'request') {
         if ((req.body.approver) && req.body.approver !== null) {
           const params = {
             status: req.body.status,
@@ -71,7 +71,7 @@ function updateInvitation(req, res) {
             res.status(202).send('Updated');
           });
         } else res.status(404).send('approver sholud not be empty');
-      } else if ((req.body.status === 'accepted') && (req.body.status === 'accepted') && gettype === 'invite') {
+      } else if ((req.body.status === 'accepted') && (req.body.status === 'resent') && inviteType === 'invite') {
         const params = {
           status: req.body.status,
           id: req.params.id,
@@ -88,7 +88,7 @@ function updateInvitation(req, res) {
 // Deleting the id in the table when the request or invite is rejected
 
 function rejectedInviteRequest(req, res) {
-  if ((req.params.id).length > 4) {
+  if ((req.params.id) && (req.params.id !== null)) {
     const params = {
       id: req.params.id,
     };
