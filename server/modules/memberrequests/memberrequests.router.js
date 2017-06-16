@@ -1,14 +1,13 @@
-const express = require('express');
+const router = require('express').Router();
 
-const controller = require('./invite.controller');
+const controller = require('./memberrequests.controller');
 
-const router = express.Router();
 
 // calling a method for inserting all the values into the table
 
 router.post('/send', (req, res) => {
   try {
-    controller.createInvitation(req, res);
+    return controller.createInvitation(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -18,7 +17,7 @@ router.post('/send', (req, res) => {
 
 router.patch('/action/:id', (req, res) => {
   try {
-    controller.updateInvitation(req, res);
+    return controller.updateInvitation(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -28,7 +27,7 @@ router.patch('/action/:id', (req, res) => {
 
 router.delete('/rejected/:id', (req, res) => {
   try {
-    controller.rejectedInviteRequest(req, res);
+   return controller.rejectedInviteRequest(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -38,7 +37,7 @@ router.delete('/rejected/:id', (req, res) => {
 
 router.get('/lists', (req, res) => {
   try {
-    controller.gettingMembers(req, res);
+   return controller.gettingMembers(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -48,7 +47,7 @@ router.get('/lists', (req, res) => {
 
 router.get('/:id', (req, res) => {
   try {
-    controller.gettingMembersById(req, res);
+   return  controller.gettingMembersById(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }

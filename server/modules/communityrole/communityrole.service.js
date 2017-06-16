@@ -1,5 +1,3 @@
-const express = require('express');
-
 const model = require('cassandra-driver');
 
 const connectionString = require('../../connect');
@@ -8,11 +6,18 @@ const client = new model.Client({
   contactPoints: [connectionString.contact],
   protocolOptions: { port: connectionString.port },
   keyspace: connectionString.keyspace,
+<<<<<<< HEAD
 								 });
 
 function getcommunityrole(callback)	{
   const query = ('select * from communityroles');
 
+=======
+});
+
+function getcommunityrole(callback)	{
+  const query = ('select * from communityroles');
+>>>>>>> 60e33ce9287318cf582e76d4826c39be61b4b227
   return client.execute(query, (err, result) => {
     callback(err, result);
   });

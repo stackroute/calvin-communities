@@ -1,5 +1,5 @@
 const model = require('cassandra-driver');
-const service = require('./invite.service');
+const service = require('./memberrequests.service');
 
 const statusstring = [
   'approved', 'invitesent', 'accepted', 'requested',
@@ -50,7 +50,8 @@ function updateInvitation(req, res) {
     if (error) res.status(304).send(error);
     const inviteType = result.rows[0].type;
 
-    if ((req.params.id) && (req.params.id !== null) && (req.body.status) && (req.body.status !== null)) {
+    if ((req.params.id) && (req.params.id !== null) && (req.body.status) &&
+     (req.body.status !== null)) {
       statusstring.forEach((a) => {
         if (req.body.status.includes(a)) {
           flag = true;
