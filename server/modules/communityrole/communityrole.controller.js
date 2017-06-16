@@ -3,6 +3,11 @@ const communityRoleService = require('./communityrole.service');
 function getCommunityRoles(domainName, done) {
   communityRoleService.getCommunityRoles(domainName, done);
 }
+function postCommunityRoles(postedData, done) {
+  let params = [postedData.domain, postedData.role, postedData.actions, postedData.toolid];
+
+  communityRoleService.postCommunityRoles(params, done);
+}
 
 /*function getcommunityrole(req, res) {
   try {
@@ -61,7 +66,8 @@ function patchcommunityrole(req, res) {
 }*/
 
 module.exports = {
-  getCommunityRoles
+  getCommunityRoles,
+  postCommunityRoles
   /*getcommunityrole,
   postcommunityrole,
   patchcommunityrole,*/
