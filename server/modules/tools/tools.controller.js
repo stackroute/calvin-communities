@@ -5,104 +5,80 @@ const service = require('./tools.services'); //
 
 // Function for Getting tools
 
-function getTools(req, res) {
-  try {
+function getTools() {
     service.getTools((err, result) => {
-      if (err) {
-        res.status(500);
-      }
-      res.status(200).send(result.rows);
-    });
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
-  }
+      return result;
+});
 }
 
 // Function for Posting tools
 
 function postTools(req, res) {
-  try {
     if (req.body.domain) {
       if (req.body.id) {
         if (req.body.domain !== null && req.body.id !== null) {
           service.addTools(req.body, (err) => {
             if (err) {
-              res.status(500);
+              return "error occured";
             }
-            res.status(201).send('new tool added');
+            return "new tool added";
           });
         } else {
-          res.status(404).send('NULL value entered!!');
+          return "NULL value added";
         }
       } else {
-        res.status(404).send('please fill out all fields!!');
+        return 'please fill out all fields!!';
       }
     } else {
-      res.status(404).send('please fill out all fields!!');
+      return 'please fill out all fields!!';
     }
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
-  }
 }
 
 // To add actions and activity events to existing tools
 
 function modifyTool(req, res) {
-  try {
     service.updateTools(req.body, req.params, (err) => {
       if (err) {
-        res.status(500);
+        return "error occured";
       }
-      res.status(201).send('tool updated');
+      return "Tool Updated";
     });
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
-}
+
 
 // To delete an action from a tool
 
 function deleteAction(req, res) {
-  try {
     service.deleteAction(req.params, (err) => {
       if (err) {
-        res.status(500);
+        return "error occured";
       }
-      res.status(201).send('action deleted');
+      return "action deleted";
     });
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
-}
+
 
 // To delete an event from a tool
 
 function deleteEvent(req, res) {
-  try {
     service.deleteEvent(req.params, (err) => {
       if (err) {
-        res.status(500);
+        return "error occured";
       }
-      res.status(201).send('event deleted');
-    });
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
-  }
+      return "event deleted";
+    }); 
 }
 
 // To delete a tool
 
 function deleteTool(req, res) {
-  try {
     service.deleteTool(req.params, (err) => {
       if (err) {
-        res.status(500);
+        return "error occured";
       }
-      res.status(201).send('tool deleted');
+      return "Tool deleted";
     });
-  } catch (err) {
-    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
-  }
+
 }
 
 // Exporting the functions to be used in router
