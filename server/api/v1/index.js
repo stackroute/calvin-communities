@@ -12,6 +12,6 @@ router.use('/', 					require('../../modules/member/'));
 
 router.use('/communityrole', require('../../modules/communityrole/'));
 
-router.use('/community', require('../../modules/communitytemplates/'));
+//router.use('/community', require('../../modules/communitytemplates/'));
 
 module.exports = router;
