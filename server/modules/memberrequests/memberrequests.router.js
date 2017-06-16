@@ -13,6 +13,7 @@ const controller = require('./memberrequests.controller');
  */
 
 router.get('/:id', function(req, res) {
+
     try {
         id = req.params.id;
         controller.gettingValuesById(id, (err, results) => {
@@ -28,6 +29,7 @@ router.get('/:id', function(req, res) {
         res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
     }
 
+
 });
 
 
@@ -37,6 +39,7 @@ router.get('/:id', function(req, res) {
  * API for inserting the username and domain name if invite or request occured
  *
  */
+
 
 router.post('/send', function(req, res) {
     try {
@@ -51,12 +54,16 @@ router.post('/send', function(req, res) {
     } catch (err) {
         console.log("Unexpected error in inserting values ", err);
         res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
+
     }
 });
 
 
 
+
+
 /*
+
  * Effective URI of the API is PATCH /memberrequests/action/:id
  *
  * API for updating the status for a specified id
@@ -65,6 +72,7 @@ router.post('/send', function(req, res) {
  *  - Id: specify a specific id, to update particular id
  *
  */
+
 
 router.patch('/action/:id', function(req, res) {
     try {
@@ -84,6 +92,7 @@ router.patch('/action/:id', function(req, res) {
     }
 
 });
+
 
 
 /*
