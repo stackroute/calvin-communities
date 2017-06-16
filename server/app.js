@@ -30,7 +30,7 @@ app.use('/api/invitation', require('./modules/memberrequests'));
 
 app.use('/api/tools', require('./modules/tools/index'));
 
-app.use('/api/counter',require('./modules/communitiescounter/index'));
+app.use('/api/counter', require('./modules/communitiescounter/index'));
 
 app.use('/api', require('./modules/member/index'));// member
 

@@ -8,7 +8,7 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-function getcommunityrole(callback)	{
+function getcommunityrole(callback) {
   const query = ('select * from communityroles');
   return client.execute(query, (err, result) => {
     callback(err, result);
