@@ -3,7 +3,7 @@
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../connect');
+const connectionString = require('../../config');
 
 // Connecting to cassandra
 

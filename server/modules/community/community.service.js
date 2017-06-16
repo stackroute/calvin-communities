@@ -2,7 +2,7 @@ require('body-parser');
 const model = require('cassandra-driver');
 
 
-const connectionString = require('../../connect');
+const connectionString = require('../../config');
 // getting all DB details from connect.js file placed in server directory
 const client = new model.Client({
   contactPoints: [connectionString.contact],
