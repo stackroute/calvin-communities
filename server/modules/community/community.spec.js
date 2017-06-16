@@ -20,7 +20,8 @@ describe('/get data from database for all communities', () => {
       if (err) { done(err); return; }
       service.getallcommunities()
       .then((result) => { res.body.should.deep.equal(result.rows); })
-      .catch((error) => { done(error); });
+      .catch((error) => { error; });
+
       done();
     });
   });
