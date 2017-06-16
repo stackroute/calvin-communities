@@ -4,7 +4,7 @@ const expect = chai.expect;
 const app = require('../../app');
 const request = require('supertest');
 const templates = require('./templates');
-// console.log(templates.templateName);
+
 
 const surgeon = {
     templateName: 'surgeon',
@@ -27,7 +27,8 @@ const surgeon = {
     }],
     roles: ['Admin', 'Moderator', 'Member'],
   };
-describe('/templates', () => {
+
+describe('Retrieve the specified template data', () => {
   it(' should retrieve specified template data ', (done) => {
     request(app)
       .get('/community/templates/surgeon')
@@ -41,8 +42,8 @@ describe('/templates', () => {
          done();
       });
   });
-
-  it('the specified template does not existed', (done) => {
+describe('Specified template does not exist', () => {
+  it('the specified template does not exist', (done) => {
     request(app)
       .get('/community/templates/travel')
       .end((err, res) => {
@@ -50,7 +51,9 @@ describe('/templates', () => {
         res.status.should.be.equal(404);
         done();
       });
+    });
   });
+describe('List the templates ', () => {
   it('list of templates are equal', (done) => {
     request(app)
       .get('/community/templates')
@@ -60,29 +63,33 @@ describe('/templates', () => {
         res.status.should.equal(200);
         done();
       });
+    });
   });
+describe('List the template tools', () => {
   it('Display the tools for the templates', (done) => {
     request(app)
       .get('/community/templates')
       .end((err, res) => {
         if (err) { done(err); return; }
         templates.filter((element) => {
-        let tools = element.tools;
+        // let tools = element.tools;
         // expect(tools).should.be.equal()
         res.status.should.be.equal(200);
         })
         done();
       });
+    });
   });
+describe('Roles should be an array', () => {
   it('roles should be array', (done) => {
      request(app)
       .get('/community/templates')
       .end((err, res) => {
         if (err) { done(err); return; }
-        templates.forEach((element) => {
-             let roles =element.roles;
-            expect(element.roles).toBe(roles, 'Roles should be a string');
+        templates.filter((element) => {
+           res.status.should.be.equal(200);           
         });
       });
+    });
   });
 });
