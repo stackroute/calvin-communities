@@ -12,6 +12,8 @@ const community = require('./modules/community/index');
 const members = require('./modules/members/index');
 const tools = require('./modules/tools/index');
 const invite = require('./modules/invite/index');
+const members = require('./modules/member/index');
+
 
 
 const PORT = process.env.PORT || 4000;
@@ -35,6 +37,8 @@ app.use('/community', require('./modules/communityTemplates'));
 app.use('/api/community', community );
 app.use('/api/invitation',invite);
 app.use('/api/tools', tools);
+app.use('/api', members);
+
 
 app.use((req, res) => {
   res.status(404).send({ error: 'Resource not found' });
