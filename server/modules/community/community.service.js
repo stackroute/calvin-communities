@@ -21,31 +21,35 @@ function getallcommunities(done) {
 }
 
 // service adding community details
-function addcommunity(com) {
-  const query = (`INSERT INTO communities (domain, name, status, template,tags, owner, 
-description, avatar, poster, roles, createdby, createdon, updatedby, updatedon) 
+function addcommunity(param, done) {
+  const query = (`INSERT INTO communities (domain, name, status, template,tags, owner, \
+description, avatar, poster, roles, createdby, createdon, updatedby, updatedon) \
 VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(now()) ) `);
-  const param = [com.body.domain, com.body.name,
-    com.body.status, com.body.template, com.body.tags,
-    com.body.createdby, com.body.description,
-    com.body.avatar, com.body.poster, com.body.roles,
-    com.body.createdby, com.body.createdby];
-  return client.execute(query, param)
+  
+  return client.execute(query, param, (err, results) => {
+    if(err) done(err, undefined);
+    done(err, results.rows);
+  })
 }
 
 // service for get specific community details from DB
-function getcommunity(domainname) {
-  const query = ('select * from communities where domain = ? ');
-  return client.execute(query, [domainname]);
+function getcommunity(domainname, done) {
+  const query = `select * from communities where domain = ? `;
+  return client.execute(query, [domainname], (err, results) => {
+    if(err) done(err, undefined);
+    done(err, results.rows);
+  });
 }
 
 // to update data for a specific community
-function updatecommunity(domainname, body) {
-  const query = (`update communities set name = ? , description = ?, 
+function updatecommunity(community, done) {
+  const query = (`update communities set name = ? , description = ?, \
     status = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
-  const param = [body.name, body.description, body.status,
-    body.tags, body.updatedby, domainname];
-  return client.execute(query, param);
+  
+  return client.execute(query, community, (err, results) => {
+    if(err) done(err, undefined);
+    done(err, results.rows);
+  });
 }
 
 
