@@ -24,6 +24,9 @@ function getcommunityrole(callback)	{
 };
 
 function getcommunityrole(callback)	{
+
+function getcommunityrole(callback) {
+
   const query = ('select * from communityroles');
   return client.execute(query, (err, result) => {
     callback(err, result);

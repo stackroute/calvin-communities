@@ -4,7 +4,6 @@ const service = require('./communityrole.service');
 function getcommunityrole(req, res) {
   try {
     service.getcommunityrole((err, result) => {
-
       if (err) {
         res.status(404).send(err);
         return;
@@ -29,24 +28,6 @@ function postcommunityrole(req, res) {
 
             res.status(201).send('post added');
           });
-        }			else {
-          res.send('Please don`t send null values');
-        }
-      }		else		{
-        res.send('role value was passed as null');
-      }
-    }	else	{
-      res.send('domain was passed as null');
-    }
-  } catch (err) {
-    res.send({ error: 'Unexpected error from POST' });
-  }
-}
-
-function patchcommunityrole(req, res) {
-  try {
-    service.patchcommunityrole(req.body, req.params, (err) => {
-      if (err) {
         } else {
           res.send('Please don`t send null values');
         }
@@ -54,7 +35,6 @@ function patchcommunityrole(req, res) {
         res.send('role value was passed as null');
       }
     } else {
-
       res.send('domain was passed as null');
     }
   } catch (err) {
@@ -65,7 +45,6 @@ function patchcommunityrole(req, res) {
 function patchcommunityrole(req, res) {
   try {
     service.patchcommunityrole(req.body, req.params, (err) => {
-
       if (err) {
         res.status(404).send(err);
         return;
