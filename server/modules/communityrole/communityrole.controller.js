@@ -1,7 +1,10 @@
+const communityRoleService = require('./communityrole.service');
 
-const service = require('./communityrole.service');
+function getCommunityRoles(domainName, done) {
+  communityRoleService.getCommunityRoles(domainName, done);
+}
 
-function getcommunityrole(req, res) {
+/*function getcommunityrole(req, res) {
   try {
     service.getcommunityrole((err, result) => {
       if (err) {
@@ -55,10 +58,11 @@ function patchcommunityrole(req, res) {
   } catch (err) {
     res.send({ error: 'Unexpected error from Patch' });
   }
-}
+}*/
 
 module.exports = {
-  getcommunityrole,
+  getCommunityRoles
+  /*getcommunityrole,
   postcommunityrole,
-  patchcommunityrole,
+  patchcommunityrole,*/
 };
