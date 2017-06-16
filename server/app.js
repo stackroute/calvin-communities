@@ -30,11 +30,11 @@ app.use('/api/invitation', require('./modules/memberrequests'));
 
 app.use('/api/tools', require('./modules/tools/index'));
 
-app.use('/api/counter',require('./modules/communitiescounter/index'));
+app.use('/api/counter', require('./modules/communitiescounter/index'));
 
 app.use('/api', require('./modules/member/index'));// member
 
-app.use('/api/communityrole', reqire('./modules/communityrole/index'));
+app.use('/api/communityrole', require('./modules/communityrole/index'));
 
 
 app.use((req, res) => {
