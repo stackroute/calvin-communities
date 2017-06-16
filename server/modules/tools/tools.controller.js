@@ -5,9 +5,13 @@ const service = require('./tools.services'); //
 
 // Function for Getting tools
 
-function getTools() {
+function getTools(req,res) {
     service.getTools((err, result) => {
-      return result;
+      if(err){
+        return res.send("Error Occured!!");
+      }
+      res.send(result.rows);
+      
 });
 }
 
@@ -16,21 +20,19 @@ function getTools() {
 function postTools(req, res) {
     if (req.body.domain) {
       if (req.body.id) {
-        if (req.body.domain !== null && req.body.id !== null) {
           service.addTools(req.body, (err) => {
             if (err) {
-              return "error occured";
+              return res.send("error occured");
             }
-            return "new tool added";
+            else{
+            return res.send("new tool added");}
           });
-        } else {
-          return "NULL value added";
-        }
+        
       } else {
-        return 'please fill out all fields!!';
+        return res.send('please fill out all fields!!');
       }
     } else {
-      return 'please fill out all fields!!';
+      return res.send('please fill out all fields!!');
     }
 }
 
@@ -39,9 +41,9 @@ function postTools(req, res) {
 function modifyTool(req, res) {
     service.updateTools(req.body, req.params, (err) => {
       if (err) {
-        return "error occured";
+        return res.send( "error occured");
       }
-      return "Tool Updated";
+      return res.send("Tool Updated");
     });
   }
 

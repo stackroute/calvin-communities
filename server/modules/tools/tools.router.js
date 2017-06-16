@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
      try {
-   return res.send(controller.getTools());
+   return controller.getTools(req,res);
   } catch (err) {
    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 router.post('/',(req, res) => { 
     try {
-   return res.send(controller.postTools(req,res));
+   return controller.postTools(req,res);
 }
 catch (err) {
    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -28,7 +28,7 @@ catch (err) {
 
 router.patch('/:domain/:tool',(req, res) => {
     try {
-   return res.send(controller.modifyTool(req,res));
+   return controller.modifyTool(req,res);
 }
 catch (err) {
    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });

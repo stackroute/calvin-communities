@@ -1,6 +1,6 @@
 const model = require('cassandra-driver');
 
-const connectionString = require('./connect');
+const connectionString = require('../../connect');
 // connecting to cassandra
 const client = new model.Client({
   contactPoints: [connectionString.contact],

@@ -46,7 +46,6 @@ function postcommunityrole(req, res) {
 function patchcommunityrole(req, res) {
   try {
     service.patchcommunityrole(req.body, req.params, (err) => {
-<<<<<<< HEAD
       if (err) {
         res.status(404).send(err);
         return;
