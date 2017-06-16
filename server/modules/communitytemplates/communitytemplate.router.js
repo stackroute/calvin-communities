@@ -4,7 +4,7 @@ const templateCtrl = require('./communitytemplate.controller');
 /*
  * API for returning all the templates.
  * 
- * Effective URI of the API for all the templates is GET /community/templates
+ * Effective URI of the API for all the templates is GET /communitytemplates/templates
  *
  */ 
 router.get('/templates', (req, res) => {
@@ -20,7 +20,7 @@ router.get('/templates', (req, res) => {
  * API for returning the data for the specified template
  *
  * Effevtive URI of the API for the specified template is 
- *  GET /community/templates/:templatename
+ *  GET /communitytemplates/templates/:templatename
  *  
  * URL Parameter
  *  - templatename: specify a specific template name,to get the data's 
