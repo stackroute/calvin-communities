@@ -5,75 +5,62 @@ const Invite_Request_Table = "invite_request";
 
 
 const client = new model.Client({
-  contactPoints: [connectionString.contact],
-  protocolOptions: { port: connectionString.port },
-  keyspace: connectionString.keyspace,
+    contactPoints: [connectionString.contact],
+    protocolOptions: { port: connectionString.port },
+    keyspace: connectionString.keyspace,
 });
 
-  // Query for insert
+// Query for insert
 
 function InsertData(data, done) {
-  const query = (`insert into invite_request (id,email,domain,type,status,approver) values('${data.id}','${data.email}','${data.domain}','${data.type}','${data.status}','${data.approver}')`);
-  client.execute(query, err => done(err));
+    const query = (`INSERT INTO ${Invite_Request_Table} (id,email,domain,type,status,approver) VALUES('${data.id}','${data.email}','${data.domain}','${data.type}','${data.status}','${data.approver}')`);
+    client.execute(query, err => done(err));
 }
 
 
-/*
+// Query for delete the rejected invite or request
+
+function rejectedInviteRequest(data, done) {
+    const query = (`DELETE from ${Invite_Request_Table} WHERE id = '${data}' IF EXISTS`);
+    client.execute(query, err => done(err));
+}
+
+// Query for get the values for particular id
+
+function gettingValuesById(data, done) {
+
+    const query = (`SELECT * FROM ${Invite_Request_Table} WHERE id= '${data}' `);
+
+    return client.execute(query, (err, result) => {
+        if (!err) {
+            console.log(result.rows)
+            done(err, result.rows);
+        } else {
+            done(err, undefined);
+        }
+    });
+}
+
+
 // Query for Update status for type request
 
-function update(data, callback) {
-  const query = (`update invite_request set status = '${data.status}',approver = '${data.approver}' where id = '${data.id}'`);
-  client.execute(query, (err, result) => callback(err, result));
+function statusUpdateRequest(id, bodyData, done) {
+    const query = (`UPDATE ${Invite_Request_Table} SET status = '${bodyData.status}',approver = '${bodyData.approver}' WHERE id = '${id}'`);
+    client.execute(query, (err) => done(err));
 }
 
 // Query for update status for type invite
 
-function statusupdate(data, callback) {
-  const query = (`update invite_request set status = '${data.status}' where id = '${data.id}'`);
-  client.execute(query, (err, result) => callback(err, result));
-}
-
-// Query for delete the rejected invite or request
-
-function rejected(data, callback) {
-  const query = (`delete from invite_request where id = '${data.id}' IF EXISTS`);
-
-  client.execute(query, err => callback(err));
-}
-
-// Query for Get
-
-function getMember(callback) {
-  const query = ('SELECT * from invite_request');
-  return client.execute(query, (err, result) => {
-    callback(err, result);
-  });
-} */
-
-
-// Query for get the values for particular id
-
-function gettingValuesById(data, callback) {
-  const query = (`SELECT * from ${Invite_Request_Table} WHERE id= '${data.id}' `); 
-
-  return client.execute(query, (err, result) => {
-    if(!err) {
-      done(err, results.rows);
-    } else {
-      done(err, undefined);
-    }
-  });
+function statusUpdateInvite(id, bodyData, done) {
+    const query = (`UPDATE ${Invite_Request_Table} SET status = '${bodyData.status}' WHERE id = '${id}'`);
+    client.execute(query, (err) => done(err));
 }
 
 
 module.exports = {
- /* insert,
-  update,
-  statusupdate,
-  rejected,
-  getMember,
-  getMemberById,*/
-gettingValuesById,
-InsertData
+    gettingValuesById,
+    InsertData,
+    statusUpdateRequest,
+    statusUpdateInvite,
+    rejectedInviteRequest
 };
-
