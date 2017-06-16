@@ -6,20 +6,7 @@ function getCommunityRoles(domainName, done) {
 function postCommunityRoles(postedData, done) {
   let params = [postedData.domain, postedData.role, postedData.actions, postedData.toolid];
 
-/* function getcommunityrole(req, res) {
-  try {
-    service.getcommunityrole((err, result) => {
-      if (err) {
-        res.status(404).send(err);
-        return;
-      }
-      res.send(result.rows);
-    });
-  } catch (err) {
-    res.send({ error: 'Unexpected error from GET' });
-  }
-  communityRoleService.postCommunityRoles(params, done);
-
+ communityRoleService.postCommunityRoles(params, done);
 }
 
 
@@ -34,7 +21,7 @@ function postCommunityRoles(postedData, done) {
 //         return;
 //       }
 
-//       if (err)		{
+//       if (err)        {
 //         res.status(404).send(err);
 //         return;
 //       }
@@ -63,13 +50,13 @@ function postCommunityRoles(postedData, done) {
 //             res.status(201).send('post added');
 //           });
 
-//         }		else {
+//         }        else {
 //           res.send('Please don`t send null values');
 //         }
-//       }		else		{
+//       }        else        {
 //         res.send('role value was passed as null');
 //       }
-//     }	else	{
+//     }    else    {
 //       res.send('domain was passed as null');
 //     }
 //   } catch (err) {
@@ -81,7 +68,7 @@ function postCommunityRoles(postedData, done) {
 //   try {
 //     service.patchcommunityrole(req.body, req.params, (err) => {
 
-//       if (err){	
+//       if (err){    
 //         res.status(404).send(err);
 //         return;
 //       }
@@ -95,11 +82,7 @@ function postCommunityRoles(postedData, done) {
 
 module.exports = {
 
-  getCommunityRoles,
-  /* getcommunityrole,
-
-
-  getCommunityRoles,
+ getCommunityRoles,
   postCommunityRoles
   /*getcommunityrole,
   postcommunityrole,

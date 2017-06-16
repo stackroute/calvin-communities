@@ -1,4 +1,3 @@
-
 /* ---------------------CONTROLLER----------------------*/
 
 const communityToolService = require('./tools.services'); //
