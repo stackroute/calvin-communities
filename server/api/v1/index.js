@@ -11,8 +11,6 @@ router.use('/counter', require('../../modules/communitiescounter/'));
 
 router.use('/', 	require('../../modules/member/'));
 
-router.use('/', require('../../modules/member/'));
-
 
 router.use('/communityrole', require('../../modules/communityrole/'));
 
