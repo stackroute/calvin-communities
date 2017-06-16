@@ -2,7 +2,7 @@ require('body-parser');
 const model = require('cassandra-driver');
 
 
-const connectionString = require('../../connect');
+const connectionString = require('../../config');
 // getting all DB details from connect.js file placed in server directory
 const client = new model.Client({
   contactPoints: [connectionString.contact],
@@ -11,9 +11,13 @@ const client = new model.Client({
 });
 
 // service fetching all community details and returning a promise
-function getallcommunities() {
-  const query = ('select * from communities');
-  return client.execute(query);
+function getallcommunities(done) {
+  const query = `select * from communities`;
+ return client.execute(query, (err, results) => {
+    if(err) done(err, undefined);
+    done(err, results.rows);
+    
+  });
 }
 
 // service adding community details

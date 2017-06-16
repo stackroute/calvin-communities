@@ -1,11 +1,9 @@
-require('express');
-
 require('body-parser');
 
-const service = require('./community.service');
+const communityServ = require('./community.service');
 // function for getting all communities data
-function allcommunities() {
-  return service.getallcommunities()
+function allcommunities(done) {
+  communityServ.getallcommunities(done);
 }
 
 // to add a new community, with all possible checks
@@ -34,33 +32,33 @@ function addcommunity(community) {
 }
 
 
-function addcommunity(community, done) {
-    ifd(community.domain === undefined ||
-    community.name === undefined ||
-    community.owner === undefined ||
-    community.template === undefined ||
-    community.tags === undefined ||
-    community.status === undefined ||
-    !community.domain ||
-    !community.name ||
-    !community.owner ||
-    !community.template ||
-    !community.tags ||
-    community.tags.length === 0 ||
-    community.status !== ('Active' || 'Inactive')
-    ) { 
-      done('Input validation error', undefined); 
-    }
+// function addcommunity(community, done) {
+//     ifd(community.domain === undefined ||
+//     community.name === undefined ||
+//     community.owner === undefined ||
+//     community.template === undefined ||
+//     community.tags === undefined ||
+//     community.status === undefined ||
+//     !community.domain ||
+//     !community.name ||
+//     !community.owner ||
+//     !community.template ||
+//     !community.tags ||
+//     community.tags.length === 0 ||
+//     community.status !== ('Active' || 'Inactive')
+//     ) { 
+//       done('Input validation error', undefined); 
+//     }
 
-    // service.addcommunity(community).then((result) => { done(undefined, result); }, (err) => { done(err); } ).catch(err){ done(err) };
+//     // service.addcommunity(community).then((result) => { done(undefined, result); }, (err) => { done(err); } ).catch(err){ done(err) };
 
-    service.addcommunity(community, done);
-}
+//     service.addcommunity(community, done);
+// }
 
 
 // get data for a specific community
-function getcommunity(id) {
-  return service.getcommunity(id)
+function getcommunity(domainName) {
+  return service.getcommunity(domainName)
 }
 // update details of a particular community
 function updatecommunity(community) {
