@@ -1,38 +1,26 @@
 
 /* ---------------------CONTROLLER----------------------*/
 
-const service = require('./tools.services'); //
+const communityToolService = require('./tools.services'); //
 
 // Function for Getting tools
 
-function getTools(req,res) {
-    service.getTools((err, result) => {
-      if(err){
-        return res.send("Error Occured!!");
-      }
-      res.send(result.rows);
-      
-});
+function getTools(domainName, done) {
+  communityToolService.getTools(domainName, done);
+
 }
 
 // Function for Posting tools
 
-function postTools(req, res) {
-    if (req.body.domain) {
-      if (req.body.id) {
-          service.addTools(req.body, (err) => {
-            if (err) {
-              return res.send("error occured");
-            }
-            else{
-            return res.send("new tool added");}
-          });
-        
+function postTools(dataFromBody,done) {
+    if (dataFromBody.domain && dataFromBody.id) {
+      if (dataFromBody.domain!==null && dataFromBody.id!=null) {
+          communityToolService.addTools(dataFromBody, done); 
       } else {
-        return res.send('please fill out all fields!!');
+        return 'please fill out all fields!!';
       }
     } else {
-      return res.send('please fill out all fields!!');
+      return 'please fill out all fields!!';
     }
 }
 

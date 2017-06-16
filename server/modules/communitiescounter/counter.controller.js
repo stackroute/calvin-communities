@@ -1,14 +1,12 @@
 
-const service = require('./counter.service');
+const counterservice = require('./counter.service');
 
 // function fro getting the counter for the table
 function getcounter(req, res) {
   try {
     service.getcounter((err, result) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-      res.status(200).send(result.rows);
+      if (err) { throw err; }
+      return res.status(200).send(result.rows);
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -18,12 +16,8 @@ function getcounter(req, res) {
 function incrementmember(req, res) {
   try {
     service.incrementmember(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('membersadded');
-      res.status(201).send(' added');
+      if (err) { throw err; }
+      return res.status(201).send(' added');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -33,12 +27,8 @@ function incrementmember(req, res) {
 function incrementrequests(req, res) {
   try {
     service.incrementrequests(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('requestsadded');
-      res.status(201).send(' added');
+      if (err) { throw err; }
+      return res.status(201).send(' added');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -48,12 +38,8 @@ function incrementrequests(req, res) {
 function incrementtools(req, res) {
   try {
     service.incrementtools(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('toolsadded');
-      res.status(201).send(' added');
+      if (err) { throw err; }
+      return res.status(201).send(' added');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -63,12 +49,8 @@ function incrementtools(req, res) {
 function incrementinvitation(req, res) {
   try {
     service.incrementinvitation(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('inviteadded');
-      res.status(201).send(' added');
+      if (err) { throw err; }
+      return res.status(201).send(' added');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -78,12 +60,8 @@ function incrementinvitation(req, res) {
 function decrementinvitation(req, res) {
   try {
     service.decrementinvitation(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('invitedeleted');
-      res.status(201).send(' deleted');
+      if (err) { throw err; }
+      return res.status(201).send(' deleted');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -93,12 +71,8 @@ function decrementinvitation(req, res) {
 function decrementmember(req, res) {
   try {
     service.decrementmember(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('membersdeleted');
-      res.status(201).send('deleted');
+      if (err) { throw err; }
+      return res.status(201).send('deleted');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -108,12 +82,8 @@ function decrementmember(req, res) {
 function decrementrequests(req, res) {
   try {
     service.decrementrequests(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('requestdeleted');
-      res.status(201).send(' deleted');
+      if (err) { throw err; }
+      return res.status(201).send(' deleted');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -123,12 +93,8 @@ function decrementrequests(req, res) {
 function decrementtools(req, res) {
   try {
     service.decrementtools(req.params, (err) => {
-      if (err) {
-        console.log('error occurred', err);
-      }
-
-      console.log('toolsdeleted');
-      res.status(201).send(' deleted');
+      if (err) { throw err; }
+      return res.status(201).send(' deleted');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });

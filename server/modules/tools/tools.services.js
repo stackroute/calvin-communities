@@ -3,7 +3,9 @@
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../connect');
+const connectionString = require('../../config');
+
+const COMMUNITY_TOOL_TABLE = "tools";
 
 // Connecting to cassandra
 
@@ -15,19 +17,27 @@ const client = new model.Client({
 
 // Query to select all values from tools table
 
-function getTools(callback) {
-  const query = ('SELECT * from tools');
-  return client.execute(query, (err, result) => {
-    callback(err, result);
+function getTools(domainName,done) {
+  const query = (`SELECT toolid, action, activityevents from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}';`);
+  return client.execute(query, (err, results) => {
+    if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
   });
 }
 
 // Inserting into tools table
 
-function addTools(data, callback) {
-  const query = (`insert into tools (domain,toolid,action,activityevents) values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
-  return client.execute(query, (err, result) => {
-    callback(err, result);
+function addTools(data, done) {
+  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
+ return client.execute(query, (err, results) => {
+  if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
   });
 }
 
