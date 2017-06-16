@@ -1,10 +1,9 @@
 
 const counterservice = require('./counter.service');
-
 // function fro getting the counter for the table
 function getcounter(req, res) {
   try {
-    service.getcounter((err, result) => {
+    counterservice.getcounter((err, result) => {
       if (err) { throw err; }
       return res.status(200).send(result.rows);
     });
@@ -15,7 +14,7 @@ function getcounter(req, res) {
 // To increment membersadded
 function incrementmember(req, res) {
   try {
-    service.incrementmember(req.params, (err) => {
+    counterservice.incrementmember(req.params, (err) => {
       if (err) { throw err; }
       return res.status(201).send(' added');
     });
@@ -26,7 +25,7 @@ function incrementmember(req, res) {
 // to incrementrequests
 function incrementrequests(req, res) {
   try {
-    service.incrementrequests(req.params, (err) => {
+    counterservice.incrementrequests(req.params, (err) => {
       if (err) { throw err; }
       return res.status(201).send(' added');
     });
@@ -37,7 +36,7 @@ function incrementrequests(req, res) {
 // to incrementtools
 function incrementtools(req, res) {
   try {
-    service.incrementtools(req.params, (err) => {
+    counterservice.incrementtools(req.params, (err) => {
       if (err) { throw err; }
       return res.status(201).send(' added');
     });
@@ -48,7 +47,7 @@ function incrementtools(req, res) {
 // to incrementinvitation
 function incrementinvitation(req, res) {
   try {
-    service.incrementinvitation(req.params, (err) => {
+    counterservice.incrementinvitation(req.params, (err) => {
       if (err) { throw err; }
       return res.status(201).send(' added');
     });
@@ -59,7 +58,7 @@ function incrementinvitation(req, res) {
 // to decrementinvitation
 function decrementinvitation(req, res) {
   try {
-    service.decrementinvitation(req.params, (err) => {
+    counterservice.decrementinvitation(req.params, (err) => {
       if (err) { throw err; }
       return res.status(201).send(' deleted');
     });
@@ -70,7 +69,7 @@ function decrementinvitation(req, res) {
 // to decrementmember
 function decrementmember(req, res) {
   try {
-    service.decrementmember(req.params, (err) => {
+    counterservice.decrementmember(req.params, (err) => {
       if (err) { throw err; }
       return res.status(201).send('deleted');
     });
@@ -81,9 +80,9 @@ function decrementmember(req, res) {
 // to decrementrequests
 function decrementrequests(req, res) {
   try {
-    service.decrementrequests(req.params, (err) => {
+    counterservice.decrementrequests(req.params, (err) => {
       if (err) { throw err; }
-      return res.status(201).send(' deleted');
+      return res.status(201).send('deleted');
     });
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
@@ -92,7 +91,7 @@ function decrementrequests(req, res) {
 // to decrementtools
 function decrementtools(req, res) {
   try {
-    service.decrementtools(req.params, (err) => {
+    counterservice.decrementtools(req.params, (err) => {
       if (err) { throw err; }
       return res.status(201).send(' deleted');
     });
