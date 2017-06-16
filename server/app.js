@@ -11,7 +11,7 @@ app.use(require('body-parser').json());
 const community = require('./modules/community/index');
 const members = require('./modules/members/index');
 const tools = require('./modules/tools/index');
-const invite = require('./modules/invite/index');
+
 
 
 const PORT = process.env.PORT || 4000;
@@ -33,7 +33,7 @@ app.get('/users', (req, res) => {
 // middleware function
 app.use('/community', require('./modules/communityTemplates'));
 app.use('/api/community', community );
-app.use('/api/invitation',invite);
+app.use('/api/invitation',require('./modules/memberrequests'));
 app.use('/api/tools', tools);
 
 app.use((req, res) => {

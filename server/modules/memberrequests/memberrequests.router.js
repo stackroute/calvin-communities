@@ -1,8 +1,8 @@
-const express = require('express');
+const router = require('express').Router();
 
-const controller = require('./invite.controller');
+const controller = require('./memberrequests.controller');
 
-const router = express.Router();
+
 
 // calling a method for inserting all the values into the table
 
