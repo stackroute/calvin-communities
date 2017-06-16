@@ -12,6 +12,7 @@ const community = require('./modules/community/index');
 const members = require('./modules/members/index');
 const tools = require('./modules/tools/index');
 const invite = require('./modules/invite/index');
+const communityrole = require('./modules/communityrole/index');
 
 
 const PORT = process.env.PORT || 4000;
@@ -32,19 +33,17 @@ app.get('/users', (req, res) => {
 
 // middleware function
 app.use('/community', require('./modules/communityTemplates'));
-app.use('/api/community', community );
-app.use('/api/invitation',invite);
+app.use('/api/community', community);
+app.use('/api/invitation', invite);
 app.use('/api/tools', tools);
-
+app.use('/api/communityrole', communityrole);
 app.use((req, res) => {
   res.status(404).send({ error: 'Resource not found' });
 });
 
 app.listen(PORT, () => {
-console.log('basics! on port', PORT);
-
+  console.log('basics! on port', PORT);
 });
-
 
 
 module.exports = app;
