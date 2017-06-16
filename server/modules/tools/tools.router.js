@@ -10,56 +10,51 @@ const router = express.Router();
 // Router methods
 
 router.get('/', (req, res) => {
-     try {
-   return res.send(controller.getTools());
+  try {
+    return res.send(controller.getTools());
   } catch (err) {
-   return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
+    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
-router.post('/',(req, res) => { 
-    try {
-   return res.send(controller.postTools(req,res));
-}
-catch (err) {
-   return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
+router.post('/', (req, res) => {
+  try {
+    return res.send(controller.postTools(req, res));
+  } catch (err) {
+    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
-router.patch('/:domain/:tool',(req, res) => {
-    try {
-   return res.send(controller.modifyTool(req,res));
-}
-catch (err) {
-   return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
-  }    
+router.patch('/:domain/:tool', (req, res) => {
+  try {
+    return res.send(controller.modifyTool(req, res));
+  } catch (err) {
+    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
 });
 
-router.delete('/:domain', (req,res)=> { 
-    try {
-   return res.send(controller.deleteTool(req,res));
-}
-catch (err) {
-   return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
-  }  
+router.delete('/:domain', (req, res) => {
+  try {
+    return res.send(controller.deleteTool(req, res));
+  } catch (err) {
+    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
 });
 
-router.delete('/action/:domain/:tool/:name', (req,res)=> {
-    try {
-   return res.send(controller.deleteAction(req,res));
-}
-catch (err) {
-   return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
-  }  
+router.delete('/action/:domain/:tool/:name', (req, res) => {
+  try {
+    return res.send(controller.deleteAction(req, res));
+  } catch (err) {
+    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
 });
 
-router.delete('/event/:domain/:tool/:name', (req,res)=> {
-    try {
-   return res.send(controller.deleteEvent(req,res));
-}
-catch (err) {
-   return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
-  }  
+router.delete('/event/:domain/:tool/:name', (req, res) => {
+  try {
+    return res.send(controller.deleteEvent(req, res));
+  } catch (err) {
+    return res.status(404).json({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
 });
 
 

@@ -1,6 +1,6 @@
 const service = require('./member.service');
 
-function addMemberToCommunity(req, res) {
+/* function addMemberToCommunity(req, res) {
   if ((req.body.username !== null && req.body.domain !== null && req.body.role !== null)) {
     if (req.body.username && req.body.domain && req.body.role) {
       const params = {
@@ -35,7 +35,7 @@ function getAllMembersInCommunities(req, res) {
     }
     res.status(200).send(data);
   });
-}
+}*/
 
 function getParticularMemberDetailInCommunities(req, res) {
   if (req.params.username) {
@@ -53,7 +53,7 @@ function getParticularMemberDetailInCommunities(req, res) {
   }
 }
 
-function getParticularCommunityMemberDetails(req, res) {
+/* function getParticularCommunityMemberDetails(req, res) {
   if (req.params.domain) {
     const params = {
       domain: req.params.domain,
@@ -126,91 +126,23 @@ function modifyRoleOfMemberFromCommunity(req, res) {
     };
     service.modifyRoleOfMemberFromCommunity(params, (err) => {
       if (err) {
-        res.status(404).send(err); 
+        res.status(404).send(err);
       }
       res.status(202).send('Updated');
     });
   } else {
     res.status(204).send('username and domain should not be empty');
   }
-}
-
-
-
-// const params = {
-//   username: req.params.username,
-//   domain: req.params.domain,
-//   role: req.body.role,
-// };
-// service.modify(params, (err) => {
-//   res.status(201);
-//   if (err){
-//     res.status(404).send(err);
-//   }
-// });
-
-
-// function modifyRoleOfMember(req, res) {
-//   if(req.params.username){
-//     if(req.params.domain){
-//       if(req.params)
-//     }
-//   }
-// }
-//   // const params = {
-//   //   username: req.params.username,
-//   //   domain: req.params.domain,
-//   //   role: req.body.role,
-//   // };
-//   // service.modify(params, (err) => {
-//   //   res.status(201);
-//   //   if (err){
-//   //     res.status(404).send(err);
-//   //   }
-//   // });
-
-
-// function deleteMember(req, res) {
-//   if (req.params.username) {
-//     const params = {
-//       username: req.params.username,
-//     };
-//     service.deleteMemberDetail(params, (err, data) => {
-//       if (err) {
-//         res.status(404).send(err);
-//       }
-//       res.status(202).send('Deleted');
-//     });
-//   } else {
-//     res.status(404).send('username should not be empty!!');
-//   }
-// }
-// function deleteMemberDetail(req, res) {
-//   if (req.params.username) {
-//     const params = {
-//       username: req.params.username,
-//     };
-//     service.deleteMemberDetail(params, (err) => {
-//       if (err) {
-//         res.status(404).send(err);
-//       }
-//       res.status(202).send('Deleted');
-//     });
-//   } else {
-//     res.status(404).send('username should not be empty !!');
-//   }
-// }
+}*/
 
 
 module.exports = {
-  addMemberToCommunity,
-  getAllMembersInCommunities,
+ /* addMemberToCommunity,
+  getAllMembersInCommunities,*/
   getParticularMemberDetailInCommunities,
-  getParticularCommunityMemberDetails,
+  /*getParticularCommunityMemberDetails,
   getAllCommunity,
   deleteParticularCommunity,
   deleteParticularMemberFromCommunity,
-  modifyRoleOfMemberFromCommunity,
- // deleteMemberDetail,
-  // deleteMember,
+  modifyRoleOfMemberFromCommunity,*/
 };

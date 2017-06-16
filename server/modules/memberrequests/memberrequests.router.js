@@ -27,7 +27,7 @@ router.patch('/action/:id', (req, res) => {
 
 router.delete('/rejected/:id', (req, res) => {
   try {
-   return controller.rejectedInviteRequest(req, res);
+    return controller.rejectedInviteRequest(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -37,7 +37,7 @@ router.delete('/rejected/:id', (req, res) => {
 
 router.get('/lists', (req, res) => {
   try {
-   return controller.gettingMembers(req, res);
+    return controller.gettingMembers(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -47,7 +47,7 @@ router.get('/lists', (req, res) => {
 
 router.get('/:id', (req, res) => {
   try {
-   return  controller.gettingMembersById(req, res);
+    return controller.gettingMembersById(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
