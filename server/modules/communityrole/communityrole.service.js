@@ -1,32 +1,13 @@
 const model = require('cassandra-driver');
-
-const connectionString = require('../../connect');
+const connectionString = require('../../config');
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],
   protocolOptions: { port: connectionString.port },
   keyspace: connectionString.keyspace,
-
-
 });
 
-
-
-function getcommunityrole(callback)	{
-  const query = ('select * from communityroles');
-
-								 };
-
-function getcommunityrole(callback)	{
-  const query = ('select * from communityroles');
-
-
-};
-
-function getcommunityrole(callback)	{
-
 function getcommunityrole(callback) {
-
   const query = ('select * from communityroles');
   return client.execute(query, (err, result) => {
     callback(err, result);
@@ -49,4 +30,7 @@ function patchcommunityrole(data, value, callback) {
   });
 }
 
-module.exports = { getcommunityrole, postcommunityrole, patchcommunityrole };
+module.exports = { getcommunityrole,
+  postcommunityrole,
+  patchcommunityrole };
+
