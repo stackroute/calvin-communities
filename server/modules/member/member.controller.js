@@ -1,4 +1,9 @@
-const service = require('./member.service');
+const membershipService = require('./member.service');
+
+function getParticularMemberDetailInCommunities(userName, done) {
+  membershipService.getParticularMemberDetailInCommunities(userName,done); 
+}
+
 
 /* function addMemberToCommunity(req, res) {
   if ((req.body.username !== null && req.body.domain !== null && req.body.role !== null)) {
@@ -35,7 +40,7 @@ function getAllMembersInCommunities(req, res) {
     }
     res.status(200).send(data);
   });
-}*/
+}
 
 function getParticularMemberDetailInCommunities(req, res) {
   if (req.params.username) {
@@ -53,7 +58,7 @@ function getParticularMemberDetailInCommunities(req, res) {
   }
 }
 
-/* function getParticularCommunityMemberDetails(req, res) {
+ function getParticularCommunityMemberDetails(req, res) {
   if (req.params.domain) {
     const params = {
       domain: req.params.domain,

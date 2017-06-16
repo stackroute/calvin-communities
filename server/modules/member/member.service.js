@@ -2,11 +2,25 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../config');
 
+const COMMUNITY_MEMBERSHIP_TABLE = 'membership';
+
 const client = new model.Client({
   contactPoints: [connectionString.contact],
   protocolOptions: { port: connectionString.port },
   keyspace: connectionString.keyspace,
 });
+
+
+function getParticularMemberDetailInCommunities(userName, done) {
+  const query = `SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} where username = '${userName}' ALLOW FILTERING`;
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
+}
 
 /* function addMemberToCommunity(data, callback) {
   const query = (`insert into membership(username,domain,role) values('${data.username}','${data.domain}','${data.role}')`);
@@ -17,7 +31,7 @@ function getAllMembersInCommunities(params, callback) {
   const query = ('select * from membership');
 
   client.execute(query, (err, data) => callback(err, data.rows));
-}*/
+}
 
 function getParticularMemberDetailInCommunities(params, callback) {
   const query = (`select * from membership where username = '${params.username}' ALLOW FILTERING`);
@@ -25,7 +39,7 @@ function getParticularMemberDetailInCommunities(params, callback) {
   client.execute(query, (err, data) => callback(err, data.rows));
 }
 
-/* function getParticularCommunityMemberDetails(params, callback) {
+ function getParticularCommunityMemberDetails(params, callback) {
   const query = (`select * from membership where domain = '${params.domain}' `);
   client.execute(query, (err, data) => callback(err, data));
 }

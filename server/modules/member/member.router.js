@@ -4,7 +4,23 @@ const membershipCtrl = require('./member.controller');
 
 const router = express.Router();
 
-/* router.post('/community/member', (req, res) => {
+router.get('/communities/member/:username', (req, res) => {
+  try {
+    const userName = req.params.username;
+    membershipCtrl.getParticularMemberDetailInCommunities(userName, (err, results) => {
+      if (err) {
+        console.log('Error in communityRoleCtrl.getCommunityRoles error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+      res.send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in fetching community roles ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+});
+
+/*router.post('/community/member', (req, res) => {
   try {
     res.send(controller.addMemberToCommunity(req, res));
   } catch (err) {
@@ -18,17 +34,17 @@ router.get('/communities/members', (req, res) => {
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
-});*/
+});
 
 router.get('/communities/member/:username', (req, res) => {
   try {
-    membershipCtrl.getParticularMemberDetailInCommunities(req, res);
+    controller.getParticularMemberDetailInCommunities(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
-/* router.get('/member/community/:domain', (req, res) => {
+router.get('/member/community/:domain', (req, res) => {
   try {
     controller.getParticularCommunityMemberDetails(req, res);
   } catch (err) {
