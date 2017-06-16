@@ -8,26 +8,26 @@ const request = require('supertest');
 
 describe(' CRUD Operations on api/communityrole ', () => {
   const postcommunityrole = {
-        domain: 'mit',
-        role: 'developer',
-        actions: {
-            'clone': '1',
-            'commit': '1',
-            'createrepo': '1',
-            'merge': '1'
-        },
-        toolid: "git"
-    };
+    domain: 'mit',
+    role: 'developer',
+    actions: {
+      clone: '1',
+      commit: '1',
+      createrepo: '1',
+      merge: '1',
+    },
+    toolid: 'git',
+  };
 
   const patchcommunityrole = {
-        
-        actions: {
-            'clone': '10',
-            'commit': '1',
-            'createrepo': '10',
-            'merge': '1'
-        }
-    };
+
+    actions: {
+      clone: '10',
+      commit: '1',
+      createrepo: '10',
+      merge: '1',
+    },
+  };
 
   it('Test PATCH method for community role', (done) => {
     request(app)
@@ -70,5 +70,4 @@ describe(' CRUD Operations on api/communityrole ', () => {
         done();
       });
   });
-
 });
