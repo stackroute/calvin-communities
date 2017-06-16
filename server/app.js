@@ -16,8 +16,6 @@ const members = require('./modules/member/index');
 
 
 
-const PORT = process.env.PORT || 4000;
-
 console.log('Hosting static path ', clientPath);
 
 app.use(express.static(clientPath));
