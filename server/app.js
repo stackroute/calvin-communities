@@ -12,7 +12,8 @@ const community = require('./modules/community/index');
 const tools = require('./modules/tools/index');
 const invitation = require('./modules/memberrequests');
 const counter = require('./modules/communities_counter/index');
-const communityrole = require('./modules/communityrole/index')
+const communityrole = reqire('./modules/communityrole/index');
+
 
 console.log('Hosting static path ', clientPath);
 
@@ -29,11 +30,17 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
-app.use('/api/community', community );
+app.use('/api/community', community);
 
 
+app.use('/api/invitation', require('./modules/memberrequests'));
 
-app.use('/api/invitation',invitation);
+
+app.use('/api/tools', tools);
+app.use('/api/counter', require('./modules/communities_counter/index'));
+
+
+app.use('/api/invitation', invitation);
 
 
 app.use('/api/tools', tools);
