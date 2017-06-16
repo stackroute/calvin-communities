@@ -1,5 +1,5 @@
 const model = require('cassandra-driver');
-const service = require('./invite.service');
+const service = require('./memberrequests.service');
 
 const statusstring = [
   'approved', 'invitesent', 'accepted', 'requested',
