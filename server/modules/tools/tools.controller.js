@@ -28,13 +28,11 @@ function modifyTool(dataFromBody, dataFromURI, done) {
   communityToolService.updateTools(dataFromBody, dataFromURI, done);
 }
 
-
 // To delete an action from a tool
 
 function deleteAction(domainName, done) {
   communityToolService.deleteAction(domainName, done);
 }
-
 
 // To delete an event from a tool
 

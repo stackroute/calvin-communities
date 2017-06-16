@@ -92,7 +92,6 @@ router.delete('/:domain', (req, res) => {
 
 router.delete('/action/:domain/:tool/:name', (req, res) => {
   try {
-
     const dataFromParams = req.params;
     communityToolCtrl.deleteAction(dataFromParams, (err, results) => {
       if (err) {
@@ -110,7 +109,6 @@ router.delete('/action/:domain/:tool/:name', (req, res) => {
 
 router.delete('/event/:domain/:tool/:name', (req, res) => {
   try {
-
     const dataFromParams = req.params;
     communityToolCtrl.deleteEvent(dataFromParams, (err, results) => {
       if (err) {
