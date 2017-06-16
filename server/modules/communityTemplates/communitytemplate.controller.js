@@ -1,10 +1,11 @@
 // List the Templates
 const templates = require('./templates');
 
-function getListOfTemplates(templatelist) {
-  return templatelist;
+function getListOfTemplates() {
+  return templates;
 }
 
+// Get the specified template data
 function getSpecifiedTemplateData(templateName) {
   let result;
   templates.forEach((element) => {
