@@ -6,10 +6,18 @@ const client = new model.Client({
   contactPoints: [connectionString.contact],
   protocolOptions: { port: connectionString.port },
   keyspace: connectionString.keyspace,
+<<<<<<< HEAD
 });
 
 function getcommunityrole(callback) {
   const query = ('select * from communityroles');
+=======
+								 });
+
+function getcommunityrole(callback)	{
+  const query = ('select * from communityroles');
+
+>>>>>>> f4f3d942bbe060f8158b0b8f83ae7fa8890adea5
   return client.execute(query, (err, result) => {
     callback(err, result);
   });

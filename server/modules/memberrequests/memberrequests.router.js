@@ -3,7 +3,6 @@ const router = require('express').Router();
 const controller = require('./memberrequests.controller');
 
 
-
 // calling a method for inserting all the values into the table
 
 router.post('/send', (req, res) => {

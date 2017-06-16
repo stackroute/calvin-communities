@@ -9,6 +9,7 @@ function getTools(req, res) {
   try {
     service.getTools((err, result) => {
       if (err) {
+        res.status(500);
       }
       res.status(200).send(result.rows);
     });
@@ -26,6 +27,7 @@ function postTools(req, res) {
         if (req.body.domain !== null && req.body.id !== null) {
           service.addTools(req.body, (err) => {
             if (err) {
+              res.status(500);
             }
             res.status(201).send('new tool added');
           });
@@ -49,6 +51,7 @@ function modifyTool(req, res) {
   try {
     service.updateTools(req.body, req.params, (err) => {
       if (err) {
+        res.status(500);
       }
       res.status(201).send('tool updated');
     });
@@ -63,9 +66,8 @@ function deleteAction(req, res) {
   try {
     service.deleteAction(req.params, (err) => {
       if (err) {
-        console.log('error occured', err);
+        res.status(500);
       }
-      console.log('action deleted');
       res.status(201).send('action deleted');
     });
   } catch (err) {
@@ -79,9 +81,8 @@ function deleteEvent(req, res) {
   try {
     service.deleteEvent(req.params, (err) => {
       if (err) {
-        console.log('error occured', err);
+        res.status(500);
       }
-      console.log('event deleted');
       res.status(201).send('event deleted');
     });
   } catch (err) {
@@ -95,9 +96,8 @@ function deleteTool(req, res) {
   try {
     service.deleteTool(req.params, (err) => {
       if (err) {
-        console.log('error occured', err);
+        res.status(500);
       }
-      console.log('tool deleted');
       res.status(201).send('tool deleted');
     });
   } catch (err) {
