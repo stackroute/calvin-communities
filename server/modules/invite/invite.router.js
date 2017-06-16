@@ -3,30 +3,52 @@ const express = require('express');
 const controller = require('./invite.controller');
 
 const router = express.Router();
-// router.get('/', controller.retrieveAllCartoons);
-// router.get('/:id', controller.retrieveCartoon);
-// router.post('/send', controller.createInvitation);
-// router.put('/action/:id', controller.updateInvite);
-// router.delete('/delete/:id', controller.deleterequest);
+
+// calling a method for inserting all the values into the table
+
 router.post('/send', (req, res) => {
   try {
-    res.send(controller.createInvitation(req, res));
+    controller.createInvitation(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
+
+// calling a method for updating the status
 
 router.patch('/action/:id', (req, res) => {
   try {
-    res.send(controller.updateInvite(req, res));
+    controller.updateInvitation(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
-router.delete('/delete/:id', (req, res) => {
+// calling a method for rejecting the status
+
+router.delete('/rejected/:id', (req, res) => {
   try {
-    res.send(controller.deleteRequest(req, res));
+    controller.rejectedInviteRequest(req, res);
+  } catch (err) {
+    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
+});
+
+// calling the method for getting all values from the table
+
+router.get('/lists', (req, res) => {
+  try {
+    controller.gettingMembers(req, res);
+  } catch (err) {
+    res.send({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
+});
+
+// calling the method for getting the values for the particular id
+
+router.get('/:id', (req, res) => {
+  try {
+    controller.gettingMembersById(req, res);
   } catch (err) {
     res.send({ error: 'Unexpected internal error occurred, please try later...!' });
   }

@@ -9,9 +9,7 @@ function getTools(req, res) {
   try {
     service.getTools((err, result) => {
       if (err) {
-        console.log('error occured', err);
       }
-      console.log(result.rows);
       res.status(200).send(result.rows);
     });
   } catch (err) {
@@ -28,9 +26,7 @@ function postTools(req, res) {
         if (req.body.domain !== null && req.body.id !== null) {
           service.addTools(req.body, (err) => {
             if (err) {
-              console.log('error occured', err);
             }
-            console.log('new tool added');
             res.status(201).send('new tool added');
           });
         } else {
@@ -53,9 +49,7 @@ function modifyTool(req, res) {
   try {
     service.updateTools(req.body, req.params, (err) => {
       if (err) {
-        console.log('error occured', err);
       }
-      console.log('tool updated');
       res.status(201).send('tool updated');
     });
   } catch (err) {

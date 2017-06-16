@@ -1,43 +1,65 @@
 const model = require('cassandra-driver');
 const service = require('./invite.service');
 
+const statusstring = [
+  'approved', 'invitesent', 'accepted', 'requested',
+];
+
+// Inviting the values into the table for both request and invite
 
 function createInvitation(req, res) {
-  if (req.body.email) {
-    if (req.body.domain) {
-      if (req.body.email !== null && req.body.domain !== null) {
-        const params = {
-
-          email: req.body.email,
-
-          domain: req.body.domain,
-          status: req.body.status,
-          type: req.body.type,
-          approver: req.body.approver,
-          id: model.types.Uuid.random().toString().split('-').join(''),
-        };
-
-        service.insert(params, (err) => {
-          if (err) {
-            res.status(404).send(err);
-            return;
-          }
-        });
-        res.status(201).send('Created');
-      }
-    } else {
-      res.status(204).send('please enter domain field!!');
+  let flag = false;
+  if ((req.body.email) && (req.body.domain)) {
+    if (req.body.email !== null && req.body.domain !== null) {
+      statusstring.forEach((a) => {
+        if (req.body.status.includes(a)) {
+          flag = true;
+        }
+      });
     }
+  }
+
+  if (flag) {
+    const params = {
+      email: req.body.email,
+      domain: req.body.domain,
+      status: req.body.status,
+      type: req.body.type,
+      approver: req.body.approver,
+      id: model.types.Uuid.random().toString().split('-').join(''),
+    };
+
+    service.insert(params, (err) => {
+      if (err) {
+        res.status(404).send(err);
+      }
+      res.status(201).send('Created');
+    });
   } else {
-    res.status(204).send('please enter email fields!!');
+    res.status(404).send('enter proper value !!');
   }
 }
 
+// Upadate the status for both request and invite
 
-function updateInvite(req, res) {
-  if ((req.params.id).length > 4) {
-    if ((req.body.status) && req.body.status !== null) {
-      if ((req.body.status === 'approved')) {
+function updateInvitation(req, res) {
+  let flag = false;
+  const value = { id: req.params.id };
+
+  service.getMemberById(value, (error, result) => {
+    if (error) res.status(304).send(error);
+    const inviteType = result.rows[0].type;
+
+    if ((req.params.id) && (req.params.id !== null) && (req.body.status) && (req.body.status !== null)) {
+      statusstring.forEach((a) => {
+        if (req.body.status.includes(a)) {
+          flag = true;
+        }
+      });
+    }
+
+    if (flag) {
+      if ((req.body.status === 'approved') && inviteType === 'request') {
         if ((req.body.approver) && req.body.approver !== null) {
           const params = {
             status: req.body.status,
@@ -45,57 +67,68 @@ function updateInvite(req, res) {
             approver: req.body.approver,
           };
           service.update(params, (err) => {
-            if (err) {
-              res.status(304).send(err);
-              return;
-            }
+            if (err) res.status(304).send(err);
+            res.status(202).send('Updated');
           });
-          res.status(202).send('Updated');
-        } else {
-          res.status(204).send('approver should not be empty!!');
-        }
-      } else {
+        } else res.status(404).send('approver sholud not be empty');
+      } else if ((req.body.status === 'accepted') && (req.body.status === 'resent') && inviteType === 'invite') {
         const params = {
           status: req.body.status,
           id: req.params.id,
         };
         service.statusupdate(params, (err) => {
-          if (err) {
-            res.status(304).send(err);
-            return;
-          }
+          if (err) res.status(304).send(err);
+          res.status(202).send('Updated');
         });
-        res.status(202).send('Updated');
-      }
-    } else {
-      res.status(204).send('status should not be empty!!');
-    }
-  } else {
-    res.status(404).send('id should not be empty!!');
-  }
+      } else { res.status(404).send('check type of that id and status value!!'); }
+    } else res.status(404).send('id and status should be in correct format!!');
+  });
 }
 
-function deleteRequest(req, res) {
-  if ((req.params.id).length > 4) {
+// Deleting the id in the table when the request or invite is rejected
+
+function rejectedInviteRequest(req, res) {
+  if ((req.params.id) && (req.params.id !== null)) {
     const params = {
       id: req.params.id,
     };
     service.rejected(params, (err) => {
       if (err) {
         res.status(404).send(err);
-        return;
       }
+      res.status(200).send('deleted');
     });
-
-    res.status(200).send('deleted');
   } else {
     res.status(404).send('id should not be empty!!');
   }
 }
 
+// Getting all the invite and request lists in the table
+
+function gettingMembers(req, res) {
+  service.getMember((err, result) => {
+    if (err) {
+      res.status(404).send(err);
+    }
+    res.status(200).send(result.rows);
+  });
+}
+
+// Getting the table details for particular id
+
+function gettingMembersById(req, res) {
+  service.getMemberById(req.params, (err, result) => {
+    if (err) {
+      res.status(404).send(err);
+    }
+    res.status(200).send(result.rows);
+  });
+}
 
 module.exports = {
-  updateInvite,
+  updateInvitation,
   createInvitation,
-  deleteRequest,
+  rejectedInviteRequest,
+  gettingMembers,
+  gettingMembersById,
 };

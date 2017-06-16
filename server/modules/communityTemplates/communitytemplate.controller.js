@@ -1,10 +1,19 @@
-// const medical = require('./templates/medical');
 // List the Templates
+const templates = require('./templates');
+
 function getListOfTemplates() {
-  return ['technical', 'professional', 'medical', 'teachers', 'sports'];
+  return templates;
 }
+
+// Get the specified template data
 function getSpecifiedTemplateData(templateName) {
-  return require(`./templates/${templateName}`);
+  let result;
+  templates.forEach((element) => {
+    if (element.templateName === templateName) {
+      result = element;
+    }
+  });
+  return result;
 }
 module.exports = {
   getListOfTemplates,
