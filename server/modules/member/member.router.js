@@ -4,6 +4,17 @@ const membershipCtrl = require('./member.controller');
 
 const router = express.Router();
 
+
+/*
+ * Effective URI of the API is GET /communities/member/:username
+ *
+ * API for returning all Details of a specified user
+ *
+ * URL Parameter
+ *  - User Name: specify a specific user name, to get its details
+ *
+ */
+
 router.get('/communities/member/:username', (req, res) => {
   try {
     const userName = req.params.username;

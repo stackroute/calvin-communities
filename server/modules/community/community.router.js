@@ -10,13 +10,12 @@ const communityCtrl = require('./community.controller');
 *
 *
 */
-
 router.get('/', (req,res) =>{
 	try{
-		communityCtrl.allcommunities((err, results) => {
+		communityCtrl.getallcommunities((err, results) => {
 			if(err) {
 				console.log("Error in communityCtrl.allcommunities error: ", err);
-				return res.status(500).send({error: "Error in operation, please try later..!"});
+				return res.status(500).send({error: "Error in operation, try again later"});
 			}
 			res.send(results);
 		})
@@ -27,23 +26,43 @@ router.get('/', (req,res) =>{
 	}
 })
 
-// router.post('/', (req, res) => {
-// 	try {
-// 	let communityData = req.body;
-// 	controller.addcommunity(communityData)
-// 	.then(() => { res.status('201').send({ message: 'Community created.' }); })
-// 	.catch(() => { res.status('500').send({ message: `an error occurred` }); });
-// 	} catch(err) {
-// 		res.status('500').send({ message: 'Wrong Data Inputs' });
-// 	}
-// });
 
+/**
+* Put For specific communities, 
+* URI is: /api/v1/ community
+* PUT REQUEST
+*
+*
+*/
+router.post('/', (req,res) => {
+	try{
+		communityCtrl.addcommunity(req.body, (err,results) => {
+			if(err){
+				console.log("Error in communityCtrl.postcommunity error: ", err);
+				return res.status(500).send({error: "Error in operation, try again later"});
+			}
+			res.status(201).send({ message: 'Community created.' });
+		})
+	} 
+	catch(err){
+		res.status(500).send({ message: `an error occurred` });
+	}
+})
+
+
+/**
+* Get For specific communities, 
+* URI is: /api/v1/:domain community
+* GET REQUEST
+*
+*
+*/
 router.get('/:domain', (req,res) =>{
 	try{
-		communityCtrl.getcommunity((err, results) => {
+		communityCtrl.getcommunity( req.params.domain, (err, results) => {
 			if(err) {
-				console.log("Error in communityCtrl.allcommunities error: ", err);
-				return res.status(500).send({error: "Error in operation, please try later..!"});
+				console.log("Error in communityCtrl.getcommunity error: ", err);
+				return res.status(500).send({error: "Error in operation, try again later"});
 			}
 			res.send(results);
 		})
@@ -54,14 +73,21 @@ router.get('/:domain', (req,res) =>{
 	}
 })
 
-// router.patch('/:id', (req,res) => {
-// 	try{
-// 	controller.updatecommunity(req)
-// 	.then(() => { res.status('202').send({ message: `Community updated.` }); })
-// 	.catch(() => { res.status('500').send({ message: `an error occurred` }); });
-// 	} catch(err) {
-// 			res.status('500').send({ message: 'Wrong Data Inputs' });
-// 	}
-// });
+router.patch('/:domain', (req,res) => {
+	try{
+		communityCtrl.updatecommunity(req.params.domain, req.body, (err, results) => {
+			if(err) {
+				console.log("Error in communityCtrl.updatecommunity error:", err);
+				return res.status(500).send({error: "Error in Operation, try again later"})
+
+			}
+			res.status(202).send({message: "Community Updated"});
+		})
+
+	} catch(err) {
+		console.log("Unexpected error in patching community ", err);
+		res.status(500).send({ error: `an error occurred` });
+	}
+})
 
 module.exports = router;

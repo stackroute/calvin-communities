@@ -2,14 +2,14 @@ require('body-parser');
 
 const communityServ = require('./community.service');
 // function for getting all communities data
-function allcommunities(done) {
+function getallcommunities(done) {
   communityServ.getallcommunities(done);
 }
 
 // to add a new community, with all possible checks
-function addcommunity(community) {
-  return new Promise(function(resolve, reject){
-     if (
+function addcommunity(community, done) {
+    
+   if (
     community.domain === undefined ||
     community.name === undefined ||
     community.owner === undefined ||
@@ -23,60 +23,42 @@ function addcommunity(community) {
     !community.tags ||
     community.tags.length === 0 ||
     community.status !== ('Active' || 'Inactive')
-    ) { 
-      reject('Input validation error'); 
-    }
+    ) done(err); 
 
-    return service.addcommunity(community).then((result) => { resolve(result); }, (err) => { reject(err); } );
-  })
+    const param = [community.domain, community.name,
+    community.status, community.template, community.tags,
+    community.createdby, community.description,
+    community.avatar, community.poster, community.roles,
+    community.createdby, community.createdby];
+
+     communityServ.addcommunity(param, done);
+
 }
-
-
-// function addcommunity(community, done) {
-//     ifd(community.domain === undefined ||
-//     community.name === undefined ||
-//     community.owner === undefined ||
-//     community.template === undefined ||
-//     community.tags === undefined ||
-//     community.status === undefined ||
-//     !community.domain ||
-//     !community.name ||
-//     !community.owner ||
-//     !community.template ||
-//     !community.tags ||
-//     community.tags.length === 0 ||
-//     community.status !== ('Active' || 'Inactive')
-//     ) { 
-//       done('Input validation error', undefined); 
-//     }
-
-//     // service.addcommunity(community).then((result) => { done(undefined, result); }, (err) => { done(err); } ).catch(err){ done(err) };
-
-//     service.addcommunity(community, done);
-// }
-
 
 // get data for a specific community
-function getcommunity(domainName) {
-  return service.getcommunity(domainName)
+function getcommunity(domainName, done) {
+   communityServ.getcommunity(domainName, done);
 }
 // update details of a particular community
-function updatecommunity(community) {
+function updatecommunity(domainName, community, done) {
+
   if (
     community.tags === undefined ||
     community.tags.length === 0 ||
     community.status !== ('Active' || 'Inactive') ||
     community.updatedby === undefined ||
     !community.updatedby
-    ) { return; }
+    ) { done(err) }; 
+    const param = [community.name, community.description, community.status,
+    community.tags, community.updatedby, domainName];
 
-  return service.updatecommunity(community.params.id, community.body)
+  communityServ.updatecommunity(param, done);
   
 }
 
 
 module.exports = {
-  allcommunities,
+  getallcommunities,
   addcommunity,
   getcommunity,
   updatecommunity,
