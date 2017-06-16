@@ -1,65 +1,88 @@
-// require('chai').should();
+const chai = require('chai').should();
+const assert = chai.assert;
+const expect = chai.expect;
+const app = require('../../app');
+const request = require('supertest');
+const templates = require('./templates');
+// console.log(templates.templateName);
 
-// const app = require('../../app');
-// const request = require('supertest');
-// const technical = require('./templates/technical');
-// const medical = require('./templates/medical');
-// const professional = require('./templates/professional');
-// const sports = require('./templates/sports');
-// const teachers = require('./templates/teachers');
+const surgeon = {
+    templateName: 'surgeon',
+    purpose: 'Medical',
+    description: 'This template will provides you the required tools and roles to create a surgeon community',
+    tools: [{
+      Id: 100,
+      Name: 'Digital Healthcare',
+      Description: 'connecting verified and credentialed physicians from countries around the world.',
+    },
+    {
+      Id: 200,
+      Name: 'WeMedUp',
+      Description: 'connecting verified and credentialed physicians from countries around the world.',
+    },
+    {
+      Id: 500,
+      Name: 'sermo',
+      Description: 'connecting verified and credentialed physicians from countries around the world.',
+    }],
+    roles: ['Admin', 'Moderator', 'Member'],
+  };
+describe('/templates', () => {
+  it(' should retrieve specified template data ', (done) => {
+    request(app)
+      .get('/community/templates/surgeon')
+      .end((err, res) => {
+        if (err) { done(err); return; }
+        templates.filter((element) => {          
+           if(element.templateName == surgeon)
+          // expect(res.body).to.deep.equal(element.templateName);
+           res.body.should.deep.equal(element);
+         });
+         done();
+      });
+  });
 
-// describe('/templates', () => {
-//   it('it should retrieve specified template data for technical', (done) => {
-//     request(app)
-//       .get('/community/templates/technical')
-//       .end((err, res) => {
-//         if (err) { done(err); return; }
-//         res.body.should.deep.equal(technical);
-//         done();
-//       });
-//   });
-//   it('it should retrieve specified template data for medical', (done) => {
-//     request(app)
-//       .get('/community/templates/medical')
-//       .end((err, res) => {
-//         if (err) { done(err); return; }
-//         res.body.should.deep.equal(medical);
-//         done();
-//       });
-//   });
-//   it('it should retrieve specified template data for professional', (done) => {
-//     request(app)
-//       .get('/community/templates/professional')
-//       .end((err, res) => {
-//         if (err) { done(err); return; }
-//         res.body.should.deep.equal(professional);
-//         done();
-//       });
-//   });
-//   it('it should retrieve specified template data for sports', (done) => {
-//     request(app)
-//       .get('/community/templates/sports')
-//       .end((err, res) => {
-//         if (err) { done(err); return; }
-//         res.body.should.deep.equal(sports);
-//         done();
-//       });
-//   });
-//   it('it should retrieve specified template data for teachers', (done) => {
-//     request(app)
-//       .get('/community/templates/teachers')
-//       .end((err, res) => {
-//         if (err) { done(err); return; }
-//         res.body.should.deep.equal(teachers);
-//         done();
-//       });
-//   });
-//   it('the template is not existed', (done) => {
-//     request(app)
-//       .get('/community/templates/')
-//       .end((err, res) => {
-//         if (err) { done(err); return; }
-//         res.status.should.be.equal(404);
-//       });
-//   });
-// });
+  it('the specified template does not existed', (done) => {
+    request(app)
+      .get('/community/templates/travel')
+      .end((err, res) => {
+        if (err) { done(err); return; }
+        res.status.should.be.equal(404);
+        done();
+      });
+  });
+  it('list of templates are equal', (done) => {
+    request(app)
+      .get('/community/templates')
+      .end((err, res) => {
+        if (err) { done(err); return; }
+        res.body.should.deep.equal(templates);
+        res.status.should.equal(200);
+        done();
+      });
+  });
+  it('Display the tools for the templates', (done) => {
+    request(app)
+      .get('/community/templates')
+      .end((err, res) => {
+        if (err) { done(err); return; }
+        templates.filter((element) => {
+        let tools = element.tools;
+        // expect(tools).should.be.equal()
+        res.status.should.be.equal(200);
+        })
+        done();
+      });
+  });
+  it('roles should be array', (done) => {
+     request(app)
+      .get('/community/templates')
+      .end((err, res) => {
+        if (err) { done(err); return; }
+        templates.forEach((element) => {
+             let roles =element.roles;
+            expect(element.roles).toBe(roles, 'Roles should be a string');
+        });
+      });
+  });
+});
