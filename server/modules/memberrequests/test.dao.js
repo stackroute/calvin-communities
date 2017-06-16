@@ -53,7 +53,7 @@ const emptyapprover = {
   approver: '',
 };
 
-const value = {
+const valueforrequest = {
   status: 'approved',
   approver: 'harish',
 };
@@ -84,7 +84,6 @@ module.exports = {
   emptyapprover,
   value,
   checkinvitetype,
-
   getvalues,
 
 };
