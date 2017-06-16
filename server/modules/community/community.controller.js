@@ -8,8 +8,8 @@ function allcommunities(done) {
 
 // to add a new community, with all possible checks
 function addcommunity(community) {
-  return new Promise(function(resolve, reject){
-     if (
+  return new Promise((resolve, reject) => {
+    if (
     community.domain === undefined ||
     community.name === undefined ||
     community.owner === undefined ||
@@ -23,12 +23,12 @@ function addcommunity(community) {
     !community.tags ||
     community.tags.length === 0 ||
     community.status !== ('Active' || 'Inactive')
-    ) { 
-      reject('Input validation error'); 
+    ) {
+      reject('Input validation error');
     }
 
-    return service.addcommunity(community).then((result) => { resolve(result); }, (err) => { reject(err); } );
-  })
+    return service.addcommunity(community).then((result) => { resolve(result); }, (err) => { reject(err); });
+  });
 }
 
 
@@ -46,8 +46,8 @@ function addcommunity(community) {
 //     !community.tags ||
 //     community.tags.length === 0 ||
 //     community.status !== ('Active' || 'Inactive')
-//     ) { 
-//       done('Input validation error', undefined); 
+//     ) {
+//       done('Input validation error', undefined);
 //     }
 
 //     // service.addcommunity(community).then((result) => { done(undefined, result); }, (err) => { done(err); } ).catch(err){ done(err) };
@@ -58,7 +58,7 @@ function addcommunity(community) {
 
 // get data for a specific community
 function getcommunity(domainName) {
-  return service.getcommunity(domainName)
+  return service.getcommunity(domainName);
 }
 // update details of a particular community
 function updatecommunity(community) {
@@ -70,8 +70,7 @@ function updatecommunity(community) {
     !community.updatedby
     ) { return; }
 
-  return service.updatecommunity(community.params.id, community.body)
-  
+  return service.updatecommunity(community.params.id, community.body);
 }
 
 

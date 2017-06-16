@@ -126,7 +126,7 @@ function modifyRoleOfMemberFromCommunity(req, res) {
     };
     service.modifyRoleOfMemberFromCommunity(params, (err) => {
       if (err) {
-        res.status(404).send(err); 
+        res.status(404).send(err);
       }
       res.status(202).send('Updated');
     });
@@ -134,7 +134,6 @@ function modifyRoleOfMemberFromCommunity(req, res) {
     res.status(204).send('username and domain should not be empty');
   }
 }
-
 
 
 // const params = {

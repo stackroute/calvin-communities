@@ -49,11 +49,11 @@ function deleteParticularMemberFromCommunity(params, callback) {
 function modifyRoleOfMemberFromCommunity(params, callback) {
   const query = (`update membership set role = '${params.role}' where domain = '${params.domain}' AND username ='${params.username}' IF EXISTS `);
   client.execute(query, (err, data) => {
-   let a = data.rows[0];
-   console.log(a);
-   let b = a.
-    callback(err, data.rows)});
-
+    const a = data.rows[0];
+    console.log(a);
+    const b = a
+    .callback(err, data.rows);
+  });
 }
 
 // function deleteMemberDetail(data, callback) {

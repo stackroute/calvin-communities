@@ -1,7 +1,7 @@
 const model = require('cassandra-driver');
 const connectionString = require('../../config');
 
-const COMMUNITY_ROLE_TABLE = "communityroles";
+const COMMUNITY_ROLE_TABLE = 'communityroles';
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],
@@ -13,7 +13,7 @@ function getCommunityRoles(domainName, done) {
   const query = `SELECT role, actions FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName}'`;// SORT BY domainname, role`;
 
   return client.execute(query, (err, results) => {
-    if(!err) {
+    if (!err) {
       done(err, results.rows);
     } else {
       done(err, undefined);
@@ -21,7 +21,7 @@ function getCommunityRoles(domainName, done) {
   });
 }
 
-/*function getcommunityrole(callback) {
+/* function getcommunityrole(callback) {
   const query = ('select * from communityroles');
   return client.execute(query, (err, result) => {
     callback(err, result);
@@ -45,8 +45,8 @@ function patchcommunityrole(data, value, callback) {
 }*/
 
 module.exports = {
-  getCommunityRoles
-  /*getcommunityrole,
+  getCommunityRoles,
+  /* getcommunityrole,
   postcommunityrole,
-  patchcommunityrole*/ };
+patchcommunityrole*/ };
 

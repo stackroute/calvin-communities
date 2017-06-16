@@ -12,11 +12,10 @@ const client = new model.Client({
 
 // service fetching all community details and returning a promise
 function getallcommunities(done) {
-  const query = `select * from communities`;
- return client.execute(query, (err, results) => {
-    if(err) done(err, undefined);
+  const query = 'select * from communities';
+  return client.execute(query, (err, results) => {
+    if (err) done(err, undefined);
     done(err, results.rows);
-    
   });
 }
 
@@ -30,7 +29,7 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(n
     com.body.createdby, com.body.description,
     com.body.avatar, com.body.poster, com.body.roles,
     com.body.createdby, com.body.createdby];
-  return client.execute(query, param)
+  return client.execute(query, param);
 }
 
 // service for get specific community details from DB

@@ -4,7 +4,7 @@ function getCommunityRoles(domainName, done) {
   communityRoleService.getCommunityRoles(domainName, done);
 }
 
-/*function getcommunityrole(req, res) {
+/* function getcommunityrole(req, res) {
   try {
     service.getcommunityrole((err, result) => {
       if (err) {
@@ -61,8 +61,8 @@ function patchcommunityrole(req, res) {
 }*/
 
 module.exports = {
-  getCommunityRoles
-  /*getcommunityrole,
+  getCommunityRoles,
+  /* getcommunityrole,
   postcommunityrole,
   patchcommunityrole,*/
 };

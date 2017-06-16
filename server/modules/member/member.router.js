@@ -54,7 +54,6 @@ router.delete('/community/:domain', (req, res) => {
 });
 
 
-
 router.delete('/community/:domain/member/:username', (req, res) => {
   try {
     controller.deleteParticularMemberFromCommunity(req, res);

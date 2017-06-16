@@ -2,30 +2,28 @@ const router = require('express').Router();
 const communityCtrl = require('./community.controller');
 
 
-
 /**
-* Get For all communities, 
+* Get For all communities,
 * URI is: /api/v1/community
 * GET REQUEST
 *
 *
 */
 
-router.get('/', (req,res) =>{
-	try{
-		communityCtrl.allcommunities((err, results) => {
-			if(err) {
-				console.log("Error in communityCtrl.allcommunities error: ", err);
-				return res.status(500).send({error: "Error in operation, please try later..!"});
-			}
-			res.send(results);
-		})
-
-	} catch(err) {
-		console.log("Unexpected error in fetching communities ", err);
-		res.status(500).send({error: "Unexpected error occurred, try again later"});
-	}
-})
+router.get('/', (req, res) => {
+  try {
+    communityCtrl.allcommunities((err, results) => {
+      if (err) {
+        console.log('Error in communityCtrl.allcommunities error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+      res.send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in fetching communities ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+  }
+});
 
 // router.post('/', (req, res) => {
 // 	try {
@@ -38,21 +36,20 @@ router.get('/', (req,res) =>{
 // 	}
 // });
 
-router.get('/:domain', (req,res) =>{
-	try{
-		communityCtrl.getcommunity((err, results) => {
-			if(err) {
-				console.log("Error in communityCtrl.allcommunities error: ", err);
-				return res.status(500).send({error: "Error in operation, please try later..!"});
-			}
-			res.send(results);
-		})
-
-	} catch(err) {
-		console.log("Unexpected error in fetching communities ", err);
-		res.status(500).send({error: "Unexpected error occurred, try again later"});
-	}
-})
+router.get('/:domain', (req, res) => {
+  try {
+    communityCtrl.getcommunity((err, results) => {
+      if (err) {
+        console.log('Error in communityCtrl.allcommunities error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+      res.send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in fetching communities ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+  }
+});
 
 // router.patch('/:id', (req,res) => {
 // 	try{
