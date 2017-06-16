@@ -6,13 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-
-
     "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint ",
 	"lint": "./node_modules/.bin/eslint *.js server/modules/**/*.js",
-
-
-
     "e2e": "ng e2e",
     "serve": "concurrently \"ng build --watch\" \"nodemon bin/www\""
   },
@@ -27,9 +22,7 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "body-parser": "^1.17.2",
-
     "chai": "^4.0.2",
-
     "cassandra-driver": "^3.2.2",
     "core-js": "^2.4.1",
     "express": "^4.15.3",
