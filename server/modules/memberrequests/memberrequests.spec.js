@@ -70,11 +70,10 @@ describe('/get data from database', () => {
   it('should get data', (done) => {
     request(app)
     .get('/api/membership/lists')
-    .end((err, res) => {
-      service.getMember((err, result) => {
-        if (err) { done(err); return; }
-        if ((result) => { res.body.should.deep.equal(result.rows); }) { done(); }
-      });
+    .end((errors, res) => {
+      service.getMember((er, results) => {
+        if (er) { done(errors); return; }
+        if ((results) => { res.body.should.deep.equal(results.rows); }) { done(); }
     });
   });
 });
@@ -118,4 +117,4 @@ describe('/get data from database with :id', () => {
 //         done();
 //       });
 //   });
-// });
+

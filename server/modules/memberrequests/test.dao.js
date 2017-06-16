@@ -85,4 +85,6 @@ module.exports = {
   value,
   checkinvitetype,
 
+  getvalues,
+
 };
