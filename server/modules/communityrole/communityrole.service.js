@@ -12,7 +12,19 @@ const client = new model.Client({
 function getCommunityRoles(domainName, done) {
   const query = `SELECT role, actions FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName}'`;// SORT BY domainname, role`;
 
-  return client.execute(query, (err, results) => {
+ return client.execute(query, (err, results) => {
+    if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
+}
+
+function postCommunityRoles(postedData, done) {
+  const query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES ( ? , ? , ? , ? )`;// SORT BY domainname, role`;
+  console.log("Inside post method");
+  return client.execute(query, postedData, { hints: ['text', 'text', 'map', 'text'] }, (err, results) => {
     if(!err) {
       done(err, results.rows);
     } else {
@@ -45,8 +57,8 @@ function patchcommunityrole(data, value, callback) {
 }*/
 
 module.exports = {
-  getCommunityRoles
+  getCommunityRoles,
+  postCommunityRoles
   /*getcommunityrole,
   postcommunityrole,
   patchcommunityrole*/ };
-

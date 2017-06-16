@@ -9,7 +9,7 @@ router.use('/tools', require('../../modules/tools/'));
 router.use('/counter', require('../../modules/communitiescounter/'));
 
 
-router.use('/', 	require('../../modules/member/'));
+router.use('/membership', 	require('../../modules/member/'));
 
 
 router.use('/communityrole', require('../../modules/communityrole/'));
