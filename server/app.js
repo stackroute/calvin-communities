@@ -12,7 +12,7 @@ const members = require('./modules/members/index');
 const tools = require('./modules/tools/index');
 const invitation = require('./modules/memberrequests');
 const counter = require('./modules/communities_counter/index');
-const communityrole = reqire('./modules/communityrole/index')
+const communityrole = require('./modules/communityrole/index')
 
 console.log('Hosting static path ', clientPath);
 
