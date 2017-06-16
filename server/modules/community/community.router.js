@@ -12,5 +12,7 @@ router.post('/', controller.addcommunity);
 
 router.get('/:id', controller.getcommunity);
 
+router.patch('/:id', controller.updatecommunity);
+
 
 module.exports = router;

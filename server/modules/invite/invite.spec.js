@@ -9,19 +9,19 @@ describe('/invitation ', () => {
   const Inviting = {
     email: 'marie@gmail.com',
     type: 'invite',
-    status: 'rejected',
+    status: 'invitesent',
     domain: 'engine',
     approver: 'mohan',
   };
-  const updatestatus = { status: 'sent' };
+  const updatestatus = { status: 'accepted' };
 
   it('Test PATCH method for updating status', (done) => {
     request(app)
-      .patch('/api/membership/action/daf6757f06284cb6bd200e1b0828b31b')
+      .patch('/api/membership/action/645545ba35be4d2db8039867f908837a')
       .send(updatestatus)
       .set('Accept', 'application/json')
       .end((err, res) => {
-        res.status.should.be.equal(200);
+        res.status.should.be.equal(202);
         done();
       });
   });
@@ -39,7 +39,7 @@ describe('/invitation ', () => {
 
   it('Test Delete method for rejecting', (done) => {
     request(app)
-      .delete('/api/membership/rejected/921604397d134c7184cbcaef3299e549')
+      .delete('/api/membership/rejected/61f3fbebfed846319e69e9d7fbe88f47')
       .send()
       .set('Accept', 'application/json')
       .end((err, res) => {
