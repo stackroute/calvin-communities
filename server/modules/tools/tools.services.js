@@ -5,6 +5,8 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../config');
 
+const COMMUNITY_TOOL_TABLE = "tools";
+
 // Connecting to cassandra
 
 const client = new model.Client({
@@ -15,26 +17,34 @@ const client = new model.Client({
 
 // Query to select all values from tools table
 
-function getTools(callback) {
-  const query = ('SELECT * from tools');
-  return client.execute(query, (err, result) => {
-    callback(err, result);
+function getTools(domainName,done) {
+  const query = (`SELECT toolid, action, activityevents from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}';`);
+  return client.execute(query, (err, results) => {
+    if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
   });
 }
 
 // Inserting into tools table
 
-function addTools(data, callback) {
-  const query = (`insert into tools (domain,toolid,actions,activityevents) values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
-  return client.execute(query, (err, result) => {
-    callback(err, result);
+function addTools(data, done) {
+  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
+ return client.execute(query, (err, results) => {
+  if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
   });
 }
 
 // Updating tools action and events
 
 function updateTools(data, value, callback) {
-  const query = (`UPDATE tools SET actions=actions+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}' IF EXISTS`);
+  const query = (`UPDATE tools SET action=action+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}'`);
   return client.execute(query, (err, result) => {
     callback(err, result);
   });
@@ -43,7 +53,7 @@ function updateTools(data, value, callback) {
 // Deleting action
 
 function deleteAction(value, callback) {
-  const query = (`DELETE actions['${value.name}'] FROM tools where domain='${value.domain}' and toolid='${value.tool}' IF EXISTS`);
+  const query = (`DELETE action['${value.name}'] FROM tools where domain='${value.domain}' and toolid='${value.tool}' IF EXISTS`);
   return client.execute(query, (err, result) => {
     callback(err, result);
   });

@@ -91,20 +91,58 @@ describe('/get data from database with :id', () => {
   });
 });
 
+//updated
+describe('/update data in database, no data given', () => {
+  it('should give error on patch data in database as no status values is given', (done) => {
+    request(app)
+    .post('/api/membership/action')
+    .send(values.checkrequesttype)
+    .end((err, res) => {
+      if (err) { done(err); return; }
+      res.body.should.deep.equal(values.wrongdata);
+      done();
+    });
+  });
+});
 
-// //updated
-// describe('/update data in database, no data given', () => {
-//   it('should give error on patch data in database as no status values is given', (done) => {
-//     request(app)
-//     .post('/api/membership/action')
-//     .send(values.checkrequesttype)
-//     .end((err, res) => {
-//       if (err) { done(err); return; }
-//       res.body.should.deep.equal(values.wrongdata);
-//       done();
-//     });
-//   });
-// });
+describe('/update data in database, no data given', () => {
+  it('should give error on patch data in database as no status values is given', (done) => {
+    request(app)
+    .post('/api/membership/action')
+    .send(values.emptyapprover)
+    .end((err, res) => {
+      if (err) { done(err); return; }
+      res.body.should.deep.equal(values.wrongdata);
+      done();
+    });
+  });
+});
+
+describe('/update data in database, no data given', () => {
+  it('should give error on patch data in database as no status values is given', (done) => {
+    request(app)
+    .post('/api/membership/action')
+    .send(values.valueforrequest)
+    .end((err, res) => {
+      if (err) { done(err); return; }
+      res.body.should.deep.equal(values.wrongdata);
+      done();
+    });
+  });
+});
+
+describe('/update data in database, no data given', () => {
+  it('should give error on patch data in database as no status values is given', (done) => {
+    request(app)
+    .post('/api/membership/action')
+    .send(values.checkinvitetype)
+    .end((err, res) => {
+      if (err) { done(err); return; }
+      res.body.should.deep.equal(values.wrongdata);
+      done();
+    });
+  });
+});
 
 
 //   it('Test Delete method for rejecting', (done) => {

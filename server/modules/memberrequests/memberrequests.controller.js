@@ -5,7 +5,7 @@ const statusstring = [
   'approved', 'invitesent', 'accepted', 'requested',
 ];
 
-// Inviting the values into the table for both request and invite
+/* // Inviting the values into the table for both request and invite
 
 function createInvitation(req, res) {
   let flag = false;
@@ -113,23 +113,52 @@ function gettingMembers(req, res) {
     }
     res.status(200).send(result.rows);
   });
-}
+} */
 
 // Getting the table details for particular id
 
-function gettingMembersById(req, res) {
-  service.getMemberById(req.params, (err, result) => {
-    if (err) {
-      res.status(404).send(err);
-    }
-    res.status(200).send(result.rows);
-  });
+function gettingValuesById(id , done) {
+  service.gettingValuesById(id , done);
 }
 
+
+
+function InsertData(values,done){
+  let flag = false;
+  if ((values.email) && (values.domain)) {
+    if (values.email !== null && values.domain !== null) {
+      statusstring.forEach((a) => {
+        if (values.status.includes(a)) {
+          flag = true;
+        }
+      });
+    }
+  }
+
+  if (flag) {
+    const params = {
+      email: values.email,
+      domain: values.domain,
+      status: values.status,
+      type: values.type,
+      approver: values.approver,
+      id: model.types.Uuid.random().toString().split('-').join(''),
+    };
+
+    service.InsertData(params , done); 
+  } else {
+    res.status(404).send('enter proper value !!');
+  }
+}
+  
 module.exports = {
-  updateInvitation,
-  createInvitation,
-  rejectedInviteRequest,
-  gettingMembers,
-  gettingMembersById,
+  // updateInvitation,
+  // createInvitation,
+  // rejectedInviteRequest,
+  // gettingMembers,
+  // gettingMembersById,
+gettingValuesById,
+InsertData
+
 };
+

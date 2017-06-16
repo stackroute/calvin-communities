@@ -1,16 +1,23 @@
-const communityRoleService = require('./communityrole.service');
 
-function getCommunityRoles(domainName, done) {
-  communityRoleService.getCommunityRoles(domainName, done);
-}
+const service = require('./communityrole.service');
 
-/*function getcommunityrole(req, res) {
+function getcommunityrole(req, res) {
   try {
     service.getcommunityrole((err, result) => {
+
       if (err) {
         res.status(404).send(err);
         return;
       }
+
+      if (err)		{
+        res.status(404).send(err);
+        return;
+      }
+
+
+      console.log(result.rows);
+
       res.send(result.rows);
     });
   } catch (err) {
@@ -24,20 +31,21 @@ function postcommunityrole(req, res) {
       if (req.body.role) {
         if (req.body.domain !== null && req.body.role !== null) {
           service.postcommunityrole(req.body, (err) => {
-            if (err) {
+      if(!err){
               res.status(404).send(err);
               return;
             }
 
             res.status(201).send('post added');
           });
-        } else {
+
+        }		else {
           res.send('Please don`t send null values');
         }
-      } else {
+      }		else		{
         res.send('role value was passed as null');
       }
-    } else {
+    }	else	{
       res.send('domain was passed as null');
     }
   } catch (err) {
@@ -48,7 +56,8 @@ function postcommunityrole(req, res) {
 function patchcommunityrole(req, res) {
   try {
     service.patchcommunityrole(req.body, req.params, (err) => {
-      if (err) {
+
+      if (err){	
         res.status(404).send(err);
         return;
       }
@@ -58,11 +67,10 @@ function patchcommunityrole(req, res) {
   } catch (err) {
     res.send({ error: 'Unexpected error from Patch' });
   }
-}*/
+}
 
 module.exports = {
-  getCommunityRoles
-  /*getcommunityrole,
+  getcommunityrole,
   postcommunityrole,
-  patchcommunityrole,*/
+  patchcommunityrole,
 };
