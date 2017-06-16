@@ -1,31 +1,21 @@
 
 /* ---------------------CONTROLLER----------------------*/
 
-const service = require('./tools.services'); //
+const communityToolService = require('./tools.services'); //
 
 // Function for Getting tools
 
-function getTools() {
-    service.getTools((err, result) => {
-      return result;
-});
+function getTools(domainName, done) {
+  communityToolService.getTools(domainName, done);
+
 }
 
 // Function for Posting tools
 
-function postTools(req, res) {
-    if (req.body.domain) {
-      if (req.body.id) {
-        if (req.body.domain !== null && req.body.id !== null) {
-          service.addTools(req.body, (err) => {
-            if (err) {
-              return "error occured";
-            }
-            return "new tool added";
-          });
-        } else {
-          return "NULL value added";
-        }
+function postTools(dataFromBody,done) {
+    if (dataFromBody.domain && dataFromBody.id) {
+      if (dataFromBody.domain!==null && dataFromBody.id!=null) {
+          communityToolService.addTools(dataFromBody, done); 
       } else {
         return 'please fill out all fields!!';
       }
@@ -39,9 +29,9 @@ function postTools(req, res) {
 function modifyTool(req, res) {
     service.updateTools(req.body, req.params, (err) => {
       if (err) {
-        return "error occured";
+        return res.send( "error occured");
       }
-      return "Tool Updated";
+      return res.send("Tool Updated");
     });
   }
 
