@@ -1,8 +1,7 @@
 const model = require('cassandra-driver');
 
 const connectionString = require('../../config');
-
-// app.use(require('body-parser').json());
+const Invite_Request_Table = "invite_request";
 
 
 const client = new model.Client({
@@ -11,13 +10,15 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-// Query for insert
+  // Query for insert
 
-function insert(data, callback) {
+function InsertData(data, done) {
   const query = (`insert into invite_request (id,email,domain,type,status,approver) values('${data.id}','${data.email}','${data.domain}','${data.type}','${data.status}','${data.approver}')`);
-  client.execute(query, err => callback(err));
+  client.execute(query, err => done(err));
 }
 
+
+/*
 // Query for Update status for type request
 
 function update(data, callback) {
@@ -47,25 +48,32 @@ function getMember(callback) {
   return client.execute(query, (err, result) => {
     callback(err, result);
   });
-}
+} */
+
 
 // Query for get the values for particular id
 
-function getMemberById(data, callback) {
-  const query = (`SELECT * from invite_request where id= '${data.id}' `);
+function gettingValuesById(data, callback) {
+  const query = (`SELECT * from ${Invite_Request_Table} WHERE id= '${data.id}' `); 
+
   return client.execute(query, (err, result) => {
-    callback(err, result);
+    if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
   });
 }
 
 
 module.exports = {
-  insert,
+ /* insert,
   update,
   statusupdate,
   rejected,
   getMember,
-  getMemberById,
-
+  getMemberById,*/
+gettingValuesById,
+InsertData
 };
 
