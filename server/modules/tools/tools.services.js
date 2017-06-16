@@ -34,7 +34,6 @@ function addTools(data, callback) {
 // Updating tools action and events
 
 function updateTools(data, value, callback) {
-  console.log(data.action);
   const query = (`UPDATE tools SET actions=actions+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}' IF EXISTS`);
   return client.execute(query, (err, result) => {
     callback(err, result);

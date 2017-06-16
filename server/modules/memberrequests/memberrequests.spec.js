@@ -74,7 +74,6 @@ describe('/get data from database', () => {
       service.getMember((er, results) => {
         if (er) { done(errors); return; }
         if ((results) => { res.body.should.deep.equal(results.rows); }) { done(); }
-      });
     });
   });
 });
@@ -118,4 +117,4 @@ describe('/get data from database with :id', () => {
 //         done();
 //       });
 //   });
-// });
+
