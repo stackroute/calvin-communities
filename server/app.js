@@ -14,6 +14,7 @@ const invitation = require('./modules/memberrequests');
 const counter = require('./modules/communities_counter/index');
 const communityrole = reqire('./modules/communityrole/index');
 
+
 console.log('Hosting static path ', clientPath);
 
 app.use(express.static(clientPath));
