@@ -26,15 +26,14 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
-app.use('/api/community', community );
+app.use('/api/community', community);
 
 
-
-app.use('/api/invitation',require('./modules/memberrequests'));
+app.use('/api/invitation', require('./modules/memberrequests'));
 
 
 app.use('/api/tools', tools);
-app.use('/api/counter',require('./modules/communities_counter/index'));
+app.use('/api/counter', require('./modules/communities_counter/index'));
 
 app.use((req, res) => {
   res.status(404).send({ error: 'Resource not found' });

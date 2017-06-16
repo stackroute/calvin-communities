@@ -4,10 +4,10 @@ const app = require('../../app');
 
 const request = require('supertest');
 const values = require('./test.dao');
-const service = require ('./memberrequests.service')
+const service = require('./memberrequests.service');
 
 
-  // email is null 
+  // email is null
 describe('/post data in database, no email data', () => {
   it('should give error on post data in database as no email values is given', (done) => {
     request(app)
@@ -20,7 +20,7 @@ describe('/post data in database, no email data', () => {
     });
   });
 });
- 
+
 // domain is null
 describe('/post data in database, no domain data', () => {
   it('should give error on post data in database as no domain values is given', (done) => {
@@ -35,7 +35,7 @@ describe('/post data in database, no domain data', () => {
   });
 });
 
-// wrong value in status 
+// wrong value in status
 
 describe('/post data in database, no data given', () => {
   it('should give error on post data in database as no domain values is given', (done) => {
@@ -50,7 +50,7 @@ describe('/post data in database, no data given', () => {
   });
 });
 
-//created 
+// created
 describe('/post data in database', () => {
   it('post method for insert values into the data', (done) => {
     request(app)
@@ -70,16 +70,13 @@ describe('/get data from database', () => {
   it('should get data', (done) => {
     request(app)
     .get('/api/membership/lists')
-    .end((err, res) => {
-      
-      service.getMember((err,result)=>{
-        if(err) { done(err); return}
-        if((result) => { res.body.should.deep.equal(result.rows); })
-
-      done();
+    .end((errors, res) => {
+      service.getMember((er, results) => {
+        if (er) { done(errors); return; }
+        if ((results) => { res.body.should.deep.equal(results.rows); }) { done(); }
+      });
     });
   });
-});
 });
 
 
@@ -89,17 +86,14 @@ describe('/get data from database with :id', () => {
     request(app)
     .get(`/api/membership/${values.getvalues.id}`)
     .end((err, res) => {
-     
-        if(err) { done(err); return}
-        if((result) => { res.body.should.deep.equal(result.rows); })
-
-      done();
+      if (err) { done(err); return; }
+      if ((result) => { res.body.should.deep.equal(result.rows); }) { done(); }
     });
   });
 });
 
 
-// //updated 
+// //updated
 // describe('/update data in database, no data given', () => {
 //   it('should give error on patch data in database as no status values is given', (done) => {
 //     request(app)
@@ -112,7 +106,6 @@ describe('/get data from database with :id', () => {
 //     });
 //   });
 // });
-
 
 
 //   it('Test Delete method for rejecting', (done) => {
