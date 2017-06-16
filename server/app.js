@@ -12,10 +12,6 @@ const members = require('./modules/members/index');
 const tools = require('./modules/tools/index');
 
 
-const communities_counter('./modules/communities_counter/index');
-
-
-
 console.log('Hosting static path ', clientPath);
 
 app.use(express.static(clientPath));
@@ -30,8 +26,6 @@ app.get('/users', (req, res) => {
   res.send({ msg: 'welcomes users' });
 });
 
-
-
 app.use('/api/community', community );
 
 
@@ -40,7 +34,7 @@ app.use('/api/invitation',require('./modules/memberrequests'));
 
 
 app.use('/api/tools', tools);
-app.use('/api/counter',commmunities_counter);
+app.use('/api/counter',require('./modules/communities_counter/index'));
 
 app.use((req, res) => {
   res.status(404).send({ error: 'Resource not found' });
