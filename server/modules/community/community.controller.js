@@ -4,54 +4,76 @@ require('body-parser');
 
 const service = require('./community.service');
 // function for getting all communities data
-function allcommunities(req, res) {
-  service.getallcommunities()
-  .then((result) => { res.status('200').send(result.rows); })
-  .catch((error) => { res.status('404').send({ message: `an error occurred${error}` }); });
+function allcommunities() {
+  return service.getallcommunities()
 }
 
 // to add a new community, with all possible checks
-function addcommunity(req, res) {
-  if (
-    req.body.domain === undefined ||
-    req.body.name === undefined ||
-    req.body.owner === undefined ||
-    req.body.template === undefined ||
-    req.body.tags === undefined ||
-    req.body.status === undefined ||
-    !req.body.domain ||
-    !req.body.name ||
-    !req.body.owner ||
-    !req.body.template ||
-    !req.body.tags ||
-    req.body.tags.length === 0 ||
-    req.body.status !== ('Active' || 'Inactive')
-    ) { res.status('401').send({ message: 'Wrong Data Inputs' }); return; }
+function addcommunity(community) {
+  return new Promise(function(resolve, reject){
+     if (
+    community.domain === undefined ||
+    community.name === undefined ||
+    community.owner === undefined ||
+    community.template === undefined ||
+    community.tags === undefined ||
+    community.status === undefined ||
+    !community.domain ||
+    !community.name ||
+    !community.owner ||
+    !community.template ||
+    !community.tags ||
+    community.tags.length === 0 ||
+    community.status !== ('Active' || 'Inactive')
+    ) { 
+      reject('Input validation error'); 
+    }
 
-  service.addcommunity(req)
-  .then(() => { res.status('201').send({ message: 'Community created.' }); })
-  .catch((error) => { res.status('404').send({ message: `an error occurred${error}` }); });
+    return service.addcommunity(community).then((result) => { resolve(result); }, (err) => { reject(err); } );
+  })
 }
+
+
+function addcommunity(community, done) {
+    ifd(community.domain === undefined ||
+    community.name === undefined ||
+    community.owner === undefined ||
+    community.template === undefined ||
+    community.tags === undefined ||
+    community.status === undefined ||
+    !community.domain ||
+    !community.name ||
+    !community.owner ||
+    !community.template ||
+    !community.tags ||
+    community.tags.length === 0 ||
+    community.status !== ('Active' || 'Inactive')
+    ) { 
+      done('Input validation error', undefined); 
+    }
+
+    // service.addcommunity(community).then((result) => { done(undefined, result); }, (err) => { done(err); } ).catch(err){ done(err) };
+
+    service.addcommunity(community, done);
+}
+
 
 // get data for a specific community
-function getcommunity(req, res) {
-  service.getcommunity(req.params.id)
-  .then((result) => { res.status('200').send(result.rows); })
-  .catch((error) => { res.status('404').send({ message: `an error occurred${error}` }); });
+function getcommunity(id) {
+  return service.getcommunity(id)
 }
 // update details of a particular community
-function updatecommunity(req, res) {
+function updatecommunity(community) {
   if (
-    req.body.tags === undefined ||
-    req.body.tags.length === 0 ||
-    req.body.status !== ('Active' || 'Inactive') ||
-    req.body.updatedby === undefined ||
-    !req.body.updatedby
-    ) { res.status('401').send({ message: 'Wrong Data Inputs' }); return; }
+    community.tags === undefined ||
+    community.tags.length === 0 ||
+    community.status !== ('Active' || 'Inactive') ||
+    community.updatedby === undefined ||
+    !community.updatedby
+    ) { return; }
 
-  service.updatecommunity(req.params.id, req.body)
-  .then(() => { res.status('202').send({ message: 'Community updated.' }); })
-  .catch((error) => { res.status('404').send({ message: `an error occurred${error}` }); });
+  return service.updatecommunity(community.params.id, community.body)
+  
 }
 
 
