@@ -36,5 +36,30 @@ router.get('/:domainname', function(req, res){
 
 router.patch('/:domain/:role', controller.patchcommunityrole);
 */
+/*
+ * Effective URI of the API is POST /
+ *
+ * API for posting domain, role, toolid, actions
+ *
+ * URL Parameter
+ *  - Domain Name: just a simple uri is enough to post its roles
+ *
+ */
+router.post('/', function(req, res){
+	try{
+		communityRoleCtrl.postCommunityRoles(req.body, (err, results) => {
+			if(err) {
+				console.log("Error in communityRoleCtrl.postCommunityRoles error: ", err);
+				return res.status(500).send({error: "Error in operation, please try later..!"});
+			}
+
+			res.send("Updated");
+		});
+
+	} catch (err) {
+		console.log("Unexpected error in posting community details ", err);
+		res.status(500).send({error: "Unexpected error occurred, please try again...!"});
+	}
+});
 
 module.exports = router;

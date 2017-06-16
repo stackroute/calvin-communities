@@ -21,6 +21,18 @@ function getCommunityRoles(domainName, done) {
   });
 }
 
+function postCommunityRoles(postedData, done) {
+  const query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES ( ? , ? , ? , ? )`;// SORT BY domainname, role`;
+  console.log("Inside post method");
+  return client.execute(query, postedData, { hints: ['text', 'text', 'map', 'text'] }, (err, results) => {
+    if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
+}
+
 /*function getcommunityrole(callback) {
   const query = ('select * from communityroles');
   return client.execute(query, (err, result) => {
@@ -45,7 +57,8 @@ function patchcommunityrole(data, value, callback) {
 }*/
 
 module.exports = {
-  getCommunityRoles
+  getCommunityRoles,
+  postCommunityRoles
   /*getcommunityrole,
   postcommunityrole,
   patchcommunityrole*/ };
