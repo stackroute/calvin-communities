@@ -1,51 +1,103 @@
-const express = require('express');
+const router = require('express').Router();
+const communityCtrl = require('./community.controller');
 
-require('body-parser');
 
-const controller = require('./community.controller');
 
-const router = express.Router();
+/**
+* Get For all communities,
+* URI is: /api/v1/community
+* GET REQUEST
+*
+*
+*/
 
-router.get('/', (req,res) =>{ 
-	try {
-	controller.allcommunities()
-	.then((result) => { res.status('200').send(result.rows); })
-	.catch(() => { res.status('404').send({ message: `an error occurred` }); });
-	} catch(err){
-		res.status('404').send({ message: `an error occurred` });
-	}
+
+router.get('/', (req, res) => {
+  try {
+    communityCtrl.allcommunities((err, results) => {
+      if (err) {
+        console.log('Error in communityCtrl.allcommunities error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+      res.send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in fetching communities ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+  }
 });
 
+
+/**
+ * POST For specific communities, 
+ * URI is: /api/v1/ community
+ * POST REQUEST
+ *
+ *
+ */
 router.post('/', (req, res) => {
-	try {
-	let communityData = req.body;
-	controller.addcommunity(communityData)
-	.then(() => { res.status('201').send({ message: 'Community created.' }); })
-	.catch(() => { res.status('500').send({ message: `an error occurred` }); });
-	} catch(err) {
-		res.status('500').send({ message: 'Wrong Data Inputs' });
-	}
-});
+    try {
 
-router.get('/:id', (req,res) => {
-	try {
-	controller.getcommunity(req.params.id)
-	.then((result) => { res.status('200').send(result.rows); })
-	.catch(() => { res.status('500').send({ message: `an error occurred` }) });
-	} catch(err) {
-		res.status('500').send({ message: `an error occurred` });
-	}
-});
+        communityCtrl.addcommunity(req.body, (err, results) => {
+            if (err) {
+                console.log("Error in communityCtrl.postcommunity error: ", err);
+                return res.status(500).send({ error: "Error in operation, try again later" });
+            }
+            res.status(201).send({ message: 'Community created.' });
+        })
+    } catch (err) {
+        console.log("Unexpected error in patching community ", err);
+        res.status(500).send({ message: `an error occurred` });
+    }
+})
 
-router.patch('/:id', (req,res) => {
-	try{
-	controller.updatecommunity(req)
-	.then(() => { res.status('202').send({ message: `Community updated.` }); })
-	.catch(() => { res.status('500').send({ message: `an error occurred` }); });
-	} catch(err) {
-			res.status('500').send({ message: 'Wrong Data Inputs' });
-	}
-});
 
+/**
+ * Get For specific communities, 
+ * URI is: /api/v1/:domain community
+ * GET REQUEST
+ *
+ *
+ */
+router.get('/:domain', (req, res) => {
+    try {
+        communityCtrl.getcommunity(req.params.domain, (err, results) => {
+            if (err) {
+                console.log("Error in communityCtrl.getcommunity error: ", err);
+                return res.status(500).send({ error: "Error in operation, try again later" });
+            }
+            res.send(results);
+        })
+
+    } catch (err) {
+        console.log("Unexpected error in fetching communities ", err);
+        res.status(500).send({ error: "Unexpected error occurred, try again later" });
+    }
+})
+
+
+/**
+ * PATCH For specific communities, 
+ * URI is: /api/v1/ community
+ * PATCH REQUEST
+ *
+ *
+ */
+router.patch('/:domain', (req, res) => {
+    try {
+        communityCtrl.updatecommunity(req.params.domain, req.body, (err, results) => {
+            if (err) {
+                console.log("Error in communityCtrl.updatecommunity error:", err);
+                return res.status(500).send({ error: "Error in Operation, try again later" })
+
+            }
+            res.status(202).send({ message: "Community Updated" });
+        })
+
+    } catch (err) {
+        console.log("Unexpected error in patching community ", err);
+        res.status(500).send({ error: `an error occurred` });
+    }
+})
 
 module.exports = router;
