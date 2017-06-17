@@ -44,14 +44,14 @@ router.get('/:id', function(req, res) {
 router.post('/send', function(req, res) {
     try {
 
-        values = req.body
-        console.log(req.body)
+        values = req.body;
+        
         controller.InsertData(values, (err) => {
             if (err) {
                 console.log("Error in controller.InsertData error: ", err);
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
             }
-            res.send("inserted")
+            res.send("inserted");
         });
     } catch (err) {
         console.log("Unexpected error in inserting values ", err);
@@ -78,8 +78,8 @@ router.post('/send', function(req, res) {
 
 router.patch('/action/:id', function(req, res) {
     try {
-        id = req.params.id
-        bodyData = req.body
+        id = req.params.id;
+        bodyData = req.body;
         controller.updateStatus(id, bodyData, (err) => {
             if (err) {
                 console.log("Error in controller.updateStatus error: ", err);
@@ -109,7 +109,7 @@ router.patch('/action/:id', function(req, res) {
 
 router.delete('/rejected/:id', (req, res) => {
     try {
-        id = req.params.id
+        id = req.params.id;
         controller.rejectedInviteRequest(id, (err) => {
             if (err) {
                 console.log("Error in  controller.rejectedInviteRequest error: ", err);
