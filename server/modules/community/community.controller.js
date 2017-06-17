@@ -1,16 +1,17 @@
+require('express');
+
 require('body-parser');
 
-const communityServ = require('./community.service');
+const service = require('./community.service');
 // function for getting all communities data
-function getallcommunities(done) {
-  communityServ.getallcommunities(done);
+function allcommunities() {
+  return service.getallcommunities()
 }
 
 // to add a new community, with all possible checks
-
-function addcommunity(community, done) {
-    
-   if (
+function addcommunity(community) {
+  return new Promise(function(resolve, reject){
+     if (
     community.domain === undefined ||
     community.name === undefined ||
     community.owner === undefined ||
@@ -24,79 +25,60 @@ function addcommunity(community, done) {
     !community.tags ||
     community.tags.length === 0 ||
     community.status !== ('Active' || 'Inactive')
-    ) {
-      reject('Input validation error');
+    ) { 
+      reject('Input validation error'); 
     }
 
-    return service.addcommunity(community).then((result) => { resolve(result); }, (err) => { reject(err); });
-  });
+    return service.addcommunity(community).then((result) => { resolve(result); }, (err) => { reject(err); } );
+  })
 }
 
 
-// function addcommunity(community, done) {
-//     ifd(community.domain === undefined ||
-//     community.name === undefined ||
-//     community.owner === undefined ||
-//     community.template === undefined ||
-//     community.tags === undefined ||
-//     community.status === undefined ||
-//     !community.domain ||
-//     !community.name ||
-//     !community.owner ||
-//     !community.template ||
-//     !community.tags ||
-//     community.tags.length === 0 ||
-//     community.status !== ('Active' || 'Inactive')
-//     ) {
-//       done('Input validation error', undefined);
-//     }
-=======
-    ) done(err); 
+function addcommunity(community, done) {
+    ifd(community.domain === undefined ||
+    community.name === undefined ||
+    community.owner === undefined ||
+    community.template === undefined ||
+    community.tags === undefined ||
+    community.status === undefined ||
+    !community.domain ||
+    !community.name ||
+    !community.owner ||
+    !community.template ||
+    !community.tags ||
+    community.tags.length === 0 ||
+    community.status !== ('Active' || 'Inactive')
+    ) { 
+      done('Input validation error', undefined); 
+    }
 
-    const param = [community.domain, community.name,
-    community.status, community.template, community.tags,
-    community.createdby, community.description,
-    community.avatar, community.poster, community.roles,
-    community.createdby, community.createdby];
->>>>>>> 59ce94c9748a05d8fbdb67d3bd4f5253d1ad9a0c
+    // service.addcommunity(community).then((result) => { done(undefined, result); }, (err) => { done(err); } ).catch(err){ done(err) };
 
-     communityServ.addcommunity(param, done);
-
+    service.addcommunity(community, done);
 }
+
 
 // get data for a specific community
-<<<<<<< HEAD
-function getcommunity(domainName) {
-  return service.getcommunity(domainName);
-=======
-function getcommunity(domainName, done) {
-   communityServ.getcommunity(domainName, done);
->>>>>>> 59ce94c9748a05d8fbdb67d3bd4f5253d1ad9a0c
+function getcommunity(id) {
+  return service.getcommunity(id)
 }
 // update details of a particular community
-function updatecommunity(domainName, community, done) {
-
+function updatecommunity(community) {
   if (
     community.tags === undefined ||
     community.tags.length === 0 ||
     community.status !== ('Active' || 'Inactive') ||
     community.updatedby === undefined ||
     !community.updatedby
-    ) { done(err) }; 
-    const param = [community.name, community.description, community.status,
-    community.tags, community.updatedby, domainName];
+    ) { return; }
 
-<<<<<<< HEAD
-  return service.updatecommunity(community.params.id, community.body);
-=======
-  communityServ.updatecommunity(param, done);
+  return service.updatecommunity(community.params.id, community.body)
   
->>>>>>> 59ce94c9748a05d8fbdb67d3bd4f5253d1ad9a0c
 }
 
 
 module.exports = {
-  getallcommunities,
+  allcommunities,
   addcommunity,
   getcommunity,
   updatecommunity,
