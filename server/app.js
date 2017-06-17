@@ -1,11 +1,13 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 const clientPath = path.resolve(__dirname, '..', 'dist');
 
-app.use(require('body-parser').json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 
 const community = require('./modules/community/index');
 const members = require('./modules/members/index');
