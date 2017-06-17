@@ -10,9 +10,9 @@ const client = new model.Client({
 });
 
 function getCommunityRoles(domainName, done) {
-  const query = `SELECT role, actions FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName}'`;// SORT BY domainname, role`;
+  const query = `SELECT * FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName}'`;// SORT BY domainname, role`;
 
- return client.execute(query, (err, results) => {
+  return client.execute(query, (err, results) => { console.log(results);
     if(!err) {
       done(err, results.rows);
     } else {
@@ -25,6 +25,18 @@ function postCommunityRoles(postedData, done) {
   const query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES ( ? , ? , ? , ? )`;// SORT BY domainname, role`;
   console.log("Inside post method");
   return client.execute(query, postedData, { hints: ['text', 'text', 'map', 'text'] }, (err, results) => {
+    if(!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
+}
+
+function patchCommunityRoles(values, done) {
+  const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ?, toolid = ? where domain = ? AND role=?`);// SORT BY domainname, role`;
+  console.log("Patch Executing ");
+  return client.execute(query, values, { hints: ['map', 'text', 'text','text'] }, (err, results) => {
     if(!err) {
       done(err, results.rows);
     } else {
@@ -58,7 +70,9 @@ function patchcommunityrole(data, value, callback) {
 
 module.exports = {
   getCommunityRoles,
-  postCommunityRoles
+  postCommunityRoles,
+  patchCommunityRoles
   /*getcommunityrole,
   postcommunityrole,
   patchcommunityrole*/ };
+
