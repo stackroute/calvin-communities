@@ -5,7 +5,7 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../../../config');
 
-const COMMUNITY_TOOL_TABLE = 'tools';
+const COMMUNITY_TOOL_TABLE = 'communitytools';
 
 // Connecting to cassandra
 

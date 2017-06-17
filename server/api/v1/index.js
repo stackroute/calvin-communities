@@ -4,7 +4,7 @@ router.use('/communities', require('./modules/community'));
 
 router.use('/memberrequests', require('./modules/memberrequests'));
 
-router.use('/tools', require('./modules/tools'));
+router.use('/communitytools', require('./modules/communitytools'));
 
 router.use('/counter', require('./modules/communitiescounter'));
 
@@ -13,5 +13,7 @@ router.use('/membership', 	require('./modules/member'));
 router.use('/communityrole', require('./modules/communityrole'));
 
 router.use('/communitytemplates', require('./modules/communitytemplates'));
+
+router.use('/tools', require('./modules/tools'));
 
 module.exports = router;

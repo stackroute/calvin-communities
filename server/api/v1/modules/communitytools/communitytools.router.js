@@ -6,12 +6,12 @@ const router = require('express').Router();
 const communityToolCtrl = require('./communitytools.controller');
 
 /*
- * Effective URI of the API is GET /api/tools/:domainname
+ * Effective URI of the API is GET /api/communitytools/:domainname
  *
- * API for returning all roles of a specified community
+ * API for returning all tools of a specified community
  *
  * URL Parameter
- *  - Domain Name: specify a specific domain name, to get its roles
+ *  - Domain Name: specify a specific domain name, to get its tools
  *
  */
 
