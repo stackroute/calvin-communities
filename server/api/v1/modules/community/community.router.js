@@ -14,7 +14,7 @@ const communityCtrl = require('./community.controller');
 
 router.get('/', (req, res) => {
   try {
-    communityCtrl.allcommunities((err, results) => {
+    communityCtrl.getallcommunities((err, results) => {
       if (err) {
         console.log('Error in communityCtrl.allcommunities error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
