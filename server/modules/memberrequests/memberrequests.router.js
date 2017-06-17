@@ -43,10 +43,12 @@ router.get('/:id', function(req, res) {
 
 router.post('/send', function(req, res) {
     try {
+
         values = req.body
+        console.log(req.body)
         controller.InsertData(values, (err) => {
             if (err) {
-                console.log("Error in controller.gettingValuesById error: ", err);
+                console.log("Error in controller.InsertData error: ", err);
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
             }
             res.send("inserted")
@@ -80,7 +82,7 @@ router.patch('/action/:id', function(req, res) {
         bodyData = req.body
         controller.updateStatus(id, bodyData, (err) => {
             if (err) {
-                console.log("Error in controller.updateInviteReques error: ", err);
+                console.log("Error in controller.updateStatus error: ", err);
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
             }
 

@@ -2,7 +2,7 @@ const model = require('cassandra-driver');
 const service = require('./memberrequests.service');
 
 const statusstring = [
-    'approved', 'invitesent', 'accepted', 'requested',
+    'approved', 'invitesent', 'accepted', 'requested', 'resent'
 ];
 
 
@@ -17,6 +17,7 @@ function gettingValuesById(id, done) {
 
 function InsertData(values, done) {
     let flag = false;
+    
     if ((values.email) && (values.domain)) {
         if (values.email !== null && values.domain !== null) {
             statusstring.forEach((a) => {
