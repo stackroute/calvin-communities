@@ -51,11 +51,8 @@ router.get('/member/:username/communities', (req, res) => {
       return res.send(results);
     });
   } catch (err) {
-<<<<<<< HEAD
-    console.log('Unexpected error in fetching community roles ', err);
-=======
+
     console.log('Unexpected error in communities of a member ', err);
->>>>>>> a873d50556f15307fb2d270c22ac514bacfd80da
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -81,11 +78,9 @@ router.get('/community/:domain/members', (req, res) => {
       return res.send(results);
     });
   } catch (err) {
-<<<<<<< HEAD
-    console.log('Unexpected error in fetching community roles ', err);
-=======
+
     console.log('Unexpected error in fetching members of a community...', err);
->>>>>>> a873d50556f15307fb2d270c22ac514bacfd80da
+
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -114,11 +109,9 @@ router.patch('/member/:username/community/:domain/role', (req, res) => {
       return res.send();
     });
   } catch (err) {
-<<<<<<< HEAD
-    console.log('Unexpected error in fetching community roles ', err);
-=======
+
     console.log('Unexpected error in Updating Role to a member in a community ', err);
->>>>>>> a873d50556f15307fb2d270c22ac514bacfd80da
+
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });

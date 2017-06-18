@@ -1,6 +1,7 @@
 /* ---------------------CONTROLLER----------------------*/
 
-const communityToolService = require('./communitytools.services'); //
+const communityToolService = require('./communitytools.services');
+
 
 // Function for Getting tools
 
@@ -28,7 +29,7 @@ function modifyTool(dataFromBody, dataFromURI, done) {
     communityToolService.updateTools(dataFromBody, dataFromURI, done);
 }
 
-// To delete an action from a tool
+/*// To delete an action from a tool
 
 function deleteAction(domainName, done) {
     communityToolService.deleteAction(domainName, done);
@@ -39,7 +40,7 @@ function deleteAction(domainName, done) {
 function deleteEvent(domainName, done) {
     communityToolService.deleteEvent(domainName, done);
 }
-
+*/
 // To delete a tool
 
 function deleteTool(domainName, done) {
@@ -53,6 +54,6 @@ module.exports = {
     modifyTool,
     getTools,
     postTools,
-    deleteEvent,
-    deleteAction,
+    //deleteEvent,
+    //deleteAction,
 };
