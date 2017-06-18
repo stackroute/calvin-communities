@@ -13,10 +13,10 @@ const client = new model.Client({
 // Add member to the community
 function addMemberToCommunity(params, done) {
   const query = (`INSERT INTO ${COMMUNITY_MEMBERSHIP_TABLE} (username,domain,role) values('${params.userName}','${params.domainName}','${params.role}')`);
-  return client.execute(query, err => {
-    if(err){
+  return client.execute(query, (err) => {
+    if (err) {
       done(err);
-    }else{
+    } else {
       done();
     }
   });
@@ -36,7 +36,7 @@ function getParticularMemberDetailInCommunities(userName, done) {
 
 // Get particular Community members Details
 function getParticularCommunityMemberDetails(domainName, done) {
-  const query = `SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain = '${domainName}' ALLOW FILTERING`;
+  const query = `SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain = '${domainName}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results.rows);
@@ -50,31 +50,29 @@ function getParticularCommunityMemberDetails(domainName, done) {
 // Modify role of a member in a community
 function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
   const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE} SET role = '${memberRole}' where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS `);
-  return client.execute(query, err => {
-    console.log(query);
-    if(!err){
+  return client.execute(query, (err) => {
+    if (!err) {
       done(err);
-    }else{
+    } else {
       done(err);
     }
   });
 }
 
-//Remove member from the community
+// Remove member from the community
 function removeMemberFromCommunity(params, done) {
   const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS`);
-  return client.execute(query, err => {
-    console.log(query);
-    if(!err){
+  return client.execute(query, (err) => {
+    if (!err) {
       done(err);
-    }else{
+    } else {
       done(err);
     }
   });
 }
 
 module.exports = {
-  addMemberToCommunity, 
+  addMemberToCommunity,
   getParticularMemberDetailInCommunities,
   getParticularCommunityMemberDetails,
   modifyRoleOfMemberFromCommunity,
