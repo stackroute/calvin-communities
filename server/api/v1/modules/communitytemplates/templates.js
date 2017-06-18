@@ -1,6 +1,6 @@
 module.exports = [{
   purpose: 'medical',
-  description: 'This template will provides you the required tools and roles to create a surgeon community',
+  description: 'This template will provides you the required tools and roles to create a medical community',
   tools: [{
     toolId: 'forum',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
@@ -9,22 +9,22 @@ module.exports = [{
     actions: ['postmesage', 'read', 'Likemessage'],
   }, {
     toolId: 'sermo',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit']
+    actions: ['postmesage', 'read', 'Likemessage', 'edit'],
   }],
   role_actions: [{
     role: 'admin',
     actions: [{ action: 'post', grant: 'self' },
-      { action: 'read', grant: 'self' }
-    ]
+      { action: 'read', grant: 'self' },
+    ],
   }, {
     role: 'moderator',
     actions: [{ action: 'edit', grant: 'self' },
-      { action: 'post', grant: 'self' }
-    ]
-  }]
+      { action: 'post', grant: 'self' },
+    ],
+  }],
 }, {
   purpose: 'technical',
-  description: 'This template will provides you the required tools and roles to create a Developer community',
+  description: 'This template will provides you the required tools and roles to create a technical community',
   tools: [{
     toolId: 'Stackoverflow',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
@@ -39,14 +39,14 @@ module.exports = [{
     role: 'admin',
     actions: [{ action: 'post', grant: 'self' },
       { action: 'read', grant: 'self' },
-      { action: 'delete_post', grant: 'self' }
-    ]
+      { action: 'delete_post', grant: 'self' },
+    ],
   }, {
     role: 'member',
     actions: [{ action: 'like', grant: 'self' },
-      { action: 'post', grant: 'self' }
-    ]
-  }]
+      { action: 'post', grant: 'self' },
+    ],
+  }],
 }, {
   purpose: 'Teaching',
   description: 'This template will provides you the required tools and roles to create a teachers community',
@@ -60,17 +60,17 @@ module.exports = [{
   role_actions: [{
     role: 'member',
     actions: [{ action: 'post', grant: 'self' },
-      { action: 'read', grant: 'self' }
-    ]
+      { action: 'read', grant: 'self' },
+    ],
   }, {
     role: 'moderator',
     actions: [{ action: 'edit', grant: 'self' },
-      { action: 'post', grant: 'self' }
-    ]
-  }]
+      { action: 'post', grant: 'self' },
+    ],
+  }],
 }, {
-  purpose: 'Arts',
-  description: 'This template will provides you the required tools and roles to create a artist\'s community',
+  purpose: 'arts',
+  description: 'This template will provides you the required tools and roles to create arts community',
   tools: [{
     toolId: 'theabundantartist.com',
     actions: ['postmesage', 'read', 'Likemessage'],
@@ -81,13 +81,13 @@ module.exports = [{
   role_actions: [{
     role: 'admin',
     actions: [{ action: 'post', grant: 'post_self' },
-      { action: 'read', grant: 'self' }
-    ]
+      { action: 'read', grant: 'self' },
+    ],
   }, {
     role: 'editor',
     actions: [{ action: 'edit', grant: 'self' },
       { action: 'post', grant: 'self' },
-      { action: 'read', grant: 'self' }
-    ]
-  }]
+      { action: 'read', grant: 'self' },
+    ],
+  }],
 }];

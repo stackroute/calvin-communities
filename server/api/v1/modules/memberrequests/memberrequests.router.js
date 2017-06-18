@@ -45,7 +45,7 @@ router.post('/membership', function(req, res) {
     try {
 
         values = req.body;
-        
+
         controller.InsertData(values, (err) => {
             if (err) {
                 console.log("Error in controller.InsertData error: ", err);
@@ -86,7 +86,7 @@ router.patch('/:domain/:person', function(req, res) {
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
             }
 
-            res.send("updated");
+            res.send("Updated");
         });
     } catch (err) {
         console.log("Unexpected error in updating for particular id ", err);
@@ -109,7 +109,7 @@ router.delete('/:domain/:person', (req, res) => {
     try {
         domain = req.params.domain;
         person = req.params.person;
-        controller.rejectedInviteRequest(domain,person, (err) => {
+        controller.rejectedInviteRequest(domain, person, (err) => {
             if (err) {
                 console.log("Error in  controller.rejectedInviteRequest error: ", err);
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
