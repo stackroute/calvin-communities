@@ -3,29 +3,29 @@ const router = require('express').Router();
 const controller = require('./memberrequests.controller');
 
 /*
- * Effective URI of the API is GET /memberrequests/:id
+ * Effective URI of the API is GET /memberrequests/:domain
  *
- * API for returning all lists of a specified id
+ * API for returning all lists of a specified domain
  *
  * URL Parameter
- *  - Id: specify a specific id, to get all its lists
+ *  - Id: specify a specific domain, to get all its lists
  *
  */
 
-router.get('/:id', function(req, res) {
+router.get('/:domain', function(req, res) {
 
     try {
-        id = req.params.id;
-        controller.gettingValuesById(id, (err, results) => {
+        domain = req.params.domain;
+        controller.gettingValuesByDomain(domain, (err, results) => {
             if (err) {
-                console.log("Error in controller.gettingValuesById error: ", err);
+                console.log("Error in controller.gettingValuesByDomain error: ", err);
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
             }
 
             res.send(results);
         });
     } catch (err) {
-        console.log("Unexpected error in fetching list for particular id ", err);
+        console.log("Unexpected error in fetching list for particular domain ", err);
         res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
     }
 
@@ -34,14 +34,14 @@ router.get('/:id', function(req, res) {
 
 
 /*
- * Effective URI of the API is POST /memberrequests/send
+ * Effective URI of the API is POST /memberrequests/membership
  *
  * API for inserting the username and domain name if invite or request occured
  *
  */
 
 
-router.post('/send', function(req, res) {
+router.post('/membership', function(req, res) {
     try {
 
         values = req.body;
@@ -66,21 +66,21 @@ router.post('/send', function(req, res) {
 
 /*
 
- * Effective URI of the API is PATCH /memberrequests/action/:id
+ * Effective URI of the API is PATCH /memberrequests/:domain/:person
  *
- * API for updating the status for a specified id
+ * API for updating the status for a specified domain and person
  *
  * URL Parameter
- *  - Id: specify a specific id, to update particular id
+ *  - Id: specify a specific domain and person, to update particular domain
  *
  */
 
 
-router.patch('/action/:id', function(req, res) {
+router.patch('/:domain/:person', function(req, res) {
     try {
-        id = req.params.id;
+        params = req.params;
         bodyData = req.body;
-        controller.updateStatus(id, bodyData, (err) => {
+        controller.updateStatus(params, bodyData, (err) => {
             if (err) {
                 console.log("Error in controller.updateStatus error: ", err);
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
@@ -95,22 +95,21 @@ router.patch('/action/:id', function(req, res) {
 
 });
 
-
-
 /*
- * Effective URI of the API is DELETE /memberrequests/rejected/:id
+ * Effective URI of the API is DELETE /memberrequests/:domain/:person
  *
- * API for delete the row in a table of a specified id
+ * API for delete the row in a table of a specified domain
  *
  * URL Parameter
- *  - Id: specify a specific id, to delete the row
+ *  - Id: specify a specific domain, to delete the row
  *
  */
 
-router.delete('/rejected/:id', (req, res) => {
+router.delete('/:domain/:person', (req, res) => {
     try {
-        id = req.params.id;
-        controller.rejectedInviteRequest(id, (err) => {
+        domain = req.params.domain;
+        person = req.params.person;
+        controller.rejectedInviteRequest(domain,person, (err) => {
             if (err) {
                 console.log("Error in  controller.rejectedInviteRequest error: ", err);
                 return res.status(500).send({ error: "Error in operation, please try later..!" });
@@ -118,7 +117,7 @@ router.delete('/rejected/:id', (req, res) => {
             res.send("Deleted");
         });
     } catch (err) {
-        console.log("Unexpected error in deleting particular id ", err);
+        console.log("Unexpected error in deleting particular domain ", err);
         res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
     }
 
