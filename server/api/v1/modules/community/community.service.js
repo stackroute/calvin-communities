@@ -22,7 +22,7 @@ const client = new model.Client({
  *
  */
 function getAllCommunities(done) {
-  const query = `select * from ${tableCommunities}`;
+  const query = `SELECT * FROM ${tableCommunities}`;
   return client.execute(query, (err, results) => {
     if (err) done(err, undefined);
     done(err, results.rows);
@@ -35,7 +35,7 @@ function getAllCommunities(done) {
  *
  */
 function getCommunity(domainname, done) {
-  const query = `select * from ${tableCommunities} where domain = ? `;
+  const query = `SELECT * FROM ${tableCommunities} WHERE domain = ? `;
   return client.execute(query, [domainname], (err, results) => {
     if (err) done(err, undefined);
     done(err, results.rows);
@@ -65,7 +65,7 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ? , dateof(
  *
  */
 function updateCommunity(param, done) {
-  const query = (`update ${tableCommunities} set name = ? , description = ?, \
+  const query = (`UPDATE ${tableCommunities} SET name = ? , description = ?, \
     visibility = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
 
   return client.execute(query, param, (err, results) => {
