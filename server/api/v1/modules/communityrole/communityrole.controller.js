@@ -14,7 +14,6 @@ function patchCommunityRoles(patchData, domainName , role, done) {
 }
 
 
-// >>>>>>> 4977c5649363ddfcf56c27bc7c4ff8355b5aa69f
 
 // function getcommunityrole(req, res) {
 //   try {
@@ -90,9 +89,7 @@ module.exports = {
   postCommunityRoles,
   patchCommunityRoles
   /*getcommunityrole,
-=======
   getcommunityrole,
->>>>>>> 4977c5649363ddfcf56c27bc7c4ff8355b5aa69f
   postcommunityrole,
   patchcommunityrole,
 };

@@ -16,28 +16,27 @@ function InsertData(data, done) {
     let length = data.person.length;
     let error;
     let res;
-    for (let i=0;i<length;i++)
-    {
-    const query = (`INSERT INTO ${Invite_Request_Table} (domain,person,member,status,type) VALUES('${data.domain}','${data.person[i]}','${data.member}','${data.status}','${data.type}')`);
-    client.execute(query, (err,result)=>{
-        error+=err
-        res+=result;
-    }); 
-}
-done(error,res);
+    for (let i = 0; i < length; i++) {
+        const query = (`INSERT INTO ${Invite_Request_Table} (domain,person,member,status,type) VALUES('${data.domain}','${data.person[i]}','${data.member}','${data.status}','${data.type}')`);
+        client.execute(query, (err, result) => {
+            error += err
+            res += result;
+        });
+    }
+    done(error, res);
 }
 
 
 // Query for delete the rejected invite or request
 
-function rejectedInviteRequest(domain,person, done) {
+function rejectedInviteRequest(domain, person, done) {
     const query = (`DELETE from ${Invite_Request_Table} WHERE domain = '${domain}' AND person = '${person}' `);
     client.execute(query, err => done(err));
 }
 
 // Query for get the values for particular domain and person
 
-function gettingValuesByDomainPerson(domain,person, done) {
+function gettingValuesByDomainPerson(domain, person, done) {
     const query = (`SELECT * FROM ${Invite_Request_Table} WHERE domain = '${domain}' AND person = '${person}' `);
     return client.execute(query, (err, result) => {
         if (!err) {
@@ -58,7 +57,8 @@ function gettingValuesByDomain(domain, done) {
         if (!err) {
             console.log(result.rows)
             done(err, result.rows);
-        } else {id
+        } else {
+            id
             done(err, undefined);
         }
     });

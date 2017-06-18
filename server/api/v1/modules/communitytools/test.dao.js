@@ -1,6 +1,6 @@
  const wrongdata = { message: 'please fill out all fields!!' }
 
-const toolcreated = { message: 'tool created.' };
+const toolcreated = { message: 'tool created' };
 
 const modified = { message : 'Tool modified'};
 

@@ -54,7 +54,7 @@ function updateTools(data, value, done) {
     });
 }
 
-// Deleting action
+/*// Deleting action
 
 function deleteAction(value, done) {
     const query = (`DELETE action['${value.name}'] FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid='${value.tool}' ;`);
@@ -79,7 +79,7 @@ function deleteEvent(value, done) {
         }
     });
 }
-
+*/
 // Deleting a row from tools table
 
 function deleteTool(value, done) {
@@ -96,8 +96,8 @@ function deleteTool(value, done) {
 
 module.exports = {
     deleteTool,
-    deleteEvent,
-    deleteAction,
+   // deleteEvent,
+   // deleteAction,
     updateTools,
     addTools,
     getTools,
