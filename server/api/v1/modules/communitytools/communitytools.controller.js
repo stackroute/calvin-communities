@@ -15,10 +15,10 @@ function postTools(dataFromBody, done) {
         if (dataFromBody.domain !== null && dataFromBody.id != null) {
             communityToolService.addTools(dataFromBody, done);
         } else {
-            return 'please fill out all fields!!';
+            done('please fill out all fields!!', undefined);
         }
     } else {
-        return 'please fill out all fields!!';
+        done('please fill out all fields!!', undefined);
     }
 }
 
