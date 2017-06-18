@@ -1,4 +1,4 @@
-/*const should = require('chai').should();
+/* const should = require('chai').should();
 
 const app = require('../../../../app');
 
