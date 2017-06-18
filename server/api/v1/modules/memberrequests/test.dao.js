@@ -1,43 +1,47 @@
-const wrongdata = { message: 'Wrong Data Inputs' };
+const wrongdata = { message: 'Error in operation, please try later..!' };
 
-const rowcreated = { message: 'Invite or request sent' };
+const rowcreated = { message: 'Created' };
 
-const modified = { message: 'Status modified' };
+const modified = { message: 'Updated' };
+
+const deleted = { message: 'deleted' };
+
+
 
 // test case for checking post method
 const data = {
     domain: 'Godrej',
     status: 'invitesent',
-    email: 'mandu@gmail.com',
+    person: ['mandu@gmail.com'],
     type: 'invite',
-    approver: 'janaki',
+    member: 'janaki',
 
 };
 
 const noemail = {
-    domain: 'Samsung',
+    domain: 'samsung',
     status: 'invitesent',
-    email: '',
+    person: [],
     type: 'invite',
-    approver: 'janaki',
+    member: 'janaki',
 
 };
 const nodomainname = {
 
     domain: '',
     status: 'invitesent',
-    email: 'pooja@gmail.com',
+    person: ['pooja@gmail.com'],
     type: 'invite',
-    approver: 'janaki',
+    member: 'janaki',
 
 };
 const statuswrong = {
 
     domain: 'samsung',
     status: 'xyz',
-    email: 'pooja@gmail.com',
+    person: ['pooja@gmail.com'],
     type: 'invite',
-    approver: 'janaki',
+    member: 'janaki',
 
 };
 
@@ -45,7 +49,7 @@ const statuswrong = {
 
 const checkrequesttype = {
     status: 'accepted',
-    approver: 'mani',
+    member: 'mani',
 };
 
 const emptyapprover = {
@@ -61,15 +65,13 @@ const checkinvitetype = {
     status: 'accepted',
 };
 
-// get values for particular id
-const getvalues = {
-    id: '465f1b8a6b0a4e85a9add0a3228f678e',
-    approver: 'ragul',
-    domain: 'microsoft',
-    email: 'janani@gmail.com',
-    status: 'approved',
-    type: 'request',
-};
+
+//delete 
+
+const deletedomain = {
+    domain : "wipro"
+}
+
 
 
 module.exports = {
@@ -83,9 +85,9 @@ module.exports = {
     statuswrong,
     checkrequesttype,
     emptyapprover,
-    value,
     checkinvitetype,
-    getvalues,
+    deletedomain,
+    deleted
 
 
 };
