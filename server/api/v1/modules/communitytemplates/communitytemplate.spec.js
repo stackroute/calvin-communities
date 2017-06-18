@@ -3,8 +3,9 @@ const app = require('../../../../app');
 const request = require('supertest');
 const templateCtrl = require('./communitytemplate.controller');
 
-describe('Retrieve the list of templates', function () {
-  it(' should retrieve the list of templates', function(done) {
+// test case for list the templates
+describe('Retrieve the list of templates', () => {
+  it(' should retrieve the list of templates', (done) => {
     request(app)
       .get('/communitytemplates')
       .end((err, res) => {
@@ -12,19 +13,17 @@ describe('Retrieve the list of templates', function () {
           done(err);
           return;
         }
-        templateCtrl.getListOfTemplates((err, result) => {
-          if (err) {
-            done(err);
-            return;
-          } { res.body.should.deep.equal(result); }
+        templateCtrl.getListOfTemplates((result) => {
+          res.body.should.deep.equal(result);
         });
         done();
       });
   });
 });
 
-describe('Retrieve the specified template data', function() {
-  it(' should retrieve specified template data ', function(done) {
+// test case for the specific template data
+describe('Retrieve the specified template data', () => {
+  it(' should retrieve specified template data ', (done) => {
     request(app)
       .get('/communitytemplates/:purpose')
       .end((err, res) => {
@@ -32,11 +31,8 @@ describe('Retrieve the specified template data', function() {
           done(err);
           return;
         }
-        templateCtrl.getSpecifiedTemplateData((err, result) => {
-          if (err) {
-            done(err);
-            return;
-          } { res.body.should.deep.equal(result); }
+        templateCtrl.getSpecifiedTemplateData((result) => {
+          res.body.should.deep.equal(result);
         });
         done();
       });
