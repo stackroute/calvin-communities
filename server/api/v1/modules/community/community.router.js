@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
   try {
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
-        console.log('Error in communityCtrl.postcommunity error: ', err);
+        console.log('Error in communityCtrl.addcommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, try again later' });
       }
       return res.status(201).send(results);
