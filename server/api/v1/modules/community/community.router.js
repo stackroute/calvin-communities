@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 
 
 /**
- * POST For specific communities, 
+ * POST For specific communities,
  * URI is: /api/v1/ community
  * POST REQUEST
  *

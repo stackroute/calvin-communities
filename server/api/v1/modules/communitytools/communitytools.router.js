@@ -8,7 +8,7 @@ const communityToolCtrl = require('./communitytools.controller');
 /*
  * Effective URI of the API is GET /api/communitytools/:domainname
  *
- * API for returning all tools of a specified community
+ * API for returning tool name,action and activity events of a specified community
  *
  * URL Parameter
  *  - Domain Name: specify a specific domain name, to get its tools
@@ -32,14 +32,23 @@ router.get('/:domainname', (req, res) => {
     }
 });
 
+/*
+ * Effective URI of the API is POST /api/communitytools/
+ *
+ * API for adding tool name,action and activity events of a specified community
+ *
+ * URL Parameter
+ *  - Domain Name: specify a specific domain name, to get its tools
+ *
+ */
+
 router.post('/', (req, res) => {
     try {
         const dataFromBody = req.body;
-        console.log(dataFromBody);
         communityToolCtrl.postTools(dataFromBody, (err, results) => {
             if (err) {
                 console.log('Error in communityToolCtrl.postTools error: ', err);
-                return res.status(500).send({ error: 'Error in operation, please try later..!' });
+                return res.status(500).send(err);
             }
 
             return res.send(results);
@@ -60,7 +69,7 @@ router.patch('/:domain/:tool', (req, res) => {
                 return res.status(500).send({ error: 'Error in operation, please try later..!' });
             }
 
-            return res.send('Updated');
+            return res.send('Tool modified');
         });
     } catch (err) {
         console.log('Unexpected error in fetching community roles ', err);
@@ -68,7 +77,7 @@ router.patch('/:domain/:tool', (req, res) => {
     }
 });
 
-router.delete('/:domain', (req, res) => {
+router.delete('/:domain/:tool', (req, res) => {
     try {
         const dataFromParams = req.params;
         communityToolCtrl.deleteTool(dataFromParams, (err, results) => {
@@ -77,7 +86,7 @@ router.delete('/:domain', (req, res) => {
                 return res.status(500).send({ error: 'Error in operation, please try later..!' });
             }
 
-            return res.send('Deleted');
+            return res.send('teleted');
         });
     } catch (err) {
         console.log('Unexpected error in fetching community roles ', err);

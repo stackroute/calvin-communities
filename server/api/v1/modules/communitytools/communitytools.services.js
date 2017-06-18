@@ -70,7 +70,7 @@ function deleteAction(value, done) {
 // Deleting events
 
 function deleteEvent(value, done) {
-    const query = (`DELETE activityevents['${value.name}'] FROM tools where domain='${value.domain}' and toolid='${value.tool}';`);
+    const query = (`DELETE activityevents['${value.name}'] FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid='${value.tool}';`);
     return client.execute(query, (err, results) => {
         if (!err) {
             done(err, results);
@@ -83,7 +83,8 @@ function deleteEvent(value, done) {
 // Deleting a row from tools table
 
 function deleteTool(value, done) {
-    const query = (`DELETE FROM tools where domain='${value.domain}'`);
+    console.log(value.domain,value.tool);
+    const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid ='${value.tool}';`);
     return client.execute(query, (err, results) => {
         if (!err) {
             done(err, results);
