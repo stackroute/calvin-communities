@@ -3,7 +3,7 @@ const app = require('../../../../app');
 const request = require('supertest');
 const templateCtrl = require('./communitytemplate.controller');
 
-describe('Retrieve the list of templates', function() {
+describe('Retrieve the list of templates', function () {
   it(' should retrieve the list of templates', function(done) {
     request(app)
       .get('/communitytemplates')
