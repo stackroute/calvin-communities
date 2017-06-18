@@ -11,7 +11,7 @@ const client = new model.Client({
 });
 
 function getcounter(domain, done) {
-  const query = `SELECT members_count FROM ${COMMUNITIES_COUNTER_TABLE} WHERE domain='${domain}'`;
+  const query = `SELECT * FROM ${COMMUNITIES_COUNTER_TABLE} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(err, result.rows);
