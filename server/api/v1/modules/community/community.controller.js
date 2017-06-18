@@ -41,9 +41,9 @@ function addCommunity(community, done) {
   const param = [
     community.domain, community.name, community.purpose,
     community.visibility, community.template, community.tags,
-    community.createdby, community.description,
+    community.owner, community.description,
     community.avatar, community.roles,
-    community.createdby, community.createdby,
+    community.owner, community.owner,
   ];
   communityServ.addCommunity(param, done);
 }
@@ -70,7 +70,7 @@ function updateCommunity(domainName, community, done) {
         community.updatedby === undefined ||
         !community.updatedby
     ) return done('Wrong Data Inputs', null);
-  const param = [community.name, community.description, community.visibility,
+  const param = [community.name, community.avatar, community.description, community.visibility,
     community.tags, community.updatedby, domainName,
   ];
   communityServ.updateCommunity(param, done);
