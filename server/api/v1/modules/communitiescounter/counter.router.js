@@ -5,7 +5,7 @@ const counterCtrl = require('./counter.controller');
 /*
  * Effective URI of the API is GET /counter/:domainname
  *
- * API for getting community stats(count) of a specified community
+ * API for getting community status(count) of a specified community
  *
  * URL Parameter
  *  - Domain Name: specify a specific domain name, to get the counter incresed
