@@ -52,7 +52,6 @@ router.get('/member/:username/communities', (req, res) => {
     });
   } catch (err) {
 
-
     console.log('Unexpected error in fetching community roles ', err);
 
     console.log('Unexpected error in communities of a member ', err);

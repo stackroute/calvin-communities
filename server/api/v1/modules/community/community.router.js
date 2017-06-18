@@ -53,7 +53,7 @@ router.post('/', (req, res) => {
 
 
 /**
- * Get For specific communities, 
+ * Get For specific communities,
  * URI is: /api/v1/:domain community
  * GET REQUEST
  *
@@ -77,7 +77,7 @@ router.get('/:domain', (req, res) => {
 
 
 /**
- * PATCH For specific communities, 
+ * PATCH For specific communities,
  * URI is: /api/v1/ community
  * PATCH REQUEST
  *

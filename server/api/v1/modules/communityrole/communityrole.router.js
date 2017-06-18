@@ -77,7 +77,7 @@ router.patch('/:domainname/:role', function(req, res){
 		let domainName = req.params.domainname;
 		let role = req.params.role;
 		let values = req.body;
-		
+
 		communityRoleCtrl.patchCommunityRoles(values, domainName , role , (err, results) => {
 			if(err) {
 				console.log("Error in communityRoleCtrl.patchCommunityRoles error: ", err);
