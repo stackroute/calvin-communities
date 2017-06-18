@@ -7,12 +7,11 @@ const templateCtrl = require('./communitytemplate.controller');
  * Effective URI of the API for all the templates is GET /communitytemplates/templates
  *
  */
-router.get('/templates', (req, res) => {
+router.get('/', (req, res) => {
   try {
     return res.send(templateCtrl.getListOfTemplates());
   } catch (err) {
-    console.log('Error occurred in getting templates ', err);
-    res.status(500)({ error: 'Unexpected internal error occurred, please try later...!' });
+    return res.status(500)({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
@@ -26,12 +25,11 @@ router.get('/templates', (req, res) => {
  *  - templatename: specify a specific template name,to get the data's
  *                  about the template
  */
-router.get('/templates/:purpose', (req, res) => {
+router.get('/:purpose', (req, res) => {
   try {
     return res.send((templateCtrl.getSpecifiedTemplateData(req.params.purpose)));
   } catch (err) {
-    console.log('Error occurred in getting specific template ', err);
-    res.status(500)({ error: 'Unexpected internal error occurred, please try later...!' });
+    return res.status(500)({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 
