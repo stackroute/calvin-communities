@@ -134,11 +134,7 @@ router.delete('/community/:domain/removemember/:username', (req, res) => {
       return res.send();
     });
   } catch (err) {
-
-    console.log('Unexpected error in fetching community roles ', err);
-
     console.log('Unexpected error in removing member from a community ', err);
-
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
