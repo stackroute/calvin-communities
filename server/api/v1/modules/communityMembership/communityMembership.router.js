@@ -111,4 +111,32 @@ router.patch('/member/:username/community/:domain/role', (req, res) => {
   }
 });
 
+/*
+ * Effective URI of the API is Delete /remove/member/:username/community/:domain/role
+ *
+ * API Deleting a Member from the Community
+ * URL Parameter
+ *  - username:  specify a specific user name and domain : specify a community to delete a member
+ *
+ */
+
+router.delete('/community/:domain/removemember/:username', (req, res) => {
+  try {
+    const params = {
+      userName: req.params.username,
+      domainName: req.params.domain,
+    };
+    membershipCtrl.removeMemberFromCommunity(params, err => {
+      if (err) {
+        console.log('Error in membershipCtrl.removeMemberFromCommunity error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+      res.send();
+    });
+  } catch (err) {
+    console.log('Unexpected error in fetching community roles ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+});
+
 module.exports = router;

@@ -39,7 +39,14 @@ function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
   }
   if(flag){
     membershipService.modifyRoleOfMemberFromCommunity(params, memberRole, done);
+  }else{
+    done('Role Should Not Be Empty....!!! ');
   }
+}
+
+//Remove member from the community
+function removeMemberFromCommunity(params, done) {
+    membershipService.removeMemberFromCommunity(params, done);
 }
 
 module.exports = {
@@ -47,4 +54,5 @@ module.exports = {
   getParticularMemberDetailInCommunities,
   getParticularCommunityMemberDetails,
   modifyRoleOfMemberFromCommunity,
+  removeMemberFromCommunity,
 };

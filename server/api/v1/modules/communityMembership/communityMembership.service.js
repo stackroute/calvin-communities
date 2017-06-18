@@ -60,9 +60,23 @@ function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
   });
 }
 
+//Remove member from the community
+function removeMemberFromCommunity(params, done) {
+  const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS`);
+  return client.execute(query, err => {
+    console.log(query);
+    if(!err){
+      done(err);
+    }else{
+      done(err);
+    }
+  });
+}
+
 module.exports = {
   addMemberToCommunity, 
   getParticularMemberDetailInCommunities,
   getParticularCommunityMemberDetails,
   modifyRoleOfMemberFromCommunity,
+  removeMemberFromCommunity,
 };
