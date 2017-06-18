@@ -51,7 +51,7 @@ router.get('/member/:username/communities', (req, res) => {
       return res.send(results);
     });
   } catch (err) {
-    console.log('Unexpected error in fetching community roles ', err);
+    console.log('Unexpected error in communities of a member ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -77,7 +77,7 @@ router.get('/community/:domain/members', (req, res) => {
       return res.send(results);
     });
   } catch (err) {
-    console.log('Unexpected error in fetching community roles ', err);
+    console.log('Unexpected error in fetching members of a community...', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -106,7 +106,7 @@ router.patch('/member/:username/community/:domain/role', (req, res) => {
       return res.send();
     });
   } catch (err) {
-    console.log('Unexpected error in fetching community roles ', err);
+    console.log('Unexpected error in Updating Role to a member in a community ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -134,7 +134,7 @@ router.delete('/community/:domain/removemember/:username', (req, res) => {
       return res.send();
     });
   } catch (err) {
-    console.log('Unexpected error in fetching community roles ', err);
+    console.log('Unexpected error in removing member from a community ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
