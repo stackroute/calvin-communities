@@ -1,5 +1,15 @@
 const communityServ = require('./community.service');
 
+const templateController = require('../communitytemplates/communitytemplate.controller');
+
+const membershipController = require('../communityMembership/communityMembership.controller');
+
+const toolsController = require('../communitytools/communitytools.controller');
+
+const roleController = require('../communityrole/communityrole.controller');
+
+const async = require('async');
+
 /**
  * Get For all communities,
  *
@@ -18,6 +28,18 @@ function getAllCommunities(done) {
  *
  *
  */
+function workflowCreation(community){
+  const members = {
+    username: community.owner,
+    domain: community.domain,
+    role: community.roles.slice(),
+  }
+  console.log(members);
+  //const templateDetails = templateController.getSpecifiedTemplateData(community.purpose);
+  //console.log(templateDetails.tools[0].actions);
+return members;
+
+}
 
 function addCommunity(community, done) {
   if (
@@ -37,15 +59,24 @@ function addCommunity(community, done) {
         community.tags.length === 0
     ) return done('Wrong Data Inputs', null);
 
+    if(community.roles.length === 0) community.roles = ['Admin'];
+  const members = workflowCreation(community);
 
   const param = [
     community.domain, community.name, community.purpose,
     community.visibility, community.template, community.tags,
-    community.createdby, community.description,
+    community.owner, community.description,
     community.avatar, community.roles,
-    community.createdby, community.createdby,
+    community.owner, community.owner,
   ];
-  communityServ.addCommunity(param, done);
+
+  async.parallel([
+  membershipController.addMemberToCommunity.bind(null, members),], function(err, result) {
+      if(err) return done(err);
+      return done(undefined, result[0]);
+  });
+  //});
+  //communityServ.addCommunity(param, done);
 }
 
 
@@ -70,7 +101,7 @@ function updateCommunity(domainName, community, done) {
         community.updatedby === undefined ||
         !community.updatedby
     ) return done('Wrong Data Inputs', null);
-  const param = [community.name, community.description, community.visibility,
+  const param = [community.name, community.avatar, community.description, community.visibility,
     community.tags, community.updatedby, domainName,
   ];
   communityServ.updateCommunity(param, done);
