@@ -17,7 +17,7 @@ const client = new model.Client({
 });
 
 
-describe('create a community ', () => {
+describe('get/ post/ patch community ', () => {
   before(() => {
     client.execute('TRUNCATE communities')
     .then(() => { })
@@ -58,7 +58,7 @@ describe('create a community ', () => {
     tags: ['here', 'new', 'tags', 'players'],
   };
   const insertmandatory = {
-    domain: 'myfirstsingle',
+    domain: 'first',
     name: 'the only app',
     purpose: 'testing',
     template: 'engineers',
