@@ -66,6 +66,7 @@ const checkinvitetype = {
 };
 
 
+
 module.exports = {
 
   wrongdata,
@@ -80,6 +81,6 @@ module.exports = {
   checkinvitetype,
   valueforrequest,
   deleted,
-
+    
 
 };

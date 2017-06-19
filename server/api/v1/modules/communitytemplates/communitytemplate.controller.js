@@ -8,23 +8,13 @@ function getListOfTemplates() {
 
 // controller for the specified template data retrieved based on purpose
 function getTemplatesOnPurpose(purpose) {
-  let purposeData;
-  templates.filter((element) => {
-    if (element.purpose === purpose) {
-      purposeData = element;
-    }
-  });
+  const purposeData = templates.filter(element => element.purpose === purpose);
   return purposeData;
 }
 
 // controller for the specified template data retrieved based on templatename
 function getTemplateOnTemplateName(templateName) {
-  let templatename;
-  templates.filter((element) => {
-    if (element.templateName === templateName) {
-      templatename = element;
-    }
-  });
+  const templatename = templates.filter(element => element.templateName === templateName);
   return templatename;
 }
 module.exports = {
