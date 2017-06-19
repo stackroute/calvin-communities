@@ -18,9 +18,7 @@ const client = new model.Client({
 
 describe('Create a community and update it', () => {
   before(() => {
-        // runs before all tests in this block
-
-    client.execute("DELETE FROM memberrequest where domain='design';");
+        // client.execute("DELETE FROM memberrequest where domain='design';");
   });
 
   it('insert a data into the table', (done) => {
@@ -34,19 +32,24 @@ describe('Create a community and update it', () => {
               type: 'request',
             })
             .then(() => {
-                // console.log(res.rows);
-              client.execute("SELECT * from memberrequest where domain='design';", (err, result) => {
-                console.log("hi"+result.rows);
+              client.execute("SELECT * from memberrequest where domain = 'design';", (err, result) => {
+                if (err) {
+                  return done(err);
+                }
+                // console.log('result.rows', result.rows[0]);
                 result.rows.length.should.be.equal(1);
-                result.rows[1].domain.should.be.equal('design');
-                result.rows[1].status.should.be.equal('requested');
-                result.rows[1].type.should.be.equal('request');
-                result.rows[1].member.should.be.equal('');
-                result.rows[1].person.should.be.equal('flower@gmail.com');
+                result.rows[0].domain.should.be.equal('design');
+                result.rows[0].status.should.be.equal('requested');
+                result.rows[0].type.should.be.equal('request');
+                result.rows[0].member.should.be.equal('');
+                result.rows[0].person.should.be.equal('flower@gmail.com');
+                return null;
               });
               return done();
             })
-            .catch(err => done(err));
+            .catch((err) => {
+              done(err);
+            });
   });
 
   it('Update a status', (done) => {
@@ -54,25 +57,30 @@ describe('Create a community and update it', () => {
             .patch('/api/v1/memberrequests/design/flower@gmail.com')
             .send({
               status: 'approved',
-              member: 'master'
+              member: 'master',
             })
             .then(() => {
-              client.execute("SELECT * from memberrequest where domain='design';", (err, result) => {
-                console.log(result.rows);
+              client.execute("SELECT * from memberrequest where domain = 'design';", (err, result) => {
+                if (err) {
+                  return done(err);
+                }
                 result.rows.length.should.be.equal(1);
-                result.rows[0].domain.should.be.equal('domain');
+                result.rows[0].domain.should.be.equal('design');
                 result.rows[0].status.should.be.equal('approved');
                 result.rows[0].type.should.be.equal('request');
                 result.rows[0].member.should.be.equal('master');
                 result.rows[0].person.should.be.equal('flower@gmail.com');
+                return null;
               });
               return done();
             })
-            .catch(err => done(err));
+            .catch((err) => {
+              done(err);
+            });
   });
 
 
   after('', () => {
-    client.execute("DELETE FROM memberrequest where domain='Godrej';");
+    client.execute("DELETE FROM memberrequest where domain='design';");
   });
 });

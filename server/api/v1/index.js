@@ -10,6 +10,8 @@ router.use('/counter', require('./modules/communitiescounter'));
 
 router.use('/membership', require('./modules/communityMembership'));
 
+router.use('/members', require('./modules/members'));
+
 router.use('/communityrole', require('./modules/communityrole'));
 
 router.use('/communitytemplates', require('./modules/communitytemplates'));
