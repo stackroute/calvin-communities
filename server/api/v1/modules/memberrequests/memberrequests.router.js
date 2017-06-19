@@ -12,24 +12,21 @@ const controller = require('./memberrequests.controller');
  *
  */
 
-router.get('/:domain', function(req, res) {
+router.get('/:domain', (req, res) => {
+  try {
+    const domain = req.params.domain;
+    controller.gettingValuesByDomain(domain, (err, results) => {
+      if (err) {
+        console.log('Error in controller.gettingValuesByDomain error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
 
-    try {
-        domain = req.params.domain;
-        controller.gettingValuesByDomain(domain, (err, results) => {
-            if (err) {
-                console.log("Error in controller.gettingValuesByDomain error: ", err);
-                return res.status(500).send({ error: "Error in operation, please try later..!" });
-            }
-
-            res.send(results);
-        });
-    } catch (err) {
-        console.log("Unexpected error in fetching list for particular domain ", err);
-        res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
-    }
-
-
+      return res.send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in fetching list for particular domain ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
 });
 
 
@@ -41,27 +38,22 @@ router.get('/:domain', function(req, res) {
  */
 
 
-router.post('/membership', function(req, res) {
-    try {
+router.post('/membership', (req, res) => {
+  try {
+    const values = req.body;
 
-        values = req.body;
-
-        controller.InsertData(values, (err) => {
-            if (err) {
-                console.log("Error in controller.InsertData error: ", err);
-                return res.status(500).send({ error: "Error in operation, please try later..!" });
-            }
-            res.send("inserted");
-        });
-    } catch (err) {
-        console.log("Unexpected error in inserting values ", err);
-        res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
-
-    }
+    controller.InsertData(values, (err) => {
+      if (err) {
+        console.log('Error in controller.InsertData error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+      return res.send({ message: 'Inserted' });
+    });
+  } catch (err) {
+    console.log('Unexpected error in inserting values ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
 });
-
-
-
 
 
 /*
@@ -76,23 +68,22 @@ router.post('/membership', function(req, res) {
  */
 
 
-router.patch('/:domain/:person', function(req, res) {
-    try {
-        params = req.params;
-        bodyData = req.body;
-        controller.updateStatus(params, bodyData, (err) => {
-            if (err) {
-                console.log("Error in controller.updateStatus error: ", err);
-                return res.status(500).send({ error: "Error in operation, please try later..!" });
-            }
+router.patch('/:domain/:person', (req, res) => {
+  try {
+    const params = req.params;
+    const bodyData = req.body;
+    controller.updateStatus(params, bodyData, (err) => {
+      if (err) {
+        console.log('Error in controller.updateStatus error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
 
-            res.send("Updated");
-        });
-    } catch (err) {
-        console.log("Unexpected error in updating for particular id ", err);
-        res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
-    }
-
+      return res.send({ message: 'Updated' });
+    });
+  } catch (err) {
+    console.log('Unexpected error in updating for particular id ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
 });
 
 /*
@@ -106,21 +97,20 @@ router.patch('/:domain/:person', function(req, res) {
  */
 
 router.delete('/:domain/:person', (req, res) => {
-    try {
-        domain = req.params.domain;
-        person = req.params.person;
-        controller.rejectedInviteRequest(domain, person, (err) => {
-            if (err) {
-                console.log("Error in  controller.rejectedInviteRequest error: ", err);
-                return res.status(500).send({ error: "Error in operation, please try later..!" });
-            }
-            res.send("Deleted");
-        });
-    } catch (err) {
-        console.log("Unexpected error in deleting particular domain ", err);
-        res.status(500).send({ error: "Unexpected error occurred, please try again...!" });
-    }
-
+  try {
+    const domain = req.params.domain;
+    const person = req.params.person;
+    controller.rejectedInviteRequest(domain, person, (err) => {
+      if (err) {
+        console.log('Error in  controller.rejectedInviteRequest error: ', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+      return res.send({ message: 'Deleted' });
+    });
+  } catch (err) {
+    console.log('Unexpected error in deleting particular domain ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
 });
 
 module.exports = router;
