@@ -2,6 +2,10 @@
 
 const communityToolService = require('./communitytools.services');
 
+const async = require('async');
+
+const toolsService = require('../tools/tools.services');
+
 
 // Function for Getting tools
 
@@ -11,10 +15,37 @@ function getTools(domainName, done) {
 
 // Function for Posting tools
 
-function postTools(dataFromBody, done) {
+/* function postTools(dataFromBody, done) {
   if (dataFromBody.domain && dataFromBody.id) {
     if (dataFromBody.domain !== null && dataFromBody.id != null) {
-      communityToolService.addTools(dataFromBody, done);
+    async.parallel([communityToolService.addTools.bind(null, dataFromBody),
+    toolsController.modifyTool.bind(null, dataFromBody)],(err,res)=>{
+      if(!err){
+        return done('Updated');
+      }
+      return done(err);
+    })
+    } else {
+      done('please fill out all fields!!', undefined);
+    }
+  } else {
+    done('please fill out all fields!!', undefined);
+  }
+}*/
+
+
+function postTools(domainname, dataFromBody, done) {
+  if (domainname) {
+    if (domainname != null) {
+      async.parallel([
+        communityToolService.addTools.bind(null, domainname, dataFromBody),
+        toolsService.updateTools.bind(null, domainname, dataFromBody),
+      ], (err) => {
+        if (err) {
+          return done(err);
+        }
+        return done('Updated');
+      });
     } else {
       done('please fill out all fields!!', undefined);
     }
@@ -43,8 +74,21 @@ function deleteEvent(domainName, done) {
 */
 // To delete a tool
 
-function deleteTool(domainName, done) {
-  communityToolService.deleteTool(domainName, done);
+function deleteTool(domain, done) {
+        if (domain) {
+      async.parallel([
+        communityToolService.deleteTools.bind(null, domain),
+        toolsService.deleteTools.bind(null, domain),
+      ], (err) => {
+        if (err) {
+          return done(err);
+        }
+        return done('Updated');
+      });
+    } else {
+      done('please fill out all fields!!', undefined);
+    }
+
 }
 
 // Exporting the functions to be used in router

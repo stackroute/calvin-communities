@@ -23,8 +23,8 @@ function postTools(dataFromBody, done) {
   return done();
 }
 
-function modifyTool(dataFromBody, dataFromURI, done) {
-  ToolService.updateTools(dataFromBody, dataFromURI, done);
+function modifyTool(domainname, dataFromBody, done) {
+  ToolService.updateTools(domainname, dataFromBody, done);
 }
 
 // Function for deleting tools
