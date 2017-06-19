@@ -1,34 +1,35 @@
 /* ---------------------CONTROLLER----------------------*/
 
-const communityToolService = require('./communitytools.services'); //
+const communityToolService = require('./communitytools.services');
+
 
 // Function for Getting tools
 
 function getTools(domainName, done) {
-    communityToolService.getTools(domainName, done);
+  communityToolService.getTools(domainName, done);
 }
 
 // Function for Posting tools
 
 function postTools(dataFromBody, done) {
-    if (dataFromBody.domain && dataFromBody.id) {
-        if (dataFromBody.domain !== null && dataFromBody.id != null) {
-            communityToolService.addTools(dataFromBody, done);
-        } else {
-            done('please fill out all fields!!', undefined);
-        }
+  if (dataFromBody.domain && dataFromBody.id) {
+    if (dataFromBody.domain !== null && dataFromBody.id != null) {
+      communityToolService.addTools(dataFromBody, done);
     } else {
-        done('please fill out all fields!!', undefined);
+      done('please fill out all fields!!', undefined);
     }
+  } else {
+    done('please fill out all fields!!', undefined);
+  }
 }
 
 // To add actions and activity events to existing tools
 
 function modifyTool(dataFromBody, dataFromURI, done) {
-    communityToolService.updateTools(dataFromBody, dataFromURI, done);
+  communityToolService.updateTools(dataFromBody, dataFromURI, done);
 }
 
-// To delete an action from a tool
+/* // To delete an action from a tool
 
 function deleteAction(domainName, done) {
     communityToolService.deleteAction(domainName, done);
@@ -39,20 +40,20 @@ function deleteAction(domainName, done) {
 function deleteEvent(domainName, done) {
     communityToolService.deleteEvent(domainName, done);
 }
-
+*/
 // To delete a tool
 
 function deleteTool(domainName, done) {
-    communityToolService.deleteTool(domainName, done);
+  communityToolService.deleteTool(domainName, done);
 }
 
 // Exporting the functions to be used in router
 
 module.exports = {
-    deleteTool,
-    modifyTool,
-    getTools,
-    postTools,
-    deleteEvent,
-    deleteAction,
+  deleteTool,
+  modifyTool,
+  getTools,
+  postTools,
+    //deleteEvent,
+    //deleteAction,
 };

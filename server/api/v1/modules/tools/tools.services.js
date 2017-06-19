@@ -41,8 +41,32 @@ function addTools(data, done) {
     });
 }
 
+function updateTools(data, value, done) {
+    const query = (`UPDATE ${TOOL_TABLE} SET tools=tools+{'${data.tool}'} where domain='${value.domain}'`);
+    return client.execute(query, (err, results) => {
+        if (!err) {
+            done(err, results);
+        } else {
+            done(err, undefined);
+        }
+    });
+}
+
+function deleteTool(data, done) {
+    const query = (`DELETE FROM ${TOOL_TABLE} where domain='${data.domain}';`);
+    return client.execute(query, (err, results) => {
+        if (!err) {
+            done(err, results);
+        } else {
+            done(err, undefined);
+        }
+    });
+}
+
 
 module.exports = {
     addTools,
     getTools,
+    updateTools,
+    deleteTool,
 };
