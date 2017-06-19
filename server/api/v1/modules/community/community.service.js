@@ -1,16 +1,19 @@
 const model = require('cassandra-driver');
 
+const tableCommunities = 'communities';
 
 /**
  * config details from config.js
  *
  *
  */
+
 const connectionString = require('../../../../config');
+
 const client = new model.Client({
-    contactPoints: [connectionString.contact],
-    protocolOptions: { port: connectionString.port },
-    keyspace: connectionString.keyspace,
+  contactPoints: [connectionString.contact],
+  protocolOptions: { port: connectionString.port },
+  keyspace: connectionString.keyspace,
 });
 
 /**
@@ -18,32 +21,12 @@ const client = new model.Client({
  *
  *
  */
-function getallcommunities(done) {
-
-    const query = `select * from communities`;
-    return client.execute(query, (err, results) => {
-        if (err) done(err, undefined);
-        done(err, results.rows);
-
-    });
-}
-
-/**
- * POST a communities
- *
- *
- */
-function addcommunity(param, done) {
-    const query = (`INSERT INTO communities (domain, name, status, template,tags, owner, \
-description, avatar, poster, roles, createdby, createdon, updatedby, updatedon) \
-VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(now()) ) `);
-
-
-    return client.execute(query, param, (err, results) => {
-        if (err) done(err, undefined);
-        done(err, results);
-    })
-
+function getAllCommunities(done) {
+  const query = `select * from ${tableCommunities}`;
+  return client.execute(query, (err, results) => {
+    if (err) done(err, undefined);
+    done(err, results.rows);
+  });
 }
 
 /**
@@ -51,12 +34,29 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ?, dateof(n
  *
  *
  */
-function getcommunity(domainname, done) {
-    const query = `select * from communities where domain = ? `;
-    return client.execute(query, [domainname], (err, results) => {
-        if (err) done(err, undefined);
-        done(err, results.rows);
-    });
+function getCommunity(domainname, done) {
+  const query = `select * from ${tableCommunities} where domain = ? `;
+  return client.execute(query, [domainname], (err, results) => {
+    if (err) done(err, undefined);
+    done(err, results.rows);
+  });
+}
+
+/**
+ * POST a communities
+ *
+ *
+ */
+function addCommunity(param, done) {
+  query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, visibility, template,tags, owner, \
+description, avatar, roles, createdby, createdon, updatedby, updatedon) \
+VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ? , dateof(now()) ) `);
+
+
+  return client.execute(query, param, (err, results) => {
+    if (err) done(err, undefined);
+    getCommunity(param[0], done);
+  });
 }
 
 /**
@@ -64,21 +64,21 @@ function getcommunity(domainname, done) {
  *
  *
  */
-function updatecommunity(param, done) {
-    const query = (`update communities set name = ? , description = ?, \
-    status = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
+function updateCommunity(param, done) {
+  const query = (`update ${tableCommunities} set name = ? , description = ?, \
+    visibility = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
 
-    return client.execute(query, param, (err, results) => {
-        if (err) done(err, undefined);
-        done(err, results);
-    });
+  return client.execute(query, param, (err, results) => {
+    if (err) done(err, undefined);
+    getCommunity(param[5], done);
+  });
 }
 
 
 module.exports = {
-    getallcommunities,
-    addcommunity,
-    getcommunity,
-    updatecommunity,
+  getAllCommunities,
+  addCommunity,
+  getCommunity,
+  updateCommunity,
 
 };
