@@ -32,12 +32,21 @@ function workflowCreation(community){
   const members = {
     username: community.owner,
     domain: community.domain,
-    role: community.roles.slice(),
+    role: 'admin',
   }
-  console.log(members);
+  const param = [
+    community.domain, community.name, community.purpose,
+    community.visibility, community.template, community.tags,
+    community.owner, community.description,
+    community.avatar, community.roles,
+    community.owner, community.owner,
+  ];
+  let values = [];
+  values.push(param);
+  values.push(members);
   //const templateDetails = templateController.getSpecifiedTemplateData(community.purpose);
   //console.log(templateDetails.tools[0].actions);
-return members;
+return values;
 
 }
 
@@ -59,23 +68,22 @@ function addCommunity(community, done) {
         community.tags.length === 0
     ) return done('Wrong Data Inputs', null);
 
-  //const members = workflowCreation(community);
+  const values = workflowCreation(community);
 
-  const param = [
-    community.domain, community.name, community.purpose,
-    community.visibility, community.template, community.tags,
-    community.owner, community.description,
-    community.avatar, community.roles,
-    community.owner, community.owner,
-  ];
+  // const param = [
+  //   community.domain, community.name, community.purpose,
+  //   community.visibility, community.template, community.tags,
+  //   community.owner, community.description,
+  //   community.avatar, community.roles,
+  //   community.owner, community.owner,
+  // ];
 
-  //async.parallel([
- // membershipController.addMemberToCommunity.bind(null, members),], function(err, result) {
-    //  if(err) return done(err);
-//return done(undefined, result[0]);
- // });
- // //});
-  communityServ.addCommunity(param, done);
+  async.parallel([ communityServ.addCommunity.bind(null, values[0]),
+  membershipController.addMemberToCommunity.bind(null, values[1]),], function(err, result) {
+      if(err) return done(err);
+return done(undefined, result[0]);
+  });
+
 }
 
 
