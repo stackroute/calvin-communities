@@ -32,27 +32,24 @@ describe('Create a community and update it', () => {
               type: 'request',
             })
             .then(() => {
-                
               client.execute("SELECT * from memberrequest where domain = 'design';", (err, result) => {
-                if(err)
-                {
-                    return done(err);
+                if (err) {
+                  return done(err);
                 }
-                console.log("result.rows",result.rows[0]);
+                // console.log('result.rows', result.rows[0]);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('design');
                 result.rows[0].status.should.be.equal('requested');
                 result.rows[0].type.should.be.equal('request');
                 result.rows[0].member.should.be.equal('');
                 result.rows[0].person.should.be.equal('flower@gmail.com');
-                
+                return null;
               });
-             return done();
+              return done();
             })
             .catch((err) => {
-                done(err);
+              done(err);
             });
-            
   });
 
   it('Update a status', (done) => {
@@ -64,8 +61,8 @@ describe('Create a community and update it', () => {
             })
             .then(() => {
               client.execute("SELECT * from memberrequest where domain = 'design';", (err, result) => {
-                if(err){
-                    return done(err);
+                if (err) {
+                  return done(err);
                 }
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('design');
@@ -73,12 +70,12 @@ describe('Create a community and update it', () => {
                 result.rows[0].type.should.be.equal('request');
                 result.rows[0].member.should.be.equal('master');
                 result.rows[0].person.should.be.equal('flower@gmail.com');
+                return null;
               });
-              done();
+              return done();
             })
-            .catch((err) =>
-            {
-                    done(err);
+            .catch((err) => {
+              done(err);
             });
   });
 
