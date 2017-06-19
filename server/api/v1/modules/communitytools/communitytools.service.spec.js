@@ -35,7 +35,7 @@ describe('Create a community and update it', () => {
             .then(() => {
                 // console.log(res.rows);
               client.execute("SELECT * from communitytools where domain='Engineer.wipro.blr'", (err, result) => {
-                console.log(result.rows);
+                // console.log(result.rows);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Engineer.wipro.blr');
                 result.rows[0].toolid.should.be.equal('Quora');
@@ -54,7 +54,7 @@ describe('Create a community and update it', () => {
             })
             .then(() => {
               client.execute("SELECT * from communitytools where domain='Engineer.wipro.blr'", (err, result) => {
-                console.log(result.rows);
+                // console.log(result.rows);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Engineer.wipro.blr');
                 result.rows[0].toolid.should.be.equal('Quora');
