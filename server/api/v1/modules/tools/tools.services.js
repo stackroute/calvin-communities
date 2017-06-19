@@ -59,6 +59,7 @@ function updateTools(domainname, data, done) {
 
 
 function deleteTools(data, done) {
+  // console.log('dkfhjdskfj');
   const query = (`DELETE tools['${data.tool}'] FROM ${TOOL_TABLE} where domain='${data.domain}';`);
   return client.execute(query, (err, results) => {
     if (!err) {

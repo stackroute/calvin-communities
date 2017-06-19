@@ -75,20 +75,16 @@ function deleteEvent(domainName, done) {
 // To delete a tool
 
 function deleteTool(domain, done) {
-        if (domain) {
-      async.parallel([
-        communityToolService.deleteTools.bind(null, domain),
-        toolsService.deleteTools.bind(null, domain),
-      ], (err) => {
-        if (err) {
-          return done(err);
-        }
-        return done('Updated');
-      });
-    } else {
-      done('please fill out all fields!!', undefined);
+  // console.log(domain);
+  async.parallel([
+    toolsService.deleteTools.bind(null, domain),
+    communityToolService.deleteTools.bind(undefined, domain),
+  ], (err) => {
+    if (err) {
+      return done(err);
     }
-
+    return done('Deleted');
+  });
 }
 
 // Exporting the functions to be used in router

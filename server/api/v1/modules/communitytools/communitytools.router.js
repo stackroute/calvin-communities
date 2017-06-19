@@ -86,7 +86,7 @@ router.delete('/:domain/:tool', (req, res) => {
     communityToolCtrl.deleteTool(req.params, (err) => {
       if (err) {
         // console.log('Error in communityToolCtrl.postTools error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(500).send(err);
       }
 
       return res.send('deleted');

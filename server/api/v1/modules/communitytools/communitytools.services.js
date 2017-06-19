@@ -103,8 +103,7 @@ function deleteEvent(value, done) {
 // Deleting a row from tools table
 
 function deleteTools(domainname, done) {
-  console.log("vale",value);
-  const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid ='${value.tool}';`);
+  const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${domainname.domain}' and toolid ='${domainname.tool}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results);
