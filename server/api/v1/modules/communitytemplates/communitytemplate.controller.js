@@ -8,10 +8,9 @@ function getListOfTemplates() {
 
 // controller for the specified template data retrieved based on purpose
 function getTemplatesOnPurpose(purpose) {
-  // const result  = " ";
-  const purposeData = templates.filter(element => element.purpose === purpose);
-  console.log(purposeData);
-  // return purposeData;
+  const purposeData  = " ";
+  const getPurpose = purposeData + JSON.stringify(templates.filter(element => element.purpose === purpose));
+  return getPurpose;
 }
 
 // controller for the specified template data retrieved based on templatename
