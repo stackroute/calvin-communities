@@ -8,13 +8,14 @@ const templateCtrl = require('./communitytemplate.controller');
 describe('Retrieve the list of templates', function () {
   let template;
   before(function() {
-    template = {
+    template = [{
+      templateName: 'surgeon',
       purpose: 'medical',
       description: 'This template will provides you the required tools and roles to create a medical community',
       tools: [{
-       toolId: 'forum',
-       actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-     }, {
+        toolId: 'forum',
+        actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+      }, {
         toolId: 'WeMedUp',
         actions: ['postmesage', 'read', 'Likemessage'],
       }, {
@@ -22,17 +23,18 @@ describe('Retrieve the list of templates', function () {
         actions: ['postmesage', 'read', 'Likemessage', 'edit'],
       }],
       role_actions: [{
-       role: 'admin',
-       actions: [{ action: 'post', grant: 'self' },
+        role: 'admin',
+        actions: [{ action: 'post', grant: 'self' },
           { action: 'read', grant: 'self' },
         ],
-     }, {
+      }, {
         role: 'moderator',
         actions: [{ action: 'edit', grant: 'self' },
           { action: 'post', grant: 'self' },
         ],
       }],
-    }
+    }]
+  });
 
   it(' should retrieve the list of templates', function (done) {
     request(app)
@@ -51,8 +53,8 @@ describe('Retrieve the list of templates', function () {
 });
 
 // test case for the specific template data
-describe('Retrieve the specified template data', function () {
-  it(' should retrieve specified template data ', function (done) {
+describe('Retrieve the specified template data based on purpose', function () {
+  it(' should retrieve specified template data on purpose ', function (done) {
     request(app)
       .get('/api/v1/communitytemplates/:purpose')
       .end((err, res) => {
@@ -60,7 +62,25 @@ describe('Retrieve the specified template data', function () {
           done(err);
           return;
         }
-        templateCtrl.getSpecifiedTemplateData((result) => {
+        templateCtrl.getTemplatesOnPurpose((result) => {
+          res.body.should.deep.equal(result);
+        });
+        done();
+      });
+  });
+});
+
+// test case for the specific template data
+describe('Retrieve the specified template data based on template name', function () {
+  it(' should retrieve specified template data based on template name', function (done) {
+    request(app)
+      .get('/api/v1/communitytemplates/templates/:templatename')
+      .end((err, res) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        templateCtrl.getTemplateOnTemplateName((result) => {
           res.body.should.deep.equal(result);
         });
         done();
