@@ -3,40 +3,66 @@ const app = require('../../../../app');
 const request = require('supertest');
 const templateCtrl = require('./communitytemplate.controller');
 
-describe('Retrieve the list of templates', function () {
+// test case for list the templates
+
+
+describe('Retrieve the list of templates', function() {
+  let template;
+  before(function() {
+    template = {
+     purpose: 'medical',
+     description: 'This template will provides you the required tools and roles to create a medical community',
+     tools: [{
+        toolId: 'forum',
+        actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+      }, {
+        toolId: 'WeMedUp',
+        actions: ['postmesage', 'read', 'Likemessage'],
+      }, {
+        toolId: 'sermo',
+        actions: ['postmesage', 'read', 'Likemessage', 'edit'],
+      }],
+     role_actions: [{
+        role: 'admin',
+        actions: [{ action: 'post', grant: 'self' },
+          { action: 'read', grant: 'self' },
+        ],
+      }, {
+        role: 'moderator',
+        actions: [{ action: 'edit', grant: 'self' },
+          { action: 'post', grant: 'self' },
+        ],
+      }],
+   },
+  });
   it(' should retrieve the list of templates', function(done) {
     request(app)
-      .get('/communitytemplates')
+      .get('/api/v1/communitytemplates')
       .end((err, res) => {
         if (err) {
           done(err);
           return;
         }
-        templateCtrl.getListOfTemplates((err, result) => {
-          if (err) {
-            done(err);
-            return;
-          } { res.body.should.deep.equal(result); }
+        templateCtrl.getListOfTemplates((result) => {
+          res.body.should.deep.equal(result);
         });
         done();
       });
   });
 });
 
+// test case for the specific template data
 describe('Retrieve the specified template data', function() {
   it(' should retrieve specified template data ', function(done) {
     request(app)
-      .get('/communitytemplates/:purpose')
+      .get('/api/v1/communitytemplates/:purpose')
       .end((err, res) => {
         if (err) {
           done(err);
           return;
         }
-        templateCtrl.getSpecifiedTemplateData((err, result) => {
-          if (err) {
-            done(err);
-            return;
-          } { res.body.should.deep.equal(result); }
+        templateCtrl.getSpecifiedTemplateData((result) => {
+          res.body.should.deep.equal(result);
         });
         done();
       });

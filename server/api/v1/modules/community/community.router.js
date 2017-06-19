@@ -22,7 +22,11 @@ router.get('/', (req, res) => {
     });
   } catch (err) {
     console.log('Unexpected error in fetching communities ', err);
+
+    return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+
     return res.status(500).error({ error: 'Unexpected error occurred, try again later' });
+
   }
 });
 
@@ -38,6 +42,16 @@ router.post('/', (req, res) => {
   try {
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
+D
+        console.log('Error in communityCtrl.postcommunity error: ', err);
+        return res.status(500).send({ error: 'Error in operation, try again later' });
+      }
+      res.status(201).send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in adding community ', err);
+    res.status(500).send({ message: 'an error occurred' });
+
         console.log('Error in communityCtrl.addcommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, try again later' });
       }
@@ -46,6 +60,7 @@ router.post('/', (req, res) => {
   } catch (err) {
     console.log('Unexpected error in adding community ', err);
     return res.status(500).send({ message: 'an error occurred' });
+
   }
 });
 
@@ -64,12 +79,20 @@ router.get('/:domain', (req, res) => {
         console.log('Error in communityCtrl.getcommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, try again later' });
       }
+<<<<<<< HEAD
+      res.send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in fetching communities ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+=======
       if (results.length === 0) { return res.send({ message: 'this domain is available for registration' }); }
       return res.send(results);
     });
   } catch (err) {
     console.log('Unexpected error in fetching communities ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+>>>>>>> ce84c7f6f61f615fdfe6879b09384832047481c6
   }
 });
 
@@ -88,11 +111,19 @@ router.patch('/:domain', (req, res) => {
         console.log('Error in communityCtrl.updatecommunity error:', err);
         return res.status(500).send({ error: 'Error in Operation, try again later' });
       }
+<<<<<<< HEAD
+      res.status(202).send(results);
+    });
+  } catch (err) {
+    console.log('Unexpected error in patching community ', err);
+    res.status(500).send({ error: 'an error occurred' });
+=======
       return res.status(202).send(results);
     });
   } catch (err) {
     console.log('Unexpected error in patching community ', err);
     return res.status(500).send({ error: 'an error occurred' });
+>>>>>>> ce84c7f6f61f615fdfe6879b09384832047481c6
   }
 });
 

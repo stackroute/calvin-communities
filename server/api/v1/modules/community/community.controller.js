@@ -28,6 +28,7 @@ function getAllCommunities(done) {
  *
  *
  */
+
 function workflowCreation(community){
   const members = {
     username: community.owner,
@@ -40,6 +41,7 @@ function workflowCreation(community){
 return members;
 
 }
+
 
 function addCommunity(community, done) {
   if (
@@ -59,6 +61,18 @@ function addCommunity(community, done) {
         community.tags.length === 0
     ) return done('Wrong Data Inputs', null);
 
+
+
+  const param = [
+    community.domain, community.name, community.purpose,
+    community.visibility, community.template, community.tags,
+    community.createdby, community.description,
+    community.avatar, community.roles,
+    community.createdby, community.createdby,
+  ];
+  communityServ.addCommunity(param, done);
+
+
     if(community.roles.length === 0) community.roles = ['Admin'];
   const members = workflowCreation(community);
 
@@ -77,6 +91,7 @@ function addCommunity(community, done) {
   });
   //});
   //communityServ.addCommunity(param, done);
+
 }
 
 
@@ -101,7 +116,11 @@ function updateCommunity(domainName, community, done) {
         community.updatedby === undefined ||
         !community.updatedby
     ) return done('Wrong Data Inputs', null);
+
+  const param = [community.name, community.description, community.visibility,
+
   const param = [community.name, community.avatar, community.description, community.visibility,
+
     community.tags, community.updatedby, domainName,
   ];
   communityServ.updateCommunity(param, done);

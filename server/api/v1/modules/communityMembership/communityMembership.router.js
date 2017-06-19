@@ -79,7 +79,6 @@ router.get('/community/:domain/members', (req, res) => {
   } catch (err) {
 
     console.log('Unexpected error in fetching members of a community...', err);
-
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
