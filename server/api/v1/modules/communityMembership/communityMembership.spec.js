@@ -62,3 +62,44 @@ describe('Add new member to community', function() {
     client.execute(query);
   });
 });*/
+
+const should = require('chai').should();
+
+const app = require('../../../../app');
+
+const request = require('supertest');
+
+const membershipService = require('./communityMembership.service');
+
+const dataValue = require('./communityMembership.testData');
+
+describe('Add new member to community', function() {
+  it('Member added to the community', function(done) {
+    request(app)
+    .post('/community/member/role')
+    .send(dataValue.)
+    .end((err,results) => {
+      if(err){
+        return done(err);
+      }else{
+        return res.body.should.be.equal(dataValue.memberAdded);
+      }
+    });
+    return done();
+  });
+
+  it('Member not added enter roles ', function(done) {
+    request(app)
+    .post('/community/member/role')
+    .send(dataValue.)
+    .end((err,results) => {
+      if(err){
+        return done(err);
+      }else{
+        return res.body.should.be.equal(dataValue.memberDataInsufficient);
+      }
+    });
+    return done();
+  });
+
+}
