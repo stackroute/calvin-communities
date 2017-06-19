@@ -5,36 +5,36 @@ const templateCtrl = require('./communitytemplate.controller');
 
 // test case for list the templates
 
-describe('Retrieve the list of templates', function() {
+describe('Retrieve the list of templates', function () {
   let template;
   before(function() {
     template = {
-     purpose: 'medical',
-     description: 'This template will provides you the required tools and roles to create a medical community',
-     tools: [{
-        toolId: 'forum',
-        actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-      }, {
+      purpose: 'medical',
+      description: 'This template will provides you the required tools and roles to create a medical community',
+      tools: [{
+       toolId: 'forum',
+       actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+     }, {
         toolId: 'WeMedUp',
         actions: ['postmesage', 'read', 'Likemessage'],
       }, {
         toolId: 'sermo',
         actions: ['postmesage', 'read', 'Likemessage', 'edit'],
       }],
-     role_actions: [{
-        role: 'admin',
-        actions: [{ action: 'post', grant: 'self' },
+      role_actions: [{
+       role: 'admin',
+       actions: [{ action: 'post', grant: 'self' },
           { action: 'read', grant: 'self' },
         ],
-      }, {
+     }, {
         role: 'moderator',
         actions: [{ action: 'edit', grant: 'self' },
           { action: 'post', grant: 'self' },
         ],
       }],
-   }
- });
-  it(' should retrieve the list of templates', function(done) {
+    }
+
+  it(' should retrieve the list of templates', function (done) {
     request(app)
       .get('/api/v1/communitytemplates')
       .end((err, res) => {
@@ -51,8 +51,8 @@ describe('Retrieve the list of templates', function() {
 });
 
 // test case for the specific template data
-describe('Retrieve the specified template data', function() {
-  it(' should retrieve specified template data ', function(done) {
+describe('Retrieve the specified template data', function () {
+  it(' should retrieve specified template data ', function (done) {
     request(app)
       .get('/api/v1/communitytemplates/:purpose')
       .end((err, res) => {
@@ -67,4 +67,3 @@ describe('Retrieve the specified template data', function() {
       });
   });
 });
-
