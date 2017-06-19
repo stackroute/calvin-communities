@@ -2,7 +2,7 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../../../config');
 
-const COMMUNITY_MEMBERSHIP_TABLE = 'communitymembership';
+const MEMBERS_TABLE = 'members';
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],
@@ -11,8 +11,8 @@ const client = new model.Client({
 });
 
 // Add member to the community
-function addMemberToCommunity(params, done) {
-  const query = (`INSERT INTO ${COMMUNITY_MEMBERSHIP_TABLE} (username,domain,role) values('${params.userName}','${params.domainName}','${params.role}')`);
+function addedMemberToCommunity(params, done) {
+  const query = (`INSERT INTO ${MEMBERS_TABLE} (username,domain,role) values('${params.userName}','${params.domainName}','${params.role}')`);
   return client.execute(query, (err) => {
     if (err) {
       done(err);
@@ -22,10 +22,9 @@ function addMemberToCommunity(params, done) {
   });
 }
 
-
-// Get particular Community members Details
-function getParticularCommunityMemberDetails(domainName, done) {
-  const query = `SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain = '${domainName}' `;
+// Get particular member with all community details
+function getParticularMemberDetailInCommunities(userName, done) {
+  const query = `SELECT domain,role FROM ${MEMBERS_TABLE} where username = '${userName}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results.rows);
@@ -35,10 +34,9 @@ function getParticularCommunityMemberDetails(domainName, done) {
   });
 }
 
-
 // Modify role of a member in a community
 function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
-  const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE} SET role = '${memberRole}' where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS `);
+  const query = (`UPDATE ${MEMBERS_TABLE} SET role = '${memberRole}' where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS `);
   return client.execute(query, (err) => {
     if (!err) {
       done(err);
@@ -50,7 +48,7 @@ function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
 
 // Remove member from the community
 function removeMemberFromCommunity(params, done) {
-  const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS`);
+  const query = (`DELETE FROM ${MEMBERS_TABLE} where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS`);
   return client.execute(query, (err) => {
     if (!err) {
       done(err);
@@ -61,8 +59,8 @@ function removeMemberFromCommunity(params, done) {
 }
 
 module.exports = {
-  addMemberToCommunity,
-  getParticularCommunityMemberDetails,
+  addedMemberToCommunity,
+  getParticularMemberDetailInCommunities,
   modifyRoleOfMemberFromCommunity,
   removeMemberFromCommunity,
 };
