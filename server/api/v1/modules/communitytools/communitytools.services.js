@@ -10,54 +10,55 @@ const COMMUNITY_TOOL_TABLE = 'communitytools';
 // Connecting to cassandra
 
 const client = new model.Client({
-    contactPoints: [connectionString.contact],
-    protocolOptions: { port: connectionString.port },
-    keyspace: connectionString.keyspace,
+  contactPoints: [connectionString.contact],
+  protocolOptions: { port: connectionString.port },
+  keyspace: connectionString.keyspace,
 });
 
 // Query to select values from tools table
 
 function getTools(domainName, done) {
-    const query = (`SELECT toolid, action, activityevents from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' ALLOW FILTERING;`);
-    return client.execute(query, (err, results) => {
-        if (!err) {
-            done(err, results.rows);
-        } else {
-            done(err, undefined);
-        }
-    });
+  const query = (`SELECT toolid, action, activityevents from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' ALLOW FILTERING;`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
 }
 
 // Inserting into tools table
 
 function addTools(data, done) {
-    const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
-    return client.execute(query, (err, results) => {
-        if (!err) {
-            done(err, results.rows);
-        } else {
-            done(err, undefined);
-        }
-    });
+  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
 }
 
 // Updating tools action and events
 
 function updateTools(data, value, done) {
-    const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET action=action+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}'`);
-    return client.execute(query, (err, results) => {
-        if (!err) {
-            done(err, results);
-        } else {
-            done(err, undefined);
-        }
-    });
+  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET action=action+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}'`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      done(err, results);
+    } else {
+      done(err, undefined);
+    }
+  });
 }
 
-/*// Deleting action
+/* // Deleting action
 
 function deleteAction(value, done) {
-    const query = (`DELETE action['${value.name}'] FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid='${value.tool}' ;`);
+    const query = (`DELETE action['${value.name}']
+     FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid='${value.tool}' ;`);
     return client.execute(query, (err, results) => {
         if (!err) {
             done(err, results);
@@ -70,7 +71,8 @@ function deleteAction(value, done) {
 // Deleting events
 
 function deleteEvent(value, done) {
-    const query = (`DELETE activityevents['${value.name}'] FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid='${value.tool}';`);
+    const query = (`DELETE activityevents['${value.name}']
+     FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid='${value.tool}';`);
     return client.execute(query, (err, results) => {
         if (!err) {
             done(err, results);
@@ -83,22 +85,22 @@ function deleteEvent(value, done) {
 // Deleting a row from tools table
 
 function deleteTool(value, done) {
-    console.log(value.domain,value.tool);
-    const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid ='${value.tool}';`);
-    return client.execute(query, (err, results) => {
-        if (!err) {
-            done(err, results);
-        } else {
-            done(err, undefined);
-        }
-    });
+  // console.log(value.domain, value.tool);
+  const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid ='${value.tool}';`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      done(err, results);
+    } else {
+      done(err, undefined);
+    }
+  });
 }
 
 module.exports = {
-    deleteTool,
+  deleteTool,
    // deleteEvent,
    // deleteAction,
-    updateTools,
-    addTools,
-    getTools,
+  updateTools,
+  addTools,
+  getTools,
 };

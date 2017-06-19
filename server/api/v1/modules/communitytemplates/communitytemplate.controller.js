@@ -6,18 +6,20 @@ function getListOfTemplates() {
   return templates;
 }
 
-// controller for the specified template data
+// controller for the specified template data retrieved based on purpose
+function getTemplatesOnPurpose(purpose) {
+  const purposeData  = " ";
+  const getPurpose = purposeData + JSON.stringify(templates.filter(element => element.purpose === purpose));
+  return getPurpose;
+}
 
-function getSpecifiedTemplateData(purpose) {
-  let result;
-  templates.forEach((element) => {
-    if (element.purpose === purpose) {
-      result = element;
-    }
-  });
-  return result;
+// controller for the specified template data retrieved based on templatename
+function getTemplateOnTemplateName(templateName) {
+  const templatename = templates.filter(element => element.templateName === templateName);
+  return templatename;
 }
 module.exports = {
   getListOfTemplates,
-  getSpecifiedTemplateData,
+  getTemplatesOnPurpose,
+  getTemplateOnTemplateName,
 };
