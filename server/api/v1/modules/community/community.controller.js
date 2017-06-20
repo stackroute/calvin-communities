@@ -40,7 +40,7 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
     community.domain, community.name, community.purpose,
     community.visibility, community.template, community.tags,
     community.owner, community.description,
-    community.avatar, community.roles,
+    community.avatar,
     community.owner, community.owner,
   ];
 
@@ -76,7 +76,6 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
       toolId: data.toolId,
       actions: data.actions,
     }
-    console.log(rolesobject)
         roles.push(rolesobject);
 
     })
