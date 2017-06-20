@@ -1,9 +1,9 @@
 module.exports = [{
   /* template for the surgeon -- medical community*/
-  templateName: 'surgeon',
+  name: 'surgeon',
   purpose: 'medical',
   description: 'This template will provides you the required tools and roles to create a medical community',
-  tag: ['medcare', 'doctor'],
+  tags: ['medcare', 'doctor'],
   // tools available for the surgeon medical community
   tools: [{
     toolId: 'forum',
@@ -33,10 +33,10 @@ module.exports = [{
     }],
   }],
 }, { /* template for the specialists -- medical community*/
-  templateName: 'specialists',
+  name: 'specialists',
   purpose: 'medical',
   description: 'This template will provides you the required tools and roles to create a medical community',
-  tag: ['medcare', 'doctor', 'therapy'],
+  tags: ['medcare', 'doctor', 'therapy'],
   // tools available for the specialists medical community
   tools: [{
     toolId: 'forum',
@@ -66,7 +66,7 @@ module.exports = [{
     }],
   }],
 }, { /* template for the developer's -- technical community*/
-  templateName: 'developer',
+  name: 'developer',
   purpose: 'technical',
   description: 'This template will provides you the required tools and roles to create a technical community',
   tags: ['IDE', 'platform'],
@@ -99,7 +99,7 @@ module.exports = [{
     }],
   }],
 }, { /* template for the professor -- teacher's community*/
-  templateName: 'professor',
+  name: 'professor',
   purpose: 'Teaching',
   description: 'This template will provides you the required tools and roles to create a teachers community',
   tags: ['books', 'board', 'school'],
@@ -128,7 +128,7 @@ module.exports = [{
     }],
   }],
 }, { /* template for the artist -- arts community*/
-  templateName: 'artist',
+  name: 'artist',
   purpose: 'arts',
   description: 'This template will provides you the required tools and roles to create arts community',
   tags: ['sketches', 'paper', 'paint'],

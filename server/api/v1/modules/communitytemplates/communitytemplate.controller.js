@@ -7,20 +7,18 @@ function getListOfTemplates() {
 }
 
 // controller for the specified template data retrieved based on purpose
-function getTemplatesOnPurpose(purpose) {
-  const purposeData = ' ';
-  const templatesOnPurpose =
-      purposeData + JSON.stringify(templates.filter(element => element.purpose === purpose));
+function getTemplatesOfPurpose(purpose) {
+  const templatesOnPurpose = templates.filter(element => element.purpose === purpose);
   return templatesOnPurpose;
 }
 
 // controller for the specified template data retrieved based on templatename
-function getTemplateOnTemplateName(templateName) {
-  const templatename = templates.filter(element => element.templateName === templateName);
+function getTemplateOfTemplateName(name) {
+  const templatename = templates.filter(element => element.name === name);
   return templatename;
 }
 module.exports = {
   getListOfTemplates,
-  getTemplatesOnPurpose,
-  getTemplateOnTemplateName,
+  getTemplatesOfPurpose,
+  getTemplateOfTemplateName,
 };
