@@ -11,7 +11,7 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-// Query for insert
+// Query for insert the values into the row
 
 function InsertData(data, done) {
   const person = data.person;
@@ -29,7 +29,7 @@ function InsertData(data, done) {
 }
 
 
-// Query for delete the rejected invite or request
+// Query for delete the row for rejected invite or request
 
 function rejectedInviteRequest(domain, person, done) {
   const query = (`DELETE from ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);

@@ -5,14 +5,14 @@ const statusstring = [
 ];
 
 
-// Getting the table details for particular id
+// Getting the table details for particular domain
 
 function gettingValuesByDomain(domain, done) {
   service.gettingValuesByDomain(domain, done);
 }
 
 
-// Inviting the values into the table for both request and invite
+// Insert the values into the table for both request and invite
 
 function InsertData(values, done) {
   let flag = false;

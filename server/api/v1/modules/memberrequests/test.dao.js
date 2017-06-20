@@ -17,6 +17,8 @@ const data = {
 
 };
 
+// person is empty
+
 const noemail = {
   domain: 'samsung',
   status: 'invitesent',
@@ -25,6 +27,8 @@ const noemail = {
   member: 'janaki',
 
 };
+
+// domain is empty
 const nodomainname = {
 
   domain: '',
@@ -34,6 +38,8 @@ const nodomainname = {
   member: 'janaki',
 
 };
+
+// wrong value in status
 const statuswrong = {
 
   domain: 'samsung',
@@ -46,21 +52,29 @@ const statuswrong = {
 
 // test case for checking patch method
 
+// status should be approved when the type is request
+
 const checkrequesttype = {
   status: 'accepted',
   member: 'mani',
 };
+
+// member is empty
 
 const emptyapprover = {
   status: 'approved',
   member: '',
 };
 
+// correct data for status update when the type is request
+
 const valueforrequest = {
   status: 'approved',
-
   member: 'hari',
 };
+
+// correct date for status update when the type is invite
+
 const checkinvitetype = {
   status: 'accepted',
 };
