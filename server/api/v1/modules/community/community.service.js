@@ -74,11 +74,25 @@ function updateCommunity(param, done) {
   });
 }
 
+/**
+* delete a community
+*
+*
+*/
+function deleteCommunity(param, done) {
+  const query = (`DELETE * FROM ${tableCommunities} where  domain = ? `);
+  return client.execute(query, param, (err, results) => {
+    if (err) done(err, undefined);
+    done(undefined);
+  });
+}
+
 
 module.exports = {
   getAllCommunities,
   addCommunity,
   getCommunity,
   updateCommunity,
+  deleteCommunity,
 
 };

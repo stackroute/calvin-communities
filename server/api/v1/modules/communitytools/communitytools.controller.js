@@ -44,7 +44,7 @@ function postTools(dataFromBody, done) {
         if (err) {
           return done(err);
         }
-        return done('Updated');
+        return done(undefined, 'Updated');
       });
     } else {
       done('please fill out all fields!!', undefined);
