@@ -23,19 +23,13 @@ module.exports = [{
     role: 'admin',
     toolsActions: [{
       toolId: 'sermo',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }, {
       toolId: 'WeMedUp',
-      actions: [{ action: 'bookmark', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { bookmark: 'self', post: 'post_self' },
     }, {
       toolId: 'forum',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }, { /* template for the specialists -- medical community*/
@@ -62,19 +56,13 @@ module.exports = [{
     role: 'member',
     toolsActions: [{
       toolId: 'sermo',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }, {
       toolId: 'WeMedUp',
-      actions: [{ action: 'bookmark', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { bookmark: 'self', post: 'post_self' },
     }, {
       toolId: 'forum',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }, { /* template for the developer's -- technical community*/
@@ -101,19 +89,13 @@ module.exports = [{
     role: 'moderator',
     toolsActions: [{
       toolId: 'forum',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }, {
       toolId: 'scholastic.com',
-      actions: [{ action: 'bookmark', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { bookmark: 'self', post: 'post_self' },
     }, {
       toolId: 'theteacherscorner.net',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }, { /* template for the professor -- teacher's community*/
@@ -136,19 +118,13 @@ module.exports = [{
     role: 'member',
     toolsActions: [{
       toolId: 'forum',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }, {
       toolId: 'scholastic.com',
-      actions: [{ action: 'bookmark', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { bookmark: 'self', post: 'post_self' },
     }, {
       toolId: 'theteacherscorner.net',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }, { /* template for the artist -- arts community*/
@@ -171,19 +147,13 @@ module.exports = [{
     role: 'admin',
     toolsActions: [{
       toolId: 'forum',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }, {
       toolId: 'calender',
-      actions: [{ action: 'bookmark', grant: 'self' },
-        { action: 'add_event', grant: 'self' },
-      ],
+      actions: { bookmark: 'self', add_event: 'self' },
     }, {
       toolId: 'chat',
-      actions: [{ action: 'edit', grant: 'self' },
-        { action: 'post', grant: 'post_self' },
-      ],
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }];
