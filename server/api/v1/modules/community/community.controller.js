@@ -40,7 +40,7 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
     community.domain, community.name, community.purpose,
     community.visibility, community.template, community.tags,
     community.owner, community.description,
-    community.avatar, community.roles,
+    community.avatar,
     community.owner, community.owner,
   ];
 
@@ -69,20 +69,24 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
   roles = [];
   templateDetails[0].rolesActions.forEach((element) => {
     logger.debug(element);
-    let rolesobject = {
+    element.toolsActions.forEach((data) =>{
+      let rolesobject = {
       domain: community.domain,
       role: element.role,
-      toolsActions: element.toolsActions,
+      toolId: data.toolId,
+      actions: data.actions,
     }
-    roles.push(rolesobject);
+        roles.push(rolesobject);
+
+    })
   })
 
+  // returning all data in single error
   const values = [];
   values.push(com);
   values.push(members);
   values.push(tools);
   values.push(roles);
-  logger.debug(values);
   return values;
 }
 
@@ -110,6 +114,7 @@ function addCommunity(community, done) {
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
     toolsController.postTools.bind(null, values[2]),
+    roleController.postCommunityRoles.bind(null, values[3]),
      ],
     (err, result) => {
     if (err) return done(err);
