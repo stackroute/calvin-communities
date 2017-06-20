@@ -57,7 +57,7 @@ function gettingValuesByDomain(domain, done) {
 
   return client.execute(query, (err, result) => {
     if (!err) {
-      console.log(result.rows);
+      // console.log(result.rows);
       done(err, result.rows);
     } else {
       done(err, undefined);
@@ -68,15 +68,18 @@ function gettingValuesByDomain(domain, done) {
 
 // Query for Update status for type request
 
-function statusUpdateRequest(params, bodyData, done) {
-  const query = (`UPDATE ${InviteRequestTable} SET status = '${bodyData.status}',member = '${bodyData.member}' WHERE domain = '${params.domain}' AND person = '${params.person}'`);
+function statusUpdateRequest(domain, person, bodyData, done) {
+  const status = bodyData.status.toLowerCase();
+  const member = bodyData.member.toLowerCase();
+  const query = (`UPDATE ${InviteRequestTable} SET status = '${status}',member = '${member}' WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 
 // Query for update status for type invite
 
-function statusUpdateInvite(params, bodyData, done) {
-  const query = (`UPDATE ${InviteRequestTable} SET status = '${bodyData.status}' WHERE domain = '${params.domain}' AND person = '${params.person}'`);
+function statusUpdateInvite(domain, person, bodyData, done) {
+  const status = bodyData.status.toLowerCase();
+  const query = (`UPDATE ${InviteRequestTable} SET status = '${status}' WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 

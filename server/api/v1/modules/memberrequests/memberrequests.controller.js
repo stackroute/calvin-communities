@@ -8,7 +8,8 @@ const statusstring = [
 // Getting the table details for particular domain
 
 function gettingValuesByDomain(domain, done) {
-  service.gettingValuesByDomain(domain, done);
+  const domainname = domain.toLowerCase();
+  service.gettingValuesByDomain(domainname, done);
 }
 
 
@@ -16,13 +17,15 @@ function gettingValuesByDomain(domain, done) {
 
 function InsertData(values, done) {
   let flag = false;
-  if ((values.person.length > 0) && (values.domain)) {
+  if ((values.person.length) && (values.domain)) {
     if (values.domain !== null) {
-      statusstring.forEach((a) => {
-        if (values.status.includes(a)) {
-          flag = true;
-        }
-      });
+      if (values.status.toLowerCase() !== 'approved' && values.status.toLowerCase() !== 'accepted') {
+        statusstring.forEach((a) => {
+          if (values.status.toLowerCase().includes(a)) {
+            flag = true;
+          }
+        });
+      }
     }
   }
 
@@ -37,25 +40,27 @@ function InsertData(values, done) {
 
 function updateStatus(params, bodyData, done) {
   let flag = false;
-
-  service.gettingValuesByDomainPerson(params.domain, params.person, (error, result) => {
+  const domain = params.domain.toLowerCase();
+  const person = params.person.toLowerCase();
+  const status = bodyData.status.toLowerCase();
+  service.gettingValuesByDomainPerson(domain, person, (error, result) => {
     if (error) done('error in getting type for the given domain');
     const inviteType = result[0].type;
     if ((bodyData.status) && (bodyData.status !== null)) {
       statusstring.forEach((a) => {
-        if (bodyData.status.includes(a)) {
+        if (status.includes(a)) {
           flag = true;
         }
       });
     }
 
     if (flag) {
-      if ((bodyData.status === 'approved') && (inviteType === 'request')) {
+      if ((status === 'approved') && (inviteType.tolowercase() === 'request')) {
         if ((bodyData.member) && bodyData.member !== null) {
-          service.statusUpdateRequest(params, bodyData, done);
+          service.statusUpdateRequest(domain, person, bodyData, done);
         } else done('Error in operation, please try later..!');
-      } else if (((bodyData.status === 'accepted') || (bodyData.status === 'resent')) && (inviteType === 'invite')) {
-        service.statusUpdateInvite(params, bodyData, done);
+      } else if (((status === 'accepted') || (status === 'resent')) && (inviteType.toLowerCase() === 'invite')) {
+        service.statusUpdateInvite(domain, person, bodyData, done);
       } else done('Error in operation, please try later..!');
     } else done('Error in operation, please try later..!');
   });
@@ -64,8 +69,10 @@ function updateStatus(params, bodyData, done) {
 // Deleting the row in the table when the request or invite is rejected
 
 function rejectedInviteRequest(domain, person, done) {
+  const domainname = domain.toLowerCase();
+  const personname = person.toLowerCase();
   if ((domain) && (domain !== null)) {
-    service.rejectedInviteRequest(domain, person, done);
+    service.rejectedInviteRequest(domainname, personname, done);
   } else {
     done('Error in operation, please try later..!');
   }
