@@ -43,7 +43,7 @@ function getTools(domainName, done) {
 }*/
 
 
-function addTools( data, done) {
+function addTools(data, done) {
   const arr = [];
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values(?,?,?,?)`);
   data.forEach((val) => {

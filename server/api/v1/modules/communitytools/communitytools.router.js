@@ -46,7 +46,6 @@ router.get('/:domainname', (req, res) => {
 router.post('/', (req, res) => {
   try {
     const dataFromBody = req.body.tools;
-    const dominname = req.body.domain;
     communityToolCtrl.postTools(dataFromBody, (err) => {
       if (err) {
         // console.log('Error in communityToolCtrl.postTools error: ', err);

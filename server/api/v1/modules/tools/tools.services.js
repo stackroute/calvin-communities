@@ -30,7 +30,7 @@ function getTools(domainName, done) {
 
 // Inserting into tools table
 
-function updateTools( data, domainName, done) {
+function updateTools(data, domainName, done) {
   const query = (`update ${TOOL_TABLE} set tools = tools + {${data.tools}} where domain='${domainName.domain}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
@@ -41,14 +41,14 @@ function updateTools( data, domainName, done) {
   });
 }
 
-function addTools( data, done) {
+function addTools(data, done) {
   const arr = [];
   let domainname;
   data.forEach((val) => {
     arr.push(`'${val.toolId}'`);
-    domainname=val.domain;
+    domainname = val.domain;
   });
-  console.log(arr);
+  // console.log(arr);
   const query = (`insert into ${TOOL_TABLE} (domain,tools) values('${domainname}',{${arr}})`);
   return client.execute(query, (err) => {
     if (!err) {
@@ -58,8 +58,6 @@ function addTools( data, done) {
            // console.log(err);
   });
 }
-
-
 
 
 function deleteTools(data, done) {
