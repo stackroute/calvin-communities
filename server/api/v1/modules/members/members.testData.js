@@ -35,14 +35,14 @@
  };
 // wrong post
  const noUsernameValue = {
-   domain: 'wipro',
+   domain: 'Wipro',
    username: '',
    role: 'Developer',
  };
 
  // wrong post
  const noRoleValue = {
-   domain: 'wipro',
+   domain: 'Wipro',
    username: 'Keerthi',
    role: '',
  };
@@ -69,13 +69,6 @@
    role: '',
  };
 
-
-// // Remove member
-//  const deleteMember = {
-//    domain: 'Wipro',
-//    username: 'Suresh',
-//  };
-
  module.exports = {
    memberDetails1,
    memberDetails2,
@@ -87,7 +80,6 @@
    updateRoles1,
    updateRoles2,
    noRoleValueUpdate,
-   // deleteMember,
    wrongData,
    memberDetails,
    modified,

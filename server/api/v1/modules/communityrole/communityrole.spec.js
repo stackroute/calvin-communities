@@ -2,73 +2,74 @@ const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
 
-const app = require('../../app');
+const app = require('../../../../app');
 
 const request = require('supertest');
 
+const connectionString = require('../../../../config');
 
-describe(' CRUD Operations on api/communityrole ', () => {
-  const postcommunityrole = {
-    domain: 'mit',
-    role: 'developer',
-    actions: {
-      clone: '1',
-      commit: '1',
-      createrepo: '1',
-      merge: '1',
-    },
-    toolid: 'git',
-  };
+const model = require('cassandra-driver');
 
-  const patchcommunityrole = {
+const client = new model.Client({
+  contactPoints: [connectionString.contact],
+  protocolOptions: { port: connectionString.port },
+  keyspace: connectionString.keyspace,
+});
 
-    actions: {
-      clone: '10',
-      commit: '1',
-      createrepo: '10',
-      merge: '1',
-    },
-  };
+const postdata = {
+  domain: 'lawyerpostsss',
+  role: 'lawyerpostsss',
+  actions: {
+    hellos: 'hellos_everyone_patch',
+    likes: 'like_selfs_patch',
+  },
+  toolid: 'quora',
+};
+const patchdata = {
+  actions: {
+    hellos_patch: 'patch_done_finally',
+    likes_patch: 'patch_done_finally',
+  },
+  toolid: 'quora_patch',
 
-  it('Test PATCH method for community role', (done) => {
+};
+describe('Create a communityrole and update it', () => {
+  before(() => {});
+  it('Create a new communityrole', (done) => {
     request(app)
-      .patch('/api/communityrole/mit/developer')
-      .send(patchcommunityrole)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        res.status.should.be.equal(201);
-        done();
+      .post('/api/v1/communityrole')
+      .send(postdata)
+      .then(() => {
+        client.execute("SELECT * from communityroles where domain='lawyerpostsss'", (err, result) => {
+          if (!err) {
+            result.rows.length.should.be.equal(1);
+            result.rows[0].actions.should.deep.equal(postdata.actions);
+            done();
+          }
+        });
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+  it('Update actions of communityrole', (done) => {
+    request(app)
+      .patch('/api/v1/communityrole/lawyerpostsss/lawyerpostsss')
+      .send(patchdata)
+      .then(() => {
+        client.execute("SELECT * from communityroles where domain='lawyerpostsss'", (err, result) => {
+          if (!err) {
+            result.rows[0].actions.should.have.property('hellos_patch').equal(patchdata.actions.hellos_patch);
+            done();
+          }
+        });
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
-  it('PATCH method must not return 404 error', (done) => {
-    request(app)
-      .patch('/api/communityrole/mit/developer')
-      .send(patchcommunityrole)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        res.status.should.not.be.equal(304);
-        done();
-      });
-  });
-
-  it('it should add values to the communityrole table', (done) => {
-    request(app)
-      .post('/api/communityrole/')
-      .send(postcommunityrole)
-      .end((err, res) => {
-        res.status.should.be.equal(201);
-        done();
-      });
-  });
-
-  it('POST method must not return 404', (done) => {
-    request(app)
-      .post('/api/communityrole/')
-      .send(postcommunityrole)
-      .end((err, res) => {
-        res.status.should.not.be.equal(404);
-        done();
-      });
+  after(() => {
+    client.execute("DELETE FROM communityroles where domain='lawyerpostsss'");
   });
 });

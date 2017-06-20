@@ -1,6 +1,6 @@
 const express = require('express');
 
-const membershipCtrl = require('./communityMembership.controller');
+const membersCtrl = require('./members.controller');
 
 const router = express.Router();
 
@@ -10,17 +10,18 @@ const router = express.Router();
  * API for Adding
  *
  *
+ *
  */
 
-router.post('/community/member/role', (req, res) => {
+router.post('/member/community/role', (req, res) => {
   try {
     const values = req.body;
-    membershipCtrl.addMemberToCommunity(values, (err) => {
+    membersCtrl.addedMemberToCommunity(values, (err) => {
       if (err) {
-        console.log('Error in membershipCtrl.addMemberToCommunity error :', err);
+        console.log('Error in membersCtrl.addedMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send('Member added');
+      return res.send('Added');
     });
   } catch (err) {
     console.log('Unexpected error in inserting values ', err);
@@ -28,34 +29,35 @@ router.post('/community/member/role', (req, res) => {
   }
 });
 
-
 /*
- * Effective URI of the API is GET /member/:domain/communities/role
+ * Effective URI of the API is GET /member/:username/communities/role
  *
- * API for returning all Details of a members in a specified Community
+ * API for returning all Details of a specified user in All communities
  *
  * URL Parameter
- *  -  domain: specify a specific Community Name, to get their details
+ *  - User Name: specify a specific user name, to get their details
  *
  */
 
-router.get('/community/:domain/members', (req, res) => {
+
+router.get('/member/:username/communities', (req, res) => {
   try {
-    const domainName = req.params.domain;
-    membershipCtrl.getParticularCommunityMemberDetails(domainName, (err, results) => {
+    const userName = req.params.username;
+    membersCtrl.getParticularMemberDetailInCommunities(userName, (err, results) => {
       if (err) {
-        console.log('Error in membershipCtrl.getParticularCommunityMemberDetails error: ', err);
+        console.log('Error in membersCtrl.getParticularMemberDetailInCommunities error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send(results);
     });
   } catch (err) {
-    console.log('Unexpected error in fetching members of a community...', err);
+    console.log('Unexpected error in communities of a member ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
 
-/*
+
+ /*
  * Effective URI of the API is PATCH /member/:username/community/:domain/role
  *
  * API for Updating role to a Member for a Community
@@ -64,19 +66,19 @@ router.get('/community/:domain/members', (req, res) => {
  *
  */
 
-router.patch('/member/:username/community/:domain/role', (req, res) => {
+router.patch('/community/:domain/role/member/:username', (req, res) => {
   try {
     const params = {
       userName: req.params.username,
       domainName: req.params.domain,
     };
     const memberRole = req.body.role;
-    membershipCtrl.modifyRoleOfMemberFromCommunity(params, memberRole, (err) => {
+    membersCtrl.modifyRoleOfMemberFromCommunity(params, memberRole, (err) => {
       if (err) {
-        console.log('Error in membershipCtrl.modifyRoleOfMemberFromCommunity error: ', err);
+        console.log('Error in membersCtrl.modifyRoleOfMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send('Updated');
+      return res.send();
     });
   } catch (err) {
     console.log('Unexpected error in Updating Role to a member in a community ', err);
@@ -93,18 +95,18 @@ router.patch('/member/:username/community/:domain/role', (req, res) => {
  *
  */
 
-router.delete('/community/:domain/removemember/:username', (req, res) => {
+router.delete('/removemember/:username/community/:domain', (req, res) => {
   try {
     const params = {
       userName: req.params.username,
       domainName: req.params.domain,
     };
-    membershipCtrl.removeMemberFromCommunity(params, (err) => {
+    membersCtrl.removeMemberFromCommunity(params, (err) => {
       if (err) {
-        console.log('Error in membershipCtrl.removeMemberFromCommunity error: ', err);
+        console.log('Error in membersCtrl.removeMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send('Deleted');
+      return res.send();
     });
   } catch (err) {
     console.log('Unexpected error in removing member from a community ', err);
