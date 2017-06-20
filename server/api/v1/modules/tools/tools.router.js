@@ -18,6 +18,7 @@ const ToolCtrl = require('./tools.controller');
 router.get('/:domainname', (req, res) => {
   try {
     const domainName = req.params.domainname;
+    // console.log('get method');
     ToolCtrl.getTools(domainName, (err, results) => {
       if (err) {
        // console.log('Error in ToolCtrl.getTools error: ', err);

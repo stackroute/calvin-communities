@@ -264,4 +264,10 @@ describe('get/ post/ patch community ', () => {
       done(err);
     });
   });
+
+  after(() => {
+    client.execute('TRUNCATE communities')
+    .then(() => { })
+    .catch(() => { });
+  });
 });
