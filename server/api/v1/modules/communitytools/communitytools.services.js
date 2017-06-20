@@ -18,7 +18,7 @@ const client = new model.Client({
 // Query to select values from tools table
 
 function getTools(domainName, done) {
-  const query = (`SELECT toolid, action, activityevents from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' ALLOW FILTERING;`);
+  const query = (`SELECT toolid, actions, activityevents from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' ALLOW FILTERING;`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results.rows);
@@ -45,7 +45,7 @@ function getTools(domainName, done) {
 
 function addTools(data, done) {
   const arr = [];
-  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values(?,?,?,?)`);
+  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,actions,activityevents) values(?,?,?,?)`);
   data.forEach((val) => {
     arr.push({ query, params: [val.domain, val.toolId, val.actions, val.activityEvents] });
   });
@@ -62,7 +62,7 @@ function addTools(data, done) {
 // Updating tools action and events
 
 function updateTools(data, value, done) {
-  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET action=action+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}'`);
+  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET actions=actions+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);
