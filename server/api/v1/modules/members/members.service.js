@@ -24,7 +24,7 @@ function addedMemberToCommunity(params, done) {
 
 // Get particular member with all community details
 function getParticularMemberDetailInCommunities(userName, done) {
-  const query = `SELECT domain,role FROM ${MEMBERS_TABLE} where username = '${userName}' `;
+  const query = `SELECT domain,role FROM ${MEMBERS_TABLE} WHERE username = '${userName}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results.rows);
@@ -36,7 +36,7 @@ function getParticularMemberDetailInCommunities(userName, done) {
 
 // Modify role of a member in a community
 function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
-  const query = (`UPDATE ${MEMBERS_TABLE} SET role = '${memberRole}' where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS `);
+  const query = (`UPDATE ${MEMBERS_TABLE} SET role = '${memberRole}' WHERE domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS `);
   return client.execute(query, (err) => {
     if (!err) {
       done(err);
@@ -48,7 +48,7 @@ function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
 
 // Remove member from the community
 function removeMemberFromCommunity(params, done) {
-  const query = (`DELETE FROM ${MEMBERS_TABLE} where domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS`);
+  const query = (`DELETE FROM ${MEMBERS_TABLE} WHERE domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS`);
   return client.execute(query, (err) => {
     if (!err) {
       done(err);

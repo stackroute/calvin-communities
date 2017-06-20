@@ -4,7 +4,7 @@ const request = require('supertest');
 const values = require('./test.dao');
 const service = require('./memberrequests.service');
 
-// person email is null
+// throw error when person email is null
 describe('/post data in database, no email data', () => {
   it('should give error on post data in database as no email values is given', (done) => {
     request(app)
@@ -21,7 +21,7 @@ describe('/post data in database, no email data', () => {
   });
 });
 
-// domain is null
+// throw error when domain is null
 describe('/post data in database, no domain data', () => {
   it('should give error on post data in database as no domain values is given', (done) => {
     request(app)
@@ -38,7 +38,7 @@ describe('/post data in database, no domain data', () => {
   });
 });
 
-// wrong value in status
+// throw error when wrong value in status
 
 describe('/post data in database, no data given', () => {
   it('should give error on post data in database as no domain values is given', (done) => {
@@ -133,7 +133,7 @@ describe('/update data in database', () => {
 describe('/update data in database', () => {
   it('should modify invite status in database values are given', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/tvs/lilly@gmail.com')
+                        .patch('/api/v1/memberrequests/Infosys/maria@gmail.com')
                         .send(values.checkinvitetype)
                         .end((err, res) => {
                           if (err) {
@@ -152,7 +152,7 @@ describe('/update data in database', () => {
 describe('/delete data in database', () => {
   it('should delete domain from the database', (done) => {
     request(app)
-                        .delete('/api/v1/memberrequests/wipro/geetha@gmail.com')
+                        .delete('/api/v1/memberrequests/tvs/jasmine@gmail.com')
                         .send(values.deletedomain)
                         .end((err, res) => {
                           if (err) {

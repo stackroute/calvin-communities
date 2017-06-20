@@ -15,7 +15,7 @@ function addedMemberToCommunity(values, done) {
     };
     membersService.addedMemberToCommunity(params, done);
   } else {
-    done('Enter All Required Fields ........!!!');
+    done('Enter required fields.......!!!!!');
   }
 }
 
@@ -34,7 +34,7 @@ function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
   if (flag) {
     membersService.modifyRoleOfMemberFromCommunity(params, memberRole, done);
   } else {
-    done('Role Should Not Be Empty....!!! ');
+    done('Enter required fields.......!!!!!');
   }
 }
 
