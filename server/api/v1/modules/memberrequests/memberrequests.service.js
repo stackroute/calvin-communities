@@ -44,7 +44,7 @@ function gettingValuesByDomainPerson(domain, person, done) {
     if (!err) {
       done(err, result.rows);
     } else {
-      done(err, undefined);
+      done('please enter valid name!!', undefined);
     }
   });
 }

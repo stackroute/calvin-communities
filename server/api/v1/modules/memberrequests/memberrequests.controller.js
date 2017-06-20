@@ -68,14 +68,27 @@ function updateStatus(params, bodyData, done) {
 
 // Deleting the row in the table when the request or invite is rejected
 
-function rejectedInviteRequest(domain, person, done) {
-  const domainname = domain.toLowerCase();
-  const personname = person.toLowerCase();
-  if ((domain) && (domain !== null)) {
-    service.rejectedInviteRequest(domainname, personname, done);
-  } else {
-    done('Error in operation, please try later..!');
-  }
+function rejectedInviteRequest(domainvalue, personvalue, done) {
+  let flag = false;
+  const domainname = domainvalue.toLowerCase();
+  const personname = personvalue.toLowerCase();
+  service.gettingValuesByDomainPerson(domainname, personname, (error, result) => {
+    if (error) { done('error in getting type for the given domain'); }
+
+    if (result !== undefined && result.length > 0) {
+      const checkdomain = result[0].domain;
+      const checkperson = result[0].person;
+      if (checkdomain === domainname && checkperson === personname) {
+        flag = true;
+      }
+    }
+
+    if (flag) {
+      service.rejectedInviteRequest(domainname, personname, done);
+    } else {
+      done('Error in operation, please try later..!');
+    }
+  });
 }
 
 
