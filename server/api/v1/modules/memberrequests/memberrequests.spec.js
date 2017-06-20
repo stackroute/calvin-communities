@@ -186,8 +186,7 @@ describe('/get data from database', () => {
 
                             if (result) { res.body.should.deep.equal(result.rows); }
                           });
-
-                          setTimeout(done(), 1000);
                         });
+    setTimeout(done(), 1000);
   });
 });

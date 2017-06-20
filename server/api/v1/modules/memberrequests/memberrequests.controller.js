@@ -55,7 +55,7 @@ function updateStatus(params, bodyData, done) {
     }
 
     if (flag) {
-      if ((status === 'approved') && (inviteType.tolowercase() === 'request')) {
+      if ((status === 'approved') && (inviteType.toLowerCase() === 'request')) {
         if ((bodyData.member) && bodyData.member !== null) {
           service.statusUpdateRequest(domain, person, bodyData, done);
         } else done('Error in operation, please try later..!');
