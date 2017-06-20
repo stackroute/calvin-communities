@@ -43,11 +43,11 @@ function getTools(domainName, done) {
 }*/
 
 
-function addTools(domainname, data, done) {
+function addTools( data, done) {
   const arr = [];
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values(?,?,?,?)`);
   data.forEach((val) => {
-    arr.push({ query, params: [domainname, val.toolId, val.actions, val.activityEvents] });
+    arr.push({ query, params: [val.domain, val.toolId, val.actions, val.activityEvents] });
   });
   // console.log(arr);
   return client.batch(arr, { prepare: true }, (err) => {
