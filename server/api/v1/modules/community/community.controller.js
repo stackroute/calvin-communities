@@ -150,6 +150,17 @@ function updateCommunity(domainName, community, done) {
   communityServ.updateCommunity(param, done);
 }
 
+/**
+*
+* Delete the community created if we get an error at the time of creationworkflow
+*
+*/
+function deleteCommunity(domain, done) {
+  if(domain){
+    communityServ.deleteCommunity(param, done);
+  }
+}
+
 
 module.exports = {
   getAllCommunities,
