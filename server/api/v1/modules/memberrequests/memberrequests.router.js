@@ -8,7 +8,7 @@ const controller = require('./memberrequests.controller');
  * API for returning all lists of a specified domain
  *
  * URL Parameter
- *  - Id: specify a specific domain, to get all its lists
+ *  - Domain: specify a specific domain, to get all its lists
  *
  */
 
@@ -63,7 +63,7 @@ router.post('/membership', (req, res) => {
  * API for updating the status for a specified domain and person
  *
  * URL Parameter
- *  - Id: specify a specific domain and person, to update particular domain
+ *  - domain and person: specify a specific domain and person, to update particular domain
  *
  */
 
@@ -92,7 +92,7 @@ router.patch('/:domain/:person', (req, res) => {
  * API for delete the row in a table of a specified domain
  *
  * URL Parameter
- *  - Id: specify a specific domain, to delete the row
+ *  - Domain: specify a specific domain, to delete the row
  *
  */
 

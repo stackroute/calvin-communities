@@ -30,11 +30,29 @@ function getTools(domainName, done) {
 
 // Inserting into tools table
 
-function addTools(data, done) {
-  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents) values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
+/* function addTools(data, done) {
+  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents)
+   values('${data.domain}','${data.id}',{${data.action}},{${data.events}})`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
+}*/
+
+
+function addTools(data, done) {
+  const arr = [];
+  const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,actions,activityevents) values(?,?,?,?)`);
+  data.forEach((val) => {
+    arr.push({ query, params: [val.domain, val.toolId, val.actions, val.activityEvents] });
+  });
+  // console.log(arr);
+  return client.batch(arr, { prepare: true }, (err) => {
+    if (!err) {
+      done(undefined, 'results.rows');
     } else {
       done(err, undefined);
     }
@@ -47,7 +65,7 @@ function updateTools(data, value, done) {
   const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET action=action+{'${data.action}'},activityevents=activityevents+{'${data.events}'} where domain='${value.domain}' AND toolid='${value.tool}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
-      done(err, results);
+      done(undefined, results);
     } else {
       done(err, undefined);
     }
@@ -84,9 +102,8 @@ function deleteEvent(value, done) {
 */
 // Deleting a row from tools table
 
-function deleteTool(value, done) {
-  // console.log(value.domain, value.tool);
-  const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}' and toolid ='${value.tool}';`);
+function deleteTools(domainname, done) {
+  const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${domainname.domain}' and toolid ='${domainname.tool}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results);
@@ -97,10 +114,10 @@ function deleteTool(value, done) {
 }
 
 module.exports = {
-  deleteTool,
    // deleteEvent,
    // deleteAction,
   updateTools,
   addTools,
   getTools,
+  deleteTools,
 };

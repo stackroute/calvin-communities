@@ -30,8 +30,8 @@ function getTools(domainName, done) {
 
 // Inserting into tools table
 
-function addTools(data, done) {
-  const query = (`insert into ${TOOL_TABLE} (domain,tools) values('${data.domain}',{${data.tools}})`);
+function updateTools(data, domainName, done) {
+  const query = (`update ${TOOL_TABLE} set tools = tools + {${data.tools}} where domain='${domainName.domain}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results.rows);
@@ -41,19 +41,28 @@ function addTools(data, done) {
   });
 }
 
-function updateTools(data, value, done) {
-  const query = (`UPDATE ${TOOL_TABLE} SET tools=tools+{'${data.tool}'} where domain='${value.domain}'`);
-  return client.execute(query, (err, results) => {
+function addTools(data, done) {
+  const arr = [];
+  let domainname;
+  data.forEach((val) => {
+    arr.push(`'${val.toolId}'`);
+    domainname = val.domain;
+  });
+  // console.log(arr);
+  const query = (`insert into ${TOOL_TABLE} (domain,tools) values('${domainname}',{${arr}})`);
+  return client.execute(query, (err) => {
     if (!err) {
-      done(err, results);
-    } else {
-      done(err, undefined);
+      return done(err, 'results.rows');
     }
+    return done(err, undefined);
+           // console.log(err);
   });
 }
 
-function deleteTool(data, done) {
-  const query = (`DELETE FROM ${TOOL_TABLE} where domain='${data.domain}';`);
+
+function deleteTools(data, done) {
+  // console.log('dkfhjdskfj');
+  const query = (`DELETE tools['${data.tool}'] FROM ${TOOL_TABLE} where domain='${data.domain}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(err, results);
@@ -68,5 +77,5 @@ module.exports = {
   addTools,
   getTools,
   updateTools,
-  deleteTool,
+  deleteTools,
 };

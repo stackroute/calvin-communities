@@ -31,8 +31,11 @@ function getAllCommunities(done) {
  *
  */
 function workflowCreation(community) {
-  const templateDetails = templateController.getTemplateOnTemplateName(community.template);
-  logger.debug(templateDetails);
+
+// loading specified template
+const templateDetails = templateController.getTemplateOnTemplateName(community.template);
+
+// CommunityCreation Data
   const com = [
     community.domain, community.name, community.purpose,
     community.visibility, community.template, community.tags,
@@ -41,23 +44,51 @@ function workflowCreation(community) {
     community.owner, community.owner,
   ];
 
+// Adding admin as a member, data for addMembers
   const members = {
     username: community.owner,
     domain: community.domain,
     role: 'admin',
   };
 
+// getting tools data from specified template for addTools
+  tools = [];
+  templateDetails[0].tools.forEach((element) => {
+    logger.debug(element);
+    let toolsobject = {
+      domain: community.domain,
+      toolId: element.toolId,
+      actions: element.actions,
+      activityEvents: element.activityEvents,
+    }
+    tools.push(toolsobject);
+
+  })
+
+// getting roles data from specified template
+  roles = [];
+  templateDetails[0].rolesActions.forEach((element) => {
+    logger.debug(element);
+    element.toolsActions.forEach((data) =>{
+      let rolesobject = {
+      domain: community.domain,
+      role: element.role,
+      toolId: data.toolId,
+      actions: data.actions,
+    }
+    console.log(rolesobject)
+        roles.push(rolesobject);
+
+    })
+  })
+
+  // returning all data in single error
   const values = [];
   values.push(com);
   values.push(members);
-  values.push([com,community,com]);
+  values.push(tools);
+  values.push(roles);
   return values;
-}
-function addroles(value, done){
-  value.forEach((element) => {
-    logger.debug(element);
-
-  })
 }
 
 function addCommunity(community, done) {
@@ -83,7 +114,8 @@ function addCommunity(community, done) {
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
-    addroles.bind(null, values[2]),
+    toolsController.postTools.bind(null, values[2]),
+    roleController.postCommunityRoles.bind(null, values[3]),
      ],
     (err, result) => {
     if (err) return done(err);

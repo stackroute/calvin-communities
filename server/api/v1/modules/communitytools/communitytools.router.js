@@ -45,7 +45,7 @@ router.get('/:domainname', (req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    const dataFromBody = req.body;
+    const dataFromBody = req.body.tools;
     communityToolCtrl.postTools(dataFromBody, (err) => {
       if (err) {
         // console.log('Error in communityToolCtrl.postTools error: ', err);
@@ -82,14 +82,13 @@ router.patch('/:domain/:tool', (req, res) => {
 
 router.delete('/:domain/:tool', (req, res) => {
   try {
-    const dataFromParams = req.params;
-    communityToolCtrl.deleteTool(dataFromParams, (err) => {
+    communityToolCtrl.deleteTool(req.params, (err) => {
       if (err) {
         // console.log('Error in communityToolCtrl.postTools error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(500).send(err);
       }
 
-      return res.send('teleted');
+      return res.send('deleted');
     });
   } catch (err) {
     // console.log('Unexpected error in fetching community roles ', err);

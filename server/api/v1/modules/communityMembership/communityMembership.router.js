@@ -20,11 +20,11 @@ router.post('/community/member/role', (req, res) => {
         console.log('Error in membershipCtrl.addMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send('Added');
+      return res.send({ message: 'Member added' });
     });
   } catch (err) {
     console.log('Unexpected error in inserting values ', err);
-    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
 
@@ -76,7 +76,7 @@ router.patch('/member/:username/community/:domain/role', (req, res) => {
         console.log('Error in membershipCtrl.modifyRoleOfMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send();
+      return res.send({ message: 'Updated' });
     });
   } catch (err) {
     console.log('Unexpected error in Updating Role to a member in a community ', err);
@@ -104,7 +104,7 @@ router.delete('/community/:domain/removemember/:username', (req, res) => {
         console.log('Error in membershipCtrl.removeMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send();
+      return res.send({ message: 'Deleted' });
     });
   } catch (err) {
     console.log('Unexpected error in removing member from a community ', err);
