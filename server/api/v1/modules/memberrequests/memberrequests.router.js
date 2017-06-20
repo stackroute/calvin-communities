@@ -41,7 +41,6 @@ router.get('/:domain', (req, res) => {
 router.post('/membership', (req, res) => {
   try {
     const values = req.body;
-
     controller.InsertData(values, (err) => {
       if (err) {
         console.log('Error in controller.InsertData error: ', err);
