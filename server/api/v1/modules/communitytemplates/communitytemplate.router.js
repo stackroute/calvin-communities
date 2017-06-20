@@ -19,15 +19,15 @@ router.get('/', (req, res) => {
  * API for returning the data for the specified template
  *
  * Effevtive URI of the API for the specified template is
- *  GET /communitytemplates/:purpose
+ *  GET /communitytemplates/purposes?purpose=purpose
  *
  * URL Parameter
  *  - purpose: specify a specific template name,to get the data's
  *                  about the template
  */
-router.get('/:purpose', (req, res) => {
+router.get('/purposes', (req, res) => {
   try {
-    return res.send((templateCtrl.getTemplatesOnPurpose(req.params.purpose)));
+    return res.send(templateCtrl.getTemplatesOfPurpose(req.query.purpose.toLowerCase()));
   } catch (err) {
     return res.status(500)({ error: 'Unexpected internal error occurred, please try later...!' });
   }
@@ -37,15 +37,15 @@ router.get('/:purpose', (req, res) => {
  * API for returning the data for the specified template
  *
  * Effevtive URI of the API for the specified template is
- *  GET /communitytemplates/templates/:templatename
+ *  GET /communitytemplates/templatenames?name=name
  *
  * URL Parameter
  *  - templatename: specify a specific template name,to get the data's
  *                  about the template
  */
-router.get('/templates/:templatename', (req, res) => {
+router.get('/templatenames', (req, res) => {
   try {
-    return res.send((templateCtrl.getTemplateOnTemplateName(req.params.templatename)));
+    return res.send((templateCtrl.getTemplateOfTemplateName(req.query.name)));
   } catch (err) {
     return res.status(500)({ error: 'Unexpected internal error occurred, please try later...!' });
   }
