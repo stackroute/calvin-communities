@@ -22,11 +22,28 @@ function getCommunityRoles(domainName, done) {
 }
 
 function postCommunityRoles(postedData, done) {
+  let arr=[];
+  console.log("Inside post")
+
   const query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES ( ? , ? , ? , ? )`; // SORT BY domainname, role`;
-  return client.execute(query, postedData, { hints: ['text', 'text', 'map', 'text'] }, (err, results) => {
+  console.log("After query");
+  postedData.forEach(function(data){
+    let params = [data.domain, data.role, data.actions, data.toolId];
+    let d = {
+      query: query,
+      params: params
+    }
+    console.log(d);
+    arr.push(d);
+    console.log("data", data);
+  })
+  console.log("Array:"+arr);
+  return client.batch(arr, { hints: ['text', 'text', 'map<text, text>', 'text'] }, (err, results) => {
     if (!err) {
-      done(err, results.rows);
+      console.log("no error");
+      done(undefined, results.rows);
     } else {
+      console.log('err:', err )
       done(err, undefined);
     }
   });

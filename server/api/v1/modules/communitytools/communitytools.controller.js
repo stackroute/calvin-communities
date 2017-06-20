@@ -34,12 +34,12 @@ function getTools(domainName, done) {
 }*/
 
 
-function postTools(domainname, dataFromBody, done) {
-  if (domainname) {
-    if (domainname != null) {
+function postTools(dataFromBody, done) {
+  if (dataFromBody) {
+    if (dataFromBody != null) {
       async.parallel([
-        communityToolService.addTools.bind(null, domainname, dataFromBody),
-        toolsService.updateTools.bind(null, domainname, dataFromBody),
+        communityToolService.addTools.bind(null, dataFromBody),
+        toolsService.addTools.bind(null, dataFromBody),
       ], (err) => {
         if (err) {
           return done(err);

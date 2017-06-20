@@ -5,9 +5,8 @@ function getCommunityRoles(domainName, done) {
 }
 
 function postCommunityRoles(postedData, done) {
-  const params = [postedData.domain, postedData.role, postedData.actions, postedData.toolid];
-
-  communityRoleService.postCommunityRoles(params, done);
+  // const params = [postedData.domain, postedData.role, postedData.actions, postedData.toolid];
+  communityRoleService.postCommunityRoles(postedData, done);
 }
 
 function patchCommunityRoles(patchData, domainName, role, done) {
