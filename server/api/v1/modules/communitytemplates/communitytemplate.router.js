@@ -37,7 +37,7 @@ router.get('/:purpose', (req, res) => {
  * API for returning the data for the specified template
  *
  * Effevtive URI of the API for the specified template is
- *  GET /communitytemplates/:templatename
+ *  GET /communitytemplates/templates/:templatename
  *
  * URL Parameter
  *  - templatename: specify a specific template name,to get the data's

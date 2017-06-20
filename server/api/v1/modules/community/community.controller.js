@@ -34,13 +34,12 @@ function workflowCreation(community) {
 
 // loading specified template
 const templateDetails = templateController.getTemplateOnTemplateName(community.template);
-
 // CommunityCreation Data
   const com = [
     community.domain, community.name, community.purpose,
     community.visibility, community.template, community.tags,
     community.owner, community.description,
-    community.avatar, community.roles,
+    community.avatar,
     community.owner, community.owner,
   ];
 
@@ -52,7 +51,7 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
   };
 
 // getting tools data from specified template for addTools
-  tools = [];
+  let tools = [];
   templateDetails[0].tools.forEach((element) => {
     logger.debug(element);
     let toolsobject = {
@@ -66,7 +65,7 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
   })
 
 // getting roles data from specified template
-  roles = [];
+  let roles = [];
   templateDetails[0].rolesActions.forEach((element) => {
     logger.debug(element);
     element.toolsActions.forEach((data) =>{
@@ -76,7 +75,6 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
       toolId: data.toolId,
       actions: data.actions,
     }
-    console.log(rolesobject)
         roles.push(rolesobject);
 
     })
@@ -115,14 +113,13 @@ function addCommunity(community, done) {
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
     toolsController.postTools.bind(null, values[2]),
-    roleController.postCommunityRoles.bind(null, values[3]),
      ],
     (err, result) => {
     if (err) return done(err);
     return done(undefined, result[0]);
   });
+//roleController.postCommunityRoles.bind(null, values[3]),
 }
-
 
 /**
  * Get For specific communities,
@@ -149,6 +146,17 @@ function updateCommunity(domainName, community, done) {
     community.tags, community.updatedby, domainName,
   ];
   communityServ.updateCommunity(param, done);
+}
+
+/**
+*
+* Delete the community created if we get an error at the time of creationworkflow
+*
+*/
+function deleteCommunity(domain, done) {
+  if(domain){
+    communityServ.deleteCommunity(param, done);
+  }
 }
 
 

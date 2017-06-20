@@ -49,8 +49,8 @@ function getCommunity(domainname, done) {
  */
 function addCommunity(param, done) {
   const query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, visibility, template,tags, owner, \
-description, avatar, roles, createdby, createdon, updatedby, updatedon) \
-VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , dateof(now()) , ? , dateof(now()) ) `);
+description, avatar, createdby, createdon, updatedby, updatedon) \
+VALUES ( ? , ? , ? , ? , ?  , ? , ? , ? , ? , ? , dateof(now()) , ? , dateof(now()) ) `);
 
 
   return client.execute(query, param, (err, results) => {
@@ -74,11 +74,25 @@ function updateCommunity(param, done) {
   });
 }
 
+/**
+* delete a community
+*
+*
+*/
+function deleteCommunity(param, done) {
+  const query = (`DELETE * FROM ${tableCommunities} where  domain = ? `);
+  return client.execute(query, param, (err, results) => {
+    if (err) done(err, undefined);
+    done(undefined);
+  });
+}
+
 
 module.exports = {
   getAllCommunities,
   addCommunity,
   getCommunity,
   updateCommunity,
+  deleteCommunity,
 
 };
