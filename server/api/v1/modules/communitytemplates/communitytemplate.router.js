@@ -40,7 +40,7 @@ router.get('/purposes', (req, res) => {
  *  GET /communitytemplates/templatenames?name=name
  *
  * URL Parameter
- *  - templatename: specify a specific template name,to get the data's
+ *  - name: specify a specific template name,to get the data's
  *                  about the template
  */
 router.get('/templatenames', (req, res) => {
