@@ -16,15 +16,27 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-const postdata = {
-  domain: 'lawyerpostsss',
-  role: 'lawyerpostsss',
-  actions: {
-    hellos: 'hellos_everyone_patch',
-    likes: 'like_selfs_patch',
+const postdata1 = [
+  {
+        domain: 'prakhar',
+        role: 'developer',
+        actions: {
+            post: 'true',
+            likes: 'false'
+        },
+        toolId: 'quora'
+    
   },
-  toolid: 'quora',
-};
+  {
+        domain: 'africans',
+        role: 'cricketer',
+        actions: {
+            post: 'false',
+            likes: 'true'
+        },
+        toolId: 'git'
+}
+];
 const patchdata = {
   actions: {
     hellos_patch: 'patch_done_finally',
@@ -38,26 +50,30 @@ describe('Create a communityrole and update it', () => {
   it('Create a new communityrole', (done) => {
     request(app)
       .post('/api/v1/communityrole')
-      .send(postdata)
+      .send(postdata1)
       .then(() => {
-        client.execute("SELECT * from communityroles where domain='lawyerpostsss'", (err, result) => {
+        console.log("BEFORE CLIENT EXECUTE testcase");
+        client.execute("SELECT * from communityroles where domain='prakhar'", (err, result) => {
           if (!err) {
+            console.log("Result from testcase "+result.rows[0]);
             result.rows.length.should.be.equal(1);
-            result.rows[0].actions.should.deep.equal(postdata.actions);
+            result.rows[0].actions.should.deep.equal(postdata1[0].actions);
             done();
           }
         });
       })
       .catch((err) => {
+        console.log("In error");
         done(err);
       });
   });
+
   it('Update actions of communityrole', (done) => {
     request(app)
-      .patch('/api/v1/communityrole/lawyerpostsss/lawyerpostsss')
+      .patch('/api/v1/communityrole/prakhar/developer')
       .send(patchdata)
       .then(() => {
-        client.execute("SELECT * from communityroles where domain='lawyerpostsss'", (err, result) => {
+        client.execute("SELECT * from communityroles where domain='prakhar'", (err, result) => {
           if (!err) {
             result.rows[0].actions.should.have.property('hellos_patch').equal(patchdata.actions.hellos_patch);
             done();
@@ -70,6 +86,7 @@ describe('Create a communityrole and update it', () => {
   });
 
   after(() => {
-    client.execute("DELETE FROM communityroles where domain='lawyerpostsss'");
+     client.execute("DELETE FROM communityroles where domain='prakhar'");
+     client.execute("DELETE FROM communityroles where domain='africans'");
   });
 });
