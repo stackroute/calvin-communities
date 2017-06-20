@@ -38,7 +38,7 @@ describe('/post data in database, no domain data', () => {
   });
 });
 
-// hrow error when wrong value in status
+// throw error when wrong value in status
 
 describe('/post data in database, no data given', () => {
   it('should give error on post data in database as no domain values is given', (done) => {
