@@ -57,33 +57,58 @@ function postTools(dataFromBody, done) {
 // To add actions and activity events to existing tools
 
 function modifyTool(dataFromBody, dataFromURI, done) {
-  communityToolService.updateTools(dataFromBody, dataFromURI, done);
+  communityToolService.getToolsforCRUD(dataFromURI.domain, dataFromURI.tool, (err) => {
+    if (err) {
+      done(err, undefined);
+    } else {
+      communityToolService.updateTools(dataFromBody, dataFromURI, done);
+    }
+  });
 }
 
-/* // To delete an action from a tool
+// To delete an action from a tool
 
 function deleteAction(domainName, done) {
-    communityToolService.deleteAction(domainName, done);
+  communityToolService.getToolsForDeletion(domainName.domain,
+   domainName.tool, domainName.name, (err) => {
+     if (err) {
+       done(err, undefined);
+     } else {
+       communityToolService.deleteAction(domainName, done);
+     }
+   });
 }
 
 // To delete an event from a tool
 
 function deleteEvent(domainName, done) {
-    communityToolService.deleteEvent(domainName, done);
+  communityToolService.getToolsForDeletion(domainName.domain,
+   domainName.tool, domainName.name, (err) => {
+     if (err) {
+       done(err, undefined);
+     } else {
+       communityToolService.deleteEvent(domainName, done);
+     }
+   });
 }
-*/
+
 // To delete a tool
 
 function deleteTool(domain, done) {
-  // console.log(domain);
-  async.parallel([
-    toolsService.deleteTools.bind(null, domain),
-    communityToolService.deleteTools.bind(undefined, domain),
-  ], (err) => {
-    if (err) {
-      return done(err);
+  communityToolService.getToolsforCRUD(domain.domain, domain.tool, (error) => {
+    if (error) {
+      done(error, undefined);
+    } else {
+      async.parallel([
+        toolsService.deleteTools.bind(null, domain),
+        communityToolService.deleteTools.bind(undefined, domain),
+      ], (err) => {
+        if (err) {
+          return done(err);
+        }
+        return done('Deleted');
+      });
     }
-    return done('Deleted');
   });
 }
 
@@ -94,6 +119,6 @@ module.exports = {
   modifyTool,
   getTools,
   postTools,
-    //deleteEvent,
-    //deleteAction,
+  deleteEvent,
+  deleteAction,
 };

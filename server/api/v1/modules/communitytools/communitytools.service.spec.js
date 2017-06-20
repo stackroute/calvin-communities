@@ -28,9 +28,9 @@ describe('Create a community and update it', () => {
             .post('/api/v1/communitytools')
             .send({
               domain: 'Engineer.wipro.blr',
-              id: 'Quora',
-              action: ["'broadcast'", "'write'"],
-              events: ["'postmessage'"],
+              toolId: 'Quora',
+              actions: ["'broadcast'", "'write'"],
+              activityEvents: ["'postmessage'"],
             })
             .then(() => {
                 // console.log(res.rows);

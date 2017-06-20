@@ -28,17 +28,19 @@ describe('Create a row for a community and its corresponding tools and update it
   it('Add a new tool for a community', (done) => {
     request(app)
             .post('/api/v1/tools')
-            .send({
-              domain: 'Engineer.wipro.blr',
-              tools: ["'broadcast'", "'write'"],
-            })
+            .send([{
+              toolId: 'forum',
+              actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+              activityEvents: ['newannouncement', 'like', 'remove'],
+              domain: 'lawyer.ny',
+            }])
             .then(() => {
                 // console.log(res.rows);
               client.execute("SELECT * from tools where domain='Engineer.wipro.blr'", (err, result) => {
                 if (err) {
                   return done(err);
                 }
-               // console.log(result.rows);
+                    // console.log(result.rows);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Engineer.wipro.blr');
                 return done();
@@ -62,7 +64,7 @@ describe('Create a row for a community and its corresponding tools and update it
                 if (err) {
                   return done(err);
                 }
-                // console.log(result.rows);
+                    // console.log(result.rows);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Engineer.wipro.blr');
                 return done();
