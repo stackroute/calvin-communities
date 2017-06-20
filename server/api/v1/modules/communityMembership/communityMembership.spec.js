@@ -27,7 +27,7 @@ describe('/get member detail from database for specified community', () => {
                   res.body.should.deep.equal(result.rows);
                 }
               });
-              setTimeout(done(), 1000);
+              return done();
             });
   });
 
@@ -40,11 +40,10 @@ describe('/get member detail from database for specified community', () => {
             .end((err, res) => {
               if (err) {
                 return done(err);
-              } if (res) {
-                return res.body.should.deep.equal(testData.wrongData);
               }
+              return res.body.should.deep.equal(testData.wrongData);
             });
-    setTimeout(done(), 1000);
+    return done();
   });
 
 
@@ -73,7 +72,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.wrongData);
             });
-    setTimeout(done(), 1000);
+    return done();
   });
 
       // All values are empty
@@ -87,7 +86,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.wrongData);
             });
-    setTimeout(done(), 1000);
+    return done();
   });
 
 
@@ -99,12 +98,10 @@ describe('/get member detail from database for specified community', () => {
             .end((err, res) => {
               if (err) {
                 return done(err);
-              } if (results) {
-                return res.body.should.deep.equal(testData.memberDetails);
-                console.log(testData.memberDetails);
               }
+              return res.body.should.deep.equal(testData.memberDetails);
             });
-    setTimeout(done(), 1000);
+    return done();
   });
 
     // post data in database
@@ -118,7 +115,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.memberDetails);
             });
-    setTimeout(done(), 1000);
+    return done();
   });
 
       // post data in database
@@ -132,7 +129,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.memberDetails);
             });
-    setTimeout(done(), 1000);
+    return done();
   });
 
 
@@ -161,7 +158,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.modified);
             });
-    setTimeout(done(), 2000);
+    return done();
   });
 
         // patch data in database
@@ -175,7 +172,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.wrongData);
             });
-    setTimeout(done(), 1000);
+    return done();
   });
 
 
@@ -189,63 +186,6 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.deleted);
             });
-    setTimeout(done(), 3000);
-  });
-
-
-      // patch data in database
- /*  it('should update role of a member for a community in database, update community', (done) => {
-    request(app)
-            .patch(`/api/v1/membership/member/'{$testData.memberDetails1.username}'/community/'{$testData.memberDetails1.domain}'/role`)
-            .send(testData.updateRoles1)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.modified);
-            });
     return done();
   });
-
-      // patch data in database
-  it('should update role of a member1 for a community in database, update community', (done) => {
-    request(app)
-            .patch(`/api/v1/membership/member/'{$testData.memberDetails2.username}'/community/'{$testData.memberDetails2.domain}'/role`)
-            .send(testData.updateRoles2)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.modified);
-            });
-    setTimeout(done(), 2000);
-  });
-
-        // patch data in database
-  it('should update role of a member2 for a community in database, update community', (done) => {
-    request(app)
-            .patch(`/api/v1/membership/member/{$testData.memberDetails3.username}/community/{$testData.memberDetails3.domain}/role`)
-            .send(testData.noRoleValueUpdate)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.wrongData);
-            });
-    setTimeout(done(), 1000);
-  });
-
-
-   //  Delete a row from table
-  it('should delete data in database for a given domain and username', (done) => {
-    request(app)
-            .delete(`/api/v1/membership/community/{$testData.memberDetails3.domain}/removemember/$testData.memberDetails3.username}`)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.deleted);
-            });
-    setTimeout(done(), 3000);
-  }); */
 });

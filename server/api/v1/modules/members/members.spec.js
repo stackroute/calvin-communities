@@ -39,11 +39,10 @@ describe('/get member detail from database for specified community', () => {
             .end((err, res) => {
               if (err) {
                 return done(err);
-              } if (res) {
-                return res.body.should.deep.equal(testData.wrongData);
               }
-              return done();
+              return res.body.should.deep.equal(testData.wrongData);
             });
+    return done();
   });
 
     // username is empty
@@ -71,6 +70,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.wrongData);
             });
+    return done();
   });
 
       // All values are empty
@@ -84,6 +84,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.wrongData);
             });
+    return done();
   });
 
     // post data in database
@@ -97,6 +98,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.memberDetails);
             });
+    return done();
   });
 
     // post data in database
@@ -110,6 +112,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.memberDetails);
             });
+    return done();
   });
 
       // post data in database
@@ -123,6 +126,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.memberDetails);
             });
+    return done();
   });
 
    // patch data in database
@@ -150,6 +154,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.modified);
             });
+    return done();
   });
 
         // patch data in database
@@ -163,6 +168,7 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.wrongData);
             });
+    return done();
   });
 
    //  Delete a row from table
@@ -175,5 +181,6 @@ describe('/get member detail from database for specified community', () => {
               }
               return res.body.should.deep.equal(testData.deleted);
             });
+    return done();
   });
 });

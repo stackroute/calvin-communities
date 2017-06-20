@@ -15,7 +15,7 @@ function addMemberToCommunity(values, done) {
     };
     membershipService.addMemberToCommunity(params, done);
   } else {
-    done('Enter All Required Fields ........!!!');
+    done('Enter Required Fields ........!!!');
   }
 }
 
