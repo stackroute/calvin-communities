@@ -18,7 +18,7 @@ router.get('/:domain', (req, res) => {
     controller.gettingValuesByDomain(domain, (err, results) => {
       if (err) {
         // console.log('Error in controller.gettingValuesByDomain error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(404).send({ error: 'Error in operation, please try later..!' });
       }
 
       return res.send(results);
@@ -44,7 +44,7 @@ router.post('/membership', (req, res) => {
     controller.InsertData(values, (err) => {
       if (err) {
         // console.log('Error in controller.InsertData error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(204).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Inserted' });
     });
@@ -74,7 +74,7 @@ router.patch('/:domain/:person', (req, res) => {
     controller.updateStatus(params, bodyData, (err) => {
       if (err) {
         // console.log('Error in controller.updateStatus error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(304).send({ error: 'Error in operation, please try later..!' });
       }
 
       return res.send({ message: 'Updated' });
@@ -102,7 +102,7 @@ router.delete('/:domain/:person', (req, res) => {
     controller.rejectedInviteRequest(domain, person, (err) => {
       if (err) {
         // console.log('Error in  controller.rejectedInviteRequest error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(404).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Deleted' });
     });

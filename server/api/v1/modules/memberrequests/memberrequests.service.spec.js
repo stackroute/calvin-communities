@@ -16,7 +16,8 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-describe('Create a community and update it', () => {
+describe('Create a community and update it', function test() {
+  this.timeout(15000);
   before(() => {
         // client.execute("DELETE FROM memberrequest where domain='design';");
   });
@@ -43,9 +44,8 @@ describe('Create a community and update it', () => {
                 result.rows[0].type.should.be.equal('request');
                 result.rows[0].member.should.be.equal('');
                 result.rows[0].person.should.be.equal('flower@gmail.com');
-                return null;
+                return done();
               });
-              return done();
             })
             .catch((err) => {
               done(err);
@@ -70,9 +70,8 @@ describe('Create a community and update it', () => {
                 result.rows[0].type.should.be.equal('request');
                 result.rows[0].member.should.be.equal('master');
                 result.rows[0].person.should.be.equal('flower@gmail.com');
-                return null;
+                return done();
               });
-              return done();
             })
             .catch(err => done(err));
   });
