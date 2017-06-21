@@ -25,7 +25,7 @@ function postCommunityRoles(postedData, done) {
   const arr = [];
   console.log('Inside post');
 
-  let query; //= `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES ( ? , ? , ? , ? )`; // SORT BY domainname, role`;
+  let query;
   postedData.forEach((data) => {
     console.log('actions ', data.actions);
 
@@ -65,7 +65,8 @@ function postCommunityRoles(postedData, done) {
   let arr=[];
   console.log("Inside post")
 
-  const query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES ( ? , ? , ? , ? )`; // SORT BY domainname, role`;
+  const query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES
+  /( ? , ? , ? , ? )`; // SORT BY domainname, role`;
   console.log("After query");
   postedData.forEach(function(data){
     let params = [data.domain, data.role, data.actions, data.toolId];
@@ -90,7 +91,7 @@ function postCommunityRoles(postedData, done) {
 }*/
 
 function patchCommunityRoles(values, done) {
-  const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ?, toolid = ? where domain = ? AND role=?`); // SORT BY domainname, role`;
+  const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ? where domain = ? AND role=? and toolid=?`); // SORT BY domainname, role`;
   return client.execute(query, values, { hints: ['map', 'text', 'text', 'text'] }, (err, results) => {
     if (!err) {
       done(err, results.rows);
