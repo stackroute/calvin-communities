@@ -35,8 +35,30 @@ function getTools(domainName, done) {
 
 
 function postTools(dataFromBody, done) {
-  if (dataFromBody) {
-    if (dataFromBody != null) {
+  let flag = 0;
+    // console.log(flag);
+  dataFromBody.forEach((data) => {
+    if (data.toolId && data.actions && data.domain && data.activityEvents) {
+      if (data.toolId !== '' && data.actions !== '' && data.domain !== '' && data.activityEvents !== '') {
+                /* console.log(data.domain);
+                console.log(data.toolId);*/
+        communityToolService.getToolsforCRUD(data.domain, data.toolId, (error) => {
+          if (error) {
+            flag += 1;
+                        // console.log(flag);
+          } else {
+            flag += 0;
+          }
+        });
+      }
+    }
+  });
+  setTimeout(() => {
+        /* console.log(flag);
+         console.log(dataFromBody.length);
+         console.log(flag === dataFromBody.length);*/
+    if (flag === dataFromBody.length) {
+            // console.log("hii");
       async.parallel([
         communityToolService.addTools.bind(null, dataFromBody),
         toolsService.addTools.bind(null, dataFromBody),
@@ -47,11 +69,9 @@ function postTools(dataFromBody, done) {
         return done(undefined, 'Updated');
       });
     } else {
-      done('please fill out all fields!!', undefined);
+      done('Tool exists!!', undefined);
     }
-  } else {
-    done('please fill out all fields!!', undefined);
-  }
+  }, 100);
 }
 
 // To add actions and activity events to existing tools
@@ -70,26 +90,26 @@ function modifyTool(dataFromBody, dataFromURI, done) {
 
 function deleteAction(domainName, done) {
   communityToolService.getToolsForDeletion(domainName.domain,
-   domainName.tool, domainName.name, (err) => {
-     if (err) {
-       done(err, undefined);
-     } else {
-       communityToolService.deleteAction(domainName, done);
-     }
-   });
+        domainName.tool, domainName.name, (err) => {
+          if (err) {
+            done(err, undefined);
+          } else {
+            communityToolService.deleteAction(domainName, done);
+          }
+        });
 }
 
 // To delete an event from a tool
 
 function deleteEvent(domainName, done) {
   communityToolService.getToolsForDeletion(domainName.domain,
-   domainName.tool, domainName.name, (err) => {
-     if (err) {
-       done(err, undefined);
-     } else {
-       communityToolService.deleteEvent(domainName, done);
-     }
-   });
+        domainName.tool, domainName.name, (err) => {
+          if (err) {
+            done(err, undefined);
+          } else {
+            communityToolService.deleteEvent(domainName, done);
+          }
+        });
 }
 
 // To delete a tool

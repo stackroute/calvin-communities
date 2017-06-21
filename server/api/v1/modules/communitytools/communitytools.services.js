@@ -18,10 +18,14 @@ const client = new model.Client({
 // Query to select values from tools table
 
 function getTools(domainName, done) {
-  const query = (`SELECT toolid,actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' ALLOW FILTERING;`);
+  const query = (`SELECT toolid,actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
-      done(undefined, results);
+      if (results.rows.length > 0) {
+        done(undefined, results.rows);
+      } else {
+        done('please enter a valid domain name', undefined);
+      }
     } else {
       done(err, undefined);
     }
@@ -33,6 +37,7 @@ function getToolsforCRUD(domainName, tool, done) {
   const query = (`SELECT toolid,actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' and toolid = '${tool}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
+      // console.log(results.rows);
       if (results.rows.length > 0) {
         done(undefined, { domain: domainName, tools: results.rows });
       } else {
@@ -88,7 +93,9 @@ function addTools(data, done) {
   const arr = [];
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,actions,activityevents,createdon,updatedon) values(?,?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
-    arr.push({ query, params: [val.domain, val.toolId, val.actions, val.activityEvents] });
+    arr.push({ query,
+      params: [val.domain.toLowerCase(),
+        val.toolId.toLowerCase(), val.actions, val.activityEvents] });
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
