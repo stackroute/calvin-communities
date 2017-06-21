@@ -1,39 +1,98 @@
- const wrongdata = { message: 'please fill out all fields!!' };
+  const wrongdata = { message: 'please fill out all fields!!' };
 
- const toolcreated = { message: 'tool created' };
+  const toolcreated = { message: 'tool created' };
 
- const modified = { message: 'Tool modified' };
+  const modified = { message: 'Tool modified' };
 
- const deleted = { message: 'Tool Deleted' };
+  const deleted = { message: 'deleted' };
 
- const tools = {
-   domain: 'Engineer.wipro.blr',
-   tools: ["'broadcast'", "'write'"],
- };
+  const notFound = { error: 'please enter a valid domain name' };
+
+  const catchError = { error: 'Unexpected error occurred, please try again...!' };
+
+  const nullValue = { error: 'please enter all fields' };
+
+  const existingTool = { error: 'Tool Exists!!' };
+
+  const errMsg = { error: 'Please enter a valid domain and tool name' };
+
+  const actionMsg = { message: 'Deleted Actions' };
+
+  const error = { error: 'Error in operation, please try later..!' };
+
+  const eventMsg = { message: 'Deleted Events' };
+
+  const tools = [{
+    domain: 'doctor.wipro.blr',
+    toolId: 'quora',
+    actions: ['broadcast', 'write'],
+    activityEvents: ["'postmessage'"],
+  }];
+
+  const toolsAll = [{
+    domain: 'engineer.wipro.blr',
+    toolId: 'quora',
+    actions: ["'broadcast'", "'write'"],
+    activityEvents: ["'postmessage'"],
+  }];
+
+  const wrongtools = [{
+    toolId: 'stackoverflow',
+    actions: ['broadcast', 'write'],
+    activityEvents: ['postmessage'],
+  }];
+
+  const wrongtool = [
+    [{
+      toolId: 'sermo',
+      actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+      activityEvents: ['newannouncement', 'like', 'remove'],
+      domain: '',
+    }],
+  ];
 
 
- const wrongtools = {
-   domain: '',
-   tools: ["'broadcast'", "'write'"],
- };
-
- const updatetools = { tool: 'publish' };
-
- const patch = {
-   domain: 'Engineer.wipro.blr',
- };
+  const wrongvalue = [{
+    domain: 'engineer',
+    toolId: '',
+    actions: ['broadcast', 'write'],
+    activityEvents: ['postmessage'],
+  }];
 
 
- module.exports = {
-   wrongdata,
-   toolcreated,
-   modified,
-   tools,
-   wrongtools,
-   updatetools,
-   patch,
-     // wrongvalue,
-     // toolsAll,
-   deleted,
-     //tool,
- };
+  const patch = {
+    domain: 'engineer.wipro.blr',
+    tool: 'quora',
+  };
+
+  const notExisting = {
+    domain: 'dummyvalue',
+    tool: 'dummyvalue',
+  };
+
+  const updatetools = { tools: 'publish' };
+
+
+  module.exports = {
+    wrongdata,
+    toolcreated,
+    modified,
+    tools,
+    wrongtools,
+    updatetools,
+    patch,
+    wrongvalue,
+    toolsAll,
+    deleted,
+    notFound,
+    catchError,
+    nullValue,
+    wrongtool,
+    existingTool,
+    errMsg,
+    notExisting,
+    actionMsg,
+    error,
+    eventMsg,
+  };
+

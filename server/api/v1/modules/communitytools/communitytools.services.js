@@ -22,29 +22,29 @@ function getTools(domainName, done) {
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        done(undefined, results.rows);
+        done(undefined, { domain: domainName, tools: results.rows });
       } else {
-        done('please enter a valid domain name', undefined);
+        done({ error: 'please enter a valid domain name' }, undefined);
       }
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
 
 
 function getToolsforCRUD(domainName, tool, done) {
-  const query = (`SELECT toolid,actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' and toolid = '${tool}'`);
+  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' and toolid = '${tool}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
-      // console.log(results.rows);
+            // console.log(results.rows);
       if (results.rows.length > 0) {
-        done(undefined, { domain: domainName, tools: results.rows });
+        done(undefined, { domain: domainName, tool, data: results.rows });
       } else {
-        done('Please enter a valid domain and tool name', undefined);
+        done({ error: 'Please enter a valid domain and tool name' }, undefined);
       }
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -66,10 +66,34 @@ function getToolsForDeletion(domainName, tool, value, done) {
       if (flag) {
         done(undefined, { domain: domainName, tools: results.rows });
       } else {
-        done('Please enter a valid tool name', undefined);
+        done({ error: 'Please enter a valid tool name' }, undefined);
       }
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
+    }
+  });
+}
+
+function getToolsForEventDeletion(domainName, tool, value, done) {
+  let flag = false;
+  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' and toolid = '${tool}';`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      if (results.rows.length > 0) {
+        const arr = results.rows[0].activityevents;
+        arr.forEach((val) => {
+          if (val === value) {
+            flag = true;
+          }
+        });
+      }
+      if (flag) {
+        done(undefined, { domain: domainName, tools: results.rows });
+      } else {
+        done({ error: 'Please enter a valid tool name' }, undefined);
+      }
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -93,15 +117,18 @@ function addTools(data, done) {
   const arr = [];
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,actions,activityevents,createdon,updatedon) values(?,?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
-    arr.push({ query,
-      params: [val.domain.toLowerCase(),
-        val.toolId.toLowerCase(), val.actions, val.activityEvents] });
+    arr.push({
+      query,
+      params: [val.domain,
+        val.toolId, val.actions, val.activityEvents,
+      ],
+    });
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      done(undefined, 'updated tool');
+      done(undefined, { message: 'updated tool' });
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -114,7 +141,7 @@ function updateTools(data, value, done) {
     if (!err) {
       done(undefined, results);
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -127,7 +154,7 @@ function deleteAction(value, done) {
     if (!err) {
       done(undefined, results);
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -141,7 +168,7 @@ function deleteEvent(value, done) {
     if (!err) {
       done(undefined, results);
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -154,7 +181,7 @@ function deleteTools(domainname, done) {
     if (!err) {
       done(undefined, results);
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -168,4 +195,5 @@ module.exports = {
   deleteTools,
   getToolsForDeletion,
   getToolsforCRUD,
+  getToolsForEventDeletion,
 };

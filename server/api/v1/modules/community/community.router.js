@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
         logger.debug('Error in communityCtrl.allcommunities error: ', err);
         return res.status(500).error({ error: 'Error in operation, try again later' });
       }
-      return res.send(results);
+      return res.status(200).json(results);
     });
   } catch (err) {
     logger.debug('Unexpected error in fetching communities ', err);
@@ -65,7 +65,9 @@ router.get('/:domain', (req, res) => {
         logger.debug('Error in communityCtrl.getcommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, try again later' });
       }
-      if (results.length === 0) { return res.send({ message: 'this domain is available for registration' }); }
+      if (results.length === 0) {
+        return res.send({ message: 'this domain is available for registration' });
+      }
       return res.send(results);
     });
   } catch (err) {

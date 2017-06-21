@@ -11,26 +11,32 @@ function getTools(domainName, done) {
 // Function for Posting tools
 
 function postTools(dataFromBody, done) {
-  if (dataFromBody.domain && dataFromBody.tools) {
-    if (dataFromBody.domain !== null && dataFromBody.tools !== null) {
-      ToolService.addTools(dataFromBody, done);
-    } else {
-      return done('please fill out all fields!!');
+  let count = 0;
+  dataFromBody.forEach((data) => {
+    if (data.domain && data.toolId) {
+      if (data.domain !== null && data.toolId !== null) {
+        count += 1;
+      } else {
+        count += 0;
+      }
     }
+  });
+  if (count === dataFromBody.length) {
+    ToolService.addTools(dataFromBody, done);
   } else {
-    return done('please fill out all fields!!');
+    return done({ error: 'please enter all fields' }, undefined);
   }
   return done();
 }
 
-function modifyTool(domainname, dataFromBody, done) {
-  ToolService.updateTools(domainname, dataFromBody, done);
+function modifyTool(dataFromBody, dataFromparams, done) {
+  ToolService.updateTools(dataFromBody, dataFromparams, done);
 }
 
 // Function for deleting tools
 
 function deleteTool(dataFromURI, done) {
-  ToolService.deleteTool(dataFromURI, done);
+  ToolService.deleteTools(dataFromURI, done);
 }
 
 // Exporting the functions to be used in router
