@@ -19,7 +19,7 @@ router.get('/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.send(results);
+      return res.send(results);
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -36,7 +36,7 @@ router.patch('/increment/member/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('member increased');
+      return res.status(201).send('member increased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -53,7 +53,7 @@ router.patch('/increment/invitation/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('invite increased');
+      return res.status(201).send('invite increased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -70,7 +70,7 @@ router.patch('/increment/tool/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('tool increased');
+      return res.status(201).send('tool increased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -87,7 +87,7 @@ router.patch('/increment/requests/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('requests increased');
+      return res.status(201).send('requests increased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -104,7 +104,7 @@ router.patch('/decrement/member/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('member decreased');
+      return res.status(201).send('member decreased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -121,7 +121,7 @@ router.patch('/decrement/tool/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('tools decreased');
+      return res.status(201).send('tools decreased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -138,7 +138,7 @@ router.patch('/decrement/invitation/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('invitation decreased');
+      return res.status(201).send('invitation decreased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
@@ -155,7 +155,7 @@ router.patch('/decrement/requests/:domain', (req, res) => {
         console.log('error in getting the count for the pacticular domain', err);
         return res.status(500).send({ error: 'error in operation,please try later ...!' });
       }
-      res.status(201).send('requests decreased');
+      return res.status(201).send('requests decreased');
     });
   } catch (err) {
     console.log('Unexpected error in returning the count values', err);
