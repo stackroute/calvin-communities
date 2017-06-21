@@ -33,12 +33,12 @@ describe('Members community details and update it', () => {
             })
             .then(() => {
               client.execute(`SELECT * FROM ${MEMBERS_TABLE} where username='Aravindh' AND domain='Stack-Route-Immersive'`, (err, result) => {
-                console.log(result.rows[0]);
+                // console.log(result.rows[0]);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
                 result.rows[0].username.should.be.equal('Aravindh');
                 result.rows[0].role.should.be.equal('Trainee-FullStack-Developer');
-                console.log('Data Added...');
+                // console.log('Data Added...');
               });
               done();
             })
@@ -60,11 +60,11 @@ describe('Members community details and update it', () => {
                   result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
                   result.rows[0].username.should.be.equal('Aravindh');
                   result.rows[0].role.should.be.equal('Trainee-FullStack');
-                  console.log(result.rows[0]);
-                  console.log('Updated');
+                  // console.log(result.rows[0]);
+                  // console.log('Updated');
                 } if (err) {
-                  console.log(result.rows[0]);
-                  console.log('This member is not a part of a community');
+                  // console.log(result.rows[0]);
+                  // console.log('This member is not a part of a community');
                 }
               });
               done();
@@ -81,8 +81,8 @@ describe('Members community details and update it', () => {
         client.execute(`SELECT * FROM ${MEMBERS_TABLE} where username='Aravindh' `, (err, result) => {
           if (!err) {
             result.rows.length.should.be.equal(1);
-            console.log(result.rows);
-            console.log('Data is retrieved from a table');
+            // console.log(result.rows);
+            // console.log('Data is retrieved from a table');
           }
         });
         done();
@@ -98,10 +98,10 @@ describe('Members community details and update it', () => {
             .then(() => {
               client.execute(`SELECT * FROM ${MEMBERS_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
                 if (!err) {
-                  console.log('Data deleted....');
+                 // console.log('Data deleted....');
                 }
                 if (err) {
-                  console.log('This community not have a member of this name...!!');
+                 // console.log('This community not have a member of this name...!!');
                 }
               });
               done();
@@ -121,12 +121,12 @@ describe('Members community details and update it', () => {
             })
             .then(() => {
               client.execute(`SELECT * FROM ${MEMBERS_TABLE} where username='Aravindh' AND domain='Stack-Route-Immersive'`, (err, result) => {
-                console.log(result.rows[0]);
+               // console.log(result.rows[0]);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
                 result.rows[0].username.should.be.equal('Aravindh');
                 result.rows[0].role.should.be.equal('Trainee-FullStack-Developer');
-                console.log('Again data added...');
+               // console.log('Again data added...');
               });
               done();
             })

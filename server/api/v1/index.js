@@ -8,7 +8,7 @@ router.use('/communitytools', require('./modules/communitytools'));
 
 router.use('/counter', require('./modules/communitiescounter'));
 
-router.use('/membership', require('./modules/communityMembership'));
+router.use('/membership', require('./modules/communitymembership'));
 
 router.use('/members', require('./modules/members'));
 

@@ -1,4 +1,4 @@
-const membershipService = require('./communityMembership.service');
+const membershipService = require('./communitymembership.service');
 
 function addMemberToCommunity(values, done) {
   let flag = false;

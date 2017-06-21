@@ -4,9 +4,9 @@ const app = require('../../../../app');
 
 const request = require('supertest');
 
-const membershipService = require('./communityMembership.service');
+const membershipService = require('./communitymembership.service');
 
-const testData = require('./communityMembership.testData');
+const testData = require('./communitymembership.testData');
 
 // get community member
 describe('/get member detail from database for specified community', () => {
@@ -19,11 +19,11 @@ describe('/get member detail from database for specified community', () => {
               }
               membershipService.getParticularCommunityMemberDetails((error, result) => {
                 if (error) {
-                  console.log('Got error.......');
+                  // console.log('Got error.......');
                   done(error);
                   return;
                 } if (result) {
-                  console.log('Got data.......');
+                  // console.log('Got data.......');
                   res.body.should.deep.equal(result.rows);
                 }
               });

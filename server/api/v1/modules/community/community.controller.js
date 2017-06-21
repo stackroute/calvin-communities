@@ -6,7 +6,7 @@ const logger = require('log4js').getLogger();
 
 const templateController = require('../communitytemplates/communitytemplate.controller');
 
-const membershipController = require('../communityMembership/communityMembership.controller');
+const membershipController = require('../communitymembership/communitymembership.controller');
 
 const toolsController = require('../communitytools/communitytools.controller');
 

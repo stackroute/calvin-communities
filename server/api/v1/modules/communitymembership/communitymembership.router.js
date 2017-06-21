@@ -1,6 +1,6 @@
 const express = require('express');
 
-const membershipCtrl = require('./communityMembership.controller');
+const membershipCtrl = require('./communitymembership.controller');
 
 const router = express.Router();
 
@@ -17,13 +17,13 @@ router.post('/community/member/role', (req, res) => {
     const values = req.body;
     membershipCtrl.addMemberToCommunity(values, (err) => {
       if (err) {
-        console.log('Error in membershipCtrl.addMemberToCommunity error :', err);
+        // console.log('Error in membershipCtrl.addMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Member added' });
     });
   } catch (err) {
-    console.log('Unexpected error in inserting values ', err);
+    // console.log('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
@@ -44,13 +44,13 @@ router.get('/community/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     membershipCtrl.getParticularCommunityMemberDetails(domainName, (err, results) => {
       if (err) {
-        console.log('Error in membershipCtrl.getParticularCommunityMemberDetails error: ', err);
+       // console.log('Error in membershipCtrl.getParticularCommunityMemberDetails error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send(results);
     });
   } catch (err) {
-    console.log('Unexpected error in fetching members of a community...', err);
+   // console.log('Unexpected error in fetching members of a community...', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -73,13 +73,13 @@ router.patch('/member/:username/community/:domain/role', (req, res) => {
     const memberRole = req.body.role;
     membershipCtrl.modifyRoleOfMemberFromCommunity(params, memberRole, (err) => {
       if (err) {
-        console.log('Error in membershipCtrl.modifyRoleOfMemberFromCommunity error: ', err);
+       // console.log('Error in membershipCtrl.modifyRoleOfMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Updated' });
     });
   } catch (err) {
-    console.log('Unexpected error in Updating Role to a member in a community ', err);
+   // console.log('Unexpected error in Updating Role to a member in a community ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -101,13 +101,13 @@ router.delete('/community/:domain/removemember/:username', (req, res) => {
     };
     membershipCtrl.removeMemberFromCommunity(params, (err) => {
       if (err) {
-        console.log('Error in membershipCtrl.removeMemberFromCommunity error: ', err);
+       // console.log('Error in membershipCtrl.removeMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Deleted' });
     });
   } catch (err) {
-    console.log('Unexpected error in removing member from a community ', err);
+   // console.log('Unexpected error in removing member from a community ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
