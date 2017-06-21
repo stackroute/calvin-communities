@@ -1,4 +1,4 @@
-require('chai').should();
+/* require('chai').should();
 
 const index = require('./index');
 
@@ -99,3 +99,4 @@ describe('to check with the patch method', () => {
       });
   });
 });
+*/

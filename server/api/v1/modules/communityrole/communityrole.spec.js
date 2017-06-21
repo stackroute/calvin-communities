@@ -18,24 +18,24 @@ const client = new model.Client({
 
 const postdata1 = [
   {
-        domain: 'prakhar',
-        role: 'developer',
-        actions: {
-            post: 'true',
-            likes: 'false'
-        },
-        toolId: 'quora'
-    
+    domain: 'prakhar',
+    role: 'developer',
+    actions: {
+      post: 'true',
+      likes: 'false',
+    },
+    toolId: 'quora',
+
   },
   {
-        domain: 'africans',
-        role: 'cricketer',
-        actions: {
-            post: 'false',
-            likes: 'true'
-        },
-        toolId: 'git'
-}
+    domain: 'africans',
+    role: 'cricketer',
+    actions: {
+      post: 'false',
+      likes: 'true',
+    },
+    toolId: 'git',
+  },
 ];
 const patchdata = {
   actions: {
@@ -52,10 +52,10 @@ describe('Create a communityrole and update it', () => {
       .post('/api/v1/communityrole')
       .send(postdata1)
       .then(() => {
-        console.log("BEFORE CLIENT EXECUTE testcase");
+        console.log('BEFORE CLIENT EXECUTE testcase');
         client.execute("SELECT * from communityroles where domain='prakhar'", (err, result) => {
           if (!err) {
-            console.log("Result from testcase "+result.rows[0]);
+            console.log(`Result from testcase ${result.rows[0]}`);
             result.rows.length.should.be.equal(1);
             result.rows[0].actions.should.deep.equal(postdata1[0].actions);
             done();
@@ -63,7 +63,7 @@ describe('Create a communityrole and update it', () => {
         });
       })
       .catch((err) => {
-        console.log("In error");
+        console.log('In error');
         done(err);
       });
   });
@@ -86,7 +86,7 @@ describe('Create a communityrole and update it', () => {
   });
 
   after(() => {
-     client.execute("DELETE FROM communityroles where domain='prakhar'");
-     client.execute("DELETE FROM communityroles where domain='africans'");
+    client.execute("DELETE FROM communityroles where domain='prakhar'");
+    client.execute("DELETE FROM communityroles where domain='africans'");
   });
 });
