@@ -19,7 +19,7 @@ function InsertData(data, done) {
   let res;
 
   person.forEach((email) => {
-    const query = (`INSERT INTO ${InviteRequestTable} (domain,person,member,status,type) VALUES('${data.domain}','${email}','${data.member}','${data.status}','${data.type}')`);
+    const query = (`INSERT INTO ${InviteRequestTable} (domain,person,member,status,type,createdon,updatedon) VALUES('${data.domain.toLowerCase()}','${email.toLowerCase()}','${data.member.toLowerCase()}','${data.status.toLowerCase()}','${data.type.toLowerCase()}',dateof(now()),dateof(now()))`);
     client.execute(query, (err, result) => {
       error += err;
       res += result;
@@ -71,7 +71,7 @@ function gettingValuesByDomain(domain, done) {
 function statusUpdateRequest(domain, person, bodyData, done) {
   const status = bodyData.status.toLowerCase();
   const member = bodyData.member.toLowerCase();
-  const query = (`UPDATE ${InviteRequestTable} SET status = '${status}',member = '${member}' WHERE domain = '${domain}' AND person = '${person}'`);
+  const query = (`UPDATE ${InviteRequestTable} SET status = '${status}',member = '${member}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 
@@ -79,7 +79,7 @@ function statusUpdateRequest(domain, person, bodyData, done) {
 
 function statusUpdateInvite(domain, person, bodyData, done) {
   const status = bodyData.status.toLowerCase();
-  const query = (`UPDATE ${InviteRequestTable} SET status = '${status}' WHERE domain = '${domain}' AND person = '${person}'`);
+  const query = (`UPDATE ${InviteRequestTable} SET status = '${status}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 

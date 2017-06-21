@@ -74,9 +74,7 @@ describe('Create a community and update it', () => {
               });
               return done();
             })
-            .catch((err) => {
-              done(err);
-            });
+            .catch(err => done(err));
   });
 
 
