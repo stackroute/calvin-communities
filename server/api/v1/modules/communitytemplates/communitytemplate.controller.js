@@ -1,7 +1,6 @@
 const templates = require('./templates');
 
 // controller for the list of templates which will be called in the router
-
 function getListOfTemplates() {
   return templates;
 }
@@ -17,6 +16,7 @@ function getTemplateOfTemplateName(name) {
   const templatename = templates.filter(element => element.name === name);
   return templatename;
 }
+
 module.exports = {
   getListOfTemplates,
   getTemplatesOfPurpose,

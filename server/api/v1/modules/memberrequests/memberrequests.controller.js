@@ -45,21 +45,24 @@ function updateStatus(params, bodyData, done) {
   const status = bodyData.status.toLowerCase();
   service.gettingValuesByDomainPerson(domain, person, (error, result) => {
     if (error) done('error in getting type for the given domain');
-    const inviteType = result[0].type;
-    if ((bodyData.status) && (bodyData.status !== null)) {
-      statusstring.forEach((a) => {
-        if (status.includes(a)) {
-          flag = true;
-        }
-      });
+    let inviteType = '';
+    if (result !== undefined && result.length > 0) {
+      inviteType = result[0].type;
+      if ((bodyData.status) && (bodyData.status !== null)) {
+        statusstring.forEach((a) => {
+          if (status.includes(a)) {
+            flag = true;
+          }
+        });
+      }
     }
 
     if (flag) {
-      if ((status === 'approved') && (inviteType.toLowerCase() === 'request')) {
+      if ((status === 'approved') && (inviteType === 'request')) {
         if ((bodyData.member) && bodyData.member !== null) {
           service.statusUpdateRequest(domain, person, bodyData, done);
         } else done('Error in operation, please try later..!');
-      } else if (((status === 'accepted') || (status === 'resent')) && (inviteType.toLowerCase() === 'invite')) {
+      } else if (((status === 'accepted') || (status === 'resent')) && (inviteType === 'invite')) {
         service.statusUpdateInvite(domain, person, bodyData, done);
       } else done('Error in operation, please try later..!');
     } else done('Error in operation, please try later..!');
