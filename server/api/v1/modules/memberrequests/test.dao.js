@@ -7,15 +7,35 @@ const modified = { message: 'Updated' };
 const deleted = { message: 'Deleted' };
 
 
-// test case for checking post method
+/* -------------------test case for checking POST method -------------------------------*/
 const data = {
   domain: 'Godrej',
   status: 'invitesent',
-  person: ['mandu@gmail.com'],
+  person: ['mandu@gmail.com', 'palavi@gmail.com'],
   type: 'invite',
   member: 'janaki',
 
 };
+
+
+// throw error when member is there if type is request
+const member = {
+  domain: 'mercury',
+  status: 'requested',
+  person: ['veni@gmail.com'],
+  type: 'request',
+  member: 'harrri',
+};
+
+// throw error if member is empty for type invite
+const invitemember = {
+  domain: 'marine',
+  status: 'invitesent',
+  person: ['viswa@gmail.com'],
+  type: 'invite',
+  member: '',
+};
+
 
 // person is empty
 
@@ -50,7 +70,28 @@ const statuswrong = {
 
 };
 
-// test case for checking patch method
+// wrong value in type
+const wrongtype =
+  {
+    domain: 'samsung',
+    status: 'xyz',
+    person: ['pooja@gmail.com'],
+    type: 'yyyyyyyyyyy',
+    member: 'janaki',
+
+  };
+
+// member(approver) should be empty when type is request
+const requestinput = {
+  domain: 'marian',
+  status: 'requested',
+  person: ['amudha@gmail.com'],
+  type: 'request',
+  member: '',
+
+};
+
+/* ---------------------------test case for checking PATCH method----------------------------*/
 
 // status should be approved when the type is request
 
@@ -94,6 +135,10 @@ module.exports = {
   checkinvitetype,
   valueforrequest,
   deleted,
+  member,
+  requestinput,
+  wrongtype,
+  invitemember,
 
 
 };
