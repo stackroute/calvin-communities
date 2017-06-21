@@ -57,8 +57,11 @@ function gettingValuesByDomain(domain, done) {
 
   return client.execute(query, (err, result) => {
     if (!err) {
-      // console.log(result.rows);
-      done(err, result.rows);
+      if (result.rows.length > 0) {
+        done(undefined, result.rows);
+      } else {
+        done('please enter valid domain name', undefined);
+      }
     } else {
       done(err, undefined);
     }

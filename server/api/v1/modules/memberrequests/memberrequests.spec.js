@@ -81,7 +81,7 @@ describe('/post data in database', () => {
 describe('/update data in database, no data given', () => {
   it('should give error on patch data in database as status values is wrongly given', (done) => {
     request(app)
-                .patch('/api/v1/memberrequests/meridian/gayathri@gmail.com')
+                .patch('/api/v1/memberrequests/doctor/saran@gmail.com')
                 .send(values.checkrequesttype)
                 .end((err, res) => {
                   if (err) {
@@ -99,7 +99,7 @@ describe('/update data in database, no data given', () => {
 describe('/update data in database, no data given', () => {
   it('should give error on patch data in database when member is empty', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/meridian/gayathri@gmail.com')
+                        .patch('/api/v1/memberrequests/doctor/saran@gmail.com')
                         .send(values.emptyapprover)
                         .end((err, res) => {
                           if (err) {
@@ -116,7 +116,7 @@ describe('/update data in database, no data given', () => {
 describe('/update data in database', () => {
   it('should modify data in database when values are given', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/meridian/gayathri@gmail.com')
+                        .patch('/api/v1/memberrequests/doctor/saran@gmail.com')
                         .send(values.valueforrequest)
                         .end((err, res) => {
                           if (err) {
@@ -133,7 +133,7 @@ describe('/update data in database', () => {
 describe('/update data in database', () => {
   it('should modify invite status in database values are given', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/Infosys/maria@gmail.com')
+                        .patch('/api/v1/memberrequests/GE/vimala@gmail.com')
                         .send(values.checkinvitetype)
                         .end((err, res) => {
                           if (err) {
