@@ -6,31 +6,33 @@
 
  const deleted = { message: 'Tool Deleted' };
 
- const tools = {
-   domain: 'teacher.community',
-   id: 'stackoverflow',
- };
-
- const toolsAll = {
+ const tools = [{
    domain: 'Engineer.wipro.blr',
-   id: 'Quora',
-   action: ["'broadcast'", "'write'"],
-   events: ["'postmessage'"],
- };
+   toolId: 'Quora',
+   actions: ["'broadcast'", "'write'"],
+   activityEvents: ["'postmessage'"],
+ }];
 
- const wrongtools = {
+ const toolsAll = [{
+   domain: 'Engineer.wipro.blr',
+   toolId: 'Quora',
+   actions: ["'broadcast'", "'write'"],
+   activityEvents: ["'postmessage'"],
+ }];
+
+ const wrongtools = [{
    domain: '',
    id: 'stackoverflow',
-   action: ["'broadcast'", "'write'"],
-   events: ["'postmessage'"],
- };
+   action: ['broadcast', 'write'],
+   events: ['postmessage'],
+ }];
 
- const wrongvalue = {
+ const wrongvalue = [{
    domain: 'engineer',
    id: '',
-   action: ["'broadcast'", "'write'"],
-   events: ["'postmessage'"],
- };
+   action: ['broadcast', 'write'],
+   events: ['postmessage'],
+ }];
 
  const updatetools = {
    action: 'publish',

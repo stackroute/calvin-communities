@@ -6,7 +6,7 @@ const logger = require('log4js').getLogger();
 
 const templateController = require('../communitytemplates/communitytemplate.controller');
 
-const membershipController = require('../communityMembership/communityMembership.controller');
+const membershipController = require('../communitymembership/communitymembership.controller');
 
 const toolsController = require('../communitytools/communitytools.controller');
 
@@ -31,9 +31,8 @@ function getAllCommunities(done) {
  *
  */
 function workflowCreation(community) {
-
 // loading specified template
-const templateDetails = templateController.getTemplateOnTemplateName(community.template);
+  const templateDetails = templateController.getTemplateOnTemplateName(community.template);
 // CommunityCreation Data
   const com = [
     community.domain, community.name, community.purpose,
@@ -51,34 +50,32 @@ const templateDetails = templateController.getTemplateOnTemplateName(community.t
   };
 
 // getting tools data from specified template for addTools
-  let tools = [];
+  const tools = [];
   templateDetails[0].tools.forEach((element) => {
     logger.debug(element);
-    let toolsobject = {
+    const toolsobject = {
       domain: community.domain,
       toolId: element.toolId,
       actions: element.actions,
       activityEvents: element.activityEvents,
-    }
+    };
     tools.push(toolsobject);
-
-  })
+  });
 
 // getting roles data from specified template
-  let roles = [];
+  const roles = [];
   templateDetails[0].rolesActions.forEach((element) => {
     logger.debug(element);
-    element.toolsActions.forEach((data) =>{
-      let rolesobject = {
-      domain: community.domain,
-      role: element.role,
-      toolId: data.toolId,
-      actions: data.actions,
-    }
-        roles.push(rolesobject);
-
-    })
-  })
+    element.toolsActions.forEach((data) => {
+      const rolesobject = {
+        domain: community.domain,
+        role: element.role,
+        toolId: data.toolId,
+        actions: data.actions,
+      };
+      roles.push(rolesobject);
+    });
+  });
 
   // returning all data in single error
   const values = [];
@@ -113,12 +110,12 @@ function addCommunity(community, done) {
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
     toolsController.postTools.bind(null, values[2]),
-     ],
+  ],
     (err, result) => {
-    if (err) return done(err);
-    return done(undefined, result[0]);
-  });
-//roleController.postCommunityRoles.bind(null, values[3]),
+      if (err) return done(err);
+      return done(undefined, result[0]);
+    });
+// roleController.postCommunityRoles.bind(null, values[3]),
 }
 
 /**
@@ -154,7 +151,7 @@ function updateCommunity(domainName, community, done) {
 *
 */
 function deleteCommunity(domain, done) {
-  if(domain){
+  if (domain) {
     communityServ.deleteCommunity(param, done);
   }
 }

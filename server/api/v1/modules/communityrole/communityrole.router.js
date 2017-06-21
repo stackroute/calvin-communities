@@ -52,7 +52,7 @@ router.post('/', (req, res) => {
       return res.send('Added');
     });
   } catch (err) {
-    console.log("error:"+err);
+    console.log(`error:${err}`);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });

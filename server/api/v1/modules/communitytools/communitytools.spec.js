@@ -13,7 +13,7 @@ const value = require('./test.dao');
 describe('/get data from database for specified domain', () => {
   it('should get data for specified domain', (done) => {
     request(app)
-            .get('/api/v1/communitytools/wipro.blr')
+            .get('/api/v1/communitytools/Engineer.wipro.blr')
             .end((err, res) => {
               if (err) {
                 done(err);
@@ -98,15 +98,15 @@ describe('/get data from database for specified domain', () => {
     // post data in database, all values given
   it('should post data in database for all columns ', (done) => {
     request(app)
-                .post('/api/v1/communitytools')
-                .send(value.toolsAll)
-                .end((err, res) => {
-                  if (err) {
-                    done(err);
-                    return;
-                  }
-                  res.body.should.be.deep.equal(value.toolcreated);
-                });
+            .post('/api/v1/communitytools')
+            .send(value.toolsAll)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.be.deep.equal(value.toolcreated);
+            });
     done();
   });
 
@@ -123,11 +123,40 @@ describe('/get data from database for specified domain', () => {
               }
               res.body.should.deep.equal(value.modified);
             });
-    done();
+    return setTimeout(done, 1000);
   });
 
 
-   //  Delete a row from table
+    //  Delete a row from table
+  it('should delete data in database for a given domain and tool name', (done) => {
+    request(app)
+            .delete(`/api/v1/communitytools/action/${value.patch.domain}/${value.patch.tool}/broadcast`)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.deleted);
+            });
+    return setTimeout(done, 1000);
+  });
+
+
+    //  Delete a row from table
+  it('should delete data in database for a given domain and tool name', (done) => {
+    request(app)
+            .delete(`/api/v1/communitytools/event/${value.patch.domain}/${value.patch.tool}/postmessage`)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.deleted);
+            });
+    return setTimeout(done, 1000);
+  });
+
+    //  Delete a row from table
   it('should delete data in database for a given domain and tool name', (done) => {
     request(app)
             .delete(`/api/v1/communitytools/${value.patch.domain}/${value.patch.tool}`)
@@ -138,6 +167,6 @@ describe('/get data from database for specified domain', () => {
               }
               res.body.should.deep.equal(value.deleted);
             });
-    done();
+    return setTimeout(done, 1000);
   });
 });

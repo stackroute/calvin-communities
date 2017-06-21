@@ -10,7 +10,8 @@ function postCommunityRoles(postedData, done) {
 }
 
 function patchCommunityRoles(patchData, domainName, role, done) {
-  const params = [patchData.actions, patchData.toolid, domainName, role];
+  const params = [patchData[0].actions, domainName, role, patchData[0].toolId];
+  console.log(params);
   communityRoleService.patchCommunityRoles(params, done);
 }
 

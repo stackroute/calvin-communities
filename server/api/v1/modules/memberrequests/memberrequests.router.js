@@ -17,14 +17,14 @@ router.get('/:domain', (req, res) => {
     const domain = req.params.domain;
     controller.gettingValuesByDomain(domain, (err, results) => {
       if (err) {
-        console.log('Error in controller.gettingValuesByDomain error: ', err);
+        // console.log('Error in controller.gettingValuesByDomain error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
 
       return res.send(results);
     });
   } catch (err) {
-    console.log('Unexpected error in fetching list for particular domain ', err);
+    // console.log('Unexpected error in fetching list for particular domain ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -43,13 +43,13 @@ router.post('/membership', (req, res) => {
     const values = req.body;
     controller.InsertData(values, (err) => {
       if (err) {
-        console.log('Error in controller.InsertData error: ', err);
+        // console.log('Error in controller.InsertData error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Inserted' });
     });
   } catch (err) {
-    console.log('Unexpected error in inserting values ', err);
+    // console.log('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -73,14 +73,14 @@ router.patch('/:domain/:person', (req, res) => {
     const bodyData = req.body;
     controller.updateStatus(params, bodyData, (err) => {
       if (err) {
-        console.log('Error in controller.updateStatus error: ', err);
+        // console.log('Error in controller.updateStatus error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
 
       return res.send({ message: 'Updated' });
     });
   } catch (err) {
-    console.log('Unexpected error in updating for particular id ', err);
+    // console.log('Unexpected error in updating for particular id ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
@@ -101,13 +101,13 @@ router.delete('/:domain/:person', (req, res) => {
     const person = req.params.person;
     controller.rejectedInviteRequest(domain, person, (err) => {
       if (err) {
-        console.log('Error in  controller.rejectedInviteRequest error: ', err);
+        // console.log('Error in  controller.rejectedInviteRequest error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Deleted' });
     });
   } catch (err) {
-    console.log('Unexpected error in deleting particular domain ', err);
+    // console.log('Unexpected error in deleting particular domain ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });

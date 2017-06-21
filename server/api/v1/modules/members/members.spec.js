@@ -19,11 +19,11 @@ describe('/get member detail from database for specified community', () => {
               }
               membersService.getParticularMemberDetailInCommunities((error, result) => {
                 if (error) {
-                  console.log('Got error.......');
+                 // console.log('Got error.......');
                   done(error);
                   return;
                 } if (result) {
-                  console.log('Got data.......');
+                  // console.log('Got data.......');
                   res.body.should.deep.equal(result.rows);
                 }
               });
