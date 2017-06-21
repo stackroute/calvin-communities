@@ -2,59 +2,127 @@
 require('chai').should();
 const app = require('../../../../app');
 const request = require('supertest');
+const templates = require('./templates');
 const templateCtrl = require('./communitytemplate.controller');
+
+const apiVersion = '/api/v1';
 
 // test case for list the templates
 
-describe('Retrieve the list of templates', function () {
-  it(' should retrieve the list of templates', function (done) {
+describe('Test GET request to API /communitytemplates/', function () {
+  it('Fetch all templates', function (done) {
     request(app)
-      .get('/api/v1/communitytemplates')
+      .get(`${apiVersion}/communitytemplates`)
       .end((err, res) => {
         if (err) {
           done(err);
           return;
         }
-        templateCtrl.getListOfTemplates((result) => {
+        res.body.should.deep.equal(templates);
+        res.body.length.should.be.equal(templates.length);
+        done();
+      });
+  });
+
+  it('Fetch templates by specifying existing purpose', function (done) {
+    request(app)
+      .get(`${apiVersion}/communitytemplates?purpose=purpose`)
+      .end((err, res) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        templateCtrl.getTemplatesOfPurpose((result) => {
+          res.body.should.deep.equal(result);
+          res.body.length.should.deep.equal(result.length);
+        });
+        done();
+      });
+  });
+  it('Fetch templates by specifying templatenames', function (done) {
+    request(app)
+      .get(`${apiVersion}/communitytemplates/:templatename`)
+      .end((err, res) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        templateCtrl.getTemplateOfTemplateName((result) => {
+          res.body.should.deep.equal(result);
+          res.body.length.should.deep.equal(result.length);
+        });
+        done();
+      });
+  });
+  it('Fetch templates by specifying non-existing purpose', function (done) {
+    request(app)
+      .get(`${apiVersion}/communitytemplates?purpose=travel`)
+      .end((err, res) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        templateCtrl.getTemplatesOfPurpose((result) => {
           res.body.should.deep.equal(result);
         });
         done();
       });
   });
-});
-
-// test case for the specific template data
-describe('Retrieve the specified template data based on purpose', function () {
-  it(' should retrieve specified template data on purpose ', function (done) {
+  it('Fetch templates by specifying query parameter, which is not in API', function (done) {
     request(app)
-      .get('/api/v1/communitytemplates/:purpose')
+      .get(`${apiVersion}/communitytemplates?api=api`)
       .end((err, res) => {
         if (err) {
           done(err);
           return;
         }
-        templateCtrl.getTemplatesOnPurpose((result) => {
-          res.body.should.deep.equal(result);
-        });
+        res.status.should.be.equal(200);
         done();
       });
   });
-});
 
-// test case for the specific template data
-describe('Retrieve the specified template data based on template name', function () {
-  it(' should retrieve specified template data based on template name', function (done) {
-    request(app)
-      .get('/api/v1/communitytemplates/templates/:templatename')
-      .end((err, res) => {
-        if (err) {
-          done(err);
-          return;
-        }
-        templateCtrl.getTemplateOnTemplateName((result) => {
-          res.body.should.deep.equal(result);
+  describe('Test purpose based filtering of templates, for case-sensitivity', function () {
+    it('Fetch templates by specifying existing purpose in UPPER case', function (done) {
+      request(app)
+        .get(`${apiVersion}/communitytemplates/?purpose=MEDICAL`)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+            return;
+          }
+          templateCtrl.getTemplatesOfPurpose((result) => {
+            res.body.should.deep.equal(result);
+          });
+          done();
         });
-        done();
-      });
+    });
+    it('Fetch templates by specifying existing purpose in miXEd case', function (done) {
+      request(app)
+        .get(`${apiVersion}/communitytemplates?purpose=MediCAl`)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+            return;
+          }
+          templateCtrl.getTemplatesOfPurpose((result) => {
+            res.body.should.deep.equal(result);
+          });
+          done();
+        });
+    });
+    it('Fetch templates by specifying existing purpose in lower case', function (done) {
+      request(app)
+        .get(`${apiVersion}/communitytemplates?purpose=technical`)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+            return;
+          }
+          templateCtrl.getTemplatesOfPurpose((result) => {
+            res.body.should.deep.equal(result);
+          });
+          done();
+        });
+    });
   });
 });

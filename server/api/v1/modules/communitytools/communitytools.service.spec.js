@@ -20,18 +20,18 @@ describe('Create a community and update it', () => {
   before(() => {
         // runs before all tests in this block
 
-    client.execute("DELETE FROM communitytools where domain='Engineer.wipro.blr';");
+    // client.execute("DELETE FROM communitytools where domain='Engineer.wipro.blr';");
   });
 
   it('Add a new tool for a community', (done) => {
     request(app)
             .post('/api/v1/communitytools')
-            .send({
+            .send([{
               domain: 'Engineer.wipro.blr',
               toolId: 'Quora',
               actions: ["'broadcast'", "'write'"],
               activityEvents: ["'postmessage'"],
-            })
+            }])
             .then(() => {
                 // console.log(res.rows);
               client.execute("SELECT * from communitytools where domain='Engineer.wipro.blr'", (err, result) => {
@@ -54,18 +54,22 @@ describe('Create a community and update it', () => {
             })
             .then(() => {
               client.execute("SELECT * from communitytools where domain='Engineer.wipro.blr'", (err, result) => {
-                    // console.log(result.rows);
+                // console.log(result.rows);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Engineer.wipro.blr');
                 result.rows[0].toolid.should.be.equal('Quora');
+                return done();
               });
+              // console.log('hello');
               return done();
             })
-            .catch(err => done(err));
+            .catch((err) => {
+              done(err); // console.log(err);
+            });
   });
 
 
   after('', () => {
-    client.execute("DELETE FROM communitytools where domain='Engineer.wipro.blr';");
+    // client.execute("DELETE FROM communitytools where domain='Engineer.wipro.blr';");
   });
 });
