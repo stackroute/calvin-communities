@@ -2,59 +2,43 @@
 require('chai').should();
 const app = require('../../../../app');
 const request = require('supertest');
-const templateCtrl = require('./communitytemplate.controller');
+const templates = require('./templates');
+
+const apiVersion = '/api/v1';
 
 // test case for list the templates
 
-describe('Retrieve the list of templates', function () {
-  it(' should retrieve the list of templates', function (done) {
+describe('Test GET request to API /communitytemplates/', function() {
+  it('Fetch all templates', function(done) {
     request(app)
-      .get('/api/v1/communitytemplates')
+      .get(`${apiVersion}/communitytemplates`)
       .end((err, res) => {
         if (err) {
           done(err);
           return;
         }
-        templateCtrl.getListOfTemplates((result) => {
-          res.body.should.deep.equal(result);
-        });
+        res.body.should.deep.equal(templates);
+        // res.body.length.should.be.equal(template.length);
         done();
       });
   });
-});
-
-// test case for the specific template data
-describe('Retrieve the specified template data based on purpose', function () {
-  it(' should retrieve specified template data on purpose ', function (done) {
-    request(app)
-      .get('/api/v1/communitytemplates/:purpose')
-      .end((err, res) => {
-        if (err) {
-          done(err);
-          return;
-        }
-        templateCtrl.getTemplatesOnPurpose((result) => {
-          res.body.should.deep.equal(result);
-        });
-        done();
-      });
+  it('Fetch templates by specifying existing purpose', function(done) {
+    done('no implemented');
   });
-});
 
-// test case for the specific template data
-describe('Retrieve the specified template data based on template name', function () {
-  it(' should retrieve specified template data based on template name', function (done) {
-    request(app)
-      .get('/api/v1/communitytemplates/templates/:templatename')
-      .end((err, res) => {
-        if (err) {
-          done(err);
-          return;
-        }
-        templateCtrl.getTemplateOnTemplateName((result) => {
-          res.body.should.deep.equal(result);
-        });
-        done();
-      });
+  describe('Test purpose based filtering of templates, for case-sensitivity', function() {
+    it('Fetch templates by specifying existing purpose in UPPER case', function(done) {
+      done('no implemented');
+    });
+    it('Fetch templates by specifying existing purpose in miXEd case', function(done) {
+      done('no implemented');
+    });
+  });
+
+  it('Fetch templates by specifying non-existing purpose', function(done) {
+    done('no implemented');
+  });
+  it('Fetch templates by specifying query parameter, which is not in API', function(done) {
+    done('no implemented');
   });
 });
