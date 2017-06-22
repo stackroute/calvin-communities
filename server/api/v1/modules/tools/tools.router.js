@@ -59,7 +59,8 @@ router.patch('/:domain/', (req, res) => {
     ToolCtrl.modifyTool(dataFromBody, dataFromParams, (err) => {
       if (err) {
                 // console.log('Error in ToolCtrl.postTools error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+
+        return res.status(500).send(err);
       }
 
       return res.send({ message: 'Tool modified' });
@@ -77,7 +78,7 @@ router.delete('/:domain/:tool', (req, res) => {
     ToolCtrl.deleteTool(dataFromParams, (err) => {
       if (err) {
                 // console.log('Error in ToolCtrl.postTools error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(500).send(err);
       }
 
       return res.send({ message: 'deleted' });

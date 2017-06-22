@@ -1,6 +1,3 @@
-  const wrongdata = { message: 'please fill out all fields!!' };
-
-  const toolcreated = { message: 'tool created' };
 
   const modified = { message: 'Tool modified' };
 
@@ -12,8 +9,6 @@
 
   const nullValue = { error: 'please enter all fields' };
 
-  const existingTool = { error: 'Tool Exists!!' };
-
   const errMsg = { error: 'Please enter a valid domain and tool name' };
 
   const actionMsg = { message: 'Deleted Actions' };
@@ -22,6 +17,9 @@
 
   const eventMsg = { message: 'Deleted Events' };
 
+  const domainErr = { error: 'please enter a valid tool' };
+
+  const errorOccured = { error: 'Error Occured' };
   const tools = [{
     domain: 'doctor.wipro.blr',
     toolId: 'quora',
@@ -42,14 +40,13 @@
     activityEvents: ['postmessage'],
   }];
 
-  const wrongtool = [
+  const wrongtool =
     [{
       toolId: 'sermo',
       actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
       activityEvents: ['newannouncement', 'like', 'remove'],
       domain: '',
-    }],
-  ];
+    }];
 
 
   const wrongvalue = [{
@@ -74,8 +71,6 @@
 
 
   module.exports = {
-    wrongdata,
-    toolcreated,
     modified,
     tools,
     wrongtools,
@@ -88,11 +83,12 @@
     catchError,
     nullValue,
     wrongtool,
-    existingTool,
     errMsg,
     notExisting,
     actionMsg,
     error,
     eventMsg,
+    domainErr,
+    errorOccured,
   };
 

@@ -19,7 +19,7 @@ router.get('/:domainname', (req, res) => {
     const domainName = req.params.domainname;
     communityRoleCtrl.getCommunityRoles(domainName, (err, results) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(500).send(err);
       }
 
       return res.send(results);
@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
   try {
     communityRoleCtrl.postCommunityRoles(req.body, (err) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(500).send(err);
       }
 
       return res.send('Added');
@@ -85,5 +85,29 @@ router.patch('/:domainname/:role', (req, res) => {
   }
 });
 
+/*
+ * Effective URI of the API is GET /communityrole/:domainname
+ *
+ * API for returning all roles of a specified community
+ *
+ * URL Parameter
+ *  - Domain Name: specify a specific domain name, to get its roles
+ *
+ */
+// router.get('/:domainName/:role/:toolid', (req, res) => {
+//   try {
+//     const domainName = req.params.domainname;
+//     const role = req.params.role;
+//     const toolid = req.params.toolid;
+//     communityRoleCtrl.getCommunityRoles(domainName, role, toolid, (err, results) => {
+//       if (err) {
+//         return res.status(500).send(err);
+//       }
 
+//       return res.send(results);
+//     });
+//   } catch (err) {
+//     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+//   }
+// });
 module.exports = router;
