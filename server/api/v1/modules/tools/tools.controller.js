@@ -26,7 +26,7 @@ function postTools(dataFromBody, done) {
   } else {
     return done({ error: 'please enter all fields' }, undefined);
   }
-  return done();
+  return done(undefined,{message:'posted'});
 }
 
 function modifyTool(dataFromBody, dataFromparams, done) {

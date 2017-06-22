@@ -56,9 +56,9 @@ function addTools(data, done) {
   const query = (`insert into ${TOOL_TABLE} (domain,tools) values('${domainname}',{${arr}})`);
   return client.execute(query, (err) => {
     if (!err) {
-      return done(undefined, { message: 'tools added' });
+      return done(undefined);
     }
-    return done(err, { message: 'Tool modified' });
+    return done(err);
         // console.log(err);
   });
 }

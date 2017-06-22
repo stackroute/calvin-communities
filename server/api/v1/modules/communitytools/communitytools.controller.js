@@ -46,6 +46,8 @@ function postTools(dataFromBody, done) {
     if (data.toolId && data.actions && data.domain && data.activityEvents) {
       if (data.toolId !== '' && data.actions !== '' && data.domain !== '' && data.activityEvents !== '') {
         correctValue += 1;
+        data.actions=data.actions.map(function(x){ return x.toLowerCase() });
+        data.activityEvents=data.activityEvents.map(function(x){ return x.toLowerCase() });
         communityToolService.getToolsforCRUD(data.domain, data.toolId, (error) => {
           if (error) {
             flag += 1;
@@ -97,6 +99,7 @@ function modifyTool(dataFromBody, dataFromURI, done) {
 // To delete an action from a tool
 
 function deleteAction(domainName, done) {
+  // console.log(domainName);
   communityToolService.getToolsForDeletion(domainName.domain,
         domainName.tool, domainName.name, (err) => {
           if (err) {
