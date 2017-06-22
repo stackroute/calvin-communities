@@ -30,9 +30,10 @@ function getAllCommunities(done) {
  *
  *
  */
-function workflowCreation(community) {
+function getTemplateDetails(community) {
+
 // loading specified template
-  const templateDetails = templateController.getTemplateOnTemplateName(community.template);
+  const templateDetails = templateController.getTemplateOfTemplateName(community.template);
 // CommunityCreation Data
   const com = [
     community.domain, community.name, community.purpose,
@@ -87,7 +88,6 @@ function workflowCreation(community) {
 }
 
 function addCommunity(community, done) {
-  const values = workflowCreation(community);
 
   if (
         community.domain === undefined ||
@@ -106,16 +106,18 @@ function addCommunity(community, done) {
         community.tags.length === 0
     ) return done('Wrong Data Inputs', null);
 
+  const values = getTemplateDetails(community);
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
     toolsController.postTools.bind(null, values[2]),
+    roleController.postCommunityRoles.bind(null, values[3]),
   ],
     (err, result) => {
       if (err) return done(err);
       return done(undefined, result[0]);
     });
-// roleController.postCommunityRoles.bind(null, values[3]),
+// ,
 }
 
 /**
@@ -133,15 +135,18 @@ function getCommunity(domainName, done) {
  *
  */
 function updateCommunity(domainName, community, done) {
+
   if (!community.name ||
       community.tags === undefined ||
         community.tags.length === 0 ||
         community.updatedby === undefined ||
         !community.updatedby
     ) return done('Wrong Data Inputs', null);
+
   const param = [community.name, community.avatar, community.description, community.visibility,
     community.tags, community.updatedby, domainName,
   ];
+
   communityServ.updateCommunity(param, done);
 }
 
