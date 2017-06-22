@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     }
     return res.send(templateCtrl.getListOfTemplates());
   } catch (err) {
-    return res.status(500)({ error: 'Unexpected internal error occurred, please try later...!' });
+    return res.status(500).send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
 

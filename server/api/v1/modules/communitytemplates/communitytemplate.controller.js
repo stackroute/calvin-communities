@@ -13,7 +13,6 @@ function getTemplatesOfPurpose(purpose) {
   }
   return templatesOnPurpose;
 }
-
 // controller for the specified template data retrieved based on templatename
 function getTemplateOfTemplateName(name) {
   const templatename = templates.filter(element => element.name === name);
