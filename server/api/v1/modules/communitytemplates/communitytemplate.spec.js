@@ -68,18 +68,6 @@ describe('Test GET request to API /communitytemplates/', function () {
         done();
       });
   });
-  it('Fetch templates by specifying query parameter, which is not in API', function (done) {
-    request(app)
-      .get(`${apiVersion}/communitytemplates?api=api`)
-      .end((err, res) => {
-        if (err) {
-          done(err);
-          return;
-        }
-        res.status.should.be.equal(200);
-        done();
-      });
-  });
 
   describe('Test purpose based filtering of templates, for case-sensitivity', function () {
     it('Fetch templates by specifying existing purpose in UPPER case', function (done) {
