@@ -21,7 +21,11 @@ function getTools(domainName, done) {
   const query = (`SELECT tools from ${TOOL_TABLE} WHERE domain='${domainName}' ALLOW FILTERING;`);
   return client.execute(query, (err, results) => {
     if (!err) {
-      done(undefined, results.rows);
+      if (results.rows.length > 0) {
+        done(undefined, { domain: domainName, tools: results.rows });
+      } else {
+        done({ error: 'please enter a valid domain name' }, undefined);
+      }
     } else {
       done(err, undefined);
     }
@@ -31,10 +35,10 @@ function getTools(domainName, done) {
 // Inserting into tools table
 
 function updateTools(data, domainName, done) {
-  const query = (`update ${TOOL_TABLE} set tools = tools + {${data.tools}} where domain='${domainName.domain}';`);
-  return client.execute(query, (err, results) => {
+  const query = (`update ${TOOL_TABLE} set tools = tools + {'${data.tools}'} where domain='${domainName.domain}';`);
+  return client.execute(query, (err) => {
     if (!err) {
-      done(undefined, results.rows);
+      done(undefined, 'results');
     } else {
       done(err, undefined);
     }
@@ -52,9 +56,9 @@ function addTools(data, done) {
   const query = (`insert into ${TOOL_TABLE} (domain,tools) values('${domainname}',{${arr}})`);
   return client.execute(query, (err) => {
     if (!err) {
-      return done(undefined, 'results.rows');
+      return done(undefined, { message: 'tools added' });
     }
-    return done(err, undefined);
+    return done(err, { message: 'Tool modified' });
         // console.log(err);
   });
 }
@@ -66,7 +70,7 @@ function deleteTools(data, done) {
     if (!err) {
       done(undefined, results);
     } else {
-      done(err, undefined);
+      done(err, { message: 'deleted' });
     }
   });
 }

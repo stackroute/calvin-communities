@@ -22,7 +22,7 @@ router.get('/:domainname', (req, res) => {
     ToolCtrl.getTools(domainName, (err, results) => {
       if (err) {
                 // console.log('Error in ToolCtrl.getTools error: ', err);
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(500).send(err);
       }
 
       return res.send(results);
@@ -40,10 +40,10 @@ router.post('/', (req, res) => {
     ToolCtrl.postTools(dataFromBody, (err) => {
       if (err) {
                 // console.log('Error in ToolCtrl.postTools error: ', err);
-        return res.status(500).send(err);
+        return res.status(404).send(err);
       }
 
-      return res.send('posted');
+      return res.status(402).send('posted');
     });
   } catch (err) {
         // console.log('Unexpected error in fetching community tools ', err);
@@ -62,7 +62,7 @@ router.patch('/:domain/', (req, res) => {
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
 
-      return res.send('Updated');
+      return res.send({ message: 'Tool modified' });
     });
   } catch (err) {
         // console.log('Unexpected error in fetching community tools ', err);
@@ -71,7 +71,7 @@ router.patch('/:domain/', (req, res) => {
   return null;
 });
 
-router.delete('/:domain', (req, res) => {
+router.delete('/:domain/:tool', (req, res) => {
   try {
     const dataFromParams = req.params;
     ToolCtrl.deleteTool(dataFromParams, (err) => {
@@ -80,7 +80,7 @@ router.delete('/:domain', (req, res) => {
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
 
-      return res.send('Deleted');
+      return res.send({ message: 'deleted' });
     });
   } catch (err) {
         // console.log('Unexpected error in fetching community tools ', err);

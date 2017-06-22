@@ -19,12 +19,14 @@ function InsertData(values, done) {
   let flag = false;
   if ((values.person.length) && (values.domain)) {
     if (values.domain !== null) {
-      if (values.status.toLowerCase() !== 'approved' && values.status.toLowerCase() !== 'accepted') {
-        statusstring.forEach((a) => {
-          if (values.status.toLowerCase().includes(a)) {
-            flag = true;
-          }
-        });
+      if ((values.type.toLowerCase() === 'invite' && values.member.length > 0) || (values.type.toLowerCase() === 'request' && values.member === '')) {
+        if (values.status.toLowerCase() !== 'approved' && values.status.toLowerCase() !== 'accepted') {
+          statusstring.forEach((a) => {
+            if (values.status.toLowerCase().includes(a)) {
+              flag = true;
+            }
+          });
+        }
       }
     }
   }

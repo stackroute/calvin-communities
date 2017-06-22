@@ -33,15 +33,19 @@ function getTools(domainName, done) {
   }
 }*/
 
+function getActions(dataFromBody, done) {
+  communityToolService.getToolsforCRUD(dataFromBody.domain, dataFromBody.tool, done);
+}
+
 
 function postTools(dataFromBody, done) {
   let flag = 0;
+  let correctValue = 0;
     // console.log(flag);
   dataFromBody.forEach((data) => {
     if (data.toolId && data.actions && data.domain && data.activityEvents) {
       if (data.toolId !== '' && data.actions !== '' && data.domain !== '' && data.activityEvents !== '') {
-                /* console.log(data.domain);
-                console.log(data.toolId);*/
+        correctValue += 1;
         communityToolService.getToolsforCRUD(data.domain, data.toolId, (error) => {
           if (error) {
             flag += 1;
@@ -58,18 +62,22 @@ function postTools(dataFromBody, done) {
          console.log(dataFromBody.length);
          console.log(flag === dataFromBody.length);*/
     if (flag === dataFromBody.length) {
-            // console.log("hii");
-      async.parallel([
-        communityToolService.addTools.bind(null, dataFromBody),
-        toolsService.addTools.bind(null, dataFromBody),
-      ], (err) => {
-        if (err) {
-          return done(err);
-        }
-        return done(undefined, 'Updated');
-      });
+      if (correctValue === dataFromBody.length) {
+                // console.log("hii");
+        async.parallel([
+          communityToolService.addTools.bind(null, dataFromBody),
+          toolsService.addTools.bind(null, dataFromBody),
+        ], (err) => {
+          if (err) {
+            return done(err);
+          }
+          return done(undefined, { message: 'Updated' });
+        });
+      } else {
+        done({ error: 'Tool Exists!!' }, undefined);
+      }
     } else {
-      done('Tool exists!!', undefined);
+      done({ error: 'Please enter valid values!!' }, undefined);
     }
   }, 100);
 }
@@ -102,7 +110,7 @@ function deleteAction(domainName, done) {
 // To delete an event from a tool
 
 function deleteEvent(domainName, done) {
-  communityToolService.getToolsForDeletion(domainName.domain,
+  communityToolService.getToolsForEventDeletion(domainName.domain,
         domainName.tool, domainName.name, (err) => {
           if (err) {
             done(err, undefined);
@@ -126,7 +134,7 @@ function deleteTool(domain, done) {
         if (err) {
           return done(err);
         }
-        return done('Deleted');
+        return done(undefined, { message: 'Deleted' });
       });
     }
   });
@@ -141,4 +149,5 @@ module.exports = {
   postTools,
   deleteEvent,
   deleteAction,
+  getActions,
 };
