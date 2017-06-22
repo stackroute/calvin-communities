@@ -14,7 +14,7 @@
 
  const existingTool = { error: 'Tool Exists!!' };
 
- const errMsg = { error: 'Please enter a valid domain and tool name' };
+ const errMsg = { error: 'Please enter a valid domain and tools name' };
 
  const actionMsg = { message: 'Deleted Actions' };
 
@@ -68,6 +68,11 @@
    tool: 'quora',
  };
 
+ const patchUpper = {
+   domain: 'DoCtorS.blr',
+   tool: 'Quora',
+ };
+
  const notExisting = {
    domain: 'dummyvalue',
    tool: 'dummyvalue',
@@ -95,4 +100,5 @@
    actionMsg,
    error,
    eventMsg,
+   patchUpper,
  };

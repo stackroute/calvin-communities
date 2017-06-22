@@ -27,6 +27,7 @@ describe('Test cases for tools of a community', () => {
   before(() => {
         // runs before all tests in this block
     client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'engineer.wipro.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
+    client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'doctors.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
   });
 
 
@@ -46,7 +47,7 @@ describe('Test cases for tools of a community', () => {
             });
   });
 
-  it('should get data for specified domain when the cases are changed', (done) => {
+  it('should get data for specified domain when in upper case', (done) => {
     request(app)
             .get(`${uri}engineer.wIpRo.bLr`)
             .expect('Content-Type', 'application/json; charset=utf-8')
@@ -69,7 +70,7 @@ describe('Test cases for tools of a community', () => {
             .expect(404)
             .end((err, res) => {
               if (err) {
-                // console.log(res.body);
+                    // console.log(res.body);
                 return done();
               }
               res.body.should.deep.equal(value.notFound);
@@ -289,7 +290,7 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-    //  Delete a row from table
+    //  Delete a tool from table
   it('should not delete event if the tool does not exist in database ', (done) => {
     request(app)
             .delete(`${uri}event/${value.patch.domain}/${value.notExisting.tool}/publish`)
@@ -304,7 +305,7 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-    //  Delete a row from table
+    //  Delete a tool from table
   it('should delete data in database for a given domain and tool name', (done) => {
     request(app)
             .delete(`/api/v1/communitytools/${value.patch.domain}/${value.patch.tool}`)
@@ -319,7 +320,21 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-    //  Delete a row from table
+  it('should delete data in database for a given domain and tool name in upper case', (done) => {
+    request(app)
+            .delete(`/api/v1/communitytools/${value.patchUpper.domain}/${value.patchUpper.tool}`)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.deleted);
+              done();
+            });
+    return null;
+  });
+
+    //  Delete a tool from table
   it('should not delete data if tool name or domain does not exist in database', (done) => {
     request(app)
             .delete(`/api/v1/communitytools/${value.patch.domain}/${value.patch.tool}`)
@@ -337,5 +352,6 @@ describe('Test cases for tools of a community', () => {
   after('', () => {
     client.execute("DELETE FROM communitytools where domain='Engineer.wipro.blr';");
     client.execute("DELETE FROM communitytools where domain='manager.wipro.blr';");
+    client.execute("DELETE FROM communitytools where domain='doctors.blr';");
   });
 });

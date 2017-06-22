@@ -61,7 +61,6 @@ router.patch('/:domain/', (req, res) => {
                 // console.log('Error in ToolCtrl.postTools error: ', err);
 
         return res.status(500).send(err);
-
       }
 
       return res.send({ message: 'Tool modified' });

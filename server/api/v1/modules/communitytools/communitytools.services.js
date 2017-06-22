@@ -125,12 +125,11 @@ function getToolsForEventDeletion(domainName, tool, value, done) {
 
 
 function addTools(data, done) {
-
   const arr = [];
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,actions,activityevents,createdon,updatedon) values(?,?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
-    let actions = val.actions.map(x => x.toLowerCase());
-    let activityEvents = val.activityEvents.map(x => x.toLowerCase());
+    const actions = val.actions.map(x => x.toLowerCase());
+    const activityEvents = val.activityEvents.map(x => x.toLowerCase());
     arr.push({
       query,
       params: [val.domain.toLowerCase(),
