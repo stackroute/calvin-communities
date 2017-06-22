@@ -22,6 +22,8 @@
 
   const eventMsg = { message: 'Deleted Events' };
 
+  const domainErr = { error: 'please enter a valid tool' };
+
   const tools = [{
     domain: 'doctor.wipro.blr',
     toolId: 'quora',
@@ -42,14 +44,13 @@
     activityEvents: ['postmessage'],
   }];
 
-  const wrongtool = [
+  const wrongtool =
     [{
       toolId: 'sermo',
       actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
       activityEvents: ['newannouncement', 'like', 'remove'],
       domain: '',
-    }],
-  ];
+    }];
 
 
   const wrongvalue = [{
@@ -94,5 +95,6 @@
     actionMsg,
     error,
     eventMsg,
+    domainErr,
   };
 

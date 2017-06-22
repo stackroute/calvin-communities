@@ -18,7 +18,7 @@ const client = new model.Client({
 // Query to select values from tools table
 
 function getTools(domainName, done) {
-  const query = (`SELECT tools from ${TOOL_TABLE} WHERE domain='${domainName}' ALLOW FILTERING;`);
+  const query = (`SELECT tools from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}' ALLOW FILTERING;`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -32,15 +32,40 @@ function getTools(domainName, done) {
   });
 }
 
+
+function getToolsForDeletion(domainName, value, done) {
+  let count = false;
+  const query = (`SELECT tools from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}';`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      if (results.rows.length > 0) {
+        const arr = results.rows[0].tools;
+        arr.forEach((val) => {
+          if (val === value) {
+            count = true;
+          }
+        });
+      }
+      if (count) {
+        done(undefined, results);
+      } else {
+        done({ error: 'please enter a valid tool' }, undefined);
+      }
+    } else {
+      done({ error: 'Internal error' }, undefined);
+    }
+  });
+}
+
 // Inserting into tools table
 
 function updateTools(data, domainName, done) {
-  const query = (`update ${TOOL_TABLE} set tools = tools + {'${data.tools}'} where domain='${domainName.domain}';`);
-  return client.execute(query, (err) => {
+  const query = (`update ${TOOL_TABLE} set tools = tools + {'${data.tools.toLowerCase()}'} where domain='${domainName.domain.toLowerCase()}';`);
+  return client.execute(query, (err, results) => {
     if (!err) {
-      done(undefined, 'results');
+      done(undefined, results);
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error Occured' }, undefined);
     }
   });
 }
@@ -49,8 +74,8 @@ function addTools(data, done) {
   const arr = [];
   let domainname;
   data.forEach((val) => {
-    arr.push(`'${val.toolId}'`);
-    domainname = val.domain;
+    arr.push(`'${val.toolId.toLowerCase()}'`);
+    domainname = val.domain.toLowerCase();
   });
     // console.log(arr);
   const query = (`insert into ${TOOL_TABLE} (domain,tools) values('${domainname}',{${arr}})`);
@@ -65,7 +90,7 @@ function addTools(data, done) {
 
 
 function deleteTools(data, done) {
-  const query = (`DELETE tools['${data.tool}'] FROM ${TOOL_TABLE} where domain='${data.domain}';`);
+  const query = (`DELETE tools['${data.tool.toLowerCase()}'] FROM ${TOOL_TABLE} where domain='${data.domain}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);
@@ -81,4 +106,5 @@ module.exports = {
   getTools,
   updateTools,
   deleteTools,
+  getToolsForDeletion,
 };

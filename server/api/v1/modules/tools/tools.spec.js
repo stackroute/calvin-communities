@@ -60,6 +60,23 @@ describe('get all tools from database for specified domain', () => {
     return null;
   });
 
+  it('should get data for specified domain when domain has upper cases', (done) => {
+    request(app)
+            .get(`${uri}engineer.wIpRo.blr`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('tools').a('Array');
+              done();
+            });
+    return null;
+  });
+
     // nothing given for domain, or tool name
 
   it('should give error on post data in database when no values are given', (done) => {
@@ -130,7 +147,7 @@ describe('get all tools from database for specified domain', () => {
     //  Delete a row from table
   it('should delete data in database for a given domain and tool name', (done) => {
     request(app)
-            .delete(`${uri}$engineer.wipro.blr/forum`)
+            .delete(`${uri}engineer.wipro.blr/forum`)
             .end((err, res) => {
               if (err) {
                 done(err);
@@ -141,6 +158,35 @@ describe('get all tools from database for specified domain', () => {
             });
     return null;
   });
+
+  it('should delete data in database for a given domain and tool name in upper case', (done) => {
+    request(app)
+            .delete(`${uri}Engineer.Wipro.blr/forum`)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.deleted);
+              done();
+            });
+    return null;
+  });
+
+  it('should delete throw error message when domain does not exist in the database', (done) => {
+    request(app)
+            .delete(`${uri}engineers.wipro.blr/forum`)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.domainErr);
+              done();
+            });
+    return null;
+  });
+
   after('', () => {
     client.execute("DELETE FROM communitytools where domain='doctor.wipro.blr';");
     client.execute("DELETE FROM communitytools where domain='engineer.wipro.blr';");

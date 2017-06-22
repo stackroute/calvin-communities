@@ -26,17 +26,27 @@ function postTools(dataFromBody, done) {
   } else {
     return done({ error: 'please enter all fields' }, undefined);
   }
-  return done(undefined,{message:'posted'});
+  return done(undefined, { message: 'posted' });
 }
 
 function modifyTool(dataFromBody, dataFromparams, done) {
-  ToolService.updateTools(dataFromBody, dataFromparams, done);
+  ToolService.getTools(dataFromparams.domain, (err) => {
+    if (!err) {
+      return ToolService.updateTools(dataFromBody, dataFromparams, done);
+    }
+    return done({ error: 'Error Occured' }, undefined);
+  });
 }
 
 // Function for deleting tools
 
 function deleteTool(dataFromURI, done) {
-  ToolService.deleteTools(dataFromURI, done);
+  ToolService.getToolsForDeletion(dataFromURI.domain, dataFromURI.tool, (err) => {
+    if (!err) {
+      return ToolService.deleteTools(dataFromURI, done);
+    }
+    return done(err, undefined);
+  });
 }
 
 // Exporting the functions to be used in router
