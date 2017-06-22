@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     communityCtrl.getAllCommunities((err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.allcommunities error: ', err);
-        return res.status(500).error({ error: 'Error in operation, try again later' });
+        return res.status(500).error({ error: 'Unexpected error occurred, try again later' });
       }
       return res.status(200).json(results);
     });
@@ -40,13 +40,13 @@ router.post('/', (req, res) => {
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.addcommunity error: ', err);
-        return res.status(500).send({ error: 'Error in operation, try again later' });
+        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       return res.status(201).send(results);
     });
   } catch (err) {
     logger.debug('Unexpected error in adding community ', err);
-    return res.status(500).send({ message: 'an error occurred' });
+    return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
 
@@ -63,7 +63,7 @@ router.get('/:domain', (req, res) => {
     communityCtrl.getCommunity(req.params.domain, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.getcommunity error: ', err);
-        return res.status(500).send({ error: 'Error in operation, try again later' });
+        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       if (results.length === 0) {
         return res.send({ message: 'this domain is available for registration' });
@@ -89,13 +89,13 @@ router.patch('/:domain', (req, res) => {
     communityCtrl.updateCommunity(req.params.domain, req.body, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.updatecommunity error:', err);
-        return res.status(500).send({ error: 'Error in Operation, try again later' });
+        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       return res.status(202).send(results);
     });
   } catch (err) {
     logger.debug('Unexpected error in patching community ', err);
-    return res.status(500).send({ error: 'an error occurred' });
+    return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
 

@@ -19,7 +19,7 @@ module.exports = [{
     activityEvents: ['like', 'remove'],
   }],
   // role actions for the surgeon medical community
-  rolesActions: [{
+  roleActions: [{
     role: 'admin',
     toolsActions: [{
       toolId: 'sermo',
@@ -143,7 +143,7 @@ module.exports = [{
     activityEvents: ['newannouncement', 'remove'],
   }],
   // role actions for the artist community
-  rolesActions: [{
+  roleActions: [{
     role: 'admin',
     toolsActions: [{
       toolId: 'forum',

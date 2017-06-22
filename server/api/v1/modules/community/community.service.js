@@ -53,7 +53,7 @@ description, avatar, createdby, createdon, updatedby, updatedon) \
 VALUES ( ? , ? , ? , ? , ?  , ? , ? , ? , ? , ? , dateof(now()) , ? , dateof(now()) ) `);
 
 
-  return client.execute(query, param, (err, results) => {
+  return client.execute(query, param, (err, result) => {
     if (err) done(err, undefined);
     getCommunity(param[0], done);
   });
