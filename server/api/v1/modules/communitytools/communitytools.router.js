@@ -70,7 +70,7 @@ router.post('/', (req, res) => {
         return res.status(404).send(err);
       }
 
-      return res.status(402).send({ message: 'tool created' });
+      return res.status(201).send({ message: 'tool created' });
     });
   } catch (err) {
         // console.log('Unexpected error in fetching community roles ', err);
@@ -117,6 +117,7 @@ router.delete('/:domain/:tool', (req, res) => {
 router.delete('/action/:domain/:tool/:name', (req, res) => {
   try {
     const dataFromParams = req.params;
+    // console.log(dataFromParams);
     communityToolCtrl.deleteAction(dataFromParams, (err) => {
       if (err) {
         return res.status(404).send({ error: 'Error in operation, please try later..!' });

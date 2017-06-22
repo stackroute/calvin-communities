@@ -18,9 +18,11 @@ const client = new model.Client({
 // Query to select values from tools table
 
 function getTools(domainName, done) {
-  const query = (`SELECT toolid,actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}.toLowerCase()';`);
+  domainName=domainName.toLowerCase();
+  const query = (`SELECT toolid,actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
+     // console.log(results.rows);
       if (results.rows.length > 0) {
         done(undefined, { domain: domainName, tools: results.rows });
       } else {
@@ -34,7 +36,9 @@ function getTools(domainName, done) {
 
 
 function getToolsforCRUD(domainName, tool, done) {
-  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}.toLowerCase()' and toolid = '${tool}.toLowerCase()'`);
+  domainName=domainName.toLowerCase();
+  tool=tool.toLowerCase();
+  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}' and toolid = '${tool}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
             // console.log(results.rows);
@@ -52,7 +56,11 @@ function getToolsforCRUD(domainName, tool, done) {
 
 function getToolsForDeletion(domainName, tool, value, done) {
   let flag = false;
-  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}.toLowerCase()' and toolid = '${tool}.toLowerCase()';`);
+  domainName=domainName.toLowerCase();
+    tool=tool.toLowerCase();
+  value=value.toLowerCase();
+
+  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}' and toolid = '${tool.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -76,7 +84,10 @@ function getToolsForDeletion(domainName, tool, value, done) {
 
 function getToolsForEventDeletion(domainName, tool, value, done) {
   let flag = false;
-  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName}.toLowerCase()' and toolid = '${tool}.toLowerCase()';`);
+    domainName=domainName.toLowerCase();
+    tool=tool.toLowerCase();
+  value=value.toLowerCase();
+  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}' and toolid = '${tool.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -136,7 +147,7 @@ function addTools(data, done) {
 // Updating tools action and events
 
 function updateTools(data, value, done) {
-  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET actions=actions+{'${data.action}.toLowerCase()'},activityevents=activityevents+{'${data.events}.toLowerCase()'}, updatedon=dateof(now()) where domain='${value.domain}.toLowerCase()' AND toolid='${value.tool}.toLowerCase()'`);
+  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET actions=actions+{'${data.action.toLowerCase()}'},activityevents=activityevents+{'${data.events.toLowerCase()}'}, updatedon=dateof(now()) where domain='${value.domain.toLowerCase()}' AND toolid='${value.tool.toLowerCase()}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);
@@ -149,7 +160,9 @@ function updateTools(data, value, done) {
 // Deleting action
 
 function deleteAction(value, done) {
-  const query = (`DELETE actions['${value.name}.toLowerCase()'] FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}.toLowerCase()' and toolid='${value.tool}.toLowerCase()' ;`);
+  value.name=value.name.toLowerCase();
+  // console.log(value.name);
+  const query = (`DELETE actions['${value.name}'] FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain.toLowerCase()}' and toolid='${value.tool.toLowerCase()}' ;`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);
@@ -162,8 +175,9 @@ function deleteAction(value, done) {
 // Deleting events
 
 function deleteEvent(value, done) {
+  value.name=value.name.toLowerCase();
   const query = (`DELETE activityevents['${value.name}']
-     FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain}.toLowerCase()' and toolid='${value.tool}.toLowerCase()';`);
+     FROM ${COMMUNITY_TOOL_TABLE} where domain='${value.domain.toLowerCase()}' and toolid='${value.tool.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);
@@ -176,7 +190,7 @@ function deleteEvent(value, done) {
 // Deleting a row from tools table
 
 function deleteTools(domainname, done) {
-  const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${domainname.domain}' and toolid ='${domainname.tool}'`);
+  const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${domainname.domain.toLowerCase()}' and toolid ='${domainname.tool.toLowerCase()}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);

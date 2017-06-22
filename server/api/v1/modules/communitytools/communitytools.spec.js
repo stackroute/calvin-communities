@@ -46,6 +46,22 @@ describe('Test cases for tools of a community', () => {
             });
   });
 
+  it('should get data for specified domain when the cases are changed', (done) => {
+    request(app)
+            .get(`${uri}engineer.wIpRo.bLr`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('tools').a('Array');
+              done();
+            });
+  });
+
   it('should throw error if value is not found', (done) => {
     request(app)
             .get(`${uri}wipro.blr`)
@@ -134,7 +150,7 @@ describe('Test cases for tools of a community', () => {
     request(app)
             .post(`${uri}`)
             .send(value.tools)
-            .expect(402)
+            .expect(201)
             .end((err, res) => {
               if (err) {
                 done(err);

@@ -99,6 +99,7 @@ function modifyTool(dataFromBody, dataFromURI, done) {
 // To delete an action from a tool
 
 function deleteAction(domainName, done) {
+  // console.log(domainName);
   communityToolService.getToolsForDeletion(domainName.domain,
         domainName.tool, domainName.name, (err) => {
           if (err) {
