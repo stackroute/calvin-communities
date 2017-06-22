@@ -37,6 +37,7 @@ router.get('/', (req, res) => {
  */
 router.post('/:domain', (req, res) => {
   try {
+    req.body.domain = req.params.domain;
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.addcommunity error: ', err);
@@ -60,7 +61,11 @@ router.post('/:domain', (req, res) => {
  */
 router.get('/:domain', (req, res) => {
   try {
-    communityCtrl.getCommunity(req.params.domain, (err, results) => {
+    let flag = false;
+    if(req.query.counter) {
+      flag = req.query.counter;
+    }
+    communityCtrl.getCommunity(req.params.domain, flag, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.getcommunity error: ', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
