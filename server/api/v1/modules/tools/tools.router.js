@@ -37,13 +37,13 @@ router.get('/:domainname', (req, res) => {
 router.post('/', (req, res) => {
   try {
     const dataFromBody = req.body;
-    ToolCtrl.postTools(dataFromBody, (err) => {
+    ToolCtrl.postTools(dataFromBody, (err,results) => {
       if (err) {
                 // console.log('Error in ToolCtrl.postTools error: ', err);
         return res.status(404).send(err);
       }
 
-      return res.status(402).send('posted');
+      return res.status(402).send(results);
     });
   } catch (err) {
         // console.log('Unexpected error in fetching community tools ', err);
