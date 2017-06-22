@@ -31,14 +31,12 @@ function getAllCommunities(done) {
  *
  */
 function getTemplateDetails(community) {
-
-
  // loading specified template
   const templateDetails = templateController.getTemplateOfTemplateName(community.template);
-  if(templateDetails.length !== 1){
-    return -1
+  if (templateDetails.length !== 1) {
+    return -1;
   }
-const tags = templateDetails[0].tags;
+  const tags = templateDetails[0].tags;
 // CommunityCreation Data
   const com = [
     community.domain, community.name, community.purpose,
@@ -110,9 +108,9 @@ function addCommunity(community, done) {
 
   const values = getTemplateDetails(community);
 
-  if( values === -1 ) {
-  return done('no template found for the given purpose');
-   }
+  if (values === -1) {
+    return done('no template found for the given purpose');
+  }
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
@@ -123,7 +121,7 @@ function addCommunity(community, done) {
       if (err) return done(err);
       return done(undefined, result[0]);
     });
- }
+}
 
 /**
  * Get For specific communities,

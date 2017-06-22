@@ -68,9 +68,7 @@ queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_COUNTER}`);
 * KEYSPACE & TABLE Creation
 */
 client.connect()
-.then(() => {
-  return client.execute(queries[0]);
-})
+.then(() => client.execute(queries[0]))
 .then(() => {
   logger.debug(`table ${TABLE_COMMUNITIES} cleared`);
   return client.execute(queries[1]);
