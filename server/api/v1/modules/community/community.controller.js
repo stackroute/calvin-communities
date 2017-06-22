@@ -2,8 +2,6 @@ const communityServ = require('./community.service');
 
 const async = require('async');
 
-const logger = require('log4js').getLogger();
-
 const templateController = require('../communitytemplates/communitytemplate.controller');
 
 const membershipController = require('../communitymembership/communitymembership.controller');
@@ -12,6 +10,7 @@ const toolsController = require('../communitytools/communitytools.controller');
 
 const roleController = require('../communityrole/communityrole.controller');
 
+const counterController = require('../communitiescounter/counter.controller');
 /**
  * Get For all communities,
  *
@@ -111,6 +110,8 @@ function addCommunity(community, done) {
   if (values === -1) {
     return done('no template found for the given purpose');
   }
+
+
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
