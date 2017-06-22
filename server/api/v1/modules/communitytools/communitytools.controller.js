@@ -46,8 +46,8 @@ function postTools(dataFromBody, done) {
     if (data.toolId && data.actions && data.domain && data.activityEvents) {
       if (data.toolId !== '' && data.actions !== '' && data.domain !== '' && data.activityEvents !== '') {
         correctValue += 1;
-        data.actions=data.actions.map(function(x){ return x.toLowerCase() });
-        data.activityEvents=data.activityEvents.map(function(x){ return x.toLowerCase() });
+        data.actions = data.actions.map(x => x.toLowerCase());
+        data.activityEvents = data.activityEvents.map(x => x.toLowerCase());
         communityToolService.getToolsforCRUD(data.domain, data.toolId, (error) => {
           if (error) {
             flag += 1;

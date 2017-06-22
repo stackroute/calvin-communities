@@ -31,8 +31,7 @@ function getAllCommunities(done) {
  *
  */
 function getTemplateDetails(community) {
-
-// loading specified template
+ // loading specified template
   const templateDetails = templateController.getTemplateOfTemplateName(community.template);
 // CommunityCreation Data
   const com = [
@@ -88,7 +87,6 @@ function getTemplateDetails(community) {
 }
 
 function addCommunity(community, done) {
-
   if (
         community.domain === undefined ||
         community.name === undefined ||
@@ -135,7 +133,6 @@ function getCommunity(domainName, done) {
  *
  */
 function updateCommunity(domainName, community, done) {
-
   if (!community.name ||
       community.tags === undefined ||
         community.tags.length === 0 ||
@@ -149,18 +146,6 @@ function updateCommunity(domainName, community, done) {
 
   communityServ.updateCommunity(param, done);
 }
-
-/**
-*
-* Delete the community created if we get an error at the time of creationworkflow
-*
-*/
-function deleteCommunity(domain, done) {
-  if (domain) {
-    communityServ.deleteCommunity(param, done);
-  }
-}
-
 
 module.exports = {
   getAllCommunities,
