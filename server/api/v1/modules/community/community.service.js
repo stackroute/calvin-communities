@@ -24,8 +24,8 @@ const client = new model.Client({
 function getAllCommunities(done) {
   const query = `SELECT * FROM ${tableCommunities}`;
   return client.execute(query, (err, results) => {
-    if (err) done(err, undefined);
-    done(err, results.rows);
+    if (err) return done(err, undefined);
+    return done(err, results.rows);
   });
 }
 
@@ -37,8 +37,8 @@ function getAllCommunities(done) {
 function getCommunity(domainname, done) {
   const query = `SELECT * FROM ${tableCommunities} WHERE domain = ? `;
   return client.execute(query, [domainname], (err, results) => {
-    if (err) done(err, undefined);
-    done(err, results.rows);
+    if (err) return done(err, undefined);
+    return done(undefined, results.rows);
   });
 }
 
@@ -48,13 +48,13 @@ function getCommunity(domainname, done) {
  *
  */
 function addCommunity(param, done) {
-  const query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, visibility, template,tags, owner, \
-description, avatar, createdby, createdon, updatedby, updatedon) \
-VALUES ( ? , ? , ? , ? , ?  , ? , ? , ? , ? , ? , dateof(now()) , ? , dateof(now()) ) `);
+  const query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, status, template, tags, owner, \
+description, avatar, createdby, updatedby, createdon, updatedon) \
+VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
 
 
   return client.execute(query, param, (err, result) => {
-    if (err) done(err, undefined);
+    if (err) return done(err, undefined);
     getCommunity(param[0], done);
   });
 }
@@ -69,8 +69,8 @@ function updateCommunity(param, done) {
     visibility = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
 
   return client.execute(query, param, (err, results) => {
-    if (err) done(err, undefined);
-    getCommunity(param[6], done);
+    if (err) return done(err, undefined);
+    return getCommunity(param[6], done);
   });
 }
 
@@ -82,8 +82,8 @@ function updateCommunity(param, done) {
 function deleteCommunity(param, done) {
   const query = (`DELETE * FROM ${tableCommunities} where  domain = ? `);
   return client.execute(query, param, (err, results) => {
-    if (err) done(err, undefined);
-    done(undefined);
+    if (err) return done(err, undefined);
+    return done(undefined);
   });
 }
 

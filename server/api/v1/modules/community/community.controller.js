@@ -31,12 +31,18 @@ function getAllCommunities(done) {
  *
  */
 function getTemplateDetails(community) {
+
+
  // loading specified template
   const templateDetails = templateController.getTemplateOfTemplateName(community.template);
+  if(templateDetails.length !== 1){
+    return -1
+  }
+const tags = templateDetails[0].tags;
 // CommunityCreation Data
   const com = [
     community.domain, community.name, community.purpose,
-    community.visibility, community.template, community.tags,
+    community.status, community.template, community.tags,
     community.owner, community.description,
     community.avatar,
     community.owner, community.owner,
@@ -52,7 +58,6 @@ function getTemplateDetails(community) {
 // getting tools data from specified template for addTools
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
-    logger.debug(element);
     const toolsobject = {
       domain: community.domain,
       toolId: element.toolId,
@@ -64,8 +69,7 @@ function getTemplateDetails(community) {
 
 // getting roles data from specified template
   const roles = [];
-  templateDetails[0].rolesActions.forEach((element) => {
-    logger.debug(element);
+  templateDetails[0].roleActions.forEach((element) => {
     element.toolsActions.forEach((data) => {
       const rolesobject = {
         domain: community.domain,
@@ -93,7 +97,7 @@ function addCommunity(community, done) {
         community.owner === undefined ||
         community.template === undefined ||
         community.tags === undefined ||
-        community.visibility === undefined ||
+        community.status === undefined ||
         community.purpose === undefined ||
         !community.domain ||
         !community.name ||
@@ -105,18 +109,21 @@ function addCommunity(community, done) {
     ) return done('Wrong Data Inputs', null);
 
   const values = getTemplateDetails(community);
+
+  if( values === -1 ) {
+  return done('no template found for the given purpose');
+   }
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
-    toolsController.postTools.bind(null, values[2]),
     roleController.postCommunityRoles.bind(null, values[3]),
+    toolsController.postTools.bind(null, values[2]),
   ],
     (err, result) => {
       if (err) return done(err);
       return done(undefined, result[0]);
     });
-// ,
-}
+ }
 
 /**
  * Get For specific communities,

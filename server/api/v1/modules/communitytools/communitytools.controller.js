@@ -63,6 +63,8 @@ function postTools(dataFromBody, done) {
         /* console.log(flag);
          console.log(dataFromBody.length);
          console.log(flag === dataFromBody.length);*/
+         console.log(flag);
+         console.log(dataFromBody.length);
     if (flag === dataFromBody.length) {
       if (correctValue === dataFromBody.length) {
                 // console.log("hii");

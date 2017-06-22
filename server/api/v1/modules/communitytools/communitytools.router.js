@@ -35,7 +35,7 @@ router.get('/:domainname', (req, res) => {
 
 router.get('/:domain/:tool', (req, res) => {
   try {
-    const domainName = req.params;
+    const domainName = req.params.tools;
     communityToolCtrl.getActions(domainName, (err, results) => {
       if (err) {
                 // console.log('Error in communityToolCtrl.getTools error: ', err);
