@@ -17,7 +17,7 @@ const client = new model.Client({
 });
 
 const postdata = [{
-  domain: 'prakhar',
+ /* domain: 'prakhar',*/
   role: 'developer',
   actions: {
     post: 'true',
@@ -26,7 +26,7 @@ const postdata = [{
   toolId: 'quora',
 
 }, {
-  domain: 'africans',
+  /* domain: 'africans',*/
   role: 'cricketer',
   actions: {
     post: 'true',
@@ -46,14 +46,14 @@ describe('Create a communityrole and update it', () => {
   before(() => {});
   it('Create a new communityrole', (done) => {
     request(app)
-      .post('/api/v1/communityrole')
+      .post('/api/v1/communityrole/africans')
       .send(postdata)
       .then(() => {
         console.log(`BEFORE CLIENT EXECUTE testcase${postdata}`);
         client.execute('SELECT * from communityroles where domain=\'africans\'', (err, result) => {
           if (!err) {
             console.log(`Result from testcase ${result.rows[0]}`);
-            result.rows.length.should.be.equal(1);
+            result.rows.length.should.be.equal(2);
             result.rows[0].actions.should.deep.equal(postdata[0].actions);
             done();
           }
@@ -66,14 +66,14 @@ describe('Create a communityrole and update it', () => {
   });
   it('Create a new communityrole', (done) => {
     request(app)
-      .post('/api/v1/communityrole')
+      .post('/api/v1/communityrole/prakhar')
       .send(postdata)
       .then(() => {
         console.log(`BEFORE CLIENT EXECUTE testcase${postdata}`);
         client.execute('SELECT * from communityroles where domain=\'prakhar\'', (err, result) => {
           if (!err) {
             console.log(`Result from testcase ${result.rows[0]}`);
-            result.rows.length.should.be.equal(1);
+            result.rows.length.should.be.equal(2);
             result.rows[0].actions.should.deep.equal(postdata[0].actions);
             done();
           }
@@ -88,7 +88,7 @@ describe('Create a communityrole and update it', () => {
 
   it('Update actions of communityrole', (done) => {
     request(app)
-      .patch('/api/v1/communityrole/africans/cricketer')
+      .patch('/api/v1/communityrole/africans/roles/cricketer')
       .send(patchdata)
       .then(() => {
         client.execute("SELECT * from communityroles where domain='africans'", (err, result) => {
@@ -104,7 +104,7 @@ describe('Create a communityrole and update it', () => {
   });
   it('Update actions of communityrole', (done) => {
     request(app)
-      .patch('/api/v1/communityrole/prakhar/developer')
+      .patch('/api/v1/communityrole/prakhar/roles/developer')
       .send(patchdata)
       .then(() => {
         client.execute("SELECT * from communityroles where domain='prakhar'", (err, result) => {
@@ -120,8 +120,8 @@ describe('Create a communityrole and update it', () => {
   });
 
 
-  after(() => {
+  /* after(() => {
     client.execute("DELETE FROM communityroles where domain='prakhar'");
     client.execute("DELETE FROM communityroles where domain='africans'");
-  });
+  });*/
 });

@@ -5,11 +5,11 @@ function getCommunityRoles(domainName, done) {
 }
 
 
-// function getCommunityRoles(domainName, done) {
-//   communityRoleService.getCommunityRoles(domainName, done);
-// }
+function getCommunityRolesOnly(domainName, onlyroles, done) {
+  communityRoleService.getCommunityRolesOnly(domainName, onlyroles, done);
+}
 
-function postCommunityRoles(postedData, done) {
+/* function postCommunityRoles(postedData, done) {
   let count = 0;
   postedData.forEach((val) => {
     if (val.domain && val.role && val.actions && val.toolId) {
@@ -33,7 +33,34 @@ function postCommunityRoles(postedData, done) {
       done({ error: 'entry already exists' }, undefined);
     }
   }, 100);
+}*/
+
+function postCommunityRoles(domainName, postedData, done) {
+  let count = 0;
+  postedData.forEach((val) => {
+    if (domainName && val.role && val.actions && val.toolId) {
+      if (domainName !== '' && val.role !== '' && val.actions !== '' && val.toolId !== '') {
+        console.log('from postCommunityRoles', domainName, val.actions, val.toolId);
+        communityRoleService.checkCommunityRole(domainName, val.role, val.toolId, (err) => {
+          if (err) {
+            count += 1;
+            console.log(count);
+          } else {
+            count += 0;
+          }
+        });
+      }
+    }
+  });
+  setTimeout(() => {
+    if (count === postedData.length) {
+      communityRoleService.postCommunityRoles(domainName, postedData, done);
+    } else {
+      done({ error: 'entry already exists' }, undefined);
+    }
+  }, 100);
 }
+
 
 function patchCommunityRoles(patchData, domainName, role, done) {
   const params = [patchData[0].actions, domainName.toLowerCase(),
@@ -73,4 +100,5 @@ module.exports = {
   getCommunityRoles,
   postCommunityRoles,
   patchCommunityRoles,
+  getCommunityRolesOnly,
 };

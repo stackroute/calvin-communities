@@ -10,12 +10,12 @@ const client = new model.Client({
 });
 
 function getCommunityRoles(domainName, done) {
-  console.log('inside service');
+  // console.log("SERVICE getCommunityRolesOnly",domainName);
   const query = `SELECT * FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
 
   return client.execute(query, (err, results) => {
     if (!err) {
-      console.log(results.rows.length);
+      console.log(typeof results.rows);
       if (results.rows.length > 0) {
         done(err, results.rows);
       } else {
@@ -27,7 +27,89 @@ function getCommunityRoles(domainName, done) {
     }
   });
 }
+function getCommunityRolesOnly(domainName, onlyroles, done) {
+    // console.log("SERVICE getCommunityRolesOnly",domainName,"   ",onlyroles);
+  const query = `SELECT role FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
+// console.log(query);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      // console.log("Inside getCommunityRolesOnly--------",results.rows.length);
+      // const arr = [];
+      // const result = '';
 
+      if (results.rows.length > 0) {
+        // console.log("helllllo");
+
+          // console.log("OBJECT VALUE:", results.rows);
+          // console.log("Stringified object value", JSON.stringify(results.rows));
+         /* const newArr = results.rows.filter((value, index, self) => {
+            console.log('value', value);
+            console.log('sefl', self);
+            console.log('self.indexOf(value) === index', self.indexOf(value) === index);
+            // console.log('value', value, 'index', index, 'self', self);
+            return self.indexOf(value) === index;
+
+          });
+
+          console.log('newArr', newArr);
+          results.rows.forEach(function(data){
+
+          console.log('my unique array', Array.from(new Set(data)));
+        }*/
+
+        // for(obj in results.rows)
+        // {
+        //   console.log(obj);
+        // }
+
+        // console.log('results.rows', results.rows)
+
+        const unique = [...new Set(results.rows.map(item => item.role))];
+        // console.log('unique', unique)
+
+        const finalArr = [];
+
+        unique.forEach((item) => {
+          const obj = {};
+          // console.log("item is",item);
+          obj.role = item;
+          console.log('obj', obj);
+          finalArr.push(obj);
+          console.log('finalArr', finalArr);
+        });
+
+        done(null, finalArr);
+        // console.log(finalArr);
+
+
+          // results.rows.forEach(function(data){
+          //   console.log("DATA",data);
+          //   console.log("DATA stringified", JSON.stringify(data));
+          //   arr.push(JSON.stringify(data));
+          // });
+
+          // arr.push(JSON.stringify(results.rows));
+          // arr=Array.from(new Set(arr));
+          // console.log("RANDOM COMMAND",arr);
+          // result = result+arr;
+          // console.log('result', result);
+          // console.log(JSON.parse(result));
+          // console.log("FINAL RESULT VALUE IS", result);
+          // result=result;
+          /* JSON.parse(JSON.stringify(result));*/
+          // console.log("JSON PARSE",JSON.parse(result));
+          // console.log("FINAL RESULT VALUE",result);
+        // done(undefined, [result]);
+      } else {
+        // console.log('error');
+        done('please enter a existing domain', undefined);
+      }
+    } else {
+      // console.log("last else");
+      done(err, undefined);
+    }
+  });
+}
 
 // function getCommunityRoles(domainName, done) {
 //   console.log("inside service");
@@ -85,7 +167,7 @@ function checkCommunityRole2(domainName, role, done) {
 }
 
 
-function postCommunityRoles(postedData, done) {
+function postCommunityRoles(domainName, postedData, done) {
   const arr = [];
   console.log('Inside postCommunityRoles service');
 
@@ -104,7 +186,7 @@ function postCommunityRoles(postedData, done) {
     console.log('Actions full string', actions);
 
     query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid, createdon, updatedon)
-     VALUES ( '${data.domain.toLowerCase()}' , '${data.role.toLowerCase()}' , ${actions.toLowerCase()} , '${data.toolId.toLowerCase()}', dateof(now()), dateof(now()) )`;
+     VALUES ( '${domainName.toLowerCase()}' , '${data.role.toLowerCase()}' , ${actions.toLowerCase()} , '${data.toolId.toLowerCase()}', dateof(now()), dateof(now()) )`;
     // let params = [data.domain, data.role, data.actions, data.toolId];
     console.log(data.actions);
     const d = {
@@ -125,6 +207,52 @@ function postCommunityRoles(postedData, done) {
     }
   });
 }
+
+/* function postCommunityRoles(postedData, done) {
+  const arr = [];
+  console.log('Inside postCommunityRoles service');
+
+  let query;
+  postedData.forEach((data) => {
+    console.log('actions ', data.actions);
+
+    let actions = '';
+    Object.keys(data.actions).forEach((key) => {
+      const value = data.actions[key];
+      actions += `'${key}':'${value}' ,`;
+      // actions = actions.substring(0, actions.lastIndexOf(","));
+    });
+    actions = actions.substring(0, actions.lastIndexOf(','));
+    actions = `{${actions}}`;
+    console.log('Actions full string', actions);
+
+    query = `INSERT INTO ${COMMUNITY_ROLE_TABLE}
+     (domain, role, actions, toolid, createdon, updatedon)
+     VALUES ( '${data.domain.toLowerCase()}' ,
+     '${data.role.toLowerCase()}' , ${actions.toLowerCase()} ,
+     '${data.toolId.toLowerCase()}', dateof(now()), dateof(now()) )`;
+    // let params = [data.domain, data.role, data.actions, data.toolId];
+    console.log(data.actions);
+    const d = {
+      query,
+    };
+    console.log(d);
+    arr.push(d);
+    console.log('data', data);
+  });
+  console.log(`Array:${arr}`);
+  return client.batch(arr, { prepare: true }, (err, results) => {
+    if (!err) {
+      console.log('no error');
+      done(undefined, results.rows);
+    } else {
+      console.log('err:', err);
+      done(err, undefined);
+    }
+  });
+}*/
+
+
 /* function postCommunityRoles(postedData, done) {
   let arr=[];
   console.log("Inside post")
@@ -210,10 +338,15 @@ function patchCommunityRoles(values, done) {
   });
 }
 
+/* function communityToolsService() {
+
+}*/
+
 module.exports = {
   getCommunityRoles,
   postCommunityRoles,
   patchCommunityRoles,
   checkCommunityRole,
   checkCommunityRole2,
+  getCommunityRolesOnly,
 };
