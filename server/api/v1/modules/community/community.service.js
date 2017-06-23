@@ -55,7 +55,7 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now
 
   return client.execute(query, param, (err, result) => {
     if (err) return done(err, undefined);
-    getCommunity(param[0],false, done);
+    getCommunity(param[0], false, done);
   });
 }
 

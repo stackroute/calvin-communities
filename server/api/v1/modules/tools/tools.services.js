@@ -22,7 +22,7 @@ function getTools(domainName, done) {
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        done(undefined, { toolid: domainName, communities:results.rows });
+        done(undefined, { toolid: domainName, communities: results.rows });
       } else {
         done({ error: 'please enter a valid domain name' }, undefined);
       }
@@ -70,12 +70,12 @@ function updateTools(data, domainName, done) {
   });
 }
 
-function addTools(data, domain, done){
+function addTools(data, domain, done) {
   const arr = [];
   let query;
   data.forEach((val) => {
-       query = (`update ${TOOL_TABLE} set communities = communities + {'${domain.toLowerCase()}'} where toolid='${val.toolId.toLowerCase()}';`);
-    arr.push({query});
+    query = (`update ${TOOL_TABLE} set communities = communities + {'${domain.toLowerCase()}'} where toolid='${val.toolId.toLowerCase()}';`);
+    arr.push({ query });
   });
 
   return client.batch(arr, { prepare: true }, (err) => {
@@ -89,12 +89,12 @@ function addTools(data, domain, done){
 
 
 function deleteTools(data, done) {
-  const query = (`DELETE tools['${data.tool.toLowerCase()}'] FROM ${TOOL_TABLE} where domain='${data.domain}';`);
-  return client.execute(query, (err, results) => {
+  const query = (`DELETE communities['${data.domainname.toLowerCase()}'] FROM ${TOOL_TABLE} where toolid='${data.toolid.toLowerCase()}';`);
+  return client.execute(query, (err) => {
     if (!err) {
-      done(undefined, results);
+      done(undefined, { message: 'deleted' });
     } else {
-      done(err, { message: 'deleted' });
+      done(err, undefined);
     }
   });
 }

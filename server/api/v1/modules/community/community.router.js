@@ -62,7 +62,7 @@ router.post('/:domain', (req, res) => {
 router.get('/:domain', (req, res) => {
   try {
     let flag = false;
-    if(req.query.counter) {
+    if (req.query.counter) {
       flag = req.query.counter;
     }
     communityCtrl.getCommunity(req.params.domain, flag, (err, results) => {

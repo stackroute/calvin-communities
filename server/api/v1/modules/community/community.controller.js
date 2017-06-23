@@ -130,25 +130,24 @@ function addCommunity(community, done) {
  *
  */
 function getCommunity(domainName, flag, done) {
-  if(flag) {
+  if (flag) {
     async.parallel([
-    communityServ.getCommunity.bind(null, domainName),
-    counterController.getcounter.bind(null, domainName)
+      communityServ.getCommunity.bind(null, domainName),
+      counterController.getcounter.bind(null, domainName),
     ], (err, result) => {
-      if(err) return done(err);
-        const counts = {
-          invitations: result[1][0].invitations,
-          members: result[1][0].members,
-          requests: result[1][0].requests,
-          tools: result[1][0].tools
-        }
-        result[0].push(counts);
-        return done(undefined, result[0]);
-         })
+      if (err) return done(err);
+      const counts = {
+        invitations: result[1][0].invitations,
+        members: result[1][0].members,
+        requests: result[1][0].requests,
+        tools: result[1][0].tools,
+      };
+      result[0].push(counts);
+      return done(undefined, result[0]);
+    });
+  } else {
+    communityServ.getCommunity(domainName, done);
   }
-  else {
-  communityServ.getCommunity(domainName, done);
-}
 }
 
 /**
