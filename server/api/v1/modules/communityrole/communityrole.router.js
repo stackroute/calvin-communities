@@ -14,7 +14,7 @@ const router = express.Router();
  *  - Domain Name: specify a specific domain name, to get its roles
  *
  */
-router.get('/:domainname', (req, res) => {
+/* router.get('/:domainname', (req, res) => {
   try {
     const domainName = req.params.domainname;
     communityRoleCtrl.getCommunityRoles(domainName, (err, results) => {
@@ -28,6 +28,45 @@ router.get('/:domainname', (req, res) => {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
+*/
+/*
+ * Effective URI of the API is GET /communityrole/:domainname?onlyroles=true
+ *
+ * API for returning all roles of a specified community
+ *
+ * URL Parameter
+ *  - Domain Name: specify a specific domain name, to get its roles
+ *
+ */
+router.get('/:domainname', (req, res) => {
+  try {
+    const domainName = req.params.domainname;
+    const onlyroles = req.query.onlyroles;
+    console.log('onlyroles: ', onlyroles);
+    if (onlyroles === 'true') {
+      communityRoleCtrl.getCommunityRolesOnly(domainName, onlyroles, (err, results) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+
+        return res.send(results);
+      });
+    } else if (onlyroles === 'undefined' || onlyroles !== 'true') {
+      console.log('ELSE PART OF ROUTER');
+      communityRoleCtrl.getCommunityRoles(domainName, (err, results) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+
+        return res.send(results);
+      });
+    } else { return ({ error: 'Unexpected error occurred, please try again...!' }, undefined); }
+  } catch (err) {
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+  return null;
+});
+
 
 /* router.post('/', controller.postcommunityrole);
 
@@ -42,7 +81,7 @@ router.patch('/:domain/:role', controller.patchcommunityrole);
  *  - Domain Name: just a simple uri is enough to post its roles
  *
  */
-router.post('/', (req, res) => {
+/* router.post('/', (req, res) => {
   try {
     communityRoleCtrl.postCommunityRoles(req.body, (err) => {
       if (err) {
@@ -55,8 +94,23 @@ router.post('/', (req, res) => {
     console.log(`error:${err}`);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
-});
+});*/
+router.post('/:domainname', (req, res) => {
+  try {
+    const domainName = req.params.domainname;
+    communityRoleCtrl.postCommunityRoles(domainName, req.body, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
 
+      return res.send('Added');
+    });
+  } catch (err) {
+    console.log(`error:${err}`);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+  return null;
+});
 
 /*
  * Effective URI of the API is Patch /communityrole/:domainname/:role
@@ -67,7 +121,7 @@ router.post('/', (req, res) => {
  *  - Domain Name: specify a specific domain name, to get its roles
  *
  */
-router.patch('/:domainname/:role', (req, res) => {
+/* router.patch('/:domainname/:role', (req, res) => {
   try {
     const domainName = req.params.domainname;
     const role = req.params.role;
@@ -83,6 +137,24 @@ router.patch('/:domainname/:role', (req, res) => {
   } catch (err) {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
+});*/
+router.patch('/:domainname/roles/:role', (req, res) => {
+  try {
+    const domainName = req.params.domainname;
+    const role = req.params.role;
+    const values = req.body;
+
+    communityRoleCtrl.patchCommunityRoles(values, domainName, role, (err) => {
+      if (err) {
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+      }
+
+      return res.send('Updated');
+    });
+  } catch (err) {
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+  return null;
 });
 
 /*
