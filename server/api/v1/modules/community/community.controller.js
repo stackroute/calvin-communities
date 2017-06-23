@@ -48,7 +48,6 @@ function getTemplateDetails(community) {
 // Adding admin as a member, data for addMembers
   const members = {
     username: community.owner,
-    domain: community.domain,
     role: 'admin',
   };
 
@@ -56,7 +55,6 @@ function getTemplateDetails(community) {
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
-      domain: community.domain,
       toolId: element.toolId,
       actions: element.actions,
       activityEvents: element.activityEvents,
@@ -76,7 +74,7 @@ function getTemplateDetails(community) {
       roles.push(rolesobject);
     });
   });
-  // returning all data in single error
+  // returning all data in single array
   const values = [];
   values.push(com);
   values.push(members);
@@ -112,9 +110,9 @@ function addCommunity(community, done) {
 
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
-    membershipController.addMemberToCommunity.bind(null, values[1]),
-    roleController.postCommunityRoles.bind(null, community.domain, values[3]),
+    membershipController.addMembersToCommunity.bind(null, community.domain, values[1]),
     toolsController.postTools.bind(null, values[2], community.domain),
+    roleController.postCommunityRoles.bind(null, community.domain, values[3]),
   ],
     (err, result) => {
       if (err) return done(err);

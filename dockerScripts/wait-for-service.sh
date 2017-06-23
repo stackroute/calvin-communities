@@ -15,3 +15,9 @@ done
 
 
 >&2 echo "Service is working! Yippie!"
+
+sleep 1
+
+exec npm run create
+
+exec npm start
