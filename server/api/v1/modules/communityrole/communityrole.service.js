@@ -338,9 +338,49 @@ function patchCommunityRoles(values, done) {
   });
 }
 
- function communityToolsService(domainName, toolId) {
+ function communityToolsService1(domainName, toolId, done) {
+   const query = `SELECT toolid FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}' and toolid = '${toolId.toLowerCase()}'`; // SORT BY domainname, role`;
 
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      console.log(results.rows);
+      if (results.rows.length > 0) {
+        done("undefined", undefined);
+      } else {
+        console.log('error');
+        done(err, undefined);
+      }
+    } else {
+      done(err, undefined);
+    }
+  });
 }
+
+ function communityToolsService2(domainName, toolId, action, done) {
+   const query = `SELECT actions FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}' and toolid = '${toolId.toLowerCase()}'`; // SORT BY domainname, role`;
+
+   return client.execute(query, (err, results) => {
+    let flag=0;
+         if (!err) {
+           console.log(results.rows);
+           if (results.rows.length > 0) {
+              Object.keys(results.rows).forEach(function(key){
+                  if(key===action)
+                  {
+                    flag=1;
+                  }
+              });
+              done(undefined, flag);
+           } else {
+             done(err);
+           }
+         } else {
+           done(err, undefined);
+         }
+       
+     });
+ }
+
 
 module.exports = {
   getCommunityRoles,
@@ -349,4 +389,6 @@ module.exports = {
   checkCommunityRole,
   checkCommunityRole2,
   getCommunityRolesOnly,
+  communityToolsService1,
+  communityToolsService2,
 };
