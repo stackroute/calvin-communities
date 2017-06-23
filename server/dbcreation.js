@@ -94,7 +94,7 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} ( 
 */
 
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_TOOLS} ( \
-  communities set<text>, \
+  domains set<text>, \
   toolid text, \
   PRIMARY KEY(toolid)
 )`);
