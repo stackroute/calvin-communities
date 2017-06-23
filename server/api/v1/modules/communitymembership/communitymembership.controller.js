@@ -1,52 +1,152 @@
-const membershipService = require('./communitymembership.service');
+const communityMembershipService = require('./communitymembership.service');
 
-function addMemberToCommunity(values, done) {
-  let flag = false;
-  if ((values.domain) && (values.username) && (values.role)) {
-    if ((values.domain !== null) && (values.username !== null) && (values.role !== null)) {
-      flag = true;
+
+
+function addMembersToCommunity(domainName, values, done) {
+    let flag = 0;
+    let valueExist = 0;
+    if (domainName) {
+        values.forEach((data) => {
+            if (data.username && data.role) {
+                flag += 1;
+            } else {
+                flag += 0;
+            }
+        });
+        if (values.length === flag) {
+            values.forEach((data) => {
+                communityMembershipService.checkCommunityToUpdateMembersDetail(domainName, data.username, data.role, (error) => {
+                    if (error) {
+                        valueExist += 1;
+                    } else {
+                        valueExist += 0;
+                    }
+                });
+            });
+            setTimeout(() => {
+                if (valueExist === values.length) {
+                    communityMembershipService.addMembersToCommunity(domainName, values, done);
+                } else {
+                    done('Member detail already exist');
+                }
+            }, 1000);
+        } else {
+            done('Value of username and role cannot be empty');
+        }
+    } else {
+        console.log('URI parameter cannot be empty.....');
+        done('URI parameter cannot be empty.....');
     }
-  }
-  if (flag) {
-    const params = {
-      userName: values.username,
-      domainName: values.domain,
-      role: values.role,
-    };
-    membershipService.addMemberToCommunity(params, done);
-  } else {
-    done('Enter Required Fields ........!!!');
-  }
 }
 
-// get particular Community members Details
-function getParticularCommunityMemberDetails(domainName, done) {
-  membershipService.getParticularCommunityMemberDetails(domainName, done);
-}
 
-// Modify role of a member in a community
-function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
-  let flag = false;
-  if (memberRole) {
-    if (memberRole !== null) {
-      flag = true;
+// Remove members from a community
+
+function removeMembersFromCommunity(domainName, values, done) {
+    let flag = 0;
+    let valueExist = 0;
+    if (domainName) {
+        values.forEach((data) => {
+            if (data.username && data.role) {
+                flag += 1;
+            } else {
+                flag += 0;
+            }
+        });
+        if (values.length === flag) {
+            values.forEach((data) => {
+                communityMembershipService.checkCommunityToUpdateMembersDetail(domainName, data.username, data.role, (error,message) => {
+                    if (message) {
+                        valueExist += 1;
+                        console.log(valueExist);
+                    } else {
+                        valueExist += 0;
+                        console.log('hiiii')
+                        done({error:'No data to delete'},undefined);
+                    }
+                });
+            });
+            setTimeout(() => {
+                if (valueExist === values.length) {
+                    communityMembershipService.removeMembersFromCommunity(domainName, values, done);
+                } else {
+                    done({error:'Member detail already exist'});
+                }
+            }, 1000);
+        } else {
+            done('Value of username and role cannot be empty');
+        }
+    } else {
+        done('URI parameter cannot be empty.....');
     }
-  }
-  if (flag) {
-    membershipService.modifyRoleOfMemberFromCommunity(params, memberRole, done);
-  } else {
-    done('Role Should Not Be Empty....!!! ');
-  }
 }
 
-// Remove member from the community
-function removeMemberFromCommunity(params, done) {
-  membershipService.removeMemberFromCommunity(params, done);
+// Modify role of a members in a community
+
+
+function modifyRoleOfMembersFromCommunity(domainName, values, done) {
+    let flag = 0;
+    let valueExist = 0;
+    if (domainName) {
+        values.forEach((data) => {
+            if (data.username && data.role) {
+                flag += 1;
+            } else {
+                flag += 0;
+            }
+        });
+        if (values.length === flag) {
+            values.forEach((data) => {
+                communityMembershipService.checkCommunityToUpdateMembersDetail(domainName, data.username, data.role, (error,message) => {
+                    if (error) {
+                        valueExist += 1;
+                        console.log(valueExist);
+                    } else {
+                        valueExist += 0;
+                    }
+                });
+            });
+            setTimeout(() => {
+                if (valueExist === values.length) {
+                    communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, done);
+                } else {
+                    done('Member detail already exist');
+                }
+            }, 1000);
+        } else {
+            done('Value of username and role cannot be empty');
+        }
+    } else {
+        done('URI parameter cannot be empty.....');
+    }
+}
+
+
+//get particular Community members Details
+// function getParticularCommunityMembersDetails(domainName, done ) {
+//     communityMembershipService.getParticularCommunityMembersDetails(domainName, done =>{
+//         if(results){
+//             done(err,results.rows);
+//         }
+//     });
+// }
+
+function getParticularCommunityMembersDetails(domainName, done) {
+    console.log("INSIADE CONTROLLER");
+  communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
+}
+
+
+//check member availability
+
+function checkCommunityToUpdateMembersDetail(data, done) {
+    communityMembershipService.checkCommunityToUpdateMembersDetail(data.domain, data.username,data.role, done);
 }
 
 module.exports = {
-  addMemberToCommunity,
-  getParticularCommunityMemberDetails,
-  modifyRoleOfMemberFromCommunity,
-  removeMemberFromCommunity,
+    addMembersToCommunity,
+    removeMembersFromCommunity,
+    modifyRoleOfMembersFromCommunity,
+    getParticularCommunityMembersDetails,
+    checkCommunityToUpdateMembersDetail,
 };

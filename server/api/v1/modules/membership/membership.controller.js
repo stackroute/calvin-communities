@@ -1,4 +1,4 @@
-const membersService = require('./members.service');
+const membershipService = require('./membership.service');
 
 function addedMemberToCommunity(values, done) {
   let flag = false;
@@ -13,7 +13,7 @@ function addedMemberToCommunity(values, done) {
       domainName: values.domain,
       role: values.role,
     };
-    membersService.addedMemberToCommunity(params, done);
+    membershipService.addedMemberToCommunity(params, done);
   } else {
     done('Enter required fields.......!!!!!');
   }
@@ -21,7 +21,7 @@ function addedMemberToCommunity(values, done) {
 
 // get particular member with all community details
 function getParticularMemberDetailInCommunities(userName, done) {
-  membersService.getParticularMemberDetailInCommunities(userName, done);
+  membershipService.getParticularMemberDetailInCommunities(userName, done);
 }
 
 function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
@@ -32,7 +32,7 @@ function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
     }
   }
   if (flag) {
-    membersService.modifyRoleOfMemberFromCommunity(params, memberRole, done);
+    membershipService.modifyRoleOfMemberFromCommunity(params, memberRole, done);
   } else {
     done('Enter required fields.......!!!!!');
   }
@@ -40,7 +40,7 @@ function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
 
 // Remove member from the community
 function removeMemberFromCommunity(params, done) {
-  membersService.removeMemberFromCommunity(params, done);
+  membershipService.removeMemberFromCommunity(params, done);
 }
 
 module.exports = {

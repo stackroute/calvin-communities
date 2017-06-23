@@ -6,9 +6,9 @@ router.use('/memberrequests', require('./modules/memberrequests'));
 
 router.use('/communitytools', require('./modules/communitytools'));
 
-router.use('/membership', require('./modules/communitymembership'));
+router.use('/communitymembership', require('./modules/communitymembership'));
 
-router.use('/members', require('./modules/members'));
+router.use('/membership', require('./modules/membership'));
 
 router.use('/communityrole', require('./modules/communityrole'));
 
