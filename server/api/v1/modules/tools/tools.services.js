@@ -18,11 +18,11 @@ const client = new model.Client({
 // Query to select values from tools table
 
 function getTools(domainName, done) {
-  const query = (`SELECT tools from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}' ALLOW FILTERING;`);
+  const query = (`SELECT communities from ${TOOL_TABLE} WHERE toolid='${domainName.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        done(undefined, { domain: domainName, tools: results.rows });
+        done(undefined, { toolid: domainName, communities:results.rows });
       } else {
         done({ error: 'please enter a valid domain name' }, undefined);
       }
@@ -35,7 +35,7 @@ function getTools(domainName, done) {
 
 function getToolsForDeletion(domainName, value, done) {
   let count = false;
-  const query = (`SELECT tools from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}';`);
+  const query = (`SELECT communities from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -60,7 +60,7 @@ function getToolsForDeletion(domainName, value, done) {
 // Inserting into tools table
 
 function updateTools(data, domainName, done) {
-  const query = (`update ${TOOL_TABLE} set tools = tools + {'${data.tools.toLowerCase()}'} where domain='${domainName.domain.toLowerCase()}';`);
+  const query = (`update ${TOOL_TABLE} set communities = communities + {'${data.tools.toLowerCase()}'} where toolid='${domainName.domain.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);
@@ -70,21 +70,20 @@ function updateTools(data, domainName, done) {
   });
 }
 
-function addTools(data, done) {
+function addTools(data, domain, done){
   const arr = [];
-  let domainname;
+  let query;
   data.forEach((val) => {
-    arr.push(`'${val.toolId.toLowerCase()}'`);
-    domainname = val.domain.toLowerCase();
+       query = (`update ${TOOL_TABLE} set communities = communities + {'${domain.toLowerCase()}'} where toolid='${val.toolId.toLowerCase()}';`);
+    arr.push({query});
   });
-    // console.log(arr);
-  const query = (`insert into ${TOOL_TABLE} (domain,tools) values('${domainname}',{${arr}})`);
-  return client.execute(query, (err) => {
+
+  return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      return done(undefined);
+      done(undefined, { message: 'updated tool' });
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
     }
-    return done(err);
-        // console.log(err);
   });
 }
 

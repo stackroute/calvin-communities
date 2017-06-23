@@ -15,7 +15,7 @@ const communityToolCtrl = require('./communitytools.controller');
  *
  */
 
-router.get('/:domainname', (req, res) => {
+router.get('/:domainname/tools', (req, res) => {
   try {
     const domainName = req.params.domainname;
     communityToolCtrl.getTools(domainName, (err, results) => {
@@ -33,9 +33,9 @@ router.get('/:domainname', (req, res) => {
   return null;
 });
 
-router.get('/:domain/:tool', (req, res) => {
+router.get('/:domainname/tools/:toolid', (req, res) => {
   try {
-    const domainName = req.params.tools;
+    const domainName = req.params;
     communityToolCtrl.getActions(domainName, (err, results) => {
       if (err) {
                 // console.log('Error in communityToolCtrl.getTools error: ', err);
@@ -61,10 +61,11 @@ router.get('/:domain/:tool', (req, res) => {
  *
  */
 
-router.post('/', (req, res) => {
+router.post('/:domainname/tools', (req, res) => {
   try {
     const dataFromBody = req.body;
-    communityToolCtrl.postTools(dataFromBody, (err) => {
+    const dataFromParams=req.params.domainname;
+    communityToolCtrl.postTools(dataFromBody,dataFromParams, (err) => {
       if (err) {
                 // console.log('Error in communityToolCtrl.postTools error: ', err);
         return res.status(404).send(err);
@@ -79,7 +80,7 @@ router.post('/', (req, res) => {
   return null;
 });
 
-router.patch('/:domain/:tool', (req, res) => {
+router.patch('/:domainname/tools/:toolid', (req, res) => {
   try {
     const dataFromBody = req.body;
     const dataFromParams = req.params;
@@ -98,7 +99,7 @@ router.patch('/:domain/:tool', (req, res) => {
   return null;
 });
 
-router.delete('/:domain/:tool', (req, res) => {
+router.delete('/:domainname/tools/:toolid', (req, res) => {
   try {
     communityToolCtrl.deleteTool(req.params, (err) => {
       if (err) {
@@ -106,7 +107,7 @@ router.delete('/:domain/:tool', (req, res) => {
         return res.status(404).send(err);
       }
 
-      return res.send({ message: 'deleted' });
+      return res.status(204).send({ message: 'deleted' });
     });
   } catch (err) {
     return res.status(404).send({ error: 'Unexpected error occurred, please try again...!' });
@@ -114,38 +115,6 @@ router.delete('/:domain/:tool', (req, res) => {
   return null;
 });
 
-router.delete('/action/:domain/:tool/:name', (req, res) => {
-  try {
-    const dataFromParams = req.params;
-    // console.log(dataFromParams);
-    communityToolCtrl.deleteAction(dataFromParams, (err) => {
-      if (err) {
-        return res.status(404).send({ error: 'Error in operation, please try later..!' });
-      }
-
-      return res.send({ message: 'Deleted Actions' });
-    });
-  } catch (err) {
-    return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
-  }
-  return null;
-});
-
-router.delete('/event/:domain/:tool/:name', (req, res) => {
-  try {
-    const dataFromParams = req.params;
-    communityToolCtrl.deleteEvent(dataFromParams, (err) => {
-      if (err) {
-        return res.status(404).send({ error: 'Error in operation, please try later..!' });
-      }
-
-      return res.send({ message: 'Deleted Events' });
-    });
-  } catch (err) {
-    return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
-  }
-  return null;
-});
 
 
 module.exports = router;
