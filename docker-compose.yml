@@ -1,0 +1,27 @@
+version: '2'
+services:
+
+  calvin-communities:
+    image: calvin-communities
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: always
+    volumes:
+      - ./dockerScripts:/temp/scripts
+    ports:
+      - "3000:3000"
+    depends_on:
+      - cassandra
+    entrypoint:
+      -  /temp/scripts/wait-for-service.sh
+      - '0.0.0.0'
+      - '9042'
+
+  cassandra:
+    image: cassandra:latest
+    network_mode: host
+    restart: always
+    expose:
+      - 9042
