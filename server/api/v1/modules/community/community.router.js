@@ -17,13 +17,13 @@ router.get('/', (req, res) => {
     communityCtrl.getAllCommunities((err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.allcommunities error: ', err);
-        return res.status(500).error({ error: 'Unexpected error occurred, try again later' });
+        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       return res.status(200).json(results);
     });
   } catch (err) {
     logger.debug('Unexpected error in fetching communities ', err);
-    return res.status(500).error({ error: 'Unexpected error occurred, try again later' });
+    return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
 
@@ -35,8 +35,9 @@ router.get('/', (req, res) => {
  *
  *
  */
-router.post('/', (req, res) => {
+router.post('/:domain', (req, res) => {
   try {
+    req.body.domain = req.params.domain;
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.addcommunity error: ', err);
@@ -60,7 +61,11 @@ router.post('/', (req, res) => {
  */
 router.get('/:domain', (req, res) => {
   try {
-    communityCtrl.getCommunity(req.params.domain, (err, results) => {
+    let flag = false;
+    if(req.query.counter) {
+      flag = req.query.counter;
+    }
+    communityCtrl.getCommunity(req.params.domain, flag, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.getcommunity error: ', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });

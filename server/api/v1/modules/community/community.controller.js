@@ -2,8 +2,6 @@ const communityServ = require('./community.service');
 
 const async = require('async');
 
-const logger = require('log4js').getLogger();
-
 const templateController = require('../communitytemplates/communitytemplate.controller');
 
 const membershipController = require('../communitymembership/communitymembership.controller');
@@ -12,6 +10,7 @@ const toolsController = require('../communitytools/communitytools.controller');
 
 const roleController = require('../communityrole/communityrole.controller');
 
+const counterController = require('../communitiescounter/counter.controller');
 /**
  * Get For all communities,
  *
@@ -111,6 +110,8 @@ function addCommunity(community, done) {
   if (values === -1) {
     return done('no template found for the given purpose');
   }
+
+
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
@@ -128,8 +129,26 @@ function addCommunity(community, done) {
  * GET REQUEST
  *
  */
-function getCommunity(domainName, done) {
+function getCommunity(domainName, flag, done) {
+  if(flag) {
+    async.parallel([
+    communityServ.getCommunity.bind(null, domainName),
+    counterController.getcounter.bind(null, domainName)
+    ], (err, result) => {
+      if(err) return done(err);
+        const counts = {
+          invitations: result[1][0].invitations,
+          members: result[1][0].members,
+          requests: result[1][0].requests,
+          tools: result[1][0].tools
+        }
+        result[0].push(counts);
+        return done(undefined, result[0]);
+         })
+  }
+  else {
   communityServ.getCommunity(domainName, done);
+}
 }
 
 /**
