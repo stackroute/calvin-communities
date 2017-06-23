@@ -6,6 +6,8 @@
 
  const deleted = { message: 'deleted' };
 
+  const actionDeleted = { message: 'action deleted' };
+
  const notFound = { error: 'please enter a valid domain name' };
 
  const catchError = { error: 'Unexpected error occurred, please try again...!' };
@@ -98,4 +100,5 @@
    error,
    eventMsg,
    patchUpper,
+   actionDeleted
  };

@@ -59,8 +59,13 @@ function getToolsForDeletion(domainName, tool, value, done) {
   const domainname = domainName.toLowerCase();
   const toolid = tool.toLowerCase();
   const values = value.toLowerCase();
+    console.log("domainname");
 
-  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname.toLowerCase()}' and toolid = '${toolid.toLowerCase()}';`);
+  console.log(domainname);
+  console.log(toolid);
+  console.log(values);
+
+  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${toolid}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
