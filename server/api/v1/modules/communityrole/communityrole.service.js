@@ -338,9 +338,9 @@ function patchCommunityRoles(values, done) {
   });
 }
 
-/* function communityToolsService() {
+ function communityToolsService(domainName, toolId) {
 
-}*/
+}
 
 module.exports = {
   getCommunityRoles,
