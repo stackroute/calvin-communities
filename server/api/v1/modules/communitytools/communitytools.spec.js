@@ -211,6 +211,21 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
+/*   //  Delete an action from table
+  it('should delete action for a given domain and tool name', (done) => {
+    request(app)
+            .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}/action/publish`)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.actionDeleted);
+              done();
+            });
+    return null;
+  });*/
+
     //  Delete a tool from table
   it('should delete data in database for a given domain and tool name', (done) => {
     request(app)
