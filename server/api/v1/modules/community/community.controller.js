@@ -56,7 +56,6 @@ function getTemplateDetails(community) {
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
-      domain: community.domain,
       toolId: element.toolId,
       actions: element.actions,
       activityEvents: element.activityEvents,
@@ -69,7 +68,6 @@ function getTemplateDetails(community) {
   templateDetails[0].roleActions.forEach((element) => {
     element.toolsActions.forEach((data) => {
       const rolesobject = {
-        domain: community.domain,
         role: element.role,
         toolId: data.toolId,
         actions: data.actions,
@@ -108,20 +106,27 @@ function addCommunity(community, done) {
   const values = getTemplateDetails(community);
 
   if (values === -1) {
-    return done('no template found for the given purpose');
+    return done('no template found ');
   }
 
+console.log(values[0]);
+console.log('hiiiiiiii');
+console.log(values[2]);
+console.log('hiiiiiiii');
+console.log(community.domain);
+console.log('hiiiiiiii');
 
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
-    membershipController.addMemberToCommunity.bind(null, values[1]),
-    roleController.postCommunityRoles.bind(null, values[3]),
-    toolsController.postTools.bind(null, values[2]),
+   // membershipController.addMemberToCommunity.bind(null, values[1]),
+    toolsController.postTools.bind(null, values[2], community.domain),
+    roleController.postCommunityRoles.bind(null, community.domain, values[3]),
   ],
     (err, result) => {
       if (err) return done(err);
       return done(undefined, result[0]);
     });
+  //communityServ.addCommunity(values[0], done);
 }
 
 /**
@@ -129,22 +134,24 @@ function addCommunity(community, done) {
  * GET REQUEST
  *
  */
-function getCommunity(domainName, flag, done) {
-  if (flag) {
+function getCommunity(domainName, counter, done) {
+  if(counter) {
     async.parallel([
       communityServ.getCommunity.bind(null, domainName),
       counterController.getcounter.bind(null, domainName),
     ], (err, result) => {
-      if (err) return done(err);
-      const counts = {
-        invitations: result[1][0].invitations,
-        members: result[1][0].members,
-        requests: result[1][0].requests,
-        tools: result[1][0].tools,
-      };
-      result[0].push(counts);
-      return done(undefined, result[0]);
-    });
+      if(err) return done(err);
+      if(result[1][0]){
+        const counts = {
+          invitations: result[1][0].invitations,
+          members: result[1][0].members,
+          requests: result[1][0].requests,
+          tools: result[1][0].tools
+        }
+        result[0].push(counts);
+      }
+        return done(undefined, result[0]);
+         })
   } else {
     communityServ.getCommunity(domainName, done);
   }

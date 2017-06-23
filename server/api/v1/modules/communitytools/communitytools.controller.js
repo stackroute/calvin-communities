@@ -58,16 +58,16 @@ function postTools(dataFromBody, dataFromURI, done) {
     }
   });
   setTimeout(() => {
-        /* console.log(flag);
+         console.log(flag);
          console.log(dataFromBody.length);
-         console.log(flag === dataFromBody.length);*/
+         console.log(flag === dataFromBody.length);
     if (flag === dataFromBody.length) {
       if (correctValue === dataFromBody.length) {
                 // console.log("hii");
         async.parallel([
           communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
           toolsService.addTools.bind(null, dataFromBody, dataFromURI),
-        ], (err) => {
+        ], (err, result) => {
           if (err) {
             return done(err);
           }
