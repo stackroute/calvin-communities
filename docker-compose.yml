@@ -7,7 +7,6 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     ports:
@@ -22,6 +21,6 @@ services:
   cassandra:
     image: cassandra:latest
     network_mode: host
-    restart: always
+    restart: on-failure
     expose:
       - 9042

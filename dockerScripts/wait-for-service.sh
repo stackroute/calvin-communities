@@ -15,5 +15,3 @@ done
 
 
 >&2 echo "Service is working! Yippie!"
-
-npm run create

@@ -61,11 +61,11 @@ router.post('/:domain', (req, res) => {
  */
 router.get('/:domain', (req, res) => {
   try {
-    let flag = false;
-    if(req.query.counter) {
-      flag = req.query.counter;
+    let counter = false;
+    if(req.query.counter && req.query.counter.toString() === 'true') {
+      counter = req.query.counter;
     }
-    communityCtrl.getCommunity(req.params.domain, flag, (err, results) => {
+    communityCtrl.getCommunity(req.params.domain, counter, (err, results) => {
       if (err) {
         logger.debug('Error in communityCtrl.getcommunity error: ', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
