@@ -18,7 +18,7 @@ const client = new model.Client({
 // Query to select values from tools table
 
 function getTools(domainName, done) {
-  const query = (`SELECT communities from ${TOOL_TABLE} WHERE toolid='${domainName.toLowerCase()}';`);
+  const query = (`SELECT domains from ${TOOL_TABLE} WHERE toolid='${domainName.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -35,7 +35,7 @@ function getTools(domainName, done) {
 
 function getToolsForDeletion(domainName, value, done) {
   let count = false;
-  const query = (`SELECT communities from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}';`);
+  const query = (`SELECT domains from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -60,7 +60,7 @@ function getToolsForDeletion(domainName, value, done) {
 // Inserting into tools table
 
 function updateTools(data, domainName, done) {
-  const query = (`update ${TOOL_TABLE} set communities = communities + {'${data.tools.toLowerCase()}'} where toolid='${domainName.domain.toLowerCase()}';`);
+  const query = (`update ${TOOL_TABLE} set domains = domains + {'${data.tools.toLowerCase()}'} where toolid='${domainName.domain.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);
@@ -74,7 +74,7 @@ function addTools(data, domain, done) {
   const arr = [];
   let query;
   data.forEach((val) => {
-    query = (`update ${TOOL_TABLE} set communities = communities + {'${domain.toLowerCase()}'} where toolid='${val.toolId.toLowerCase()}';`);
+    query = (`update ${TOOL_TABLE} set domains = domains + {'${domain.toLowerCase()}'} where toolid='${val.toolId.toLowerCase()}';`);
     arr.push({ query });
   });
 
@@ -89,7 +89,7 @@ function addTools(data, domain, done) {
 
 
 function deleteTools(data, done) {
-  const query = (`DELETE communities['${data.domainname.toLowerCase()}'] FROM ${TOOL_TABLE} where toolid='${data.toolid.toLowerCase()}';`);
+  const query = (`DELETE domains['${data.domainname.toLowerCase()}'] FROM ${TOOL_TABLE} where toolid='${data.toolid.toLowerCase()}';`);
   return client.execute(query, (err) => {
     if (!err) {
       done(undefined, { message: 'deleted' });
