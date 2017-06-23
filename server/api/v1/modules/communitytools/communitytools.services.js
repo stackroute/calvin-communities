@@ -41,7 +41,7 @@ function getToolsforCRUD(domainName, tool, done) {
   const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${tools}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
-            // console.log(results.rows);
+      console.log(results.rows);
       if (results.rows.length > 0) {
         done(undefined, { domain: domainname, tools, data: results.rows });
       } else {
@@ -57,7 +57,7 @@ function getToolsforCRUD(domainName, tool, done) {
 function getToolsForDeletion(domainName, tool, value, done) {
   let flag = false;
   const domainname = domainName.toLowerCase();
-  const tools = tool.toLowerCase();
+  const toolid = tool.toLowerCase();
   const values = value.toLowerCase();
 
   const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname.toLowerCase()}' and toolid = '${toolid.toLowerCase()}';`);
@@ -195,7 +195,7 @@ function deleteTools(domainname, done) {
   const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${domainname.domainname.toLowerCase()}' and toolid ='${domainname.toolid.toLowerCase()}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
-      done(undefined, results);
+      done(undefined);
     } else {
       done({ error: 'Internal Error occured' }, undefined);
     }

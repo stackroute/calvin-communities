@@ -76,7 +76,7 @@ router.get('/:domain', (req, res) => {
       return res.send(results);
     });
   } catch (err) {
-    logger.debug('Unexpected error in fetching communities ', err);
+    logger.debug('Unexpected error in fetching community data ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });

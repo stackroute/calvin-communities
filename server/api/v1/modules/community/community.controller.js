@@ -110,7 +110,7 @@ function addCommunity(community, done) {
     return done('no template found ');
   }
 
-/*
+
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     membershipController.addMemberToCommunity.bind(null, values[1]),
@@ -120,8 +120,8 @@ function addCommunity(community, done) {
     (err, result) => {
       if (err) return done(err);
       return done(undefined, result[0]);
-    });*/
-  communityServ.addCommunity(values[0], done);
+    });
+  //communityServ.addCommunity(values[0], done);
 }
 
 /**
@@ -132,8 +132,8 @@ function addCommunity(community, done) {
 function getCommunity(domainName, counter, done) {
   if(counter) {
     async.parallel([
-    communityServ.getCommunity.bind(null, domainName),
-    counterController.getcounter.bind(null, domainName)
+      communityServ.getCommunity.bind(null, domainName),
+      counterController.getcounter.bind(null, domainName),
     ], (err, result) => {
       if(err) return done(err);
       if(result[1][0]){
@@ -147,10 +147,9 @@ function getCommunity(domainName, counter, done) {
       }
         return done(undefined, result[0]);
          })
+  } else {
+    communityServ.getCommunity(domainName, done);
   }
-  else {
-  communityServ.getCommunity(domainName, done);
-}
 }
 
 /**

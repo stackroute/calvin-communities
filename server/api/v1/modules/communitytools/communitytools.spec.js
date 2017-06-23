@@ -162,9 +162,6 @@ describe('Test cases for tools of a community', () => {
   });
 
 
-
-
-
    // patch data in database
   it('should patch data in database, update community', (done) => {
     request(app)
