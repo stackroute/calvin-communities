@@ -109,10 +109,16 @@ function addCommunity(community, done) {
     return done('no template found ');
   }
 
+console.log(values[0]);
+console.log('hiiiiiiii');
+console.log(values[2]);
+console.log('hiiiiiiii');
+console.log(community.domain);
+console.log('hiiiiiiii');
 
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
-    membershipController.addMemberToCommunity.bind(null, values[1]),
+   // membershipController.addMemberToCommunity.bind(null, values[1]),
     toolsController.postTools.bind(null, values[2], community.domain),
     roleController.postCommunityRoles.bind(null, community.domain, values[3]),
   ],
