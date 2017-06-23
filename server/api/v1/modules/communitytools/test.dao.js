@@ -14,7 +14,7 @@
 
  const existingTool = { error: 'Tool Exists!!' };
 
- const errMsg = { error: 'Please enter a valid domain and tool name' };
+ const errMsg = { error: 'Please enter a valid domain and tools name' };
 
  const actionMsg = { message: 'Deleted Actions' };
 
@@ -23,28 +23,25 @@
  const eventMsg = { message: 'Deleted Events' };
 
  const tools = [{
-   domain: 'manager.wipro.blr',
    toolId: 'quora',
    actions: ['broadcast', 'write'],
    activityEvents: ["'postmessage'"],
  }];
 
  const toolsAll = [{
-   domain: 'engineer.wipro.blr',
-   toolId: 'quora',
+   toolId: 'WeMedUp',
    actions: ["'broadcast'", "'write'"],
    activityEvents: ["'postmessage'"],
  }];
 
  const wrongtools = [{
-   toolId: 'stackoverflow',
    actions: ['broadcast', 'write'],
    activityEvents: ['postmessage'],
  }];
 
  const wrongtool = [
    [{
-     toolId: 'sermo',
+     toolId: '',
      actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
      activityEvents: ['newannouncement', 'like', 'remove'],
      domain: '',
@@ -66,6 +63,11 @@
  const patch = {
    domain: 'engineer.wipro.blr',
    tool: 'quora',
+ };
+
+ const patchUpper = {
+   domain: 'DoCtorS.blr',
+   tool: 'Quora',
  };
 
  const notExisting = {
@@ -95,4 +97,5 @@
    actionMsg,
    error,
    eventMsg,
+   patchUpper,
  };

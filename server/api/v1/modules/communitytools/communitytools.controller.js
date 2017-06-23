@@ -4,7 +4,8 @@ const communityToolService = require('./communitytools.services');
 
 const async = require('async');
 
-const toolsService = require('../tools/tools.services');
+const toolsService
+ = require('../tools/tools.services');
 
 
 // Function for Getting tools
@@ -34,19 +35,19 @@ function getTools(domainName, done) {
 }*/
 
 function getActions(dataFromBody, done) {
-  communityToolService.getToolsforCRUD(dataFromBody.domain, dataFromBody.tool, done);
+  communityToolService.getToolsforCRUD(dataFromBody.domainname, dataFromBody.toolid, done);
 }
 
 
-function postTools(dataFromBody, done) {
+function postTools(dataFromBody, dataFromURI, done) {
   let flag = 0;
   let correctValue = 0;
     // console.log(flag);
   dataFromBody.forEach((data) => {
-    if (data.toolId && data.actions && data.domain && data.activityEvents) {
-      if (data.toolId !== '' && data.actions !== '' && data.domain !== '' && data.activityEvents !== '') {
+    if (data.toolId && data.actions && data.activityEvents) {
+      if (data.toolId !== '' && data.actions !== '' && data.activityEvents !== '') {
         correctValue += 1;
-        communityToolService.getToolsforCRUD(data.domain, data.toolId, (error) => {
+        communityToolService.getToolsforCRUD(dataFromURI, data.toolId, (error) => {
           if (error) {
             flag += 1;
           } else {
@@ -64,8 +65,8 @@ function postTools(dataFromBody, done) {
       if (correctValue === dataFromBody.length) {
                 // console.log("hii");
         async.parallel([
-          communityToolService.addTools.bind(null, dataFromBody),
-          toolsService.addTools.bind(null, dataFromBody),
+          communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
+          toolsService.addTools.bind(null, dataFromBody, dataFromURI),
         ], (err) => {
           if (err) {
             return done(err);
@@ -84,7 +85,7 @@ function postTools(dataFromBody, done) {
 // To add actions and activity events to existing tools
 
 function modifyTool(dataFromBody, dataFromURI, done) {
-  communityToolService.getToolsforCRUD(dataFromURI.domain, dataFromURI.tool, (err) => {
+  communityToolService.getToolsforCRUD(dataFromURI.domainname, dataFromURI.toolid, (err) => {
     if (err) {
       done(err, undefined);
     } else {
@@ -96,7 +97,7 @@ function modifyTool(dataFromBody, dataFromURI, done) {
 // To delete an action from a tool
 
 function deleteAction(domainName, done) {
-  // console.log(domainName);
+    // console.log(domainName);
   communityToolService.getToolsForDeletion(domainName.domain,
         domainName.tool, domainName.name, (err) => {
           if (err) {
@@ -123,18 +124,18 @@ function deleteEvent(domainName, done) {
 // To delete a tool
 
 function deleteTool(domain, done) {
-  communityToolService.getToolsforCRUD(domain.domain, domain.tool, (error) => {
+  communityToolService.getToolsforCRUD(domain.domainname, domain.toolid, (error) => {
     if (error) {
       done(error, undefined);
     } else {
       async.parallel([
         toolsService.deleteTools.bind(null, domain),
         communityToolService.deleteTools.bind(undefined, domain),
-      ], (err) => {
+      ], (err, res) => {
         if (err) {
           return done(err);
         }
-        return done(undefined, { message: 'Deleted' });
+        return done(undefined, res);
       });
     }
   });

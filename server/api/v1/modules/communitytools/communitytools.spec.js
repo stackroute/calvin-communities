@@ -27,12 +27,13 @@ describe('Test cases for tools of a community', () => {
   before(() => {
         // runs before all tests in this block
     client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'engineer.wipro.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
+    client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'doctors.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
   });
 
 
   it('should get data for specified domain', (done) => {
     request(app)
-            .get(`${uri}engineer.wipro.blr`)
+            .get(`${uri}engineer.wipro.blr/tools`)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .expect(200)
             .end((err, res) => {
@@ -46,9 +47,9 @@ describe('Test cases for tools of a community', () => {
             });
   });
 
-  it('should get data for specified domain when the cases are changed', (done) => {
+  it('should get data for specified domain when in upper case', (done) => {
     request(app)
-            .get(`${uri}engineer.wIpRo.bLr`)
+            .get(`${uri}engineer.wIpRo.bLr/tools`)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .expect(200)
             .end((err, res) => {
@@ -64,12 +65,12 @@ describe('Test cases for tools of a community', () => {
 
   it('should throw error if value is not found', (done) => {
     request(app)
-            .get(`${uri}wipro.blr`)
+            .get(`${uri}wipro.blr/tools`)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .expect(404)
             .end((err, res) => {
               if (err) {
-                // console.log(res.body);
+                    // console.log(res.body);
                 return done();
               }
               res.body.should.deep.equal(value.notFound);
@@ -82,7 +83,7 @@ describe('Test cases for tools of a community', () => {
 
   it('should give error on post data in database when no values are given', (done) => {
     request(app)
-            .post(`${uri}`)
+            .post(`${uri}wipro.blr/tools/`)
             .expect(500)
             .end((err, res) => {
               if (err) {
@@ -99,7 +100,7 @@ describe('Test cases for tools of a community', () => {
 
   it('should give error on post data in database when domain is not given', (done) => {
     request(app)
-            .post(`${uri}`)
+            .post(`${uri}wipro.blr/tools`)
             .send(value.wrongtools)
             .expect(404)
             .end((err, res) => {
@@ -116,7 +117,7 @@ describe('Test cases for tools of a community', () => {
     // username string empty
   it('should give error on post data in database when domain property is empty', (done) => {
     request(app)
-            .post(`${uri}`)
+            .post(`${uri}wipro.blr/tools`)
             .send(value.wrongtool)
             .expect(404)
             .end((err, res) => {
@@ -129,9 +130,25 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
+      // post data in database, all values given
+  it('should post data in database for all columns ', (done) => {
+    request(app)
+            .post(`${uri}doctors.blr/tools`)
+            .send(value.toolsAll)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.be.deep.equal(value.toolcreated);
+              done();
+            });
+    return null;
+  });
+
   it('should give not post if tool already exists', (done) => {
     request(app)
-            .post(`${uri}`)
+            .post(`${uri}engineer.wipro.blr/tools`)
             .send(value.toolsAll)
             .expect(404)
             .end((err, res) => {
@@ -145,28 +162,10 @@ describe('Test cases for tools of a community', () => {
   });
 
 
-    // post data in database, all values given
-  it('should post data in database for all columns ', (done) => {
-    request(app)
-            .post(`${uri}`)
-            .send(value.tools)
-            .expect(201)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.be.deep.equal(value.toolcreated);
-              done();
-            });
-    return null;
-  });
-
-
-    // patch data in database
+   // patch data in database
   it('should patch data in database, update community', (done) => {
     request(app)
-            .patch(`${uri}${value.patch.domain}/${value.patch.tool}`)
+            .patch(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
             .send(value.updatetools)
             .end((err, res) => {
               if (err) {
@@ -183,7 +182,7 @@ describe('Test cases for tools of a community', () => {
     // patch data in database
   it('should show failure message when domain does not exist n database', (done) => {
     request(app)
-            .patch(`${uri}${value.notExisting.domain}/${value.patch.tool}`)
+            .patch(`${uri}${value.notExisting.domain}/tools/${value.patch.tool}`)
             .send(value.updatetools)
             .end((err, res) => {
               if (err) {
@@ -199,7 +198,7 @@ describe('Test cases for tools of a community', () => {
     // patch data in database
   it('should show failure message when tool does not exist n database', (done) => {
     request(app)
-            .patch(`${uri}${value.patch.domain}/${value.notExisting.tool}`)
+            .patch(`${uri}${value.patch.domain}/tools/${value.notExisting.tool}`)
             .send(value.updatetools)
             .end((err, res) => {
               if (err) {
@@ -212,102 +211,10 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-
-    //  Delete a row from table
-  it('should delete action for a given tool in a community ', (done) => {
-    request(app)
-            .delete(`${uri}action/${value.patch.domain}/${value.patch.tool}/publish`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.actionMsg);
-              done();
-            });
-    return null;
-  });
-
-    //  Delete a row from table
-  it('should not delete action if the domain does not exist in database ', (done) => {
-    request(app)
-            .delete(`${uri}action/${value.notExisting.domain}/${value.patch.tool}/write`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.error);
-              done();
-            });
-    return null;
-  });
-
-    //  Delete a row from table
-  it('should not delete action if the tool does not exist in database ', (done) => {
-    request(app)
-            .delete(`${uri}action/${value.patch.domain}/${value.notExisting.tool}/publish`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.error);
-              done();
-            });
-    return null;
-  });
-
-
-    //  Delete a row from table
-  it('should delete event in database for a given domain and tool name', (done) => {
-    request(app)
-            .delete(`${uri}event/${value.patch.domain}/${value.patch.tool}/post-self`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.eventMsg);
-              done();
-            });
-    return null;
-  });
-
-    //  Delete a row from table
-  it('should not delete event if the domain does not exist in database ', (done) => {
-    request(app)
-            .delete(`${uri}event/${value.notExisting.domain}/${value.patch.tool}/write`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.error);
-              done();
-            });
-    return null;
-  });
-
-    //  Delete a row from table
-  it('should not delete event if the tool does not exist in database ', (done) => {
-    request(app)
-            .delete(`${uri}event/${value.patch.domain}/${value.notExisting.tool}/publish`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.error);
-              done();
-            });
-    return null;
-  });
-
-    //  Delete a row from table
+    //  Delete a tool from table
   it('should delete data in database for a given domain and tool name', (done) => {
     request(app)
-            .delete(`/api/v1/communitytools/${value.patch.domain}/${value.patch.tool}`)
+            .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
             .end((err, res) => {
               if (err) {
                 done(err);
@@ -319,10 +226,24 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-    //  Delete a row from table
+  it('should delete data in database for a given domain and tool name in upper case', (done) => {
+    request(app)
+            .delete(`${uri}${value.patchUpper.domain}/tools/${value.patchUpper.tool}`)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.deleted);
+              done();
+            });
+    return null;
+  });
+
+    //  Delete a tool from table
   it('should not delete data if tool name or domain does not exist in database', (done) => {
     request(app)
-            .delete(`/api/v1/communitytools/${value.patch.domain}/${value.patch.tool}`)
+            .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
             .end((err, res) => {
               if (err) {
                 done(err);
@@ -333,9 +254,9 @@ describe('Test cases for tools of a community', () => {
             });
     return null;
   });
-
   after('', () => {
     client.execute("DELETE FROM communitytools where domain='Engineer.wipro.blr';");
     client.execute("DELETE FROM communitytools where domain='manager.wipro.blr';");
+    client.execute("DELETE FROM communitytools where domain='doctors.blr';");
   });
 });

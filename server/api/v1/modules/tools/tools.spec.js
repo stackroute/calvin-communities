@@ -23,10 +23,11 @@ const client = new model.Client({
 });
 
 
-describe('get all tools from database for specified domain', () => {
+describe('Test cases for all tools in a community', () => {
   before(() => {
         // runs before all tests in this block
     client.execute('insert into tools (domain, tools) values(\'engineer.wipro.blr\',  {\'forum\', \'quora\'});');
+    client.execute('insert into tools (domain, tools) values(\'doctors.blr\',  {\'forum\', \'quora\'});');
   });
 
   it('should get data for specified domain', (done) => {
@@ -79,7 +80,7 @@ describe('get all tools from database for specified domain', () => {
 
     // nothing given for domain, or tool name
 
-  it('should give error on post data in database when no values are given', (done) => {
+  it('should give error on posting data to database when no values are given', (done) => {
     request(app)
             .post(`${uri}`)
             .expect(500)
@@ -94,7 +95,7 @@ describe('get all tools from database for specified domain', () => {
     return null;
   });
 
-  it('should give error on post data in database when domain is not given', (done) => {
+  it('should give error on posting data to database when domain is not given', (done) => {
     request(app)
             .post(`${uri}`)
             .send(value.wrongtools)
@@ -111,7 +112,7 @@ describe('get all tools from database for specified domain', () => {
 
 
     // domain string empty
-  it('should give error on post data in database when domain property is empty', (done) => {
+  it('should give error on posting data to database when domain property is empty', (done) => {
     request(app)
             .post(`${uri}`)
             .send(value.wrongtool)
@@ -128,7 +129,7 @@ describe('get all tools from database for specified domain', () => {
 
 
     // patch data in database
-  it('should patch data in database, update community', (done) => {
+  it('should patch data in database, update tools for a community', (done) => {
     request(app)
             .patch(`${uri}${value.patch.domain}`)
             .send(value.updatetools)
@@ -143,6 +144,20 @@ describe('get all tools from database for specified domain', () => {
     return null;
   });
 
+  it('should not patch data, when domain does not exist in database', (done) => {
+    request(app)
+            .patch(`${uri}${value.notExisting.domain}`)
+            .send(value.updatetools)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(value.errorOccured);
+              done();
+            });
+    return null;
+  });
 
     //  Delete a row from table
   it('should delete data in database for a given domain and tool name', (done) => {
@@ -161,7 +176,7 @@ describe('get all tools from database for specified domain', () => {
 
   it('should delete data in database for a given domain and tool name in upper case', (done) => {
     request(app)
-            .delete(`${uri}Engineer.Wipro.blr/forum`)
+            .delete(`${uri}DoCtors.blr/forum`)
             .end((err, res) => {
               if (err) {
                 done(err);
@@ -188,7 +203,8 @@ describe('get all tools from database for specified domain', () => {
   });
 
   after('', () => {
-    client.execute("DELETE FROM communitytools where domain='doctor.wipro.blr';");
-    client.execute("DELETE FROM communitytools where domain='engineer.wipro.blr';");
+    client.execute("DELETE FROM tools where domain='doctor.wipro.blr';");
+    client.execute("DELETE FROM tools where domain='engineer.wipro.blr';");
+    client.execute("DELETE FROM tools where domain='doctors.blr';");
   });
 });
