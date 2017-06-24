@@ -120,7 +120,7 @@ describe('Create a communityrole and update it', () => {
   });
 
 
-   after(() => {
+  after(() => {
     client.execute("DELETE FROM communityroles where domain='prakhar'");
     client.execute("DELETE FROM communityroles where domain='africans'");
   });

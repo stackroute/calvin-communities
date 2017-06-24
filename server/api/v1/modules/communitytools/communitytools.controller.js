@@ -58,9 +58,9 @@ function postTools(dataFromBody, dataFromURI, done) {
     }
   });
   setTimeout(() => {
-         console.log(flag);
-         console.log(dataFromBody.length);
-         console.log(flag === dataFromBody.length);
+    console.log(flag);
+    console.log(dataFromBody.length);
+    console.log(flag === dataFromBody.length);
     if (flag === dataFromBody.length) {
       if (correctValue === dataFromBody.length) {
                 // console.log("hii");
@@ -97,9 +97,9 @@ function modifyTool(dataFromBody, dataFromURI, done) {
 // To delete an action from a tool
 
 function deleteAction(domainName, done) {
-     console.log(domainName.domainname);
-     console.log(domainName.toolid);
-     console.log(domainName.name);
+  console.log(domainName.domainname);
+  console.log(domainName.toolid);
+  console.log(domainName.name);
   communityToolService.getToolsForDeletion(domainName.domainname,
         domainName.toolid, domainName.name, (err) => {
           if (err) {

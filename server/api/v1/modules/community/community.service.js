@@ -1,5 +1,7 @@
 const model = require('cassandra-driver');
 
+const _ = require('lodash');
+
 const tableCommunities = 'communities';
 
 /**
@@ -48,17 +50,20 @@ function getCommunity(domainname, done) {
  *
  */
 function addCommunity(param, done) {
-  const query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, status, template, tags, owner, \
-description, avatar, createdby, updatedby, createdon, updatedon) \
-VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
+  const query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, roles,\
+   status, template, tags, owner, \
+description, avatar, visibility , createdby, updatedby, createdon, updatedon) \
+VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
 
-
-  return client.execute(query, param, (err, result) => {
-    if (err) return done(err, undefined);
-    getCommunity(param[0], done);
+  return client.execute(`SELECT * FROM ${tableCommunities} where domain = ?`, [param[0]], (error, data) => {
+    if (_.isEmpty(data.rows)) {
+      return client.execute(query, param, (err) => {
+        if (err) return done(err, undefined);
+        return getCommunity(param[0], done);
+      });
+    } return done('Domain Already Exists', undefined);
   });
 }
-
 /**
  * update a community
  *
@@ -66,11 +71,11 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now
  */
 function updateCommunity(param, done) {
   const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
-    visibility = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
+    visibility = ? , tags = ? , updatedby = ? , status = ? , updatedon = dateof(now()) where domain = ? `);
 
-  return client.execute(query, param, (err, results) => {
+  return client.execute(query, param, (err) => {
     if (err) return done(err, undefined);
-    return getCommunity(param[6], done);
+    return getCommunity(param[7], done);
   });
 }
 
@@ -81,7 +86,7 @@ function updateCommunity(param, done) {
 */
 function deleteCommunity(param, done) {
   const query = (`DELETE * FROM ${tableCommunities} where  domain = ? `);
-  return client.execute(query, param, (err, results) => {
+  return client.execute(query, param, (err) => {
     if (err) return done(err, undefined);
     return done(undefined);
   });
