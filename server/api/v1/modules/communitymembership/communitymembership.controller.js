@@ -63,6 +63,7 @@ function removeMembersFromCommunity(domainName, values, done) {
             valueExist += 1;
             console.log(valueExist);
             done(null, { message: 'data avilable' });
+
           } else {
             valueExist += 0;
             console.log('hiiii');
@@ -107,6 +108,7 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
             console.log(valueExist);
           } else {
             done(message);
+
             valueExist += 0;
           }
         });

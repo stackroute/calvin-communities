@@ -15,12 +15,13 @@ const router = express.Router();
 router.post('/:domain/members', (req, res) => {
   try {
     const values = req.body;
-    // console.log(values);
+
+    console.log(values);
     const domainName = req.params.domain;
-    // console.log(domainName);
+    console.log(domainName);
     communityMembershipCtrl.addMembersToCommunity(domainName, values, (err) => {
       if (err) {
-        console.log('Error in communityMembershipCtrl.addMemberToCommunity error :', err);
+                // console.log('Error in communityMembershipCtrl.addMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Member added' });
@@ -46,13 +47,14 @@ router.delete('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.removeMembersFromCommunity(domainName, values, (err) => {
       if (err) {
-        console.log('Error in communityMembershipCtrl.removeMembersFromCommunity error :', err);
-        return res.status(404).send({ error: 'Error in operation, please try later..!' });
+
+                // console.log('Error in communityMembershipCtrl.addMemberToCommunity error :', err);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.status(204).send({ message: 'Member deleted' });
+      return res.send({ message: 'Member deleted' });
     });
   } catch (err) {
-    console.log('Unexpected error in inserting values ', err);
+        // console.log('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });

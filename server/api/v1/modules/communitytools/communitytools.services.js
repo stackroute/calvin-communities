@@ -59,7 +59,7 @@ function getToolsForDeletion(domainName, tool, value, done) {
   const domainname = domainName.toLowerCase();
   const toolid = tool.toLowerCase();
   const values = value.toLowerCase();
-    console.log("domainname");
+  console.log('domainname');
 
   console.log(domainname);
   console.log(toolid);

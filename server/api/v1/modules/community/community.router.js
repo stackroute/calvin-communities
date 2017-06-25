@@ -62,7 +62,7 @@ router.post('/:domain', (req, res) => {
 router.get('/:domain', (req, res) => {
   try {
     let counter = false;
-    if(req.query.counter && req.query.counter.toString() === 'true') {
+    if (req.query.counter && req.query.counter.toString() === 'true') {
       counter = req.query.counter;
     }
     communityCtrl.getCommunity(req.params.domain, counter, (err, results) => {
