@@ -1,6 +1,6 @@
 const express = require('express');
 
-const membersCtrl = require('./members.controller');
+const membershipCtrl = require('./membership.controller');
 
 const router = express.Router();
 
@@ -16,9 +16,9 @@ const router = express.Router();
 router.post('/member/community/role', (req, res) => {
   try {
     const values = req.body;
-    membersCtrl.addedMemberToCommunity(values, (err) => {
+    membershipCtrl.addedMemberToCommunity(values, (err) => {
       if (err) {
-        // console.log('Error in membersCtrl.addedMemberToCommunity error :', err);
+        // console.log('Error in membershipCtrl.addedMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       // console.log('Member added');
@@ -44,7 +44,7 @@ router.post('/member/community/role', (req, res) => {
 router.get('/member/:username/communities', (req, res) => {
   try {
     const userName = req.params.username;
-    membersCtrl.getParticularMemberDetailInCommunities(userName, (err, results) => {
+    membershipCtrl.getParticularMemberDetailInCommunities(userName, (err, results) => {
       if (err) {
         // console.log('Error in membersCtrl.getParticularMemberDetailInCommunities error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
@@ -74,7 +74,7 @@ router.patch('/community/:domain/role/member/:username', (req, res) => {
       domainName: req.params.domain,
     };
     const memberRole = req.body.role;
-    membersCtrl.modifyRoleOfMemberFromCommunity(params, memberRole, (err) => {
+    membershipCtrl.modifyRoleOfMemberFromCommunity(params, memberRole, (err) => {
       if (err) {
       //  console.log('Error in membersCtrl.modifyRoleOfMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
@@ -102,7 +102,7 @@ router.delete('/removemember/:username/community/:domain', (req, res) => {
       userName: req.params.username,
       domainName: req.params.domain,
     };
-    membersCtrl.removeMemberFromCommunity(params, (err) => {
+    membershipCtrl.removeMemberFromCommunity(params, (err) => {
       if (err) {
       //  console.log('Error in membersCtrl.removeMemberFromCommunity error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });

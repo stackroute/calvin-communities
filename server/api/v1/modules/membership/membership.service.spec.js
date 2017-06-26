@@ -14,13 +14,13 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-const MEMBERS_TABLE = 'members';
+const MEMBERSHIP_TABLE = 'members';
 
 describe('Members community details and update it', () => {
   before(() => {
         // runs before all tests in this block
 
-    client.execute(`DELETE FROM ${MEMBERS_TABLE} where username='Aravindh'`);
+    client.execute(`DELETE FROM ${MEMBERSHIP_TABLE} where username='Aravindh'`);
   });
 
   it('Add new member to a community', (done) => {
@@ -32,7 +32,7 @@ describe('Members community details and update it', () => {
               role: 'Trainee-FullStack-Developer',
             })
             .then(() => {
-              client.execute(`SELECT * FROM ${MEMBERS_TABLE} where username='Aravindh' AND domain='Stack-Route-Immersive'`, (err, result) => {
+              client.execute(`SELECT * FROM ${MEMBERSHIP_TABLE} where username='Aravindh' AND domain='Stack-Route-Immersive'`, (err, result) => {
                 // console.log(result.rows[0]);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
@@ -54,7 +54,7 @@ describe('Members community details and update it', () => {
               role: 'Trainee-FullStack',
             })
             .then(() => {
-              client.execute(`SELECT * FROM ${MEMBERS_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err, result) => {
+              client.execute(`SELECT * FROM ${MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err, result) => {
                 if (!err) {
                   result.rows.length.should.be.equal(1);
                   result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
@@ -78,7 +78,7 @@ describe('Members community details and update it', () => {
     request(app)
       .get('/api/v1/members/member/Aravindh/communities')
       .then(() => {
-        client.execute(`SELECT * FROM ${MEMBERS_TABLE} where username='Aravindh' `, (err, result) => {
+        client.execute(`SELECT * FROM ${MEMBERSHIP_TABLE} where username='Aravindh' `, (err, result) => {
           if (!err) {
             result.rows.length.should.be.equal(1);
             // console.log(result.rows);
@@ -96,7 +96,7 @@ describe('Members community details and update it', () => {
     request(app)
             .delete('/api/v1/members/removemember/Aravindh/community/Stack-Route-Immersive')
             .then(() => {
-              client.execute(`SELECT * FROM ${MEMBERS_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
+              client.execute(`SELECT * FROM ${MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
                 if (!err) {
                  // console.log('Data deleted....');
                 }
@@ -120,7 +120,7 @@ describe('Members community details and update it', () => {
               role: 'Trainee-FullStack-Developer',
             })
             .then(() => {
-              client.execute(`SELECT * FROM ${MEMBERS_TABLE} where username='Aravindh' AND domain='Stack-Route-Immersive'`, (err, result) => {
+              client.execute(`SELECT * FROM ${MEMBERSHIP_TABLE} where username='Aravindh' AND domain='Stack-Route-Immersive'`, (err, result) => {
                // console.log(result.rows[0]);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
@@ -136,6 +136,6 @@ describe('Members community details and update it', () => {
   });
 
   after('', () => {
-    client.execute(`DELETE FROM ${MEMBERS_TABLE} where username='Aravindh' and domain ='Stack-Route-Immersive'`);
+    client.execute(`DELETE FROM ${MEMBERSHIP_TABLE} where username='Aravindh' and domain ='Stack-Route-Immersive'`);
   });
 });

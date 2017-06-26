@@ -1,11 +1,9 @@
-require('chai').should();
+
+/* require('chai').should();
 
 const app = require('../../../../app');
-
 const request = require('supertest');
-
-const membershipService = require('./communitymembership.service');
-
+const communityMembershipService = require('./communitymembership.service');
 const testData = require('./communitymembership.testData');
 
 // get community member
@@ -17,13 +15,14 @@ describe('/get member detail from database for specified community', () => {
               if (err) {
                 return done(err);
               }
-              membershipService.getParticularCommunityMemberDetails((error, result) => {
+              communityMembershipService.getParticularCommunityMemberDetails((error, result) => {
                 if (error) {
-                  // console.log('Got error.......');
+                        // console.log('Got error.......');
                   done(error);
                   return;
-                } if (result) {
-                  // console.log('Got data.......');
+                }
+                if (result) {
+                        // console.log('Got data.......');
                   res.body.should.deep.equal(result.rows);
                 }
               });
@@ -61,7 +60,7 @@ describe('/get member detail from database for specified community', () => {
     setTimeout(done(), 1000);
   });
 
-     // Role is empty
+    // Role is empty
   it('should give error on post data in database as role property is empty', (done) => {
     request(app)
             .post('/api/v1/membership/community/member/role')
@@ -75,7 +74,7 @@ describe('/get member detail from database for specified community', () => {
     return done();
   });
 
-      // All values are empty
+    // All values are empty
   it('should give error on post data in database as all values are empty', (done) => {
     request(app)
             .post('/api/v1/membership/community/member/role')
@@ -118,7 +117,7 @@ describe('/get member detail from database for specified community', () => {
     return done();
   });
 
-      // post data in database
+    // post data in database
   it('should post data 3 in database ', (done) => {
     request(app)
             .post('/api/v1/membership/community/member/role')
@@ -133,7 +132,7 @@ describe('/get member detail from database for specified community', () => {
   });
 
 
-   // patch data in database
+    // patch data in database
   it('should update role of a member for a community in database, update community', (done) => {
     request(app)
             .patch('/api/v1/membership/member/Aravindh/community/Wipro/role')
@@ -147,7 +146,7 @@ describe('/get member detail from database for specified community', () => {
     return done();
   });
 
-      // patch data in database
+    // patch data in database
   it('should update role of a member1 for a community in database, update community', (done) => {
     request(app)
             .patch('/api/v1/membership/member/Keerthi/community/Wipro/role')
@@ -161,7 +160,7 @@ describe('/get member detail from database for specified community', () => {
     return done();
   });
 
-        // patch data in database
+    // patch data in database
   it('should update role of a member2 for a community in database, update community', (done) => {
     request(app)
             .patch('/api/v1/membership/member/Suresh/community/Wipro/role')
@@ -176,7 +175,7 @@ describe('/get member detail from database for specified community', () => {
   });
 
 
-   //  Delete a row from table
+    //  Delete a row from table
   it('should delete data in database for a given domain and username', (done) => {
     request(app)
             .delete('/api/v1/membership/community/Wipro/removemember/Suresh')
@@ -189,3 +188,4 @@ describe('/get member detail from database for specified community', () => {
     return done();
   });
 });
+*/

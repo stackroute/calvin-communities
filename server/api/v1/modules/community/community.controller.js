@@ -1,6 +1,8 @@
-const communityServ = require('./community.service');
-
 const async = require('async');
+
+const _ = require('lodash');
+
+const communityService = require('./community.service');
 
 const templateController = require('../communitytemplates/communitytemplate.controller');
 
@@ -11,6 +13,7 @@ const toolsController = require('../communitytools/communitytools.controller');
 const roleController = require('../communityrole/communityrole.controller');
 
 const counterController = require('../communitiescounter/counter.controller');
+
 /**
  * Get For all communities,
  *
@@ -19,13 +22,13 @@ const counterController = require('../communitiescounter/counter.controller');
  *
  */
 function getAllCommunities(done) {
-  communityServ.getAllCommunities(done);
+  communityService.getAllCommunities(done);
 }
 
 
 /**
- * POST For specific communities,
- * POST REQUEST
+ * Used with POST Request, to get the template details
+ *
  *
  *
  */
@@ -35,20 +38,25 @@ function getTemplateDetails(community) {
   if (templateDetails.length !== 1) {
     return -1;
   }
-  const tags = templateDetails[0].tags;
+
+  const templateRoles = [];
+  templateDetails[0].roleActions.forEach((data) => {
+    templateRoles.push(data.role);
+  });
+
 // CommunityCreation Data
   const com = [
-    community.domain, community.name, community.purpose,
-    community.status, community.template, community.tags,
+    community.domain.toLowerCase(), community.name, community.purpose,
+    community.roles.concat(templateRoles),
+    community.status, community.template,
+    (community.tags).concat(templateDetails[0].tags),
     community.owner, community.description,
-    community.avatar,
+    community.avatar, community.visibility,
     community.owner, community.owner,
   ];
-
 // Adding admin as a member, data for addMembers
   const members = {
     username: community.owner,
-    domain: community.domain,
     role: 'admin',
   };
 
@@ -56,7 +64,6 @@ function getTemplateDetails(community) {
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
-      domain: community.domain,
       toolId: element.toolId,
       actions: element.actions,
       activityEvents: element.activityEvents,
@@ -76,7 +83,7 @@ function getTemplateDetails(community) {
       roles.push(rolesobject);
     });
   });
-  // returning all data in single error
+  // returning all data in single array
   const values = [];
   values.push(com);
   values.push(members);
@@ -85,36 +92,50 @@ function getTemplateDetails(community) {
   return values;
 }
 
+/**
+ * POST For adding new community,
+ * POST REQUEST
+ *
+ *
+ */
 function addCommunity(community, done) {
-  if (
-        community.domain === undefined ||
-        community.name === undefined ||
-        community.owner === undefined ||
-        community.template === undefined ||
-        community.tags === undefined ||
-        community.status === undefined ||
-        community.purpose === undefined ||
-        !community.domain ||
-        !community.name ||
-        !community.owner ||
-        !community.template ||
-        !community.tags ||
-        !community.purpose ||
-        community.tags.length === 0
-    ) return done('Wrong Data Inputs', null);
-
-  const values = getTemplateDetails(community);
+  let values;
+  if (_.has(community, 'name') &&
+        _.has(community, 'domain') &&
+        _.has(community, 'owner') &&
+        _.has(community, 'template') &&
+        _.has(community, 'purpose') &&
+        _.gt(community.tags.length, 0) &&
+        !_.isEmpty(community.name) &&
+        !_.isEmpty(community.name) &&
+        !_.isEmpty(community.name) &&
+        !_.isEmpty(community.name) &&
+        !_.isEmpty(community.tags) &&
+        (
+          _.isEqual(community.status, 'Active') ||
+          _.isEqual(community.status, 'Inactive')
+          )
+           &&
+          (
+            _.isEqual(community.visibility, 'Public') ||
+            _.isEqual(community.visibility, 'Private') ||
+            _.isEqual(community.visibility, 'Moderated')
+            )
+        ) {
+    values = getTemplateDetails(community);
+  } else return done('Wrong Data Inputs', null);
 
   if (values === -1) {
-    return done('no template found for the given purpose');
+    return done('no template found');
   }
 
+  return async.parallel([
+    communityService.addCommunity.bind(null, values[0]),
+    membershipController.addMembersToCommunity.bind(null,
+      community.domain.toLowerCase(), [values[1]]),
+    toolsController.postTools.bind(null, values[2], community.domain.toLowerCase()),
+    roleController.postCommunityRoles.bind(null, community.domain.toLowerCase(), values[3]),
 
-  async.parallel([
-    communityServ.addCommunity.bind(null, values[0]),
-    //membershipController.addMemberToCommunity.bind(null, values[1]),
-    roleController.postCommunityRoles.bind(null, community.domain, values[3]),
-    toolsController.postTools.bind(null, values[2], community.domain),
   ],
     (err, result) => {
       if (err) return done(err);
@@ -127,24 +148,26 @@ function addCommunity(community, done) {
  * GET REQUEST
  *
  */
-function getCommunity(domainName, flag, done) {
-  if (flag) {
+function getCommunity(domainName, counter, done) {
+  if (counter) {
     async.parallel([
-      communityServ.getCommunity.bind(null, domainName),
-      counterController.getcounter.bind(null, domainName),
+      communityService.getCommunity.bind(null, domainName.toLowerCase()),
+      counterController.getcounter.bind(null, domainName.toLowerCase()),
     ], (err, result) => {
       if (err) return done(err);
-      const counts = {
-        invitations: result[1][0].invitations,
-        members: result[1][0].members,
-        requests: result[1][0].requests,
-        tools: result[1][0].tools,
-      };
-      result[0].push(counts);
+      if (!_.isEmpty(result[1])) {
+        const counts = {
+          invitations: result[1][0].invitations,
+          members: result[1][0].members,
+          requests: result[1][0].requests,
+          tools: result[1][0].tools,
+        };
+        result[0].push(counts);
+      }
       return done(undefined, result[0]);
     });
   } else {
-    communityServ.getCommunity(domainName, done);
+    communityService.getCommunity(domainName.toLowerCase(), done);
   }
 }
 
@@ -154,18 +177,27 @@ function getCommunity(domainName, flag, done) {
  *
  */
 function updateCommunity(domainName, community, done) {
-  if (!community.name ||
-      community.tags === undefined ||
-        community.tags.length === 0 ||
-        community.updatedby === undefined ||
-        !community.updatedby
-    ) return done('Wrong Data Inputs', null);
+  if (_.has(community, 'name') &&
+        _.has(community, 'updatedby') &&
+        _.gt(community.tags.length, 0) &&
+        !_.isEmpty(community.updatedby) &&
+        (
+          _.isEqual(community.status, 'Active') ||
+          _.isEqual(community.status, 'Inactive')
+          )
+        &&
+        (
+          _.isEqual(community.visibility, 'Public') ||
+          _.isEqual(community.visibility, 'Private') ||
+          _.isEqual(community.visibility, 'Moderated')
+          )
+        ) {
+    const param = [community.name, community.avatar, community.description, community.visibility,
+      community.tags, community.updatedby, community.status, domainName.toLowerCase(),
+    ];
 
-  const param = [community.name, community.avatar, community.description, community.visibility,
-    community.tags, community.updatedby, domainName,
-  ];
-
-  communityServ.updateCommunity(param, done);
+    return communityService.updateCommunity(param, done);
+  } return done('Wrong Data Inputs', null);
 }
 
 module.exports = {

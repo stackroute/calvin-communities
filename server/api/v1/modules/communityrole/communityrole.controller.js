@@ -41,8 +41,7 @@ function postCommunityRoles(domainName, postedData, done) {
     if (domainName && val.role && val.actions && val.toolId) {
       if (domainName !== '' && val.role !== '' && val.actions !== '' && val.toolId !== '') {
         console.log('from postCommunityRoles', domainName, val.actions, val.toolId);
-        communityRoleService.checkCommunityRole(domainName, val.role, val.toolId, (err) => 
-        {
+        communityRoleService.checkCommunityRole(domainName, val.role, val.toolId, (err) => {
           if (err) {
             count += 1;
             console.log(count);
