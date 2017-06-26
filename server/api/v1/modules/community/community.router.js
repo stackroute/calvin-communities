@@ -2,7 +2,9 @@ const router = require('express').Router();
 
 const communityCtrl = require('./community.controller');
 
-const logger = require('log4js').getLogger();
+const logger = require('../../../../logger');
+
+
 /**
  * Get For all communities,
  * URI is: /api/v1/community
@@ -10,19 +12,17 @@ const logger = require('log4js').getLogger();
  *
  *
  */
-
-
 router.get('/', (req, res) => {
   try {
     communityCtrl.getAllCommunities((err, results) => {
       if (err) {
-        logger.debug('Error in communityCtrl.allcommunities error: ', err);
+        logger.error('Error in communityCtrl.allcommunities error: ', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       return res.status(200).json(results);
     });
   } catch (err) {
-    logger.debug('Unexpected error in fetching communities ', err);
+    logger.error('Unexpected error in fetching communities ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
@@ -40,13 +40,13 @@ router.post('/:domain', (req, res) => {
     req.body.domain = req.params.domain;
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
-        logger.debug('Error in communityCtrl.addcommunity error: ', err);
+        logger.error('Error in communityCtrl.addcommunity error: ', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       return res.status(201).send(results);
     });
   } catch (err) {
-    logger.debug('Unexpected error in adding community ', err);
+    logger.error('Unexpected error in adding community ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
@@ -67,7 +67,7 @@ router.get('/:domain', (req, res) => {
     }
     communityCtrl.getCommunity(req.params.domain, counter, (err, results) => {
       if (err) {
-        logger.debug('Error in communityCtrl.getcommunity error: ', err);
+        logger.error('Error in communityCtrl.getcommunity error: ', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       if (results.length === 0) {
@@ -76,7 +76,7 @@ router.get('/:domain', (req, res) => {
       return res.send(results);
     });
   } catch (err) {
-    logger.debug('Unexpected error in fetching community data ', err);
+    logger.error('Unexpected error in fetching community data ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
@@ -93,13 +93,13 @@ router.patch('/:domain', (req, res) => {
   try {
     communityCtrl.updateCommunity(req.params.domain, req.body, (err, results) => {
       if (err) {
-        logger.debug('Error in communityCtrl.updatecommunity error:', err);
+        logger.error('Error in communityCtrl.updatecommunity error:', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
       return res.status(202).send(results);
     });
   } catch (err) {
-    logger.debug('Unexpected error in patching community ', err);
+    logger.error('Unexpected error in patching community ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
