@@ -63,7 +63,6 @@ function removeMembersFromCommunity(domainName, values, done) {
             valueExist += 1;
             console.log(valueExist);
             done(null, { message: 'data avilable' });
-
           } else {
             valueExist += 0;
             console.log('hiiii');

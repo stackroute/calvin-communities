@@ -6,7 +6,7 @@ const app = require('../../../../app');
 
 const request = require('supertest');
 
-const connectionString = require('../../../../config');
+const connectionString = require('../../../../config').connectionString;
 
 const model = require('cassandra-driver');
 
