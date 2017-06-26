@@ -18,6 +18,4 @@ done
 
 sleep 1
 
-exec npm run create
-
-exec npm start
+exec npm run start
