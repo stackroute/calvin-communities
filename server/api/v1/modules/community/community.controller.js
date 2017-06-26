@@ -113,7 +113,7 @@ function addCommunity(community, done) {
   async.parallel([
     communityServ.addCommunity.bind(null, values[0]),
     //membershipController.addMemberToCommunity.bind(null, values[1]),
-    //roleController.postCommunityRoles.bind(null, community.domain, values[3]),
+    roleController.postCommunityRoles.bind(null, community.domain, values[3]),
     toolsController.postTools.bind(null, values[2], community.domain),
   ],
     (err, result) => {

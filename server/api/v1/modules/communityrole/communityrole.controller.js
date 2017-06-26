@@ -59,7 +59,7 @@ function postCommunityRoles(domainName, postedData, done) {
     } else {
       done({ error: 'entry already exists' }, undefined);
     }
-  }, 100);
+  }, 200);
 }
 
 

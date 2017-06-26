@@ -79,7 +79,7 @@ function postTools(dataFromBody, dataFromURI, done) {
     } else {
       done({ error: 'Please enter valid values!!' }, undefined);
     }
-  }, 100);
+  }, 200);
 }
 
 // To add actions and activity events to existing tools
