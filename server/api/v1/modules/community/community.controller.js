@@ -33,7 +33,7 @@ function getAllCommunities(done) {
  *
  */
 function getTemplateDetails(community) {
- // loading specified template
+    // loading specified template
   const templateDetails = templateController.getTemplateOfTemplateName(community.template);
   if (templateDetails.length !== 1) {
     return -1;
@@ -44,7 +44,7 @@ function getTemplateDetails(community) {
     templateRoles.push(data.role);
   });
 
-// CommunityCreation Data
+    // CommunityCreation Data
   const com = [
     community.domain.toLowerCase(), community.name, community.purpose,
     community.roles.concat(templateRoles),
@@ -54,13 +54,13 @@ function getTemplateDetails(community) {
     community.avatar, community.visibility,
     community.owner, community.owner,
   ];
-// Adding admin as a member, data for addMembers
+    // Adding admin as a member, data for addMembers
   const members = {
     username: community.owner,
     role: 'admin',
   };
 
-// getting tools data from specified template for addTools
+    // getting tools data from specified template for addTools
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
@@ -71,7 +71,7 @@ function getTemplateDetails(community) {
     tools.push(toolsobject);
   });
 
-// getting roles data from specified template
+    // getting roles data from specified template
   const roles = [];
   templateDetails[0].roleActions.forEach((element) => {
     element.toolsActions.forEach((data) => {
@@ -83,7 +83,7 @@ function getTemplateDetails(community) {
       roles.push(rolesobject);
     });
   });
-  // returning all data in single array
+    // returning all data in single array
   const values = [];
   values.push(com);
   values.push(members);
@@ -112,16 +112,15 @@ function addCommunity(community, done) {
         !_.isEmpty(community.name) &&
         !_.isEmpty(community.tags) &&
         (
-          _.isEqual(community.status, 'Active') ||
-          _.isEqual(community.status, 'Inactive')
-          )
-           &&
-          (
+            _.isEqual(community.status, 'Active') ||
+            _.isEqual(community.status, 'Inactive')
+        ) &&
+        (
             _.isEqual(community.visibility, 'Public') ||
             _.isEqual(community.visibility, 'Private') ||
             _.isEqual(community.visibility, 'Moderated')
-            )
-        ) {
+        )
+    ) {
     values = getTemplateDetails(community);
   } else return done('Wrong Data Inputs', null);
 
@@ -132,15 +131,15 @@ function addCommunity(community, done) {
   return async.parallel([
     communityService.addCommunity.bind(null, values[0]),
     membershipController.addMembersToCommunity.bind(null,
-      community.domain.toLowerCase(), [values[1]]),
+                community.domain.toLowerCase(), [values[1]]),
     toolsController.postTools.bind(null, values[2], community.domain.toLowerCase()),
     roleController.postCommunityRoles.bind(null, community.domain.toLowerCase(), values[3]),
 
   ],
-    (err, result) => {
-      if (err) return done(err);
-      return done(undefined, result[0]);
-    });
+        (err, result) => {
+          if (err) return done(err);
+          return done(undefined, result[0]);
+        });
 }
 
 /**
@@ -182,22 +181,22 @@ function updateCommunity(domainName, community, done) {
         _.gt(community.tags.length, 0) &&
         !_.isEmpty(community.updatedby) &&
         (
-          _.isEqual(community.status, 'Active') ||
-          _.isEqual(community.status, 'Inactive')
-          )
-        &&
+            _.isEqual(community.status, 'Active') ||
+            _.isEqual(community.status, 'Inactive')
+        ) &&
         (
-          _.isEqual(community.visibility, 'Public') ||
-          _.isEqual(community.visibility, 'Private') ||
-          _.isEqual(community.visibility, 'Moderated')
-          )
-        ) {
+            _.isEqual(community.visibility, 'Public') ||
+            _.isEqual(community.visibility, 'Private') ||
+            _.isEqual(community.visibility, 'Moderated')
+        )
+    ) {
     const param = [community.name, community.avatar, community.description, community.visibility,
       community.tags, community.updatedby, community.status, domainName.toLowerCase(),
     ];
 
     return communityService.updateCommunity(param, done);
-  } return done('Wrong Data Inputs', null);
+  }
+  return done('Wrong Data Inputs', null);
 }
 
 module.exports = {

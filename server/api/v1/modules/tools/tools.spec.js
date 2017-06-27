@@ -14,7 +14,7 @@ const uri = '/api/v1/tools/';
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config');
+const connectionString = require('../../../../config').connectionString;
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],

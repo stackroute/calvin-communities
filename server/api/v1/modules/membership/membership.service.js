@@ -1,6 +1,6 @@
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config');
+const connectionString = require('../../../../config').connectionString;
 
 const MEMBERSHIP_TABLE = 'membership';
 

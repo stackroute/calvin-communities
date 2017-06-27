@@ -3,7 +3,7 @@
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config');
+const connectionString = require('../../../../config').connectionString;
 
 const COMMUNITY_TOOL_TABLE = 'communitytools';
 
@@ -85,7 +85,9 @@ function getToolsForDeletion(domainName, tool, value, done) {
 function getToolsForEventDeletion(domainName, tool, value, done) {
   let flag = false;
   const domainname = domainName.toLowerCase();
+
   const toolid = tool.toLowerCase();
+
   const values = value.toLowerCase();
   const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname.toLowerCase()}' and toolid = '${toolid.toLowerCase()}';`);
   return client.execute(query, (err, results) => {

@@ -8,7 +8,7 @@ const supertest = require('supertest');
 
 const request = supertest(app);
 
-const connectionString = require('../../../../config');
+const connectionString = require('../../../../config').connectionString;
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],

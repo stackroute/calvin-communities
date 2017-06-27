@@ -5,12 +5,12 @@ const _ = require('lodash');
 const tableCommunities = 'communities';
 
 /**
- * config details from config.js
+ * db config details from config.js
  *
  *
  */
 
-const connectionString = require('../../../../config');
+const connectionString = require('../../../../config').connectionString;
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],
