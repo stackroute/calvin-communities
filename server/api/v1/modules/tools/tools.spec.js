@@ -26,8 +26,8 @@ const client = new model.Client({
 describe('Test cases for all tools in a community', () => {
   before(() => {
         // runs before all tests in this block
-    client.execute('insert into tools (domain, tools) values(\'engineer.wipro.blr\',  {\'forum\', \'quora\'});');
-    client.execute('insert into tools (domain, tools) values(\'doctors.blr\',  {\'forum\', \'quora\'});');
+    client.execute('insert into tools (toolid, domains) values(\'engineer.wipro.blr\',  {\'forum\', \'quora\'});');
+    client.execute('insert into tools (toolid, domains) values(\'doctors.blr\',  {\'forum\', \'quora\'});');
   });
 
   it('should get data for specified domain', (done) => {
@@ -40,8 +40,8 @@ describe('Test cases for all tools in a community', () => {
                 done(err);
                 return;
               }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('tools').a('Array');
+              expect(res.body).to.have.property('toolid').a('string');
+              expect(res.body).to.have.property('communities').a('Array');
               done();
             });
     return null;
@@ -71,140 +71,16 @@ describe('Test cases for all tools in a community', () => {
                 done(err);
                 return;
               }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('tools').a('Array');
+              expect(res.body).to.have.property('toolid').a('string');
+              expect(res.body).to.have.property('communities').a('Array');
               done();
             });
     return null;
   });
 
-    // nothing given for domain, or tool name
-
-  it('should give error on posting data to database when no values are given', (done) => {
-    request(app)
-            .post(`${uri}`)
-            .expect(500)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.catchError);
-              done();
-            });
-    return null;
-  });
-
-  it('should give error on posting data to database when domain is not given', (done) => {
-    request(app)
-            .post(`${uri}`)
-            .send(value.wrongtools)
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              res.body.should.deep.equal(value.nullValue);
-              return done();
-            });
-    return null;
-  });
-
-
-    // domain string empty
-  it('should give error on posting data to database when domain property is empty', (done) => {
-    request(app)
-            .post(`${uri}`)
-            .send(value.wrongtool)
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              res.body.should.deep.equal(value.nullValue);
-              return done();
-            });
-    return null;
-  });
-
-
-    // patch data in database
-  it('should patch data in database, update tools for a community', (done) => {
-    request(app)
-            .patch(`${uri}${value.patch.domain}`)
-            .send(value.updatetools)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.modified);
-              done();
-            });
-    return null;
-  });
-
-  it('should not patch data, when domain does not exist in database', (done) => {
-    request(app)
-            .patch(`${uri}${value.notExisting.domain}`)
-            .send(value.updatetools)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.errorOccured);
-              done();
-            });
-    return null;
-  });
-
-    //  Delete a row from table
-  it('should delete data in database for a given domain and tool name', (done) => {
-    request(app)
-            .delete(`${uri}engineer.wipro.blr/forum`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.deleted);
-              done();
-            });
-    return null;
-  });
-
-  it('should delete data in database for a given domain and tool name in upper case', (done) => {
-    request(app)
-            .delete(`${uri}DoCtors.blr/forum`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.deleted);
-              done();
-            });
-    return null;
-  });
-
-  it('should delete throw error message when domain does not exist in the database', (done) => {
-    request(app)
-            .delete(`${uri}engineers.wipro.blr/forum`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.domainErr);
-              done();
-            });
-    return null;
-  });
 
   after('', () => {
-    client.execute("DELETE FROM tools where domain='doctor.wipro.blr';");
-    client.execute("DELETE FROM tools where domain='engineer.wipro.blr';");
-    client.execute("DELETE FROM tools where domain='doctors.blr';");
+    client.execute("DELETE FROM tools where toolid='engineer.wipro.blr';");
+    client.execute("DELETE FROM tools where toolid='doctors.blr';");
   });
 });

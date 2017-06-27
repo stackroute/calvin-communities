@@ -47,7 +47,6 @@ router.delete('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.removeMembersFromCommunity(domainName, values, (err) => {
       if (err) {
-
                 // console.log('Error in communityMembershipCtrl.addMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
