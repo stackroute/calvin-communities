@@ -85,7 +85,9 @@ function getToolsForDeletion(domainName, tool, value, done) {
 function getToolsForEventDeletion(domainName, tool, value, done) {
   let flag = false;
   const domainname = domainName.toLowerCase();
-  const tools = tool.toLowerCase();
+
+  const toolid = tool.toLowerCase();
+
   const values = value.toLowerCase();
   const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname.toLowerCase()}' and toolid = '${toolid.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
@@ -193,7 +195,7 @@ function deleteEvent(value, done) {
 
 function deleteTools(domainname, done) {
   const query = (`DELETE FROM ${COMMUNITY_TOOL_TABLE} where domain='${domainname.domainname.toLowerCase()}' and toolid ='${domainname.toolid.toLowerCase()}'`);
-  return client.execute(query, (err, results) => {
+  return client.execute(query, (err) => {
     if (!err) {
       done(undefined);
     } else {
