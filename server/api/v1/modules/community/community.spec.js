@@ -65,6 +65,7 @@ describe('get/ post/ patch community ', () => {
     owner: 'simar',
     visibility: 'Active',
     tags: ['this', 'aint', 'nothing'],
+    roles: ['admin', 'moderator'],
   };
 
 /**
@@ -101,7 +102,7 @@ describe('get/ post/ patch community ', () => {
 
   it('should create a new community and return new community\'s data', (done) => {
     request
-    .post('/api/v1/communities')
+    .post(`/api/v1/communities/${data.domain}`)
     .send(data)
     .then((result) => {
       result.body[0].domain.should.be.equal(data.domain);
@@ -217,10 +218,10 @@ describe('get/ post/ patch community ', () => {
 
   it('should return an error as no data is passed in body', (done) => {
     request
-    .post('/api/v1/communities')
+    .post(`/api/v1/communities/${data.domain}`)
     .then((result) => {
       result.status.should.be.equal(500);
-      result.body.error.should.equal('Error in operation, try again later');
+      result.body.error.should.equal('Unexpected error occurred, try again later');
       done();
     })
     .catch((err) => {
@@ -235,11 +236,11 @@ describe('get/ post/ patch community ', () => {
 
   it('should return an error as no name is passed in body with data', (done) => {
     request
-    .post('/api/v1/communities')
+    .post(`/api/v1/communities/${data.domain}`)
     .send(nonamedata)
     .then((result) => {
       result.status.should.be.equal(500);
-      result.body.error.should.equal('Error in operation, try again later');
+      result.body.error.should.equal('Unexpected error occurred, try again later');
       done();
     })
     .catch((err) => {
@@ -257,7 +258,7 @@ describe('get/ post/ patch community ', () => {
     .send(notagsdata)
     .then((result) => {
       result.status.should.be.equal(500);
-      result.body.error.should.equal('Error in Operation, try again later');
+      result.body.error.should.equal('Unexpected error occurred, try again later');
       done();
     })
     .catch((err) => {
