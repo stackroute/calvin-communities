@@ -1,5 +1,7 @@
 require('chai').should();
 
+const logger = require('../../../../logger');
+
 const model = require('cassandra-driver');
 
 const app = require('../../../../app');
@@ -35,7 +37,8 @@ describe('get/ post/ patch community ', () => {
     purpose: 'testing',
     template: 'surgeon',
     owner: 'simar',
-    visibility: 'Active',
+    status: 'Active',
+    visibility: 'Public',
     avatar: '/abcdefg.jpg',
     description: 'This is the first post test',
     tags: ['this', 'aint', 'nothing'],
@@ -43,7 +46,8 @@ describe('get/ post/ patch community ', () => {
   };
   const editdata = {
     name: 'Single Page',
-    visibility: 'Inactive',
+    status: 'Inactive',
+    visibility: 'Private',
     avatar: 'raster.jpg',
     updatedby: 'newpeople',
     description: 'This is the first patch test',
@@ -51,19 +55,21 @@ describe('get/ post/ patch community ', () => {
   };
   const edittags = {
     name: 'Single Page',
-    visibility: 'Inactive',
+    status: 'Inactive',
+    visibility: 'Private',
     avatar: 'raster.jpg',
     updatedby: 'nikku',
-    description: 'This is the first patch test',
+    description: 'This is the second patch test',
     tags: ['here', 'new', 'tags', 'players'],
   };
   const insertmandatory = {
-    domain: 'first',
+    domain: 'second',
     name: 'the only app',
     purpose: 'testing',
     template: 'surgeon',
     owner: 'simar',
-    visibility: 'Active',
+    status: 'Active',
+    visibility: 'Private',
     tags: ['this', 'aint', 'nothing'],
     roles: ['admin', 'moderator'],
   };
@@ -84,14 +90,43 @@ describe('get/ post/ patch community ', () => {
     tags: ['this', 'aint', 'nothing'],
     roles: ['admin', 'moderator'],
   };
-  const notagsdata = {
+  const notemplatedata = {
+    domain: 'myfirstsingle',
     purpose: 'testing',
-    template: 'engineers',
     owner: 'simar',
     visibility: 'Active',
     avatar: '/abcdefg.jpg',
     description: 'This is the first post test',
+    tags: ['this', 'aint', 'nothing'],
     roles: ['admin', 'moderator'],
+  };
+  const notagsdata = {
+    purpose: 'testing',
+    template: 'engineers',
+    owner: 'simar',
+    visibility: 'Public',
+    avatar: '/abcdefg.jpg',
+    description: 'This is the first post test',
+    roles: ['admin', 'moderator'],
+  };
+  const norolesdata = {
+    purpose: 'testing',
+    template: 'engineers',
+    owner: 'simar',
+    visibility: 'Public',
+    avatar: '/abcdefg.jpg',
+    description: 'This is the first post test',
+    tags: ['illuminati', 'secret'],
+  };
+  const wrongstatusdata = {
+    purpose: 'testing',
+    template: 'engineers',
+    owner: 'simar',
+    status: 'something',
+    visibility: 'Public',
+    avatar: '/abcdefg.jpg',
+    description: 'This is the first post test',
+    tags: ['illuminati', 'secret'],
   };
 
 /**
@@ -115,7 +150,7 @@ describe('get/ post/ patch community ', () => {
     });
   });
 
-/**
+  /**
 *use POST request to create a new community with only necessary data
 *
 *
@@ -123,7 +158,7 @@ describe('get/ post/ patch community ', () => {
   it(`should create a new community and return new community's data for
    only minimal mandatory data provided`, (done) => {
     request
-    .post('/api/v1/communities')
+    .post(`/api/v1/communities/${insertmandatory.domain}`)
     .send(insertmandatory)
     .then((result) => {
       result.body[0].domain.should.be.equal(insertmandatory.domain);
@@ -135,6 +170,7 @@ describe('get/ post/ patch community ', () => {
       done(err);
     });
   });
+
 /**
 *use GET request to get a specific communty's  data
 * /api/v1/communities/:domain
@@ -190,6 +226,7 @@ describe('get/ post/ patch community ', () => {
       done(err);
     });
   });
+
 /**
 *use PATCH request to edit tags for a community
 *
@@ -202,7 +239,6 @@ describe('get/ post/ patch community ', () => {
     .then((result) => {
       result.body[0].domain.should.be.equal(data.domain);
       result.body[0].updatedby.should.be.equal(edittags.updatedby);
-      result.body[0].tags.length.should.be.equal(edittags.tags.length);
       result.status.should.be.equal(202);
       done();
     })
@@ -210,7 +246,6 @@ describe('get/ post/ patch community ', () => {
       done(err);
     });
   });
-
 
 /**
 *--Post Request, without giving any value
@@ -229,7 +264,6 @@ describe('get/ post/ patch community ', () => {
     });
   });
 
-
 /**
 *-- Post Request, should give an error, as name is not passed
 */
@@ -238,6 +272,42 @@ describe('get/ post/ patch community ', () => {
     request
     .post(`/api/v1/communities/${data.domain}`)
     .send(nonamedata)
+    .then((result) => {
+      result.status.should.be.equal(500);
+      result.body.error.should.equal('Unexpected error occurred, try again later');
+      done();
+    })
+    .catch((err) => {
+      done(err);
+    });
+  });
+
+/**
+*-- Post Request, should give an error, as tamplate is not passed
+*/
+
+  it('should return an error as no template is passed in body with data', (done) => {
+    request
+    .post(`/api/v1/communities/${data.domain}`)
+    .send(notemplatedata)
+    .then((result) => {
+      result.status.should.be.equal(500);
+      result.body.error.should.equal('Unexpected error occurred, try again later');
+      done();
+    })
+    .catch((err) => {
+      done(err);
+    });
+  });
+
+  /**
+*-- Post Request, should give an error, as wrong status passed
+*/
+
+  it('should return an error as wrong status is passed in body with data', (done) => {
+    request
+    .post(`/api/v1/communities/${data.domain}`)
+    .send(wrongstatusdata)
     .then((result) => {
       result.status.should.be.equal(500);
       result.body.error.should.equal('Unexpected error occurred, try again later');
@@ -265,6 +335,26 @@ describe('get/ post/ patch community ', () => {
       done(err);
     });
   });
+
+/**
+*-- Patch Request, should give an error, as roles are not passed
+*/
+
+  it('should return an error as no roles are passed in body with data', (done) => {
+    request
+    .patch(`/api/v1/communities/${data.domain}`)
+    .send(norolesdata)
+    .then((result) => {
+      result.status.should.be.equal(500);
+      result.body.error.should.equal('Unexpected error occurred, try again later');
+      done();
+    })
+    .catch((err) => {
+      done(err);
+    });
+  });
+
+
 
   after(() => {
     client.execute('TRUNCATE communities')

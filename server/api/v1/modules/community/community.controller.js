@@ -106,11 +106,11 @@ function addCommunity(community, done) {
         _.has(community, 'template') &&
         _.has(community, 'purpose') &&
         _.gt(community.tags.length, 0) &&
+        _.gt(community.roles.length, 0) &&
         !_.isEmpty(community.name) &&
         !_.isEmpty(community.name) &&
         !_.isEmpty(community.name) &&
         !_.isEmpty(community.name) &&
-        !_.isEmpty(community.tags) &&
         (
             _.isEqual(community.status, 'Active') ||
             _.isEqual(community.status, 'Inactive')
