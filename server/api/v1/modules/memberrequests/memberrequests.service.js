@@ -2,7 +2,7 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../../../config').connectionString;
 
-const InviteRequestTable = 'memberrequest';
+const InviteRequestTable = 'communityinviterequests';
 
 
 const client = new model.Client({
@@ -13,13 +13,13 @@ const client = new model.Client({
 
 // Query for insert the values into the row
 
-function InsertData(data, done) {
+function InsertData(data, dataFromParams, done) {
   const person = data.person;
   let error;
   let res;
 
   person.forEach((email) => {
-    const query = (`INSERT INTO ${InviteRequestTable} (domain,person,member,status,type,createdon,updatedon) VALUES('${data.domain.toLowerCase()}','${email.toLowerCase()}','${data.member.toLowerCase()}','${data.status.toLowerCase()}','${data.type.toLowerCase()}',dateof(now()),dateof(now()))`);
+    const query = (`INSERT INTO ${InviteRequestTable} (domain,person,member,status,type,createdon,updatedon) VALUES('${dataFromParams.toLowerCase()}','${email.toLowerCase()}','${data.member.toLowerCase()}','${data.status.toLowerCase()}','${data.type.toLowerCase()}',dateof(now()),dateof(now()))`);
     client.execute(query, (err, result) => {
       error += err;
       res += result;
@@ -33,7 +33,13 @@ function InsertData(data, done) {
 
 function rejectedInviteRequest(domain, person, done) {
   const query = (`DELETE from ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);
-  client.execute(query, err => done(err));
+  return client.execute(query, (err) => {
+    if (!err) {
+      done(undefined);
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
+    }
+  });
 }
 
 // Query for get the values for particular domain and person
@@ -54,16 +60,15 @@ function gettingValuesByDomainPerson(domain, person, done) {
 
 function gettingValuesByDomain(domain, done) {
   const query = (`SELECT * FROM ${InviteRequestTable} WHERE domain = '${domain}' `);
-
   return client.execute(query, (err, result) => {
     if (!err) {
       if (result.rows.length > 0) {
-        done(undefined, result.rows);
+        done(undefined, { domain, requests: result.rows });
       } else {
-        done('please enter valid domain name', undefined);
+        done({ error: 'please enter a valid domain name' }, undefined);
       }
     } else {
-      done(err, undefined);
+      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }

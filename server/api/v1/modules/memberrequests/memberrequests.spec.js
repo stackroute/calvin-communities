@@ -1,330 +1,367 @@
-require('chai').should();
+const chai = require('chai');
+
+const should = chai.should(); // eslint-disable-line no-unused-vars
+const expect = chai.expect;
 const app = require('../../../../app');
+
 const request = require('supertest');
+
+// const service = require('./memberrequests.service');
+
 const values = require('./test.dao');
-const service = require('./memberrequests.service');
+
+const uri = '/api/v1/memberrequests/';
+
+const model = require('cassandra-driver');
+
+const connectionString = require('../../../../config').connectionString;
+
+const client = new model.Client({
+  contactPoints: [connectionString.contact],
+  protocolOptions: { port: connectionString.port },
+  keyspace: connectionString.keyspace,
+});
 
 
+describe('Test cases for insert and update data when invite or request occured', () => {
+  before(() => {
+        // runs before all tests in this block
+    client.execute('insert into communityinviterequests (domain, person, member, status,type) values(\'doctor.wipro.blr\',\'mohan@gmail.com\',\'sandy\',\'invitesent\',\'invite\');');
+    client.execute('insert into communityinviterequests (domain, person, member, status,type) values(\'doctor.wipro.blr\', \'parkavi@gmail.com\',\'\',\'requested\',\'request\');');
+  });
+
+
+/* ----------------------TEST CASE FOR GET METHOD-------------------------------------------*/
+
+// get list of data for particular domain
+  it('should get data for specified domain', (done) => {
+    request(app)
+            .get(`${uri}doctor.wipro.blr`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('requests').a('Array');
+              done();
+            });
+  });
+
+// get lists of data for particular domain when domain is given in uppercase
+  it('should get data for specified domain when in upper case', (done) => {
+    request(app)
+            .get(`${uri}DoCTOR.wIpRo.bLr`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('requests').a('Array');
+              done();
+            });
+  });
+
+// throw error when domain is not in the table
+  it('should throw error if domain is not found', (done) => {
+    request(app)
+            .get(`${uri}wipro.blr`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                    // console.log(res.body);
+                return done();
+              }
+              res.body.should.deep.equal(values.notFound);
+              return done();
+            });
+    return null;
+  });
 /* ----------------------TEST CASE FOR POST METHOD-------------------------------------------*/
 
 // throw error when person email is null
-describe('/Trying to insert data into database,with no email data', () => {
-  it('should give error on post data in database when no email values is given', (done) => {
+
+  it('should give error on post data in database when no email value is given', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
+            .post(`${uri}art.wipro.blr`)
             .send(values.noemail)
+            .expect(404)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
-              res.body.should.be.equal(values.wrongdata);
+              res.body.should.deep.equal(values.wrongdata);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
 // throw error when domain is null
-describe('Trying to post data in database,with no domain data', () => {
-  it('should give error on post data in database as no domain values is given', (done) => {
+
+  it('should give error on post data in database when domain is null are given', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
-            .send(values.nodomainname)
+            .post(`${uri}null`)
+            .expect(500)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
-              res.body.should.deep.equal(values.wrongdata);
+              res.body.should.deep.equal(values.erroroperation);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
-// throw error when wrong value in status
+ // throw error when wrong value in status(eg: status : ytyutytu)
 
-describe('Trying to post data in database,with status value wrong', () => {
-  it('should give error on post data in database when wrong status value is given', (done) => {
+  it('should give error on post data in database when wrong status values are given', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
+            .post(`${uri}art.wipro.blr`)
             .send(values.statuswrong)
+            .expect(404)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
               res.body.should.deep.equal(values.wrongdata);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
-// throw error when member is there if type is request
+  // throw error when member is there if type is request
 
-describe('Trying to insert member when the type is request, ', () => {
-  it('should give error on post data in database when member is there if type is request', (done) => {
+  it('should give error on post data in database when member is there if request occured', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
+            .post(`${uri}art.wipro.blr`)
             .send(values.member)
+            .expect(404)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
               res.body.should.deep.equal(values.wrongdata);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
-// throw error if member is empty for type invite
+  // throw error if member is empty for type invite
 
-describe('Trying to insert empty member when the type is invite, ', () => {
-  it('should give error on post data in database when member is empty if type is invite', (done) => {
+  it('should give error on post data in database member is empty when invite occured', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
+            .post(`${uri}art.wipro.blr`)
             .send(values.invitemember)
+            .expect(404)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
               res.body.should.deep.equal(values.wrongdata);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
-// value for type is wrongly given
+  // value for type is wrongly given(eg: type:vfdvhjfdjvfdj)
 
-describe('Trying to insert wrong value for type, ', () => {
-  it('should give error on post data in database when wrong value is given for type', (done) => {
+  it('should give error on post data in database when wrong value for type is given', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
-            .send(values.invitemember)
+            .post(`${uri}art.wipro.blr`)
+            .send(values.wrongtype)
+            .expect(404)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
               res.body.should.deep.equal(values.wrongdata);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
-
-// Insert date for type invite
-describe('/post data in database when invite occured', () => {
-  it('post method for insert values into the database', (done) => {
+  // Insert date for type invite
+  it('should insert data into the table when invite occured', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
+            .post(`${uri}art.wipro.blr`)
             .send(values.data)
+            .expect(201)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
               res.body.should.deep.equal(values.rowcreated);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
-// Insert date for type request
-describe('/post data in database when request occured', () => {
-  it('post method for insert values into the database', (done) => {
+   // Insert date for type request
+  it('should insert data into the table when request occured', (done) => {
     request(app)
-            .post('/api/v1/memberrequests/membership')
+            .post(`${uri}art.wipro.blr`)
             .send(values.requestinput)
+            .expect(201)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
               res.body.should.deep.equal(values.rowcreated);
+              done();
             });
-    setTimeout(done(), 1000);
+    return null;
   });
-});
 
-/* --------------------------------TEST CASE FOR UPDATE-------------------------------------*/
+/* ----------------------TEST CASE FOR UPDATE METHOD-------------------------------------------*/
 
-// error through when status is wrongly given
-describe('Trying to update data when status value is wrongly given', () => {
-  it('should give error on patch data in database as status values is wrongly given', (done) => {
+ // error through when status is accepted when the type is request
+
+  it('should give error on update data in database when status is accepted while the type is request', (done) => {
     request(app)
-                .patch('/api/v1/memberrequests/marian/amudha@gmail.com')
-                .send(values.checkrequesttype)
-                .end((err, res) => {
-                  if (err) {
-                    done(err);
-                    return;
-                  }
-                  res.body.should.deep.equal(values.wrongdata);
-                });
-    setTimeout(done(), 1000);
+            .patch(`${uri}doctor.wipro.blr/person/parkavi@gmail.com`)
+            .send(values.checkrequesttype)
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.notupdate);
+              done();
+            });
+    return null;
   });
-});
 
-// error through when member is empty for type request
+  // error through when member is empty for type request
 
-describe('/Trying to update data in database,when member is empty for type request', () => {
-  it('should give error on patch data in database when member is empty', (done) => {
+  it('should give error on update status in database when member is empty while the type is request', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/marian/amudha@gmail.com')
-                        .send(values.emptyapprover)
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          res.body.should.deep.equal(values.wrongdata);
-                        });
-    setTimeout(done(), 1000);
+            .patch(`${uri}doctor.wipro.blr/person/parkavi@gmail.com`)
+            .send(values.emptyapprover)
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.notupdate);
+              done();
+            });
+    return null;
   });
-});
 
-// update status for request type
-describe('/update status to be approved in database when the type is request', () => {
-  it('should modify data in database when values are given', (done) => {
+  // update status for request type
+  it('update status in database when the type is request', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/marian/amudha@gmail.com')
-                        .send(values.valueforrequest)
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          res.body.should.deep.equal(values.modified);
-                        });
-    setTimeout(done(), 1000);
+            .patch(`${uri}doctor.wipro.blr/person/parkavi@gmail.com`)
+            .send(values.valueforrequest)
+            .expect(201)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.modified);
+              done();
+            });
+    return null;
   });
-});
 
-// update status to be accepted for type invite
-describe('/update data in database when the type is invite', () => {
-  it('should modify invite status in database values are given', (done) => {
+   // update status for invite type
+  it('update status in database when the type is invite', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/Godrej/mandu@gmail.com')
-                        .send(values.checkinvitetype)
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          res.body.should.deep.equal(values.modified);
-                        });
-
-    setTimeout(done(), 1000);
+            .patch(`${uri}doctor.wipro.blr/person/mohan@gmail.com`)
+            .send(values.checkinvitetype)
+            .expect(201)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.modified);
+              done();
+            });
+    return null;
   });
-});
 
-// error will throw when domain given for update is not in table
-describe('/Error will be thrown when invalid domain and person is given', () => {
-  it('should modify invite status in database values are given', (done) => {
+  // error will throw when domain given for update is not in table
+  it('error will throw when domain given for update is not in table', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/dsfnsdkj/fhdsfhds')
-                        .send(values.checkinvitetype)
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          res.body.should.deep.equal(values.wrongdata);
-                        });
-
-    setTimeout(done(), 1000);
+            .patch(`${uri}huhfugfdgfd/person/palavi@gmail.com `)
+            .send(values.checkinvitetype)
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.notupdate);
+              done();
+            });
+    return null;
   });
-});
 
+  /* -----------------------------TEST CASE FOR DELETE----------------------------------------*/
 
-/* -----------------------------TEST CASE FOR DELETE----------------------------------------*/
-
-// value for delete the row when the request or invite rejected
-
-describe('/delete data in database', () => {
-  it('should delete and person from the database', (done) => {
+  // throw error when value for delete is not in table
+  it('throw error when value for delete is not in table', (done) => {
     request(app)
-                        .delete('/api/v1/memberrequests/Godrej/palavi@gmail.com')
-                        .send(values.deletedomain)
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          res.body.should.deep.equal(values.deleted);
-                        });
-
-    setTimeout(done(), 1000);
+            .delete(`${uri}huhfugfdgfd/person/yyyyyy@gmail.com `)
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.notdeleted);
+              done();
+            });
+    return null;
   });
-});
 
-// error will throw when the invalid domain and person is given
-describe('/Trying to delete the domain and person which is not in the table', () => {
-  it('error will throw when invalid domain and person is given', (done) => {
+  // value for delete the row when the invite rejected
+  it('delete the domain and person from the table when it is rejected', (done) => {
     request(app)
-                        .patch('/api/v1/memberrequests/dsfnsdkj/fhdsfhds')
-                        .send(values.checkinvitetype)
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          res.body.should.deep.equal(values.wrongdata);
-                        });
-
-    setTimeout(done(), 1000);
+            .delete(`${uri}doctor.wipro.blr/person/mohan@gmail.com`)
+            .expect(201)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.deleted);
+              done();
+            });
+    return null;
   });
-});
 
-/* ------------------------TEST CASE FOR GETTING VALUES FOR DOMAIN-----------------------------*/
-
-// get values for particular domain
-
-describe('/get data from database', () => {
-  it('should get domain from the database', (done) => {
+    // value for delete the row when the request rejected
+  it('delete the domain and person from the table when it is rejected', (done) => {
     request(app)
-                        .get('/api/v1/memberrequests/Godrej')
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          service.gettingValuesByDomain((error, result) => {
-                            if (error) {
-                              done(error);
-                              return;
-                            }
-
-                            if (result) { res.body.should.deep.equal(result.rows); }
-                          });
-                        });
-    setTimeout(done(), 1000);
+            .delete(`${uri}doctor.wipro.blr/person/parkavi@gmail.com`)
+            .expect(201)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.deleted);
+              done();
+            });
+    return null;
   });
 });
-
-// getting error  for invalid domain
-
-describe('/Trying to get lists from the database based on invalid domain name', () => {
-  it('should throw error when domain is not in the table', (done) => {
-    request(app)
-                        .get('/api/v1/memberrequests/sdsdccddc')
-                        .end((err, res) => {
-                          if (err) {
-                            done(err);
-                            return;
-                          }
-                          service.gettingValuesByDomain((error) => {
-                            if (error) {
-                              done(error);
-                              return;
-                            }
-
-                            res.body.should.deep.equal(values.wrongdata);
-                          });
-                        });
-    setTimeout(done(), 1000);
-  });
-});
-
