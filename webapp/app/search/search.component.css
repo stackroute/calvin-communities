@@ -1,6 +1,10 @@
 .rightpush {
 	text-align: right;
 }
-.centeraligned {
+.search {
 	text-align: center;
+}
+
+table {
+	margin: auto;
 }
