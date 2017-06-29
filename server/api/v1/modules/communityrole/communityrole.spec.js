@@ -17,7 +17,7 @@ const client = new model.Client({
 });
 
 const postdata = [{
- /* domain: 'prakhar',*/
+  /* domain: 'prakhar',*/
   role: 'developer',
   actions: {
     post: 'true',
@@ -84,6 +84,79 @@ describe('Create a communityrole and update it', () => {
         done(err);
       });
   });
+
+  it('Create a new communityrole', (done) => {
+    request(app)
+      .get('/api/v1/communityrole/prakhar')
+      .then(() => {
+        client.execute('SELECT * from communityroles where domain=\'prakhar\'', (err, result) => {
+          if (!err) {
+            console.log(`Result from testcase ${result.rows[0]}`);
+            result.rows.length.should.be.equal(2);
+            done();
+          }
+        });
+      })
+      .catch((err) => {
+        console.log('In error');
+        done(err);
+      });
+  });
+
+  it('Create a new communityrole', (done) => {
+    request(app)
+      .get('/api/v1/communityrole/africans')
+      .then(() => {
+        client.execute('SELECT * from communityroles where domain=\'africans\'', (err, result) => {
+          if (!err) {
+            console.log(`Result from testcase ${result.rows[0]}`);
+            result.rows.length.should.be.equal(2);
+            done();
+          }
+        });
+      })
+      .catch((err) => {
+        console.log('In error');
+        done(err);
+      });
+  });
+
+
+  it('Create a new communityrole', (done) => {
+    request(app)
+      .get('/api/v1/communityrole/random')
+      .then(() => {
+        client.execute('SELECT * from communityroles where domain=\'random\'', (err, result) => {
+          if (!err) {
+            console.log(`Result from testcase ${result.rows[0]}`);
+            result.rows.length.should.be.equal(0);
+            done();
+          }
+        });
+      })
+      .catch((err) => {
+        console.log('In error');
+        done(err);
+      });
+  });
+
+  /*   it('Create a new communityrole', (done) => {
+      request(app)
+        .get('/api/v1/communityrole/smallu?onlyroles=true')
+        .then(() => {
+          client.execute('SELECT role from communityroles where domain=\'smallu\'', (err, result) => {
+            if (!err) {
+              console.log(`Result from onlyroles testcase ${result.rows[0]}`);
+              result.rows.length.should.be.equal(2);
+              done();
+            }
+          });
+        })
+        .catch((err) => {
+          console.log('In error');
+          done(err);
+        });
+    });*/
 
 
   it('Update actions of communityrole', (done) => {
