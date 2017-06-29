@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './topbar/topbar.component';
@@ -13,7 +14,6 @@ import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
 import { NotifyComponent } from './notify/notify.component';
 import { ManageCommunityComponent } from './managecommunity/managecommunity.component';
-import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -35,11 +35,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
     AppRoutingModule
     ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ SearchComponent ]
+
 })
 export class AppModule { }

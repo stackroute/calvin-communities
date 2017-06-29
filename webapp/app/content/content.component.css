@@ -1,7 +1,8 @@
 .search {
+	margin-top: 20px;
 	text-align: center;
 	width: 100%;
-	min-height: 150px;
+	min-height: 100px;
 }
 
 .search > a {
@@ -11,7 +12,6 @@
 
 .container {
 	margin-top: 1px;
-
 }
 
 .column-2, .column-1, md-nav-list {
