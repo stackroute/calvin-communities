@@ -15,14 +15,14 @@ function gettingValuesByDomain(domain, done) {
 
 // Insert the values into the table for both request and invite
 
-function InsertData(values, done) {
+function InsertData(dataFromBody, dataFromParams, done) {
   let flag = false;
-  if ((values.person.length) && (values.domain)) {
-    if (values.domain !== null) {
-      if ((values.type.toLowerCase() === 'invite' && values.member.length > 0) || (values.type.toLowerCase() === 'request' && values.member === '')) {
-        if (values.status.toLowerCase() !== 'approved' && values.status.toLowerCase() !== 'accepted') {
+  if ((dataFromBody.person.length) && (dataFromParams)) {
+    if (dataFromParams !== 'null') {
+      if ((dataFromBody.type.toLowerCase() === 'invite' && dataFromBody.member.length > 0) || (dataFromBody.type.toLowerCase() === 'request' && dataFromBody.member === '')) {
+        if (dataFromBody.status.toLowerCase() !== 'approved' && dataFromBody.status.toLowerCase() !== 'accepted') {
           statusstring.forEach((a) => {
-            if (values.status.toLowerCase().includes(a)) {
+            if (dataFromBody.status.toLowerCase().includes(a)) {
               flag = true;
             }
           });
@@ -32,9 +32,9 @@ function InsertData(values, done) {
   }
 
   if (flag) {
-    service.InsertData(values, done);
+    service.InsertData(dataFromBody, dataFromParams, done);
   } else {
-    done('Error in operation, please try later..!');
+    done({ error: 'Please enter valid values!!' }, undefined);
   }
 }
 
@@ -46,11 +46,11 @@ function updateStatus(params, bodyData, done) {
   const person = params.person.toLowerCase();
   const status = bodyData.status.toLowerCase();
   service.gettingValuesByDomainPerson(domain, person, (error, result) => {
-    if (error) done('error in getting type for the given domain');
+    if (error) done({ error: 'error in getting type for the given domain' }, undefined);
     let inviteType = '';
     if (result !== undefined && result.length > 0) {
       inviteType = result[0].type;
-      if ((bodyData.status) && (bodyData.status !== null)) {
+      if ((bodyData.status) && (bodyData.status !== 'null')) {
         statusstring.forEach((a) => {
           if (status.includes(a)) {
             flag = true;
@@ -61,13 +61,13 @@ function updateStatus(params, bodyData, done) {
 
     if (flag) {
       if ((status === 'approved') && (inviteType === 'request')) {
-        if ((bodyData.member) && bodyData.member !== null) {
+        if ((bodyData.member) && bodyData.member !== 'null') {
           service.statusUpdateRequest(domain, person, bodyData, done);
-        } else done('Error in operation, please try later..!');
+        } else done({ error: 'Not updated due to invalid values' }, undefined);
       } else if (((status === 'accepted') || (status === 'resent')) && (inviteType === 'invite')) {
         service.statusUpdateInvite(domain, person, bodyData, done);
-      } else done('Error in operation, please try later..!');
-    } else done('Error in operation, please try later..!');
+      } else done({ error: 'Not updated due to invalid values' }, undefined);
+    } else done({ error: 'Not updated due to invalid values' }, undefined);
   });
 }
 
@@ -78,7 +78,7 @@ function rejectedInviteRequest(domainvalue, personvalue, done) {
   const domainname = domainvalue.toLowerCase();
   const personname = personvalue.toLowerCase();
   service.gettingValuesByDomainPerson(domainname, personname, (error, result) => {
-    if (error) { done('error in getting type for the given domain'); }
+    if (error) done({ error: 'Domain not Exists' }, undefined);
 
     if (result !== undefined && result.length > 0) {
       const checkdomain = result[0].domain;
@@ -91,7 +91,7 @@ function rejectedInviteRequest(domainvalue, personvalue, done) {
     if (flag) {
       service.rejectedInviteRequest(domainname, personname, done);
     } else {
-      done('Error in operation, please try later..!');
+      done({ error: 'Unable to delete the domain and person' }, undefined);
     }
   });
 }

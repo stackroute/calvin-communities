@@ -1,4 +1,4 @@
-const wrongdata = { error: 'Error in operation, please try later..!' };
+const wrongdata = { error: 'Please enter valid values!!' };
 
 const rowcreated = { message: 'Inserted' };
 
@@ -6,10 +6,18 @@ const modified = { message: 'Updated' };
 
 const deleted = { message: 'Deleted' };
 
+const notFound = { error: 'please enter a valid domain name' };
+
+const erroroperation = { error: 'Unexpected error occurred, please try again...!' };
+
+const notupdate = { error: 'Not updated due to invalid values' };
+
+const notdeleted = { error: 'Unable to delete the domain and person' };
+
 
 /* -------------------test case for checking POST method -------------------------------*/
 const data = {
-  domain: 'Godrej',
+
   status: 'invitesent',
   person: ['mandu@gmail.com', 'palavi@gmail.com'],
   type: 'invite',
@@ -83,7 +91,6 @@ const wrongtype =
 
 // member(approver) should be empty when type is request
 const requestinput = {
-  domain: 'marian',
   status: 'requested',
   person: ['amudha@gmail.com'],
   type: 'request',
@@ -139,6 +146,8 @@ module.exports = {
   requestinput,
   wrongtype,
   invitemember,
-
-
+  notFound,
+  erroroperation,
+  notupdate,
+  notdeleted,
 };
