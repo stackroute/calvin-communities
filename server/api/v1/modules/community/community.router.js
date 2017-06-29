@@ -12,7 +12,7 @@ const logger = require('../../../../logger');
  *
  *
  */
-router.get('/', (req, res) => {
+router.get('/', (req, res) => { // eslint-disable-line consistent-return
   try {
     communityCtrl.getAllCommunities((err, results) => {
       if (err) {
@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
  *
  *
  */
-router.post('/:domain', (req, res) => {
+router.post('/:domain', (req, res) => { // eslint-disable-line consistent-return
   try {
     req.body.domain = req.params.domain;
     communityCtrl.addCommunity(req.body, (err, results) => {
@@ -59,7 +59,7 @@ router.post('/:domain', (req, res) => {
  *
  *
  */
-router.get('/:domain', (req, res) => {
+router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
   try {
     let counter = false;
     if (req.query.counter && req.query.counter.toString() === 'true') {
@@ -89,7 +89,7 @@ router.get('/:domain', (req, res) => {
  *
  *
  */
-router.patch('/:domain', (req, res) => {
+router.patch('/:domain', (req, res) => { // eslint-disable-line consistent-return
   try {
     communityCtrl.updateCommunity(req.params.domain, req.body, (err, results) => {
       if (err) {

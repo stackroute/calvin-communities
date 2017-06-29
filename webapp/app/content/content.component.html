@@ -1,0 +1,19 @@
+<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="2px" fxLayoutGap.xs="0">
+    <div class="column-1" fxFlex="15%">
+        <md-sidenav>
+            <md-nav-list>
+            <div class="search">
+                <a><img src="/assets/icons/search_white.png"/></a>
+                </div>
+                <hr>
+                <a md-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+                <a md-list-item routerLink="/trending" routerLinkActive="active">Trending Communities</a>
+                <a md-list-item routerLink="/topics" routerLinkActive="active">Common Topics</a>
+                <a md-list-item routerLink="/populartools" routerLinkActive="active">Popular Tools</a>
+            </md-nav-list>
+        </md-sidenav>
+    </div>
+    <div class="column-2" fxFlex>
+        <router-outlet></router-outlet>
+    </div>
+</div>

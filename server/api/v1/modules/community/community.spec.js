@@ -1,7 +1,5 @@
 require('chai').should();
 
-const logger = require('../../../../logger');
-
 const model = require('cassandra-driver');
 
 const app = require('../../../../app');
@@ -353,7 +351,6 @@ describe('get/ post/ patch community ', () => {
       done(err);
     });
   });
-
 
 
   after(() => {
