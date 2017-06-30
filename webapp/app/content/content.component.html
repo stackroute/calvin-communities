@@ -1,0 +1,18 @@
+<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="2px" fxLayoutGap.xs="0">
+    <div class="column-1" fxFlex="15%">
+        <md-sidenav>
+            <md-nav-list>
+            <div class="search">
+                <a md-button (click)="openDialog()"><img src="/assets/icons/search_white.png"/></a>
+                </div>
+                <button md-button routerLink="/dashboard" routerLinkActive="active">Dashboard</button>
+                <button md-button routerLink="/trending" routerLinkActive="active">Trending Communities</button>
+                <button md-button routerLink="/topics" routerLinkActive="active">Common Topics</button>
+                <button md-button routerLink="/populartools" routerLinkActive="active">Popular Tools</button>
+            </md-nav-list>
+        </md-sidenav>
+    </div>
+    <div class="column-2" fxFlex>
+        <router-outlet></router-outlet>
+    </div>
+</div>
