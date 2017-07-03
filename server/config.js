@@ -1,3 +1,8 @@
+const kafka = require('kafka-node');
+
+
+const Client = kafka.Client;
+
 const connectionString = {
   keyspace: 'calvincommunity',
   contact: '127.0.0.1',
@@ -14,8 +19,18 @@ const loggerConfig = {
   }],
 };
 
+const client = new Client('localhost:2181');
+
+const options = {
+  autoCommit: true,
+  fetchMaxWaitMs: 1000,
+  fetchMaxBytes: 1024 * 1024
+};
+
 
 module.exports = {
   connectionString,
   loggerConfig,
+  options,
+  client
 };

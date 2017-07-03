@@ -148,7 +148,7 @@ describe('Test cases for tools of a community', () => {
 
   it('should give not post if tool already exists', (done) => {
     request(app)
-            .post(`${uri}engineer.wipro.blr/tools`)
+            .post(`${uri}doctors.blr/tools`)
             .send(value.toolsAll)
             .expect(404)
             .end((err, res) => {
