@@ -36,7 +36,7 @@ function getAllCommunities(done) {
  */
 function getTemplateDetails(community) {
     // loading specified template
-  const status = 'Active';
+  const status = 'Active'; // initially the community will be active by default
   const templateDetails = templateController.getTemplateOfTemplateName(community.template);
   if (templateDetails.length !== 1) {
     return -1;
