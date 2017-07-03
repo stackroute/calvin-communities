@@ -6,6 +6,8 @@ const request = require('supertest');
 
 const model = require('cassandra-driver');
 
+const logger = require('../../../../logger');
+
 const connectionString = require('../../../../config').connectionString;
 
 const client = new model.Client({
@@ -20,7 +22,8 @@ describe('Create a community and update it', () => {
   before(() => {
         // runs before all tests in this block
 
-    client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive'`);
+    client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
+    where domain='Stack-Route-Immersive'`);
   });
 
   it('Add new member to a community', (done) => {
@@ -32,13 +35,14 @@ describe('Create a community and update it', () => {
               role: 'Trainee-FullStack-Developer',
             })
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive'`, (err, result) => {
-                    // console.log(result.rows[0]);
+              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
+              where domain='Stack-Route-Immersive'`, (err, result) => {
+                    // logger.debug(result.rows[0]);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
                 result.rows[0].username.should.be.equal('Aravindh');
                 result.rows[0].role.should.be.equal('Trainee-FullStack-Developer');
-                    // console.log('Data added...');
+                    // logger.debug('Data added...');
               });
               done();
             })
@@ -54,17 +58,18 @@ describe('Create a community and update it', () => {
               role: 'Trainee-FullStack',
             })
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err, result) => {
-                    // console.log(result.rows);
+              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
+              where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err, result) => {
+                    // logger.debug(result.rows);
                 if (!err) {
                   result.rows.length.should.be.equal(1);
                   result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
                   result.rows[0].username.should.be.equal('Aravindh');
                   result.rows[0].role.should.be.equal('Trainee-FullStack');
-                        // console.log(result.rows);
+                        // logger.debug(result.rows);
                 }
                 if (err) {
-                        // console.log('This community not have a member of this name...!!');
+                        // logger.debug('This community not have a member of this name...!!');
                 }
               });
               done();
@@ -78,11 +83,12 @@ describe('Create a community and update it', () => {
     request(app)
             .get('/api/v1/membership/community/Stack-Route-Immersive/members')
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive' `, (err, result) => {
+              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
+              where domain='Stack-Route-Immersive' `, (err, result) => {
                 if (!err) {
                   result.rows.length.should.be.equal(1);
-                        // console.log(result.rows);
-                        // console.log('Data is retrieved from a table');
+                        // logger.debug(result.rows);
+                        // logger.debug('Data is retrieved from a table');
                 }
               });
               done();
@@ -95,12 +101,13 @@ describe('Create a community and update it', () => {
     request(app)
             .delete('/api/v1/membership/community/Stack-Route-Immersive/removemember/Aravindh')
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
+              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
+              where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
                 if (!err) {
-                        // console.log('Data Deleted..');
+                        // logger.debug('Data Deleted..');
                 }
                 if (err) {
-                        // console.log('This community not have a member of this name...!!');
+                        // logger.debug('This community not have a member of this name...!!');
                 }
               });
               done();
@@ -118,13 +125,14 @@ describe('Create a community and update it', () => {
               role: 'Trainee-FullStack-Developer',
             })
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive'`, (err, result) => {
-                    //  console.log(result.rows[0]);
+              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
+              where domain='Stack-Route-Immersive'`, (err, result) => {
+                    //  logger.debug(result.rows[0]);
                 result.rows.length.should.be.equal(1);
                 result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
                 result.rows[0].username.should.be.equal('Aravindh');
                 result.rows[0].role.should.be.equal('Trainee-FullStack-Developer');
-                    // console.log('Data added again...');
+                    // logger.debug('Data added again...');
               });
               done();
             })
@@ -135,7 +143,8 @@ describe('Create a community and update it', () => {
 
 
   after('', () => {
-    client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive'`);
+    client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
+    where domain='Stack-Route-Immersive'`);
   });
 });
 */

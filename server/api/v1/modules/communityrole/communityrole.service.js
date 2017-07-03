@@ -1,5 +1,8 @@
 const model = require('cassandra-driver');
+
 const connectionString = require('../../../../config').connectionString;
+
+const logger = require('../../../../logger');
 
 const COMMUNITY_ROLE_TABLE = 'communityroles';
 
@@ -10,16 +13,16 @@ const client = new model.Client({
 });
 
 function getCommunityRoles(domainName, done) {
-    // console.log("SERVICE getCommunityRolesOnly",domainName);
+    // logger.debug("SERVICE getCommunityRolesOnly",domainName);
   const query = `SELECT * FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
 
   return client.execute(query, (err, results) => {
     if (!err) {
-      console.log(typeof results.rows);
+      logger.debug(typeof results.rows);
       if (results.rows.length > 0) {
         done(err, results.rows);
       } else {
-        console.log('error');
+        logger.debug('error');
         done('please enter a existing domain', undefined);
       }
     } else {
@@ -29,102 +32,102 @@ function getCommunityRoles(domainName, done) {
 }
 
 function getCommunityRolesOnly(domainName, onlyroles, done) {
-    // console.log("SERVICE getCommunityRolesOnly",domainName,"   ",onlyroles);
+    // logger.debug("SERVICE getCommunityRolesOnly",domainName,"   ",onlyroles);
   const query = `SELECT role FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
-    // console.log(query);
+    // logger.debug(query);
   return client.execute(query, (err, results) => {
     if (!err) {
-            // console.log("Inside getCommunityRolesOnly--------",results.rows.length);
+            // logger.debug("Inside getCommunityRolesOnly--------",results.rows.length);
             // const arr = [];
             // const result = '';
 
       if (results.rows.length > 0) {
-                // console.log("helllllo");
+                // logger.debug("helllllo");
 
-                // console.log("OBJECT VALUE:", results.rows);
-                // console.log("Stringified object value", JSON.stringify(results.rows));
+                // logger.debug("OBJECT VALUE:", results.rows);
+                // logger.debug("Stringified object value", JSON.stringify(results.rows));
                 /* const newArr = results.rows.filter((value, index, self) => {
-            console.log('value', value);
-            console.log('sefl', self);
-            console.log('self.indexOf(value) === index', self.indexOf(value) === index);
-            // console.log('value', value, 'index', index, 'self', self);
+            logger.debug('value', value);
+            logger.debug('sefl', self);
+            logger.debug('self.indexOf(value) === index', self.indexOf(value) === index);
+            // logger.debug('value', value, 'index', index, 'self', self);
             return self.indexOf(value) === index;
 
           });
 
-          console.log('newArr', newArr);
+          logger.debug('newArr', newArr);
           results.rows.forEach(function(data){
 
-          console.log('my unique array', Array.from(new Set(data)));
+          logger.debug('my unique array', Array.from(new Set(data)));
         }*/
 
                 // for(obj in results.rows)
                 // {
-                //   console.log(obj);
+                //   logger.debug(obj);
                 // }
 
-                // console.log('results.rows', results.rows)
+                // logger.debug('results.rows', results.rows)
 
         const unique = [...new Set(results.rows.map(item => item.role))];
-                // console.log('unique', unique)
+                // logger.debug('unique', unique)
 
         const finalArr = [];
 
         unique.forEach((item) => {
           const obj = {};
-                    // console.log("item is",item);
+                    // logger.debug("item is",item);
           obj.role = item;
-          console.log('obj', obj);
+          logger.debug('obj', obj);
           finalArr.push(obj);
-          console.log('finalArr', finalArr);
+          logger.debug('finalArr', finalArr);
         });
 
         done(null, finalArr);
-                // console.log(finalArr);
+                // logger.debug(finalArr);
 
 
                 // results.rows.forEach(function(data){
-                //   console.log("DATA",data);
-                //   console.log("DATA stringified", JSON.stringify(data));
+                //   logger.debug("DATA",data);
+                //   logger.debug("DATA stringified", JSON.stringify(data));
                 //   arr.push(JSON.stringify(data));
                 // });
 
                 // arr.push(JSON.stringify(results.rows));
                 // arr=Array.from(new Set(arr));
-                // console.log("RANDOM COMMAND",arr);
+                // logger.debug("RANDOM COMMAND",arr);
                 // result = result+arr;
-                // console.log('result', result);
-                // console.log(JSON.parse(result));
-                // console.log("FINAL RESULT VALUE IS", result);
+                // logger.debug('result', result);
+                // logger.debug(JSON.parse(result));
+                // logger.debug("FINAL RESULT VALUE IS", result);
                 // result=result;
                 /* JSON.parse(JSON.stringify(result));*/
-                // console.log("JSON PARSE",JSON.parse(result));
-                // console.log("FINAL RESULT VALUE",result);
+                // logger.debug("JSON PARSE",JSON.parse(result));
+                // logger.debug("FINAL RESULT VALUE",result);
                 // done(undefined, [result]);
       } else {
-                // console.log('error');
+                // logger.debug('error');
         done('please enter a existing domain', undefined);
       }
     } else {
-            // console.log("last else");
+            // logger.debug("last else");
       done(err, undefined);
     }
   });
 }
 
 // function getCommunityRoles(domainName, done) {
-//   console.log("inside service");
+//   logger.debug("inside service");
 //   const query = `SELECT role FROM ${COMMUNITY_ROLE_TABLE} WHERE /
 // domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
 
 //   return client.execute(query, (err, results) => {
 //     if (!err) {
-//       console.log(results.rows.length);
+//       logger.debug(results.rows.length);
 //       if(results.rows.length>0){
 //       done(err, results.rows);
 //     }
 //     else{
-//       console.log("error");
+//       logger.debug("error");
 //       done("please enter a existing domain",undefined);    }
 //   }else {
 //       done(err, undefined);
@@ -133,17 +136,17 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
 // }
 
 function checkCommunityRole(domainName, role, toolid, done) {
-  console.log('Inside checkCommunityRole');
-  console.log(`domainName:${domainName} role:${role} toolid ${toolid}`);
+  logger.debug('Inside checkCommunityRole');
+  logger.debug(`domainName:${domainName} role:${role} toolid ${toolid}`);
   const query = `SELECT * FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND role='${role.toLowerCase()}' AND toolid='${toolid.toLowerCase()}'`; // SORT BY domainname, role`;
-  console.log('checkCommunityRole before query.execute');
+  logger.debug('checkCommunityRole before query.execute');
   return client.execute(query, (err, results) => {
-    console.log(`checkCommunityRole after query.execute${results}`);
+    logger.debug(`checkCommunityRole after query.execute${results}`);
     if (!err) {
       if (results.rows.length > 0) {
         done(err, results.rows);
       } else {
-        console.log('error');
+        logger.debug('error');
         done('already existing ', undefined);
       }
     } else {
@@ -170,11 +173,11 @@ function checkCommunityRole2(domainName, role, done) {
 
 function postCommunityRoles(domainName, postedData, done) {
   const arr = [];
-  console.log('Inside postCommunityRoles service');
+  logger.debug('Inside postCommunityRoles service');
 
   let query;
   postedData.forEach((data) => {
-    console.log('actions ', data.actions);
+    logger.debug('actions ', data.actions);
 
     let actions = '';
     Object.keys(data.actions).forEach((key) => {
@@ -184,26 +187,26 @@ function postCommunityRoles(domainName, postedData, done) {
     });
     actions = actions.substring(0, actions.lastIndexOf(','));
     actions = `{${actions}}`;
-    console.log('Actions full string', actions);
+    logger.debug('Actions full string', actions);
 
     query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid, createdon, updatedon)
      VALUES ( '${domainName.toLowerCase()}' , '${data.role.toLowerCase()}' , ${actions.toLowerCase()} , '${data.toolId.toLowerCase()}', dateof(now()), dateof(now()) )`;
         // let params = [data.domain, data.role, data.actions, data.toolId];
-    console.log(data.actions);
+    logger.debug(data.actions);
     const d = {
       query,
     };
-    console.log(d);
+    logger.debug(d);
     arr.push(d);
-    console.log('data', data);
+    logger.debug('data', data);
   });
-  console.log(`Array:${arr}`);
+  logger.debug(`Array:${arr}`);
   return client.batch(arr, { prepare: true }, (err, results) => {
     if (!err) {
-      console.log('no error');
+      logger.debug('no error');
       done(undefined, results.rows);
     } else {
-      console.log('err:', err);
+      logger.debug('err:', err);
       done(err, undefined);
     }
   });
@@ -211,11 +214,11 @@ function postCommunityRoles(domainName, postedData, done) {
 
 /* function postCommunityRoles(postedData, done) {
   const arr = [];
-  console.log('Inside postCommunityRoles service');
+  logger.debug('Inside postCommunityRoles service');
 
   let query;
   postedData.forEach((data) => {
-    console.log('actions ', data.actions);
+    logger.debug('actions ', data.actions);
 
     let actions = '';
     Object.keys(data.actions).forEach((key) => {
@@ -225,7 +228,7 @@ function postCommunityRoles(domainName, postedData, done) {
     });
     actions = actions.substring(0, actions.lastIndexOf(','));
     actions = `{${actions}}`;
-    console.log('Actions full string', actions);
+    logger.debug('Actions full string', actions);
 
     query = `INSERT INTO ${COMMUNITY_ROLE_TABLE}
      (domain, role, actions, toolid, createdon, updatedon)
@@ -233,21 +236,21 @@ function postCommunityRoles(domainName, postedData, done) {
      '${data.role.toLowerCase()}' , ${actions.toLowerCase()} ,
      '${data.toolId.toLowerCase()}', dateof(now()), dateof(now()) )`;
     // let params = [data.domain, data.role, data.actions, data.toolId];
-    console.log(data.actions);
+    logger.debug(data.actions);
     const d = {
       query,
     };
-    console.log(d);
+    logger.debug(d);
     arr.push(d);
-    console.log('data', data);
+    logger.debug('data', data);
   });
-  console.log(`Array:${arr}`);
+  logger.debug(`Array:${arr}`);
   return client.batch(arr, { prepare: true }, (err, results) => {
     if (!err) {
-      console.log('no error');
+      logger.debug('no error');
       done(undefined, results.rows);
     } else {
-      console.log('err:', err);
+      logger.debug('err:', err);
       done(err, undefined);
     }
   });
@@ -256,78 +259,78 @@ function postCommunityRoles(domainName, postedData, done) {
 
 /* function postCommunityRoles(postedData, done) {
   let arr=[];
-  console.log("Inside post")
+  logger.debug("Inside post")
 
   const query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid) VALUES
   /( ? , ? , ? , ? )`; // SORT BY domainname, role`;
-  console.log("After query");
+  logger.debug("After query");
   postedData.forEach(function(data){
     let params = [data.domain, data.role, data.actions, data.toolId];
     let d = {
       query: query,
       params: params
     }
-    console.log(d);
+    logger.debug(d);
     arr.push(d);
-    console.log("data", data);
+    logger.debug("data", data);
   })
-  console.log("Array:"+arr);
+  logger.debug("Array:"+arr);
   return client.batch(arr, { hints: ['text', 'text', 'map', 'text'] }, (err, results) => {
     if (!err) {
-      console.log("no error");
+      logger.debug("no error");
       done(undefined, results.rows);
     } else {
-      console.log('err:', err )
+      logger.debug('err:', err )
       done(err, undefined);
     }
   });
 }*/
 /* function patchCommunityRoles(values, done) {
-  console.log('Values from Patch service',typeof values," and its value is");
+  logger.debug('Values from Patch service',typeof values," and its value is");
  let actions = '';
  let str = '';
- console.log("Object.keys(values[0].actions)",Object.keys(values[0]));
+ logger.debug("Object.keys(values[0].actions)",Object.keys(values[0]));
     Object.keys(values[0]).forEach((key) => {
-      console.log('KEYS', key);
-      console.log('value', values[0][key]);
+      logger.debug('KEYS', key);
+      logger.debug('value', values[0][key]);
       let value = values[0][key];
-      console.log("KEY",key," value:",value);
+      logger.debug("KEY",key," value:",value);
       str += `'${key}':'${values[0][key]}' ,`;
      // actions += `'${key}.toLowerCase()':'${value}.toLowerCase()' ,`;
       // actions = actions.substring(0, actions.lastIndexOf(","));
     });
-    console.log("STRING",str);
+    logger.debug("STRING",str);
     str=str.toLowerCase();
     str = str.substring(0, str.lastIndexOf(','));
     str = `{${str}}`;
     values[0]= str;
-    console.log("STR FINALLY",str);
-    console.log("PRAKHAR",values);
-    console.log("typeof values[0]",typeof values[0]);
+    logger.debug("STR FINALLY",str);
+    logger.debug("PRAKHAR",values);
+    logger.debug("typeof values[0]",typeof values[0]);
     for(obj in values)
     {
-      console.log("obj");
+      logger.debug("obj");
     }
 
     //actions = actions.substring(0, actions.lastIndexOf(','));
     //actions = `{${actions}}`;
-    console.log('Actions full string from patchCommunityRoles NEW ONE', actions);
+    logger.debug('Actions full string from patchCommunityRoles NEW ONE', actions);
   const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ?,
   updatedon=dateof(now()) where domain = ? AND role=? and toolid=?`); // SORT BY domainname, role`;
   return client.execute(query, values, (err, results) => {
 
     if (!err) {
-      console.log("PATCH QUERY EXECUTED");
+      logger.debug("PATCH QUERY EXECUTED");
       done(err, results.rows);
     } else {
-      console.log("PATCH QUERY ERROR", err);
+      logger.debug("PATCH QUERY ERROR", err);
       done(err, undefined);
     }
   });
 }*/
 
 function patchCommunityRoles(values, done) {
-  console.log('Values from Patch service', values);
+  logger.debug('Values from Patch service', values);
 
   const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ?, updatedon=dateof(now()) where domain = ? AND role=? and toolid=?`); // SORT BY domainname, role`;
   return client.execute(query, values, { hints: ['map', 'text', 'text', 'text'] }, (err, results) => {
@@ -344,10 +347,10 @@ function communityToolsServiceToDeleteTool(domainName, toolId, done) {
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        console.log('error');
+        logger.debug('error');
         done('undefined', undefined);
       } else {
-        console.log('pass');
+        logger.debug('pass');
         done(undefined, 'undefined');
       }
     } else {

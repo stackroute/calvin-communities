@@ -2,6 +2,8 @@ const express = require('express');
 
 const communityMembershipCtrl = require('./communitymembership.controller');
 
+const logger = require('../../../../logger');
+
 const router = express.Router();
 
 /*
@@ -16,18 +18,17 @@ router.post('/:domain/members', (req, res) => {
   try {
     const values = req.body;
 
-    console.log(values);
+    logger.debug(values);
     const domainName = req.params.domain;
-    console.log(domainName);
+    logger.debug(domainName);
     communityMembershipCtrl.addMembersToCommunity(domainName, values, (err) => {
       if (err) {
-                // console.log('Error in communityMembershipCtrl.addMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Member added' });
     });
   } catch (err) {
-    console.log('Unexpected error in inserting values ', err);
+    logger.debug('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
@@ -47,13 +48,12 @@ router.delete('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.removeMembersFromCommunity(domainName, values, (err) => {
       if (err) {
-                // console.log('Error in communityMembershipCtrl.addMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send({ message: 'Member deleted' });
     });
   } catch (err) {
-        // console.log('Unexpected error in inserting values ', err);
+        // logger.debug('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
@@ -73,13 +73,12 @@ router.patch('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.modifyRoleOfMembersFromCommunity(domainName, values, (err, message) => {
       if (err) {
-                // console.log('Error in communityMembershipCtrl.addMemberToCommunity error :', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' }, null);
       }
       return res.send(undefined, message);
     });
   } catch (err) {
-        // console.log('Unexpected error in inserting values ', err);
+        // logger.debug('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
@@ -100,14 +99,13 @@ router.get('/:domain/memberscheck', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.checkCommunityToUpdateMembersDetail(domainName, (err, results) => {
       if (err) {
-                // console.log('communityMembershipCtrl.checkCommunityToUpdateMembersDetail: ', err);
         return res.status(404).send(err);
       }
 
       return res.send(results);
     });
   } catch (err) {
-        // console.log('Unexpected error in fetching community roles ', err);
+        // logger.debug('Unexpected error in fetching community roles ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
   return null;
@@ -126,16 +124,15 @@ router.get('/:domain/memberscheck', (req, res) => {
 router.get('/:domain/members', (req, res) => {
   try {
     const domainName = req.params.domain;
-    console.log('Inside router /:domain/members', domainName);
+    logger.debug('Inside router /:domain/members', domainName);
     communityMembershipCtrl.getParticularCommunityMembersDetails(domainName, (err, results) => {
       if (err) {
-                // console.log('Error in communityMembershipCtrl.getParticularCommunityMemberDetails error: ', err);
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
       return res.send(results);
     });
   } catch (err) {
-        // console.log('Unexpected error in fetching members of a community...', err);
+        // logger.debug('Unexpected error in fetching members of a community...', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });

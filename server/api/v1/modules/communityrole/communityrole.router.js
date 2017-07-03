@@ -1,5 +1,8 @@
 const express = require('express');
+
 const communityRoleCtrl = require('./communityrole.controller');
+
+const logger = require('../../../../logger');
 
 const router = express.Router();
 
@@ -42,7 +45,7 @@ router.get('/:domainname', (req, res) => {
   try {
     const domainName = req.params.domainname;
     const onlyroles = req.query.onlyroles;
-    console.log('onlyroles: ', onlyroles);
+    logger.debug('onlyroles: ', onlyroles);
     if (onlyroles === 'true') {
       communityRoleCtrl.getCommunityRolesOnly(domainName, onlyroles, (err, results) => {
         if (err) {
@@ -52,7 +55,7 @@ router.get('/:domainname', (req, res) => {
         return res.send(results);
       });
     } else if (onlyroles === 'undefined' || onlyroles !== 'true') {
-      console.log('ELSE PART OF ROUTER');
+      logger.debug('ELSE PART OF ROUTER');
       communityRoleCtrl.getCommunityRoles(domainName, (err, results) => {
         if (err) {
           return res.status(500).send(err);
@@ -91,7 +94,7 @@ router.patch('/:domain/:role', controller.patchcommunityrole);
       return res.send('Added');
     });
   } catch (err) {
-    console.log(`error:${err}`);
+    logger.debug(`error:${err}`);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });*/
@@ -106,7 +109,7 @@ router.post('/:domainname', (req, res) => {
       return res.send('Added');
     });
   } catch (err) {
-    console.log(`error:${err}`);
+    logger.debug(`error:${err}`);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
   return null;
