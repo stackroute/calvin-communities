@@ -1,6 +1,6 @@
-
-
 const kafka = require('kafka-node');
+
+const logger = require('../../logger');
 
 const Consumer = kafka.Consumer;
 const Client = kafka.Client;
@@ -12,16 +12,16 @@ function baseConsumer(topics, done) {
 
   consumer.on('message', (message) => {
     done(null, message);
-    console.log('value is', message);
+
+    logger.debug('value is', message);
   });
 
   consumer.on('error', (err) => {
     done(err, null);
-    console.log('error', err);
+
+    logger.debug('error', err);
   });
 }
-
-
 
 module.exports = {
   baseConsumer,
