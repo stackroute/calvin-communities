@@ -52,8 +52,8 @@ function getCommunity(domainname, done) {
 function addCommunity(param, done) {
   const query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, roles,\
    status, template, tags, owner, \
-description, avatar, visibility , createdby, updatedby, createdon, updatedon) \
-VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
+description, visibility , createdby, updatedby, createdon, updatedon) \
+VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
 
   return client.execute(`SELECT * FROM ${tableCommunities} where domain = ?`, [param[0]], (error, data) => {
     if (_.isEmpty(data.rows)) {
