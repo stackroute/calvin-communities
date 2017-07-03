@@ -4,17 +4,17 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 
 
 @Component({
-  selector: 'content',
+  selector: 'calvin-content',
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css']
-  })
+ })
 
 
 export class ContentComponent {
 
 constructor(public dialog: MdDialog) {}
 openDialog() {
-	let MdDialogRef = this.dialog.open(SearchComponent,{
+ const MdDialogRef = this.dialog.open(SearchComponent, {
   width: '90%',
   height: '90%'
   });

@@ -7,5 +7,5 @@ import {MdDialog, MdDialogRef} from '@angular/material';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
-	constructor(public dialogRef: MdDialogRef<SearchComponent>) {}
+ constructor(public dialogRef: MdDialogRef<SearchComponent>) {}
 }
