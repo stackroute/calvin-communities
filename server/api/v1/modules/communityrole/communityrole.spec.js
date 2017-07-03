@@ -4,6 +4,8 @@ const should = chai.should(); // eslint-disable-line no-unused-vars
 
 const app = require('../../../../app');
 
+const logger = require('../../../../logger');
+
 const request = require('supertest');
 
 const connectionString = require('../../../../config').connectionString;
@@ -49,10 +51,10 @@ describe('Create a communityrole and update it', () => {
       .post('/api/v1/communityrole/africans')
       .send(postdata)
       .then(() => {
-        console.log(`BEFORE CLIENT EXECUTE testcase${postdata}`);
+        logger.debug(`BEFORE CLIENT EXECUTE testcase${postdata}`);
         client.execute('SELECT * from communityroles where domain=\'africans\'', (err, result) => {
           if (!err) {
-            console.log(`Result from testcase ${result.rows[0]}`);
+            logger.debug(`Result from testcase ${result.rows[0]}`);
             result.rows.length.should.be.equal(2);
             result.rows[0].actions.should.deep.equal(postdata[0].actions);
             done();
@@ -60,7 +62,7 @@ describe('Create a communityrole and update it', () => {
         });
       })
       .catch((err) => {
-        console.log('In error');
+        logger.debug('In error');
         done(err);
       });
   });
@@ -69,10 +71,10 @@ describe('Create a communityrole and update it', () => {
       .post('/api/v1/communityrole/prakhar')
       .send(postdata)
       .then(() => {
-        console.log(`BEFORE CLIENT EXECUTE testcase${postdata}`);
+        logger.debug(`BEFORE CLIENT EXECUTE testcase${postdata}`);
         client.execute('SELECT * from communityroles where domain=\'prakhar\'', (err, result) => {
           if (!err) {
-            console.log(`Result from testcase ${result.rows[0]}`);
+            logger.debug(`Result from testcase ${result.rows[0]}`);
             result.rows.length.should.be.equal(2);
             result.rows[0].actions.should.deep.equal(postdata[0].actions);
             done();
@@ -80,7 +82,7 @@ describe('Create a communityrole and update it', () => {
         });
       })
       .catch((err) => {
-        console.log('In error');
+        logger.debug('In error');
         done(err);
       });
   });
@@ -91,14 +93,14 @@ describe('Create a communityrole and update it', () => {
       .then(() => {
         client.execute('SELECT * from communityroles where domain=\'prakhar\'', (err, result) => {
           if (!err) {
-            console.log(`Result from testcase ${result.rows[0]}`);
+            logger.debug(`Result from testcase ${result.rows[0]}`);
             result.rows.length.should.be.equal(2);
             done();
           }
         });
       })
       .catch((err) => {
-        console.log('In error');
+        logger.debug('In error');
         done(err);
       });
   });
@@ -109,14 +111,14 @@ describe('Create a communityrole and update it', () => {
       .then(() => {
         client.execute('SELECT * from communityroles where domain=\'africans\'', (err, result) => {
           if (!err) {
-            console.log(`Result from testcase ${result.rows[0]}`);
+            logger.debug(`Result from testcase ${result.rows[0]}`);
             result.rows.length.should.be.equal(2);
             done();
           }
         });
       })
       .catch((err) => {
-        console.log('In error');
+        logger.debug('In error');
         done(err);
       });
   });
@@ -128,14 +130,14 @@ describe('Create a communityrole and update it', () => {
       .then(() => {
         client.execute('SELECT * from communityroles where domain=\'random\'', (err, result) => {
           if (!err) {
-            console.log(`Result from testcase ${result.rows[0]}`);
+            logger.debug(`Result from testcase ${result.rows[0]}`);
             result.rows.length.should.be.equal(0);
             done();
           }
         });
       })
       .catch((err) => {
-        console.log('In error');
+        logger.debug('In error');
         done(err);
       });
   });
@@ -144,16 +146,17 @@ describe('Create a communityrole and update it', () => {
       request(app)
         .get('/api/v1/communityrole/smallu?onlyroles=true')
         .then(() => {
-          client.execute('SELECT role from communityroles where domain=\'smallu\'', (err, result) => {
+          client.execute('SELECT role from communityroles where domain=\'smallu\'',
+           (err, result) => {
             if (!err) {
-              console.log(`Result from onlyroles testcase ${result.rows[0]}`);
+              logger.debug(`Result from onlyroles testcase ${result.rows[0]}`);
               result.rows.length.should.be.equal(2);
               done();
             }
           });
         })
         .catch((err) => {
-          console.log('In error');
+          logger.debug('In error');
           done(err);
         });
     });*/

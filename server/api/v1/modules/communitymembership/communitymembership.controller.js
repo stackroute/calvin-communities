@@ -1,5 +1,6 @@
 const communityMembershipService = require('./communitymembership.service');
 
+const logger = require('../../../../logger');
 
 function addMembersToCommunity(domainName, values, done) {
   let flag = 0;
@@ -15,13 +16,14 @@ function addMembersToCommunity(domainName, values, done) {
       });
       if (values.length === flag) {
         values.forEach((data) => {
-          communityMembershipService.checkCommunityToUpdateMembersDetail(domainName, data.username, data.role, (error) => {
-            if (error) {
-              valueExist += 1;
-            } else {
-              valueExist += 0;
-            }
-          });
+          communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
+           data.username, data.role, (error) => {
+             if (error) {
+               valueExist += 1;
+             } else {
+               valueExist += 0;
+             }
+           });
         });
         setTimeout(() => {
           if (valueExist === values.length) {
@@ -34,7 +36,7 @@ function addMembersToCommunity(domainName, values, done) {
         done('Value of username and role cannot be empty');
       }
     } else {
-    // console.log('URI parameter cannot be empty.....');
+    // logger.debug('URI parameter cannot be empty.....');
       done('URI parameter cannot be empty.....');
     }
   } else {
@@ -58,17 +60,18 @@ function removeMembersFromCommunity(domainName, values, done) {
     });
     if (values.length === flag) {
       values.forEach((data) => {
-        communityMembershipService.checkCommunityToUpdateMembersDetail(domainName, data.username, data.role, (error, message) => {
-          if (message) {
-            valueExist += 1;
-            console.log(valueExist);
-            done(null, { message: 'data avilable' });
-          } else {
-            valueExist += 0;
-            console.log('hiiii');
-            done({ error: 'No data to delete' }, undefined);
-          }
-        });
+        communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
+          data.username, data.role, (error, message) => {
+            if (message) {
+              valueExist += 1;
+              logger.debug(valueExist);
+              done(null, { message: 'data avilable' });
+            } else {
+              valueExist += 0;
+              logger.debug('hiiii');
+              done({ error: 'No data to delete' }, undefined);
+            }
+          });
       });
       setTimeout(() => {
         if (valueExist === values.length) {
@@ -101,16 +104,17 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
     });
     if (values.length === flag) {
       values.forEach((data) => {
-        communityMembershipService.checkCommunityToUpdateMembersDetail(domainName, data.username, data.role, (error, message) => {
-          if (error) {
-            valueExist += 1;
-            console.log(valueExist);
-          } else {
-            done(message);
+        communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
+          data.username, data.role, (error, message) => {
+            if (error) {
+              valueExist += 1;
+              logger.debug(valueExist);
+            } else {
+              done(message);
 
-            valueExist += 0;
-          }
-        });
+              valueExist += 0;
+            }
+          });
       });
       setTimeout(() => {
         if (valueExist === values.length) {
@@ -138,7 +142,7 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
 // }
 
 function getParticularCommunityMembersDetails(domainName, done) {
-  console.log('INSIADE CONTROLLER');
+  logger.debug('INSIADE CONTROLLER');
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
@@ -146,7 +150,8 @@ function getParticularCommunityMembersDetails(domainName, done) {
 // check member availability
 
 function checkCommunityToUpdateMembersDetail(data, done) {
-  communityMembershipService.checkCommunityToUpdateMembersDetail(data.domain, data.username, data.role, done);
+  communityMembershipService.checkCommunityToUpdateMembersDetail(data.domain,
+    data.username, data.role, done);
 }
 
 module.exports = {

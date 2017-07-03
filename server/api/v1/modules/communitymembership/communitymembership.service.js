@@ -2,6 +2,8 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../../../config').connectionString;
 
+const logger = require('../../../../logger');
+
 const COMMUNITY_MEMBERSHIP_TABLE = 'communitymembership';
 
 const client = new model.Client({
@@ -19,17 +21,17 @@ function addMembersToCommunity(domainName, data, done) {
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      console.log('no error');
+      logger.debug('no error');
       done(undefined);
     } else {
-      console.log(err);
+      logger.debug(err);
       done(err);
     }
   });
 }
 
 function removeMembersFromCommunity(domainName, data, done) {
-  console.log('hi');
+  logger.debug('hi');
   const arr = [];
   const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE username =? AND domain = ?  IF EXISTS`);
   data.forEach((val) => {
@@ -37,10 +39,10 @@ function removeMembersFromCommunity(domainName, data, done) {
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      console.log('no error');
+      logger.debug('no error');
       done({ message: 'Deleted' });
     } else {
-      console.log(err);
+      logger.debug(err);
       done(err);
     }
   });
@@ -50,20 +52,20 @@ function removeMembersFromCommunity(domainName, data, done) {
 // Update role of members in a community
 
 function modifyRoleOfMembersFromCommunity(domainName, data, done) {
-  console.log('you can modify role');
+  logger.debug('you can modify role');
   const arr = [];
   const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? IF EXISTS `);
   data.forEach((val) => {
     arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
   });
-  console.log(query);
+  logger.debug(query);
   return client.batch(arr, { prepare: true }, (err, message) => {
-    console.log(query);
+    logger.debug(query);
     if (!err) {
-      console.log('no error');
+      logger.debug('no error');
       done(undefined, message);
     } else {
-      console.log(err);
+      logger.debug(err);
       done(err, undefined);
     }
   });
@@ -92,9 +94,9 @@ function checkCommunityToUpdateMembersDetail(domainName, userName, memberRole, d
 
 function getParticularCommunityMembersDetails(domainName, done) {
   const query = `SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' `;
-  console.log(query);
+  logger.debug(query);
   return client.execute(query, (err, results) => {
-    console.log(query);
+    logger.debug(query);
     if (!err) {
       done(undefined, { domain: domainName, MemberDetails: results.rows });
     } else {

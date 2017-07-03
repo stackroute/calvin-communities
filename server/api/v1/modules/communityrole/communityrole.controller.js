@@ -1,5 +1,7 @@
 const communityRoleService = require('./communityrole.service');
 
+const logger = require('../../../../logger');
+
 function getCommunityRoles(domainName, done) {
   communityRoleService.getCommunityRoles(domainName, done);
 }
@@ -14,11 +16,11 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
   postedData.forEach((val) => {
     if (val.domain && val.role && val.actions && val.toolId) {
       if (val.domain !== '' && val.role !== '' && val.actions !== '' && val.toolId !== '') {
-        console.log('from postCommunityRoles', val.domain, val.actions, val.toolId);
+        logger.debug('from postCommunityRoles', val.domain, val.actions, val.toolId);
         communityRoleService.checkCommunityRole(val.domain, val.role, val.toolId, (err) => {
           if (err) {
             count += 1;
-            console.log(count);
+            logger.debug(count);
           } else {
             count += 0;
           }
@@ -40,11 +42,11 @@ function postCommunityRoles(domainName, postedData, done) {
   postedData.forEach((val) => {
     if (domainName && val.role && val.actions && val.toolId) {
       if (domainName !== '' && val.role !== '' && val.actions !== '' && val.toolId !== '') {
-        console.log('from postCommunityRoles', domainName, val.actions, val.toolId);
+        logger.debug('from postCommunityRoles', domainName, val.actions, val.toolId);
         communityRoleService.checkCommunityRole(domainName, val.role, val.toolId, (err) => {
           if (err) {
             count += 1;
-            console.log(count);
+            logger.debug(count);
           } else {
             count += 0;
           }
@@ -67,12 +69,12 @@ function patchCommunityRoles(patchData, domainName, role, done) {
     role.toLowerCase(), patchData[0].toolId.toLowerCase(),
   ];
   let count = 0;
-  console.log(domainName);
-  console.log(role);
+  logger.debug(domainName);
+  logger.debug(role);
   communityRoleService.checkCommunityRole2(domainName, role, (err) => {
     if (!err) {
       count += 1;
-      console.log(count);
+      logger.debug(count);
     } else {
       count += 0;
     }
@@ -88,10 +90,10 @@ function patchCommunityRoles(patchData, domainName, role, done) {
 
 
 // function patchCommunityRoles(patchData, domainName, role, done) {
-//   console.log('patchData[0].actions', patchData[0].actions);
+//   logger.debug('patchData[0].actions', patchData[0].actions);
 //   const params = [patchData[0].actions, domainName.toLowerCase(),
 //     role.toLowerCase(), patchData[0].toolId.toLowerCase()];
-//   // console.log("patchData[0].actions",patchData[0].toolId.toLowerCase());
+//   // logger.debug("patchData[0].actions",patchData[0].toolId.toLowerCase());
 //   communityRoleService.patchCommunityRoles(params, done);
 // }
 

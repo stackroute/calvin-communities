@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "npm run create && node bin/www",
+    "start": "node server/dbcreation && node bin/www",
     "build": "ng build",
     "test": "yarn && node_modules/.bin/eslint server/**/*.js && cd webapp/ && ng lint ",
     "lint": "./node_modules/.bin/eslint *.js server/*.js server/api/v1/*.js server/api/v1/modules/**/*.js ",
