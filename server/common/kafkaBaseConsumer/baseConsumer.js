@@ -1,4 +1,5 @@
 
+
 /* const async = require('async');
 
 const kafka = require('kafka-node');
@@ -7,8 +8,10 @@ const logger = require('../../logger');
 
 const Consumer = kafka.Consumer;
 
+
 let client,
   options,
+  messages='',
   consumer;
 
 function baseConsumer(topics, done) {
@@ -27,23 +30,29 @@ function baseConsumer(topics, done) {
     },
     function(consumer, done) {
       consumer.on('message', (message) => {
-        logger.debug('value is', message);
-        // done(null,message);
+           logger.debug('value is', message);
+          // done(null,message);return;
+          messages=message;
       });
 
       consumer.on('error', (err) => {
-        done(err, null);
+       return done(err, null);
 
         logger.debug('error', err);
       });
+        setTimeout(()=>{
+          return done(null,messages);
+        },1000);
     },
   ], (err, res) => {
+    // console.log("result is",res);
     if (err) {
       return done(err, null);
     }
     return done(undefined, res);
   });
 }
+
 
 module.exports = {
   baseConsumer,

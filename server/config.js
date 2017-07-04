@@ -2,15 +2,15 @@
 
 const Client = kafka.Client;
 
-const client = new Client('localhost:2181');
+const client = new Client('localhost:2181');*/
 
 
-const options = {
+/*const options = {
   autoCommit: true,
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 1024 * 1024,
-};
-*/
+};*/
+
 const connectionString = { // config for cassandra
   keyspace: 'calvincommunity',
   contact: '127.0.0.1',
@@ -30,6 +30,6 @@ const loggerConfig = { // config for log4js
 module.exports = {
   connectionString,
   loggerConfig,
-  /*options,
+/*  options,
   client,*/
 };
