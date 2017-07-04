@@ -1,8 +1,17 @@
 const communityMembershipService = require('./communitymembership.service');
 
-// const communityRoleService = require('../communityrole/communityrole.service');
+const communityRoleService = require('../communityrole/communityrole.service');
 
 const logger = require('../../../../logger');
+
+
+/**
+ *Add memebers to the community
+ *
+ * POST REQUEST
+ *
+ *
+ */
 
 function addMembersToCommunity(domainName, values, done) {
   let flag = 0;
@@ -46,140 +55,153 @@ function addMembersToCommunity(domainName, values, done) {
   }
 }
 
+/**
+ *Remove members from a community
+ *
+ * DELETE REQUEST
+ *
+ *
+ */
 
-// Remove members from a community
 
 function removeMembersFromCommunity(domainName, values, done) {
   let flag = 0;
   let valueExist = 0;
-  if (domainName) {
-    values.forEach((data) => {
-      if (data.username && data.role) {
-        logger.debug('2');
-        flag += 1;
-      } else {
-        flag += 0;
-      }
-    });
-    if (values.length === flag) {
+  if (values.length > 0) {
+    if (domainName) {
       values.forEach((data) => {
-        logger.debug('3');
-        communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
-          data.username, data.role, (error, message) => {
-            if (message) {
-              valueExist += 1;
-              // logger.debug(valueExist);
-              logger.debug('5');
-              // done(null, { message: 'data available' });
-            } else {
-              valueExist += 0;
-              logger.debug('hiiii');
-              // done({ error: 'No data to delete' }, undefined);
-            }
-          });
-      });
-      setTimeout(() => {
-        if (valueExist === values.length) {
-          logger.debug('6');
-          // logger.debug('hii');
-          communityMembershipService.removeMembersFromCommunity(domainName, values, done);
+        if (data.username && data.role) {
+          flag += 1;
         } else {
-          done({ error: 'Member detail already exist' });
+          flag += 0;
         }
-      }, 100);
-    } else {
-      done('Value of username and role cannot be empty');
-    }
-  } else {
-    done('URI parameter cannot be empty.....');
-  }
-}
-
-// Modify role of a members in a community
-
-/*
-function modifyRoleOfMembersFromCommunity(domainName, values, done) {
-  let flag = 0;
-  let roleExist = 0;
-  let valueExist = 0;
-  if (domainName) {
-    values.forEach((data) => {
-      if (data.username && data.role) {
-        logger.debug('2');
-        flag += 1;
-      } else {
-        flag += 0;
-      }
-    });
-    if (values.length === flag) {
-      values.forEach((data) => {
-        logger.debug('3');
-        communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
-          if (message) {
-            logger.debug('3a1');
-            roleExist += 1;
-            logger.debug(roleExist);
-          } else {
-            roleExist += 0;
-          }
-        });
       });
-      logger.debug(roleExist,'hii');
-      if (values.length === roleExist) {
-        logger.debug('3a');
+      if (values.length === flag) {
         values.forEach((data) => {
-          logger.debug('4');
           communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
           data.username, data.role, (error, message) => {
             if (message) {
               valueExist += 1;
-              // logger.debug(valueExist);
             } else {
-              // done(message);
-
               valueExist += 0;
             }
           });
         });
         setTimeout(() => {
           if (valueExist === values.length) {
-            logger.debug('4a1');
-            done('Member detail already exist with same role');
-          } else{
-            logger.debug('4a2');
-            communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, done);
+            logger.debug('check details');
+            communityMembershipService.removeMembersFromCommunity(domainName, values, done);
+          } else {
+            done({ error: 'Member detail already exist' });
           }
-        }, 1000);
+        }, 100);
       } else {
-        done('This domain doesnot have this role');
+        done('Value of username and role cannot be empty');
       }
     } else {
-      done('Value of username and role cannot be empty');
+      done('URI parameter cannot be empty.....');
     }
   } else {
-    done('URI parameter cannot be empty.....');
+    done('Body data cannot be empty');
   }
 }
 
-*/
-// get particular Community members Details
+
+/**
+ *get particular Community members Detail
+ *
+ * GET REQUEST
+ *
+ *
+ */
 
 function getParticularCommunityMembersDetails(domainName, done) {
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
+/**
+ *Modify role of a members in a community
+ *
+ * PATCH REQUEST
+ *
+ *
+ */
 
-// check member availability
-
-function checkCommunityToUpdateMembersDetail(data, done) {
-  communityMembershipService.checkCommunityToUpdateMembersDetail(data.domain,
-    data.username, data.role, done);
+function modifyRoleOfMembersFromCommunity(domainName, values, done) {
+  let flag = 0;
+  let roleExist = 0;
+  let valueExist = values.length;
+  let dataExist = 0;
+  if (values.length > 0) {
+    if (domainName) {
+      values.forEach((data) => {
+        if (data.username && data.role) {
+          flag += 1;
+        } else {
+          flag += 0;
+        }
+      });
+      if (values.length === flag) {
+        values.forEach((data) => {
+          communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
+            if (message) {
+              roleExist += 1;
+            } else {
+              roleExist += 0;
+            }
+          });
+        });
+        setTimeout(() => {
+          if (roleExist === values.length) {
+            values.forEach((data) => {
+              communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
+              data.username, data.role, (error, message) => {
+                if (message) {
+                  valueExist += 1;
+                } else {
+                  valueExist -= 1;
+                }
+              });
+            }); setTimeout(() => {
+              if (valueExist === 0) {
+                values.forEach((data) => {
+                  communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
+                 data.username, (error, message) => {
+                   if (message) {
+                     dataExist += 1;
+                   } else {
+                     dataExist += 0;
+                   }
+                 });
+                });
+              }
+              setTimeout(() => {
+                if (dataExist === values.length) {
+                  communityMembershipService.modifyRoleOfMembersFromCommunity(domainName,
+                 values, done);
+                } else {
+                  done('Data not exist');
+                }
+              }, 100);
+            }, 100);
+          } else {
+            done('Role doesnot availability for this community');
+          }
+        }, 100);
+      } else {
+        done('Data cannot be empty');
+      }
+    } else {
+      done('URI param cannot be empty');
+    }
+  } else {
+    done('Body data cannot be empty');
+  }
 }
 
 module.exports = {
   addMembersToCommunity,
   removeMembersFromCommunity,
-  // modifyRoleOfMembersFromCommunity,
+  modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
-  checkCommunityToUpdateMembersDetail,
 };

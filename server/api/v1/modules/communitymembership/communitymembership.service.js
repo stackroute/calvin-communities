@@ -1,5 +1,11 @@
 const model = require('cassandra-driver');
 
+/**
+ * db config details from config.js
+ *
+ *
+ */
+
 const connectionString = require('../../../../config').connectionString;
 
 const logger = require('../../../../logger');
@@ -12,6 +18,13 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
+/**
+ *Add memebers to the community
+ *
+ * POST REQUEST
+ *
+ *
+ */
 
 function addMembersToCommunity(domainName, data, done) {
   const arr = [];
@@ -21,18 +34,24 @@ function addMembersToCommunity(domainName, data, done) {
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      logger.debug('no error');
+      logger.debug('Member added');
       done(undefined);
     } else {
-      logger.debug(err);
       done(err);
     }
   });
 }
 
+
+/**
+ *Remove members from a community
+ *
+ * DELETE REQUEST
+ *
+ *
+ */
+
 function removeMembersFromCommunity(domainName, data, done) {
-  // logger.debug('hi');
-  logger.debug('7');
   const arr = [];
   const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE username =? AND domain = ?  IF EXISTS`);
   data.forEach((val) => {
@@ -40,49 +59,52 @@ function removeMembersFromCommunity(domainName, data, done) {
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      logger.debug('8');
-      // logger.debug('no error');
-      // done({ message: 'Deleted' });
+      logger.debug('Member deleted');
       done(undefined);
     } else {
-      // logger.debug(err);
       done(err);
     }
   });
 }
 
 
-// Update role of members in a community
-/*
+/**
+ *Modify role of a members in a community
+ *
+ * PATCH REQUEST
+ *
+ *
+ */
+
 function modifyRoleOfMembersFromCommunity(domainName, data, done) {
-  logger.debug('you can modify role');
   const arr = [];
-  const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE}
-  SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? IF EXISTS `);
+  const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? IF EXISTS `);
   data.forEach((val) => {
     arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
   });
-  logger.debug(query);
-  return client.batch(arr, { prepare: true }, (err, message) => {
-    logger.debug(query);
+  return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      logger.debug('no error');
-      done(undefined, message);
+      logger.debug('Role modified');
+      done(null);
     } else {
-      logger.debug(err);
-      done(err, undefined);
+      done(err);
     }
   });
 }
-*/
 
-// Get particular Community members
+
+/**
+ *get particular Community members Detail to check availability
+ *
+ *
+ *
+ *
+ */
 function checkCommunityToUpdateMembersDetail(domainName, userName, memberRole, done) {
   const query = `SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND username = '${userName}' AND role='${memberRole.toLowerCase()}' ALLOW FILTERING`;
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        logger.debug('5');
         done(undefined, { message: 'User Exist you can modify the data' });
       } else {
         done({ error: 'Please enter a valid domain and username name' }, undefined);
@@ -94,15 +116,44 @@ function checkCommunityToUpdateMembersDetail(domainName, userName, memberRole, d
 }
 
 
-// Get particular Community members Details
+/**
+ *get particular Community members Detail to check user availability
+ *
+ *
+ *
+ *
+ */
+
+function checkCommunityToUpdateMembersDetails(domainName, userName, done) {
+  const query = `SELECT domain,username FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND username = '${userName}' `;
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      if (results.rows.length > 0) {
+        done(undefined, { message: 'User Exist you can modify the data' });
+      } else {
+        done({ error: 'Please enter a valid domain and username name' }, undefined);
+      }
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
+    }
+  });
+}
+
+
+/**
+ *get particular Community members Detail
+ *
+ * GET REQUEST
+ *
+ *
+ */
 
 
 function getParticularCommunityMembersDetails(domainName, done) {
   const query = `SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' `;
-  logger.debug(query);
   return client.execute(query, (err, results) => {
-    logger.debug(query);
     if (!err) {
+      logger.debug('Member details received');
       done(undefined, { domain: domainName, MemberDetails: results.rows });
     } else {
       done(err, undefined);
@@ -113,7 +164,8 @@ function getParticularCommunityMembersDetails(domainName, done) {
 module.exports = {
   addMembersToCommunity,
   removeMembersFromCommunity,
-  // modifyRoleOfMembersFromCommunity,
+  modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
   checkCommunityToUpdateMembersDetail,
+  checkCommunityToUpdateMembersDetails,
 };

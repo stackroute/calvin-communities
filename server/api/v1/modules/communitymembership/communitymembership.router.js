@@ -17,15 +17,12 @@ const router = express.Router();
 router.post('/:domain/members', (req, res) => {
   try {
     const values = req.body;
-
-    logger.debug(values);
     const domainName = req.params.domain;
-    logger.debug(domainName);
     communityMembershipCtrl.addMembersToCommunity(domainName, values, (err) => {
       if (err) {
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send({ message: 'Member added' });
+      return res.status(200).send({ message: 'Member added' });
     });
   } catch (err) {
     logger.debug('Unexpected error in inserting values ', err);
@@ -46,18 +43,13 @@ router.delete('/:domain/members', (req, res) => {
   try {
     const values = req.body;
     const domainName = req.params.domain;
-    logger.debug('1');
     communityMembershipCtrl.removeMembersFromCommunity(domainName, values, (err) => {
       if (err) {
-        logger.debug('error in removing');
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      // logger.debug('error in Deleting');
-      logger.debug('9');
-      return res.send({ message: 'Member deleted' });
+      return res.status(200).send({ message: 'Member deleted' });
     });
   } catch (err) {
-        // logger.debug('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
@@ -70,51 +62,23 @@ router.delete('/:domain/members', (req, res) => {
  *  - username:specify a specific user name and domain :specify a community to update role
  *
  */
-/*
+
 router.patch('/:domain/members', (req, res) => {
   try {
     const values = req.body;
     const domainName = req.params.domain;
-    logger.debug('1');
-    communityMembershipCtrl.modifyRoleOfMembersFromCommunity(domainName, values, (err, message) => {
+    communityMembershipCtrl.modifyRoleOfMembersFromCommunity(domainName, values, (err) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' }, null);
+        return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
-      return res.send(undefined, message);
+      return res.status(200).send({ message: 'Role modified' });
     });
   } catch (err) {
         // logger.debug('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
-*/
 
-/*
- * Effective URI of the API is GET /:domain/memberscheck
- *
- * API for checking avilability
- *
- * URL Parameter
- *  -  domain: specify a specific community Name to get detail of a particular member
- *
- */
-
-router.get('/:domain/memberscheck', (req, res) => {
-  try {
-    const domainName = req.params.domain;
-    communityMembershipCtrl.checkCommunityToUpdateMembersDetail(domainName, (err, results) => {
-      if (err) {
-        return res.status(404).send(err);
-      }
-
-      return res.send(results);
-    });
-  } catch (err) {
-        // logger.debug('Unexpected error in fetching community roles ', err);
-    return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
-  }
-  return null;
-});
 
 /*
  * Effective URI of the API is GET /member/:domain/communities/role
@@ -129,7 +93,6 @@ router.get('/:domain/memberscheck', (req, res) => {
 router.get('/:domain/members', (req, res) => {
   try {
     const domainName = req.params.domain;
-    logger.debug('Inside router /:domain/members', domainName);
     communityMembershipCtrl.getParticularCommunityMembersDetails(domainName, (err, results) => {
       if (err) {
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
