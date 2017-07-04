@@ -1,3 +1,4 @@
+
 /* const async = require('async');
 
 const kafka = require('kafka-node');
@@ -10,27 +11,24 @@ let client,
   options,
   consumer;
 
-const allTopics = [{ topic: 'topic1' }];
-
 function baseConsumer(topics, done) {
   async.waterfall([
-
-    function (done) {
+    function(done) {
       client = require('../../config').client;
 
       options = require('../../config').options;
 
       done(null, client, options, topics);
     },
-    function (client, options, topics, done) {
+    function(client, options, topics, done) {
       consumer = new Consumer(client, topics, options);
 
       done(null, consumer);
     },
-    function (consumer, done) {
+    function(consumer, done) {
       consumer.on('message', (message) => {
         logger.debug('value is', message);
-                 // done(null,message);
+        // done(null,message);
       });
 
       consumer.on('error', (err) => {
@@ -46,15 +44,6 @@ function baseConsumer(topics, done) {
     return done(undefined, res);
   });
 }
-
-baseConsumer(allTopics, (error, result) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('result', result);
-  }
-});
-
 
 module.exports = {
   baseConsumer,
