@@ -1,4 +1,4 @@
-const kafkaNode = require('kafka-node');
+/*const kafkaNode = require('kafka-node');
 const HighLevelProducer = kafkaNode.HighLevelProducer;
 
 function publishToTopic(topic, msgs, callback) {
@@ -20,7 +20,7 @@ function publishToTopic(topic, msgs, callback) {
         callback(err);
         return;
       }
-      console.log("What is the result: ", result);
+      // console.log("What is the result: ", result);
       callback(null, result);
     });
   });
@@ -33,3 +33,4 @@ function publishToTopic(topic, msgs, callback) {
 module.exports = {
   publishToTopic
 };
+*/
