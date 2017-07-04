@@ -1,1 +1,5 @@
-module.exports = require('./baseConsumer');
+
+
+/* module.exports = require('./baseConsumer');
+*/
+

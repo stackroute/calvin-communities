@@ -138,8 +138,8 @@ describe('get/ post/ patch community ', () => {
     .post(`/api/v1/communities/${data.domain}`)
     .send(data)
     .then((result) => {
-      result.body[0].domain.should.be.equal(data.domain);
-      result.body[0].owner.should.be.equal(data.owner);
+      result.body.domain.should.be.equal(data.domain);
+      result.body.owner.should.be.equal(data.owner);
       result.status.should.be.equal(201);
       done();
     })
@@ -159,8 +159,8 @@ describe('get/ post/ patch community ', () => {
     .post(`/api/v1/communities/${insertmandatory.domain}`)
     .send(insertmandatory)
     .then((result) => {
-      result.body[0].domain.should.be.equal(insertmandatory.domain);
-      result.body[0].owner.should.be.equal(insertmandatory.owner);
+      result.body.domain.should.be.equal(insertmandatory.domain);
+      result.body.owner.should.be.equal(insertmandatory.owner);
       result.status.should.be.equal(201);
       done();
     })
@@ -178,7 +178,7 @@ describe('get/ post/ patch community ', () => {
     request
     .get(`/api/v1/communities/${data.domain}`)
     .then((result) => {
-      result.body[0].domain.should.be.equal(data.domain);
+      result.body.domain.should.be.equal(data.domain);
       result.status.should.be.equal(200);
       done();
     })
@@ -215,8 +215,8 @@ describe('get/ post/ patch community ', () => {
     .patch(`/api/v1/communities/${data.domain}`)
     .send(editdata)
     .then((result) => {
-      result.body[0].domain.should.be.equal(data.domain);
-      result.body[0].updatedby.should.be.equal(editdata.updatedby);
+      result.body.domain.should.be.equal(data.domain);
+      result.body.updatedby.should.be.equal(editdata.updatedby);
       result.status.should.be.equal(202);
       done();
     })
@@ -235,8 +235,8 @@ describe('get/ post/ patch community ', () => {
     .patch(`/api/v1/communities/${data.domain}`)
     .send(edittags)
     .then((result) => {
-      result.body[0].domain.should.be.equal(data.domain);
-      result.body[0].updatedby.should.be.equal(edittags.updatedby);
+      result.body.domain.should.be.equal(data.domain);
+      result.body.updatedby.should.be.equal(edittags.updatedby);
       result.status.should.be.equal(202);
       done();
     })

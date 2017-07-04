@@ -1,5 +1,7 @@
 FROM mhart/alpine-node
 
+RUN apk add --no-cache python build-base
+
 RUN mkdir -p /usr/src/
 
 WORKDIR /usr/src/

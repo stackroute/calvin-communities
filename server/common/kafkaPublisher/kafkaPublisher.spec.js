@@ -1,4 +1,5 @@
-const chai = require('chai');
+
+/*const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
 
@@ -16,7 +17,7 @@ let arr = [];
 describe('Publishment of data', () => {
   before(() => {
 /*    consumer.removeTopics(['test'], function(err, removed) {});
-    consumer.addTopics(['test'], function(err, added) {});*/
+    consumer.addTopics(['test'], function(err, added) {});
     publish.publishToTopic('test','hi',(err,res)=>{
       if(err){console.log("err");}
       else{console.log(res);}
@@ -48,6 +49,7 @@ describe('Publishment of data', () => {
 return null;
  });
   after(() => {
-/*    consumer.removeTopics(['test'], function(err, removed) {});*/
+/*    consumer.removeTopics(['test'], function(err, removed) {});
   });
-});
+});*/
+

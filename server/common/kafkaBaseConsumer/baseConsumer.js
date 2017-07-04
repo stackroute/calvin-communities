@@ -1,49 +1,63 @@
-const async = require('async');
+ const async = require('async');
 
-const kafka = require('kafka-node');
+ const kafka = require('kafka-node');
 
-const logger = require('../../logger');
+ const logger = require('../../logger');
 
-const Consumer = kafka.Consumer;
+ const Consumer = kafka.Consumer;
 
-let client,
-  options,
-  consumer;
 
-function baseConsumer(topics, done) {
-  async.waterfall([
-    function(done) {
-      client = require('../../config').client;
+ let client,
+     options,
+     messages = '',
+     consumer;
 
-      options = require('../../config').options;
+ function getConnection(topics, done) {
+     client = require('../../config').client;
 
-      done(null, client, options, topics);
-    },
-    function(client, options, topics, done) {
-      consumer = new Consumer(client, topics, options);
+     options = require('../../config').options;
 
-      done(null, consumer);
-    },
-    function(consumer, done) {
-      consumer.on('message', (message) => {
-        logger.debug('value is', message);
-        // done(null,message);
-      });
+     done(null, client, options, topics);
+ }
 
-      consumer.on('error', (err) => {
-        done(err, null);
+ function subscribeToTopic(client, options, topics, done) {
+     consumer = new Consumer(client, topics, options);
 
-        logger.debug('error', err);
-      });
-    },
-  ], (err, res) => {
-    if (err) {
-      return done(err, null);
-    }
-    return done(undefined, res);
-  });
-}
+     done(null, consumer);
+ }
 
-module.exports = {
-  baseConsumer,
-};
+ function onMessage(consumer, done) {
+     consumer.on('message', (message) => {
+         logger.debug('value is', message);
+         // done(null,message);return;
+         messages = message;
+     });
+
+     consumer.on('error', (err) => {
+         return done(err, null);
+
+         logger.debug('error', err);
+     });
+     setTimeout(() => {
+         return done(null, messages);
+     }, 1000);
+ }
+
+ function baseConsumer(topics, done) {
+     async.waterfall([
+         getConnection.bind(null, topics),
+         subscribeToTopic,
+         onMessage,
+     ], (err, res) => {
+         // console.log("result is",res);
+         if (err) {
+             return done(err, null);
+         }
+         return done(undefined, res);
+     });
+ }
+
+
+ module.exports = {
+     baseConsumer,
+ };
