@@ -61,7 +61,7 @@ function getTemplateDetails(community) {
     // Adding admin as a member, data for addMembers
   const members = {
     username: community.owner,
-    role: 'admin',
+    role: 'Owner',
   };
 
     // getting tools data from specified template for addTools
