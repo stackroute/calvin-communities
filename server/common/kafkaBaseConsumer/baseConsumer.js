@@ -6,6 +6,7 @@
 
  const Consumer = kafka.Consumer;
 
+const allTopics = [{ topic: 'topic1' }];
 
  let client,
      options,
@@ -39,7 +40,7 @@
          logger.debug('error', err);
      });
      setTimeout(() => {
-         return done(null, messages);
+         return done(null, messages.value);
      }, 1000);
  }
 
@@ -49,7 +50,6 @@
          subscribeToTopic,
          onMessage,
      ], (err, res) => {
-         // console.log("result is",res);
          if (err) {
              return done(err, null);
          }
@@ -57,6 +57,14 @@
      });
  }
 
+baseConsumer(allTopics,(err,res)=>{
+  if(err){
+    console.log("error",err);
+  }
+  else{
+    console.log("result obtained is",res);
+  }
+});
 
  module.exports = {
      baseConsumer,
