@@ -13,6 +13,6 @@ navigation = [
     { link: 'trending', label: 'Trending Communities' },
     { link: 'topics', label: 'Common Topics' },
     { link: 'populartools', label: 'Popular Tools' },
+    { link: 'search', label: 'Search(temporary)'},
   ];
-
 }

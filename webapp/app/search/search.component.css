@@ -1,10 +1,7 @@
-.rightpush {
-	text-align: right;
-}
-.search {
-	text-align: center;
+.top-gap {
+	margin-top: 30px;
 }
 
-table {
-	margin: auto;
+.full-width {
+	width: 100%;
 }
