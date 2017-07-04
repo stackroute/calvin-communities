@@ -1,0 +1,14 @@
+md-sidenav {
+	width: 300px;
+  max-width: 300px;
+}
+
+.logo {
+	margin-left: 20px;
+	height: 60%;
+}
+
+
+#sidebar-logo {
+	height: 60%;
+}

@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TopBarComponent } from './topbar/topbar.component';
 import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TrendingComponent } from './trending/trending.component';
@@ -28,7 +27,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   SearchComponent,
   ManageCommunityComponent,
   NotifyComponent,
-  TopBarComponent,
   ContentComponent
   ],
   imports: [

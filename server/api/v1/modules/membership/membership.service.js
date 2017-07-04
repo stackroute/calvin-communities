@@ -9,7 +9,7 @@ const client = new model.Client({
   protocolOptions: { port: connectionString.port },
   keyspace: connectionString.keyspace,
 });
-
+/*
 // Add member to the community
 function addedMemberToCommunity(params, done) {
   const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role) values('${params.userName}','${params.domainName}','${params.role}')`);
@@ -21,7 +21,7 @@ function addedMemberToCommunity(params, done) {
     }
   });
 }
-
+*/
 // Get particular member with all community details
 function getParticularMemberDetailInCommunities(userName, done) {
   const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${userName}' `;
@@ -33,7 +33,7 @@ function getParticularMemberDetailInCommunities(userName, done) {
     }
   });
 }
-
+/*
 // Modify role of a member in a community
 function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
   const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role = '${memberRole}' WHERE domain = '${params.domainName}' AND username ='${params.userName}' IF EXISTS `);
@@ -57,10 +57,10 @@ function removeMemberFromCommunity(params, done) {
     }
   });
 }
-
+*/
 module.exports = {
-  addedMemberToCommunity,
+  //addedMemberToCommunity,
   getParticularMemberDetailInCommunities,
-  modifyRoleOfMemberFromCommunity,
-  removeMemberFromCommunity,
+  //modifyRoleOfMemberFromCommunity,
+  //removeMemberFromCommunity,
 };

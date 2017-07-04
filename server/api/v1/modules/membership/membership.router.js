@@ -4,6 +4,7 @@ const membershipCtrl = require('./membership.controller');
 
 const router = express.Router();
 
+
 /*
  * Effective URI of the API is POST /community/member/role
  *
@@ -12,7 +13,7 @@ const router = express.Router();
  *
  *
  */
-
+/*
 router.post('/member/community/role', (req, res) => {
   try {
     const values = req.body;
@@ -29,7 +30,7 @@ router.post('/member/community/role', (req, res) => {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
-
+*/
 /*
  * Effective URI of the API is GET /member/:username/communities/role
  *
@@ -41,7 +42,7 @@ router.post('/member/community/role', (req, res) => {
  */
 
 
-router.get('/member/:username/communities', (req, res) => {
+router.get('/:username/communities', (req, res) => {
   try {
     const userName = req.params.username;
     membershipCtrl.getParticularMemberDetailInCommunities(userName, (err, results) => {
@@ -66,7 +67,7 @@ router.get('/member/:username/communities', (req, res) => {
  *  - username:specify a specific user name and domain :specify a community to update role
  *
  */
-
+/*
 router.patch('/community/:domain/role/member/:username', (req, res) => {
   try {
     const params = {
@@ -86,7 +87,7 @@ router.patch('/community/:domain/role/member/:username', (req, res) => {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
-
+*/
 /*
  * Effective URI of the API is Delete /remove/member/:username/community/:domain/role
  *
@@ -95,7 +96,7 @@ router.patch('/community/:domain/role/member/:username', (req, res) => {
  *  - username:  specify a specific user name and domain : specify a community to delete a member
  *
  */
-
+/*
 router.delete('/removemember/:username/community/:domain', (req, res) => {
   try {
     const params = {
@@ -114,5 +115,5 @@ router.delete('/removemember/:username/community/:domain', (req, res) => {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
-
+*/
 module.exports = router;

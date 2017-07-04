@@ -31,7 +31,8 @@ function addMembersToCommunity(domainName, data, done) {
 }
 
 function removeMembersFromCommunity(domainName, data, done) {
-  logger.debug('hi');
+  // logger.debug('hi');
+  logger.debug('7');
   const arr = [];
   const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE username =? AND domain = ?  IF EXISTS`);
   data.forEach((val) => {
@@ -39,10 +40,12 @@ function removeMembersFromCommunity(domainName, data, done) {
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      logger.debug('no error');
-      done({ message: 'Deleted' });
+      logger.debug('8');
+      // logger.debug('no error');
+      // done({ message: 'Deleted' });
+      done(undefined);
     } else {
-      logger.debug(err);
+      // logger.debug(err);
       done(err);
     }
   });
@@ -50,11 +53,12 @@ function removeMembersFromCommunity(domainName, data, done) {
 
 
 // Update role of members in a community
-
+/*
 function modifyRoleOfMembersFromCommunity(domainName, data, done) {
   logger.debug('you can modify role');
   const arr = [];
-  const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? IF EXISTS `);
+  const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE}
+  SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? IF EXISTS `);
   data.forEach((val) => {
     arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
   });
@@ -70,7 +74,7 @@ function modifyRoleOfMembersFromCommunity(domainName, data, done) {
     }
   });
 }
-
+*/
 
 // Get particular Community members
 function checkCommunityToUpdateMembersDetail(domainName, userName, memberRole, done) {
@@ -78,6 +82,7 @@ function checkCommunityToUpdateMembersDetail(domainName, userName, memberRole, d
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
+        logger.debug('5');
         done(undefined, { message: 'User Exist you can modify the data' });
       } else {
         done({ error: 'Please enter a valid domain and username name' }, undefined);
@@ -108,7 +113,7 @@ function getParticularCommunityMembersDetails(domainName, done) {
 module.exports = {
   addMembersToCommunity,
   removeMembersFromCommunity,
-  modifyRoleOfMembersFromCommunity,
+  // modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
   checkCommunityToUpdateMembersDetail,
 };

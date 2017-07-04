@@ -43,7 +43,7 @@ router.post('/:domain', (req, res) => { // eslint-disable-line consistent-return
         logger.error('Error in communityCtrl.addcommunity error: ', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
-      return res.status(201).send(results);
+      return res.status(201).jsonp(results[0]);
     });
   } catch (err) {
     logger.error('Unexpected error in adding community ', err);
@@ -73,7 +73,7 @@ router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
       if (results.length === 0) {
         return res.send({ message: 'this domain is available for registration' });
       }
-      return res.send(results);
+      return res.jsonp(results[0]);
     });
   } catch (err) {
     logger.error('Unexpected error in fetching community data ', err);
@@ -96,7 +96,7 @@ router.patch('/:domain', (req, res) => { // eslint-disable-line consistent-retur
         logger.error('Error in communityCtrl.updatecommunity error:', err);
         return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
       }
-      return res.status(202).send(results);
+      return res.status(202).jsonp(results[0]);
     });
   } catch (err) {
     logger.error('Unexpected error in patching community ', err);

@@ -25,8 +25,8 @@ function publishToTopic(topic, msgs, callback) {
     });
   });
 
-  /*producer.on('error', function(err) {
-   });*/
+  producer.on('error', function(err) {
+   });
 
 }
 

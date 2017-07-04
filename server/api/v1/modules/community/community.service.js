@@ -73,9 +73,13 @@ function updateCommunity(param, done) {
   const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
     visibility = ? , tags = ? , updatedby = ? , status = ? , updatedon = dateof(now()) where domain = ? `);
 
-  return client.execute(query, param, (err) => {
-    if (err) return done(err, undefined);
-    return getCommunity(param[7], done);
+  return client.execute(`SELECT * FROM ${tableCommunities} where domain = ?`, [param[7]], (error, data) => {
+    if (!_.isEmpty(data.rows)) {
+      return client.execute(query, param, (err) => {
+        if (err) return done(err, undefined);
+        return getCommunity(param[7], done);
+      });
+    } return done('Domain Doesn\'t Exist', undefined);
   });
 }
 
