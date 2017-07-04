@@ -35,7 +35,7 @@ function getTools(domainName, done) {
 
 function getToolsForDeletion(domainName, value, done) {
   let count = false;
-  const query = (`SELECT domains from ${TOOL_TABLE} WHERE domain='${domainName.toLowerCase()}';`);
+  const query = (`SELECT domains from ${TOOL_TABLE} WHERE toolid='${domainName.toLowerCase()}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {

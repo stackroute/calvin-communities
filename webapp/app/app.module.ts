@@ -14,8 +14,8 @@ import { SearchComponent } from './search/search.component';
 import { NotifyComponent } from './notify/notify.component';
 import { ManageCommunityComponent } from './managecommunity/managecommunity.component';
 import { MaterialModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [

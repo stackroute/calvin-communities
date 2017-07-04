@@ -1,40 +1,37 @@
 
 /* const chai = require('chai');
+
+// const should = chai.should(); // eslint-disable-line no-unused-vars
+
 const request = require('supertest');
 
 const kafka = require('kafka-node');
 
-const Consumer = kafka.Consumer;
+const allTopics = [{ topic: 'topic1' }];
 
-// const data = 'event consumed';
+const Consumer = require('./baseConsumer');
+
+const publish = require('../kafkaPublisher/kafkaPublisher');
 
 describe('consuming the event', () => {
-  it('consumer should consume the event', (done) => {
-    let  Producer = kafka.Producer,
-      KeyedMessage = kafka.KeyedMessage,
-      client = new kafka.Client(),
-      producer = new Producer(client),
-      payloads = [
-        { topic: 'topic1', messages: 'event consumed', partition: 0 },
-      ];
-    producer.on('ready', function() {
-      producer.send(payloads, function(err, data) {
-        console.log("payload here is", payloads);
-       // console.log("data here is", data);
-        // payloads[0].messages.should.be.equal('event consumed');
-      });
-      return done(null, payloads);
+    before(() => {
+    	 publish.publishToTopic('topic1','hi',(err,res)=>{
+      if(err){console.log("err");}
+      else{console.log(res);}
     });
+});
 
-    producer.on('error', function(err) {
-      console.log(err);
-      return done(err,null);
-    })
+    it('consumer should consume the messages from the topic',(done) =>{
+  	Consumer.baseConsumer(allTopics,(err,res)=>{
+  		if(err){
 
-  });
-  return null;
-  after(() =>{
-  	Consumer.baseConsumer()
+  			return setTimeout(done(err,null),1000);
+  		}
+  		console.log("result",res);
+  			return setTimeout(done(null,res),1000);
+
+  	})
+  	return setTimeout(done,2000);
   })
 });
 */

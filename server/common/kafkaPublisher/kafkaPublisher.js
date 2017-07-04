@@ -20,7 +20,7 @@ function publishToTopic(topic, msgs, callback) {
         callback(err);
         return;
       }
-      console.log("What is the result: ", result);
+      // console.log("What is the result: ", result);
       callback(null, result);
     });
   });
