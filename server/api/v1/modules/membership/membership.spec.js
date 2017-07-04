@@ -1,186 +1,162 @@
-require('chai').should();
+const chai = require('chai');
 
+const should = chai.should(); // eslint-disable-line no-unused-vars
+const expect = chai.expect;
 const app = require('../../../../app');
 
 const request = require('supertest');
 
-const membershipService = require('./membership.service');
+const values = require('./membership.testData');
 
-const testData = require('./membership.testData');
+const uri = '/api/v1/membership/';
 
-// get community member
-describe('/get member detail from database for specified community', () => {
-  it('should get member detail for specified community', (done) => {
+const model = require('cassandra-driver');
+
+const connectionString = require('../../../../config').connectionString;
+
+const client = new model.Client({
+  contactPoints: [connectionString.contact],
+  protocolOptions: { port: connectionString.port },
+  keyspace: connectionString.keyspace,
+});
+
+
+describe('Test cases for insert and update data when invite or request occured', () => {
+  before(() => {
+        // runs before all tests in this block
+    client.execute('insert into membership (domain, username, role) values(\'doctor.wipro.blr\',\'mohan\',\'Trainee-FullStack-Developer\');');
+    client.execute('insert into membership (domain, username, role) values(\'engineer.wipro.blr\', \'mohan\',\'Developer\');');
+  });
+
+/* ----------------------TEST CASE FOR GET METHOD-------------------------------------------*/
+
+    it('should get member detail for specified community', (done) => {
     request(app)
-            .get('/api/v1/members/member/Aravindh/communities')
+            .get(`${uri}member/mohan/communities`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              membershipService.getParticularMemberDetailInCommunities((error, result) => {
-                if (error) {
-                 // console.log('Got error.......');
-                  done(error);
-                  return;
-                } if (result) {
-                  // console.log('Got data.......');
-                  res.body.should.deep.equal(result.rows);
-                }
-              });
-              return done();
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('requests').a('Array');
+              done();
             });
   });
 
-    // domain is empty
+  /* ----------------------TEST CASE FOR POST METHOD-------------------------------------------*/
   it('should give error on post data in database as domain is empty', (done) => {
     request(app)
-            .post('/api/v1/membership/member/community/role')
-            .send(testData.noDomainValue)
+            .post(`${uri}member/community/role`)
+            .send(values.noDomainValue)
+            .expect(404)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              return res.body.should.deep.equal(testData.wrongData);
+              res.body.should.deep.equal(values.wrongData);
+              done();
             });
-    return done();
+    return null;
   });
 
-    // username is empty
-  it('should give error on post data in database as username property is empty', (done) => {
+    it('should give error on post data in database as username property is empty', (done) => {
     request(app)
-            .post('/api/v1/membership/member/community/role')
-            .send(testData.noUsernameValue)
+            .post(`${uri}member/community/role`)
+            .send(values.noUsernameValue)
+            .expect(404)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              return res.body.should.deep.equal(testData.wrongData);
+              res.body.should.deep.equal(values.wrongData);
+              done();
             });
-    return done();
+    return null;
   });
 
-     // Role is empty
   it('should give error on post data in database as role property is empty', (done) => {
     request(app)
-            .post('/api/v1/membership/member/community/role')
-            .send(testData.noRoleValue)
+            .post(`${uri}member/community/role`)
+            .send(values.noRoleValue)
+            .expect(404)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              return res.body.should.deep.equal(testData.wrongData);
+              res.body.should.deep.equal(values.wrongData);
+              done();
             });
-    return done();
+    return null;
   });
 
-      // All values are empty
-  it('should give error on post data in database as all values are empty', (done) => {
+    it('should post data in database', (done) => {
     request(app)
-            .post('/api/v1/membership/member/community/role')
-            .send(testData.noRoleValue)
+            .post(`${uri}member/community/role`)
+            .send(values.memberDetails1)
+            .expect(201)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              return res.body.should.deep.equal(testData.wrongData);
+              res.body.should.deep.equal(values.memberDetails);
+              done();
             });
-    return done();
+    return null;
   });
 
-    // post data in database
-  it('should post data 1 in database ', (done) => {
+/* ----------------------TEST CASE FOR PATCH METHOD-------------------------------------------*/
+    it('should update role of a member1 for a community in database, update community', (done) => {
     request(app)
-            .post('/api/v1/membership/member/community/role')
-            .send(testData.memberDetails1)
+            .patch(`${uri}community/doctor.wipro.blr/role/member/mohan`)
+            .send(values.updateRoles2)
+            .expect(201)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              return res.body.should.deep.equal(testData.memberDetails);
+              res.body.should.deep.equal(values.modified);
+              done();
             });
-    return done();
+    return null;
   });
 
-    // post data in database
-  it('should post data 2 in  database ', (done) => {
+    it('should not update when the role is empty', (done) => {
     request(app)
-           .post('/api/v1/membership/member/community/role')
-            .send(testData.memberDetails2)
+            .patch(`${uri}community/doctor.wipro.blr/role/member/mohan`)
+            .send(values.noRoleValueUpdate)
+            .expect(404)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              return res.body.should.deep.equal(testData.memberDetails);
+              res.body.should.deep.equal(values.wrongData);
+              done();
             });
-    return done();
+    return null;
   });
 
-      // post data in database
-  it('should post data 3 in database ', (done) => {
-    request(app)
-            .post('/api/v1/membership/member/community/role')
-            .send(testData.memberDetails3)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.memberDetails);
-            });
-    return done();
-  });
-
-   // patch data in database
-  it('should update role of a member for a community in database, update community', (done) => {
-    request(app)
-            .patch('/api/v1/membership/community/Wipro/role/member/Aravindh')
-            .send(testData.updateRoles1)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.modified);
-            });
-    return done();
-  });
-
-      // patch data in database
-  it('should update role of a member1 for a community in database, update community', (done) => {
-    request(app)
-            .patch('/api/v1/membership/community/Wipro/role/member/Keerthi')
-            .send(testData.updateRoles2)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.modified);
-            });
-    return done();
-  });
-
-        // patch data in database
-  it('should update role of a member2 for a community in database, update community', (done) => {
-    request(app)
-            .patch('/api/v1/membership/community/Wipro/role/member/Suresh')
-            .send(testData.noRoleValueUpdate)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              return res.body.should.deep.equal(testData.wrongData);
-            });
-    return done();
-  });
-
-   //  Delete a row from table
+  /* ----------------------TEST CASE FOR DELETE METHOD-------------------------------------------*/
   it('should delete data in database for a given domain and username', (done) => {
     request(app)
-            .delete('/api/v1/membership/removemember/Suresh/community/Wipro')
+            .delete(`${uri}removemember/mohan/community/doctor.wipro.blr`)
+            .expect(201)
             .end((err, res) => {
               if (err) {
-                return done(err);
+                done(err);
+                return;
               }
-              return res.body.should.deep.equal(testData.deleted);
+              res.body.should.deep.equal(values.deleted);
+              done();
             });
-    return done();
+    return null;
   });
-});
+
