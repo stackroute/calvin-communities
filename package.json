@@ -10,8 +10,8 @@
     "lint": "./node_modules/.bin/eslint *.js server/*.js server/api/v1/*.js server/api/v1/modules/**/*.js ",
     "e2e": "ng e2e",
     "serve": "concurrently \"ng build --watch\" \"nodemon bin/www\"",
-    "create": "node ./server/dbcreation.js",
-    "erase": "node ./server/dbcleanup.js"
+    "installdb": "node ./server/dbcreation.js",
+    "truncatedb": "node ./server/dbcleanup.js"
   },
   "private": true,
   "dependencies": {
