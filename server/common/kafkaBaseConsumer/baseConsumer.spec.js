@@ -6,36 +6,48 @@ const request = require('supertest');
 
 const kafka = require('kafka-node');
 
-const Consumer = kafka.Consumer;
+const allTopics = [{ topic: 'topic1' }];
 
-// const data = 'event consumed';
+const Consumer = require('./baseConsumer');
 
 describe('consuming the event', () => {
-  it('consumer should consume the event', (done) => {
-    let  Producer = kafka.Producer,
-      KeyedMessage = kafka.KeyedMessage,
-      client = new kafka.Client(),
-      producer = new Producer(client),
-      payloads = [
-        { topic: 'topic1', messages: 'event consumed', partition: 0 },
-      ];
-    producer.on('ready', function() {
-      producer.send(payloads, function(err, data) {
-        console.log("payload here is", payloads);
-       // console.log("data here is", data);
-        // payloads[0].messages.should.be.equal('event consumed');
-      });
-      return done(null, payloads);
+    before(() => {
+    	let kafka = require('kafka-node'),
+    Producer = kafka.Producer,
+    KeyedMessage = kafka.KeyedMessage,
+    client = new kafka.Client(),
+    producer = new Producer(client),
+    km = new KeyedMessage('key', 'message'),
+    payloads = [
+        { topic: 'topic1', messages: ['hello', 'world','sandhya here'], partition: 0 },
+        { topic: 'topic2', messages: ['hello', 'world','sandhya here', km] }
+    ];
+
+    console.log("producer",producer);
+
+producer.on('ready', function() {
+    producer.send(payloads, function(err, data) {
+        payloads.forEach((payload) => {
+            console.log("payload here is", payload.messages);
+        });
+
+        console.log("data here is", data);
     });
+});
 
-    producer.on('error', function(err) {
-      console.log(err);
-      return done(err,null);
-    })
+producer.on('error', function(err) {
+    console.log(err);
+})
+});
 
-  });
-  return null;
-  after(() =>{
-  	Consumer.baseConsumer()
+    it('consumer should consume the messages from the topic',(done) =>{
+  	Consumer.baseConsumer(allTopics,(err,res)=>{
+  		if(err){
+  			done(err,null);
+  		}
+  		else{
+  			done(null,res);
+  		}
+  	})
   })
 });
