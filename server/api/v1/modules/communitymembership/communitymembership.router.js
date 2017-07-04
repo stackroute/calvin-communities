@@ -46,10 +46,14 @@ router.delete('/:domain/members', (req, res) => {
   try {
     const values = req.body;
     const domainName = req.params.domain;
+    logger.debug('1');
     communityMembershipCtrl.removeMembersFromCommunity(domainName, values, (err) => {
       if (err) {
+        logger.debug('error in removing');
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
+      // logger.debug('error in Deleting');
+      logger.debug('9');
       return res.send({ message: 'Member deleted' });
     });
   } catch (err) {
@@ -66,11 +70,12 @@ router.delete('/:domain/members', (req, res) => {
  *  - username:specify a specific user name and domain :specify a community to update role
  *
  */
-
+/*
 router.patch('/:domain/members', (req, res) => {
   try {
     const values = req.body;
     const domainName = req.params.domain;
+    logger.debug('1');
     communityMembershipCtrl.modifyRoleOfMembersFromCommunity(domainName, values, (err, message) => {
       if (err) {
         return res.status(500).send({ error: 'Error in operation, please try later..!' }, null);
@@ -82,7 +87,7 @@ router.patch('/:domain/members', (req, res) => {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
-
+*/
 
 /*
  * Effective URI of the API is GET /:domain/memberscheck
