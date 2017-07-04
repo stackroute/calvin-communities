@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TopBarComponent } from './topbar/topbar.component';
+import { OverlayContainer } from '@angular/material';
 
 @Component({
   selector: 'calvin-root',
@@ -7,5 +7,12 @@ import { TopBarComponent } from './topbar/topbar.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+navigation = [
+    { link: 'dashboard', label: 'Dashboard' },
+    { link: 'trending', label: 'Trending Communities' },
+    { link: 'topics', label: 'Common Topics' },
+    { link: 'populartools', label: 'Popular Tools' },
+  ];
 
 }

@@ -153,16 +153,16 @@ function getCommunity(domainName, counter, done) {
       counterController.getcounter.bind(null, domainName.toLowerCase()),
     ], (err, result) => {
       if (err) return done(err);
+      /* eslint-disable no-param-reassign*/
       if (!_.isEmpty(result[1])) {
-        const counts = {
-          invitations: result[1][0].invitations,
-          members: result[1][0].members,
-          requests: result[1][0].requests,
-          tools: result[1][0].tools,
-        };
-        result[0].push(counts);
+        result[0][0].invitations = result[1][0].invitations;
+        result[0][0].members = result[1][0].members;
+        result[0][0].requests = result[1][0].requests;
+        result[0][0].tools = result[1][0].tools;
       }
+      /* eslint-disable no-param-reassign*/
       return done(undefined, result[0]);
+        // result[0].push(counts);
     });
   } else {
     communityService.getCommunity(domainName.toLowerCase(), done);

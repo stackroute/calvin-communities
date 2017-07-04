@@ -1,4 +1,4 @@
-/*const kafka = require('kafka-node'); // configs for kafka consumer
+/* const kafka = require('kafka-node'); // configs for kafka consumer
 
 const Client = kafka.Client;
 
