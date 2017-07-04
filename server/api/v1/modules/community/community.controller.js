@@ -2,6 +2,8 @@ const async = require('async');
 
 const _ = require('lodash');
 
+const logger = require('../../../../logger');
+
 const communityService = require('./community.service');
 
 const templateController = require('../communitytemplates/communitytemplate.controller');
@@ -34,6 +36,7 @@ function getAllCommunities(done) {
  */
 function getTemplateDetails(community) {
     // loading specified template
+  const status = 'Active'; // initially the community will be active by default
   const templateDetails = templateController.getTemplateOfTemplateName(community.template);
   if (templateDetails.length !== 1) {
     return -1;
@@ -47,13 +50,14 @@ function getTemplateDetails(community) {
     // CommunityCreation Data
   const com = [
     community.domain.toLowerCase(), community.name, community.purpose,
-    community.roles.concat(templateRoles),
-    community.status, community.template,
+    templateRoles,
+    status, community.template,
     (community.tags).concat(templateDetails[0].tags),
     community.owner, community.description,
-    community.avatar, community.visibility,
+    community.visibility,
     community.owner, community.owner,
   ];
+  logger.debug(com);
     // Adding admin as a member, data for addMembers
   const members = {
     username: community.owner,
@@ -106,15 +110,10 @@ function addCommunity(community, done) {
         _.has(community, 'template') &&
         _.has(community, 'purpose') &&
         _.gt(community.tags.length, 0) &&
-        _.gt(community.roles.length, 0) &&
         !_.isEmpty(community.name) &&
-        !_.isEmpty(community.name) &&
-        !_.isEmpty(community.name) &&
-        !_.isEmpty(community.name) &&
-        (
-            _.isEqual(community.status, 'Active') ||
-            _.isEqual(community.status, 'Inactive')
-        ) &&
+        !_.isEmpty(community.owner) &&
+        !_.isEmpty(community.template) &&
+        !_.isEmpty(community.purpose) &&
         (
             _.isEqual(community.visibility, 'Public') ||
             _.isEqual(community.visibility, 'Private') ||
