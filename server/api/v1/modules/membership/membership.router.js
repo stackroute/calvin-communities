@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const membershipCtrl = require('./membership.controller')
+const membershipCtrl = require('./membership.controller');
 
 
 /*
@@ -17,14 +17,15 @@ router.get('/:username', (req, res) => {
   try {
     const username = req.params.username;
     membershipCtrl.getCommunityList(username, (err, results) => {
-      if (!err) {
-        return res.send(results);
+      if (err) {
+        return res.status(500).send(err);
       }
-      return res.send("Member doesn't exist");
+      return res.send(results);
     });
   } catch (err) {
     return res.status(500).send({ error: 'Unexpected internal error...' });
   }
+  return null;
 });
 
 module.exports = router;

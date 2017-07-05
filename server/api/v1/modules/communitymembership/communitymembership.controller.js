@@ -1,6 +1,10 @@
 const communityMembershipService = require('./communitymembership.service');
 
+const membershipService = require('../membership/membership.service');
+
 const communityRoleService = require('../communityrole/communityrole.service');
+
+const async = require('async');
 
 const logger = require('../../../../logger');
 
@@ -38,7 +42,10 @@ function addMembersToCommunity(domainName, values, done) {
         });
         setTimeout(() => {
           if (valueExist === values.length) {
-            communityMembershipService.addMembersToCommunity(domainName, values, done);
+            async.parallel([
+              communityMembershipService.addMembersToCommunity.bind(null, domainName, values, done),
+              membershipService.addMemberToCommunity.bind(null, domainName, values, done),
+            ]);
           } else {
             done('Member detail already exist');
           }
@@ -62,7 +69,6 @@ function addMembersToCommunity(domainName, values, done) {
  *
  *
  */
-
 
 function removeMembersFromCommunity(domainName, values, done) {
   let flag = 0;
@@ -90,7 +96,12 @@ function removeMembersFromCommunity(domainName, values, done) {
         setTimeout(() => {
           if (valueExist === values.length) {
             logger.debug('check details');
-            communityMembershipService.removeMembersFromCommunity(domainName, values, done);
+            async.parallel([
+              communityMembershipService.removeMembersFromCommunity.bind(null,
+               domainName, values, done),
+              membershipService.removeMemberFromCommunity.bind(null,
+               domainName, values, done),
+            ]);
           } else {
             done({ error: 'Member detail already exist' });
           }
@@ -108,25 +119,12 @@ function removeMembersFromCommunity(domainName, values, done) {
 
 
 /**
- *get particular Community members Detail
- *
- * GET REQUEST
- *
- *
- */
-
-function getParticularCommunityMembersDetails(domainName, done) {
-  communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
-}
-
-/**
  *Modify role of a members in a community
  *
  * PATCH REQUEST
  *
  *
  */
-
 function modifyRoleOfMembersFromCommunity(domainName, values, done) {
   let flag = 0;
   let roleExist = 0;
@@ -177,8 +175,12 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
               }
               setTimeout(() => {
                 if (dataExist === values.length) {
-                  communityMembershipService.modifyRoleOfMembersFromCommunity(domainName,
-                 values, done);
+                  async.parallel([
+                    communityMembershipService.modifyRoleOfMembersFromCommunity.bind(null,
+                     domainName, values, done),
+                    membershipService.modifyRoleOfMemberFromCommunity.bind(null,
+                     domainName, values, done),
+                  ]);
                 } else {
                   done('Data not exist');
                 }
@@ -197,6 +199,19 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
   } else {
     done('Body data cannot be empty');
   }
+}
+
+
+/**
+ *get particular Community members Detail
+ *
+ * GET REQUEST
+ *
+ *
+ */
+
+function getParticularCommunityMembersDetails(domainName, done) {
+  communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
 module.exports = {
