@@ -153,8 +153,12 @@ function getParticularCommunityMembersDetails(domainName, done) {
   const query = `SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
-      logger.debug('Member details received');
-      done(undefined, { domain: domainName, MemberDetails: results.rows });
+      if (results.rows.length > 0) {
+        logger.debug('Member details received');
+        done(undefined, { domain: domainName, MemberDetails: results.rows });
+      } else {
+        done({ error: 'please enter a valid domain' }, undefined);
+      }
     } else {
       done(err, undefined);
     }
