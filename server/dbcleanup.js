@@ -100,7 +100,8 @@ client.connect()
 .then(() => {
   logger.debug(`table ${TABLE_COUNTER} cleared`);
   client.shutdown();
-  return logger.debug('all required tables cleared');
+  logger.debug('all required tables cleared');
+  process.exit();
 })
 .catch((err) => {
   client.shutdown();
