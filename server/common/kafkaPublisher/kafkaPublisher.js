@@ -4,7 +4,7 @@ const HighLevelProducer = kafkaNode.HighLevelProducer;
 function publishToTopic(topic, msgs, callback) {
     const client = new kafkaNode.Client();
     const producer = new HighLevelProducer(client);
-
+     msgs=JSON.stringify(msgs);
     let payloads = [{ topic: topic, messages: msgs }];
 
     //Does the topic exists or not?
@@ -28,6 +28,7 @@ function publishToTopic(topic, msgs, callback) {
     producer.on('error', function(err) {});
 
 }
+
 
 module.exports = {
     publishToTopic

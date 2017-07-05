@@ -6,7 +6,7 @@ const client = new Client('localhost:2181');
 
 
 const options = {
-  autoCommit: true,
+  autoCommit: false,
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 1024 * 1024,
 };
