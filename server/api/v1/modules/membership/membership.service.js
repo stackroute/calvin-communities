@@ -20,20 +20,14 @@ const client = new model.Client({
  *
  */
 
-function addMemberToCommunity(domainName, data, done) {
+function addMemberToCommunity(domainName, data) {
   const arr = [];
   const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon) values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
     arr.push({ query, params: [val.username, domainName.toLowerCase(), val.role.toLowerCase()] });
   });
-  return client.batch(arr, { prepare: true }, (err) => {
-    if (!err) {
-      logger.debug('Member added');
-      done(undefined);
-    } else {
-      done(err);
-    }
-  });
+  logger.debug('Adding member');
+  return client.batch(arr, { prepare: true });
 }
 
 /**
@@ -45,20 +39,13 @@ function addMemberToCommunity(domainName, data, done) {
  */
 
 
-function removeMemberFromCommunity(domainName, data, done) {
+function removeMemberFromCommunity(domainName, data) {
   const arr = [];
   const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
   data.forEach((val) => {
     arr.push({ query, params: [val.username, domainName.toLowerCase()] });
   });
-  return client.batch(arr, { prepare: true }, (err) => {
-    if (!err) {
-      logger.debug('Member deleted');
-      done(undefined);
-    } else {
-      done(err);
-    }
-  });
+  return client.batch(arr, { prepare: true });
 }
 
 /**
@@ -69,20 +56,13 @@ function removeMemberFromCommunity(domainName, data, done) {
  *
  */
 
-function modifyRoleOfMemberFromCommunity(domainName, data, done) {
+function modifyRoleOfMemberFromCommunity(domainName, data) {
   const arr = [];
   const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? `);
   data.forEach((val) => {
     arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
   });
-  return client.batch(arr, { prepare: true }, (err) => {
-    if (!err) {
-      logger.debug('Role modified');
-      done(null);
-    } else {
-      done(err);
-    }
-  });
+  return client.batch(arr, { prepare: true });
 }
 
 /**
