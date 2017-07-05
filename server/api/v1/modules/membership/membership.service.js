@@ -1,6 +1,7 @@
 const model = require('cassandra-driver');
-console.log("Reached service");
 const connectionString = require('../../../../config').connectionString;
+
+const logger = require('../../../../logger');
 
 const MEMBERSHIP_TABLE = 'membership';
 
@@ -10,65 +11,106 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-//Insert in to membership table
-function addMemberToCommunity(params, done) {
-  const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username, domain, role, createdon, updatedon)
-      values('${params.username}', '${params.domain}', '${params.role}', dateof(now()), dateof(now()))`);
+
+/**
+ *Add memeber to the community
+ *
+ * POST REQUEST
+ *
+ *
+ */
+
+function addMemberToCommunity(domainName, data, done) {
+  const arr = [];
+  const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon) values(?,?,?,dateof(now()),dateof(now()))`);
+  data.forEach((val) => {
+    arr.push({ query, params: [val.username, domainName.toLowerCase(), val.role.toLowerCase()] });
+  });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      done(undefined, { message: 'added member details' });
+      logger.debug('Member added');
+      done(undefined);
     } else {
-      done({ error: 'Unexpected internal server error...' }, undefined);
+      done(err);
     }
   });
-
 }
 
+/**
+ *Remove member from a community
+ *
+ * DELETE REQUEST
+ *
+ *
+ */
 
-  // Get community details of a particular member
-  function getCommunityList(username, done) {
-    const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${username.toLowerCase()}' `;
-    return client.execute(query, (err, results) => {
-      if (!err) {
-        if (results.rows.length > 0) {
-          // console.log(results.rows);
-          done(undefined, { user: username, domain: results.rows });
-        } else {
-          done({ error: 'please enter a valid username' }, undefined);
-        }
+
+function removeMemberFromCommunity(domainName, data, done) {
+  const arr = [];
+  const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
+  data.forEach((val) => {
+    arr.push({ query, params: [val.username, domainName.toLowerCase()] });
+  });
+  return client.batch(arr, { prepare: true }, (err) => {
+    if (!err) {
+      logger.debug('Member deleted');
+      done(undefined);
+    } else {
+      done(err);
+    }
+  });
+}
+
+/**
+ *Modify role of a member in a community
+ *
+ * PATCH REQUEST
+ *
+ *
+ */
+
+function modifyRoleOfMemberFromCommunity(domainName, data, done) {
+  const arr = [];
+  const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? `);
+  data.forEach((val) => {
+    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
+  });
+  return client.batch(arr, { prepare: true }, (err) => {
+    if (!err) {
+      logger.debug('Role modified');
+      done(null);
+    } else {
+      done(err);
+    }
+  });
+}
+
+/**
+ *get community Details of a particular member
+ *
+ * GET REQUEST
+ *
+ *
+ */
+
+function getCommunityList(username, done) {
+  const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${username}' `;
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      if (results.rows.length > 0) {
+        done(undefined, { username, communityDetails: results.rows });
       } else {
-        done(err, undefined);
+        done({ error: 'please enter a valid username' }, undefined);
       }
-    });
-  }
+    } else {
+      done(err, undefined);
+    }
+  });
+}
 
-  // Modify role of a member in a community
-  function modifyRoleInCommunity(params, memberRole, done) {
-    const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role = '${memberRole}' WHERE domain = '${params.domainName}' AND username ='${params.username}'`);
-    return client.execute(query, (err, results) => {
-      if (!err) {
-        done(undefined, results);
-      } else {
-        done(err, undefined);
-      }
-    });
-  }
-
-  // Remove member from the community
-  function deleteMemberFromCommunity(params, done) {
-    const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE domain = '${params.domainName}' AND username ='${params.userName}'`);
-    return client.execute(query, (err) => {
-      if (!err) {
-        done(undefined, { message: 'member got deleted' });
-      } else {
-        done(err, undefined);
-      }
-    });
-  }
-
-  module.exports = {
-    addMemberToCommunity,
-    getCommunityList,
-    modifyRoleInCommunity,
-    deleteMemberFromCommunity,
-  };
+module.exports = {
+  addMemberToCommunity,
+  getCommunityList,
+  modifyRoleOfMemberFromCommunity,
+  removeMemberFromCommunity,
+};

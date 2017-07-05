@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const membershipCtrl = require('./membership.controller')
+const membershipCtrl = require('./membership.controller');
 
 
 /*
@@ -25,6 +25,7 @@ router.get('/:username', (req, res) => {
   } catch (err) {
     return res.status(500).send({ error: 'Unexpected internal error...' });
   }
+  return null;
 });
 
 module.exports = router;
