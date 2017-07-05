@@ -19,13 +19,15 @@ function InsertData(dataFromBody, dataFromParams, done) {
   let flag = false;
   if ((dataFromBody.person.length) && (dataFromParams)) {
     if (dataFromParams !== 'null') {
-      if ((dataFromBody.type.toLowerCase() === 'invite' && dataFromBody.member.length > 0) || (dataFromBody.type.toLowerCase() === 'request' && dataFromBody.member === '')) {
-        if (dataFromBody.status.toLowerCase() !== 'approved' && dataFromBody.status.toLowerCase() !== 'accepted') {
-          statusstring.forEach((a) => {
-            if (dataFromBody.status.toLowerCase().includes(a)) {
-              flag = true;
-            }
-          });
+      if ((dataFromBody.type.toLowerCase() === 'invite' && dataFromBody.role.toLowerCase() !== '') || (dataFromBody.type.toLowerCase() === 'request' && dataFromBody.role.toLowerCase() === '')) {
+        if ((dataFromBody.type.toLowerCase() === 'invite' && dataFromBody.member.length > 0) || (dataFromBody.type.toLowerCase() === 'request' && dataFromBody.member === '')) {
+          if (dataFromBody.status.toLowerCase() !== 'approved' && dataFromBody.status.toLowerCase() !== 'accepted') {
+            statusstring.forEach((a) => {
+              if (dataFromBody.status.toLowerCase().includes(a)) {
+                flag = true;
+              }
+            });
+          }
         }
       }
     }
@@ -61,7 +63,7 @@ function updateStatus(params, bodyData, done) {
 
     if (flag) {
       if ((status === 'approved') && (inviteType === 'request')) {
-        if ((bodyData.member) && bodyData.member !== 'null') {
+        if ((bodyData.member) && (bodyData.member !== 'null') && (bodyData.role) && (bodyData.role !== 'null')) {
           service.statusUpdateRequest(domain, person, bodyData, done);
         } else done({ error: 'Not updated due to invalid values' }, undefined);
       } else if (((status === 'accepted') || (status === 'resent')) && (inviteType === 'invite')) {

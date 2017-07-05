@@ -30,7 +30,7 @@ describe('Test cases for insert and update data when invite or request occured',
 
 /* ----------------------TEST CASE FOR GET METHOD-------------------------------------------*/
 
-it('should get data for specified username', (done) => {
+  it('should get data for specified username', (done) => {
     request(app)
             .get(`${uri}mohan`)
             .expect('Content-Type', 'application/json; charset=utf-8')
@@ -83,5 +83,4 @@ it('should get data for specified username', (done) => {
     client.execute("DELETE FROM membership where domain='doctor.wipro.blr' and username='mohan';");
     client.execute("DELETE FROM membership where domain='engineer.wipro.blr' and username='mohan';");
   });
-
 });

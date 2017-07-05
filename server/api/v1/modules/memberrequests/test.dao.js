@@ -22,17 +22,26 @@ const data = {
   person: ['mandu@gmail.com', 'palavi@gmail.com'],
   type: 'invite',
   member: 'janaki',
-
+  role: 'moderator',
 };
 
 
 // throw error when member is there if type is request
 const member = {
-  domain: 'mercury',
   status: 'requested',
   person: ['veni@gmail.com'],
   type: 'request',
   member: 'harrri',
+  role: '',
+};
+
+// throw error when role is there if type is request
+const role = {
+  status: 'requested',
+  role: 'moderator',
+  person: ['veni@gmail.com'],
+  type: 'request',
+  member: '',
 };
 
 // throw error if member is empty for type invite
@@ -42,8 +51,19 @@ const invitemember = {
   person: ['viswa@gmail.com'],
   type: 'invite',
   member: '',
+  role: 'moderator',
 };
 
+
+// throw error if role is empty for type invite
+const inviterole = {
+  domain: 'marine',
+  status: 'invitesent',
+  person: ['viswa@gmail.com'],
+  type: 'invite',
+  member: 'susu',
+  role: '',
+};
 
 // person is empty
 
@@ -75,6 +95,7 @@ const statuswrong = {
   person: ['pooja@gmail.com'],
   type: 'invite',
   member: 'janaki',
+  role: '',
 
 };
 
@@ -86,15 +107,17 @@ const wrongtype =
     person: ['pooja@gmail.com'],
     type: 'yyyyyyyyyyy',
     member: 'janaki',
+    role: '',
 
   };
 
-// member(approver) should be empty when type is request
+// member(approver) and role should be empty when type is request
 const requestinput = {
   status: 'requested',
   person: ['amudha@gmail.com'],
   type: 'request',
   member: '',
+  role: '',
 
 };
 
@@ -105,6 +128,7 @@ const requestinput = {
 const checkrequesttype = {
   status: 'accepted',
   member: 'mani',
+  role: 'moderator',
 };
 
 // member is empty
@@ -114,11 +138,19 @@ const emptyapprover = {
   member: '',
 };
 
+// throw error when role is empty if type request
+const emptyrole = {
+  status: 'approved',
+  member: 'hari',
+  role: '',
+};
+
 // correct data for status update when the type is request
 
 const valueforrequest = {
   status: 'approved',
   member: 'hari',
+  role: 'admin',
 };
 
 // correct date for status update when the type is invite
@@ -150,4 +182,7 @@ module.exports = {
   erroroperation,
   notupdate,
   notdeleted,
+  inviterole,
+  role,
+  emptyrole,
 };
