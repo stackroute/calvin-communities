@@ -30,9 +30,9 @@ describe('Test cases for insert and update data when invite or request occured',
 
 /* ----------------------TEST CASE FOR GET METHOD-------------------------------------------*/
 
-    it('should get member detail for specified community', (done) => {
+it('should get data for specified username', (done) => {
     request(app)
-            .get(`${uri}member/mohan/communities`)
+            .get(`${uri}mohan`)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .expect(200)
             .end((err, res) => {
@@ -40,123 +40,48 @@ describe('Test cases for insert and update data when invite or request occured',
                 done(err);
                 return;
               }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('requests').a('Array');
+              expect(res.body).to.have.property('user').a('string');
+              expect(res.body).to.have.property('domain').a('Array');
               done();
             });
+    return null;
   });
-
-  /* ----------------------TEST CASE FOR POST METHOD-------------------------------------------*/
-  it('should give error on post data in database as domain is empty', (done) => {
+  it('should throw error if value is not found', (done) => {
     request(app)
-            .post(`${uri}member/community/role`)
-            .send(values.noDomainValue)
+            .get(`${uri}mohan`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
             .expect(404)
             .end((err, res) => {
               if (err) {
-                done(err);
-                return;
+                return done();
               }
-              res.body.should.deep.equal(values.wrongData);
-              done();
+              res.body.should.deep.equal(values.notFound);
+              return done();
             });
     return null;
   });
 
-    it('should give error on post data in database as username property is empty', (done) => {
+  it('should get data for specified username when username has upper cases', (done) => {
     request(app)
-            .post(`${uri}member/community/role`)
-            .send(values.noUsernameValue)
-            .expect(404)
+            .get(`${uri}mohan`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
             .end((err, res) => {
               if (err) {
                 done(err);
                 return;
               }
-              res.body.should.deep.equal(values.wrongData);
+              expect(res.body).to.have.property('user').a('string');
+              expect(res.body).to.have.property('domain').a('Array');
               done();
             });
     return null;
   });
 
-  it('should give error on post data in database as role property is empty', (done) => {
-    request(app)
-            .post(`${uri}member/community/role`)
-            .send(values.noRoleValue)
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(values.wrongData);
-              done();
-            });
-    return null;
+
+  after('', () => {
+    client.execute("DELETE FROM membership where domain='doctor.wipro.blr' and username='mohan';");
+    client.execute("DELETE FROM membership where domain='engineer.wipro.blr' and username='mohan';");
   });
 
-    it('should post data in database', (done) => {
-    request(app)
-            .post(`${uri}member/community/role`)
-            .send(values.memberDetails1)
-            .expect(201)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(values.memberDetails);
-              done();
-            });
-    return null;
-  });
-
-/* ----------------------TEST CASE FOR PATCH METHOD-------------------------------------------*/
-    it('should update role of a member1 for a community in database, update community', (done) => {
-    request(app)
-            .patch(`${uri}community/doctor.wipro.blr/role/member/mohan`)
-            .send(values.updateRoles2)
-            .expect(201)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(values.modified);
-              done();
-            });
-    return null;
-  });
-
-    it('should not update when the role is empty', (done) => {
-    request(app)
-            .patch(`${uri}community/doctor.wipro.blr/role/member/mohan`)
-            .send(values.noRoleValueUpdate)
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(values.wrongData);
-              done();
-            });
-    return null;
-  });
-
-  /* ----------------------TEST CASE FOR DELETE METHOD-------------------------------------------*/
-  it('should delete data in database for a given domain and username', (done) => {
-    request(app)
-            .delete(`${uri}removemember/mohan/community/doctor.wipro.blr`)
-            .expect(201)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(values.deleted);
-              done();
-            });
-    return null;
-  });
-
+});

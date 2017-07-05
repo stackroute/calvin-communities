@@ -6,6 +6,8 @@
 
  const deleted = { message: 'Deleted' };
 
+ const notFound = { error: 'please enter a valid username'}
+
 // correct post
  const memberDetails1 = {
    domain: 'Wipro',
@@ -84,4 +86,5 @@
    memberDetails,
    modified,
    deleted,
+   notFound
  };

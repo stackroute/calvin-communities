@@ -1,6 +1,7 @@
 const membershipService = require('./membership.service');
 
 function addMemberToCommunity(params, done) {
+
   let flag = false;
   if ((params.domain) && (params.username) && (params.role)) {
     if ((params.domain !== null) && (params.username !== null) && (params.role !== null)) {
@@ -24,6 +25,8 @@ function getCommunityList(username, done) {
   membershipService.getCommunityList(username, done);
 }
 
+
+
 function modifyRoleInCommunity(params, memberRole, done) {
   membershipService.getCommunityList(params.domain, (err) => {
     if (!err) {
@@ -32,6 +35,7 @@ function modifyRoleInCommunity(params, memberRole, done) {
     return done({ error: 'Internal Error Occured' }, undefined);
   })
 }
+
   // Remove member from the community
   function deleteMemberFromCommunity(params, done) {
     membershipService.deleteMemberFromCommunity(params, done);
