@@ -29,103 +29,105 @@ describe('get/ post/ patch community ', () => {
 * all correct data here
 *
 */
-  const data = {
-    domain: 'myfirstsingle',
-    name: 'the only app',
-    purpose: 'testing',
-    template: 'surgeon',
-    owner: 'simar',
-    status: 'Active',
-    visibility: 'Public',
-    avatar: '/abcdefg.jpg',
-    description: 'This is the first post test',
-    tags: ['this', 'aint', 'nothing'],
-    roles: ['admin', 'moderator'],
-  };
-  const editdata = {
-    name: 'Single Page',
-    status: 'Inactive',
-    visibility: 'Private',
-    avatar: 'raster.jpg',
-    updatedby: 'newpeople',
-    description: 'This is the first patch test',
-    tags: ['this', 'aint', 'nothing'],
-  };
-  const edittags = {
-    name: 'Single Page',
-    status: 'Inactive',
-    visibility: 'Private',
-    avatar: 'raster.jpg',
-    updatedby: 'nikku',
-    description: 'This is the second patch test',
-    tags: ['here', 'new', 'tags', 'players'],
-  };
-  const insertmandatory = {
-    domain: 'second',
-    name: 'the only app',
-    purpose: 'testing',
-    template: 'surgeon',
-    owner: 'simar',
-    status: 'Active',
-    visibility: 'Private',
-    tags: ['this', 'aint', 'nothing'],
-    roles: ['admin', 'moderator'],
-  };
+const alldata = {
+  name: 'a nice name',
+  domain: 'firstdomain',
+  owner: 'psharneja',
+  tags: ['one', 'two'],
+  avatar: 'wedAS.JPG',
+  description: 'this is the first community',
+  purpose: 'sports',
+  template: 'surgeon',
+  visibility: 'Public',
+
+}
+
+const domainincaps = {
+  name: 'a nice name',
+  domain: 'SECONDDOMAIN',
+  owner: 'psharneja',
+  tags: ['one', 'two'],
+  avatar: 'wedAS.JPG',
+  description: 'this is the first community',
+  purpose: 'sports',
+  template: 'surgeon',
+  visibility: 'Public',
+
+}
+
+const editdata = {
+  name:'another name',
+  updatedby: 'someone else',
+  description: 'this is now changed',
+  avatar: 'aaaa.jpg',
+  visibility: 'Private',
+  tags: ['new','data'],
+  status: 'Inactive',
+}
 
 /**
 *
 * all incorrect data here
 *
 */
-  const nonamedata = {
-    domain: 'myfirstsingle',
-    purpose: 'testing',
-    template: 'engineers',
-    owner: 'simar',
-    visibility: 'Active',
-    avatar: '/abcdefg.jpg',
-    description: 'This is the first post test',
-    tags: ['this', 'aint', 'nothing'],
-    roles: ['admin', 'moderator'],
-  };
-  const notemplatedata = {
-    domain: 'myfirstsingle',
-    purpose: 'testing',
-    owner: 'simar',
-    visibility: 'Active',
-    avatar: '/abcdefg.jpg',
-    description: 'This is the first post test',
-    tags: ['this', 'aint', 'nothing'],
-    roles: ['admin', 'moderator'],
-  };
-  const notagsdata = {
-    purpose: 'testing',
-    template: 'engineers',
-    owner: 'simar',
-    visibility: 'Public',
-    avatar: '/abcdefg.jpg',
-    description: 'This is the first post test',
-    roles: ['admin', 'moderator'],
-  };
-  const norolesdata = {
-    purpose: 'testing',
-    template: 'engineers',
-    owner: 'simar',
-    visibility: 'Public',
-    avatar: '/abcdefg.jpg',
-    description: 'This is the first post test',
-    tags: ['illuminati', 'secret'],
-  };
-  const wrongstatusdata = {
-    purpose: 'testing',
-    template: 'engineers',
-    owner: 'simar',
-    status: 'something',
-    visibility: 'Public',
-    avatar: '/abcdefg.jpg',
-    description: 'This is the first post test',
-    tags: ['illuminati', 'secret'],
-  };
+
+const wrongdomain = {
+  name: 'a nice name',
+  domain: 'firstd$,omain',
+  owner: 'psharneja',
+  tags: ['one', 'two'],
+  avatar: 'wedAS.JPG',
+  description: 'this is the first community',
+  purpose: 'sports',
+  template: 'surgeon',
+  visibility: 'Public',
+
+}
+
+const noname = {
+  domain: 'firstdomain',
+  owner: 'psharneja',
+  tags: ['one', 'two'],
+  avatar: 'wedAS.JPG',
+  description: 'this is the first community',
+  purpose: 'sports',
+  template: 'surgeon',
+  visibility: 'Public',
+}
+
+const notemplate = {
+  name: 'a newer community',
+  domain: 'firstthingdomain',
+  owner: 'psharneja',
+  tags: ['one', 'two'],
+  avatar: 'wedAS.JPG',
+  description: 'this is the first community',
+  purpose: 'sports',
+  visibility: 'Public',
+}
+
+const wrongtemplate = {
+  name: 'a newer community',
+  domain: 'firstlydomain',
+  owner: 'psharneja',
+  tags: ['one', 'two'],
+  avatar: 'wedAS.JPG',
+  template: 'sometemplate',
+  description: 'this is the first community',
+  purpose: 'sports',
+  visibility: 'Public',
+}
+
+const notags = {
+  name: 'a newer community',
+  domain: 'firstdomain',
+  owner: 'psharneja',
+  avatar: 'wedAS.JPG',
+  description: 'this is the first community',
+  purpose: 'sports',
+  template: 'surgeon',
+  visibility: 'Public',
+}
 
 /**
 
@@ -139,11 +141,11 @@ describe('get/ post/ patch community ', () => {
 
   it('should create a new community and return new community\'s data', (done) => {
     request
-    .post(`/api/v1/communities/${data.domain}`)
-    .send(data)
+    .post(`/api/v1/communities/${alldata.domain}`)
+    .send(alldata)
     .then((result) => {
-      result.body.domain.should.be.equal(data.domain);
-      result.body.owner.should.be.equal(data.owner);
+      result.body.domain.should.be.equal(alldata.domain);
+      result.body.owner.should.be.equal(alldata.owner);
       result.status.should.be.equal(201);
       done();
     })
@@ -152,20 +154,19 @@ describe('get/ post/ patch community ', () => {
     });
   });
 
-  /**
-*use POST request to create a new community with only necessary data
+/**
+*use POST request to create a new community which already exists
 *
 *
 */
-  it(`should create a new community and return new community's data for
-   only mandatory data provided`, (done) => {
+
+  it('should give an error as community already exists', (done) => {
     request
-    .post(`/api/v1/communities/${insertmandatory.domain}`)
-    .send(insertmandatory)
+    .post(`/api/v1/communities/${alldata.domain}`)
+    .send(alldata)
     .then((result) => {
-      result.body.domain.should.be.equal(insertmandatory.domain);
-      result.body.owner.should.be.equal(insertmandatory.owner);
-      result.status.should.be.equal(201);
+      result.body.error.should.equal(`Domain Already Exists`);
+      result.status.should.be.equal(500);
       done();
     })
     .catch((err) => {
@@ -180,9 +181,10 @@ describe('get/ post/ patch community ', () => {
 */
   it('should give me details for a specific community', (done) => {
     request
-    .get(`/api/v1/communities/${data.domain}`)
+    .get(`/api/v1/communities/${alldata.domain}`)
     .then((result) => {
-      result.body.domain.should.be.equal(data.domain);
+      result.body.domain.should.be.equal(alldata.domain);
+      result.body.owner.should.be.equal(alldata.owner);
       result.status.should.be.equal(200);
       done();
     })
@@ -216,11 +218,12 @@ describe('get/ post/ patch community ', () => {
 */
   it('should edit details for a specific community', (done) => {
     request
-    .patch(`/api/v1/communities/${data.domain}`)
+    .patch(`/api/v1/communities/${alldata.domain}`)
     .send(editdata)
     .then((result) => {
-      result.body.domain.should.be.equal(data.domain);
+      result.body.domain.should.be.equal(alldata.domain);
       result.body.updatedby.should.be.equal(editdata.updatedby);
+      result.body.visibility.should.be.equal(editdata.visibility);
       result.status.should.be.equal(202);
       done();
     })
@@ -230,18 +233,56 @@ describe('get/ post/ patch community ', () => {
   });
 
 /**
-*use PATCH request to edit tags for a community
+*use POST request to add a community and pass domainname in caps
 *
 *
 */
-  it('should edit details for a specific community', (done) => {
+it( `should give me details of a community for which we've passed the domain name in caps`, (done) => {
     request
-    .patch(`/api/v1/communities/${data.domain}`)
-    .send(edittags)
+    .post(`/api/v1/communities/${domainincaps.domain}`)
+    .send(domainincaps)
     .then((result) => {
-      result.body.domain.should.be.equal(data.domain);
-      result.body.updatedby.should.be.equal(edittags.updatedby);
-      result.status.should.be.equal(202);
+      result.body.domain.should.be.equal(domainincaps.domain.toLowerCase());
+      result.body.owner.should.be.equal(domainincaps.owner);
+      result.status.should.be.equal(201);
+      done();
+    })
+    .catch((err) => {
+      done(err);
+    });
+  });
+
+/**
+*use POST request to add a community and pass wrong template name
+*
+*
+*/
+it( `should give error at time of creation of community as template name doesn't exist`, (done) => {
+    request
+    .post(`/api/v1/communities/${wrongtemplate.domain}`)
+    .send(wrongtemplate)
+    .then((result) => {
+      result.body.error.should.equal(`A Template Name is supposed to be chosen from mentioned list only`);
+      result.status.should.be.equal(500);
+      done();
+    })
+    .catch((err) => {
+      done(err);
+    });
+  });
+
+/**
+*use POST request to add a community and give  wrong domainname
+*
+*
+*/
+it( `should give me error ash we've passed specialcharacters in domain name`, (done) => {
+    request
+    .post(`/api/v1/communities/${wrongdomain.domain}`)
+    .send(wrongdomain)
+    .then((result) => {
+      result.body.error.should.equal(`Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)`);
+      result.status.should.be.equal(500);
       done();
     })
     .catch((err) => {
@@ -255,10 +296,10 @@ describe('get/ post/ patch community ', () => {
 
   it('should return an error as no data is passed in body', (done) => {
     request
-    .post(`/api/v1/communities/${data.domain}`)
+    .post(`/api/v1/communities/${editdata.domain}`)
     .then((result) => {
       result.status.should.be.equal(500);
-      result.body.error.should.equal('Unexpected error occurred, try again later');
+      result.body.error.should.equal('Please pass some data to process');
       done();
     })
     .catch((err) => {
@@ -272,11 +313,11 @@ describe('get/ post/ patch community ', () => {
 
   it('should return an error as no name is passed in body with data', (done) => {
     request
-    .post(`/api/v1/communities/${data.domain}`)
-    .send(nonamedata)
+    .post(`/api/v1/communities/${noname.domain}`)
+    .send(noname)
     .then((result) => {
       result.status.should.be.equal(500);
-      result.body.error.should.equal('Unexpected error occurred, try again later');
+      result.body.error.should.equal('A Name needs to be passed');
       done();
     })
     .catch((err) => {
@@ -290,11 +331,11 @@ describe('get/ post/ patch community ', () => {
 
   it('should return an error as no template is passed in body with data', (done) => {
     request
-    .post(`/api/v1/communities/${data.domain}`)
-    .send(notemplatedata)
+    .post(`/api/v1/communities/${notemplate.domain}`)
+    .send(notemplate)
     .then((result) => {
       result.status.should.be.equal(500);
-      result.body.error.should.equal('Unexpected error occurred, try again later');
+      result.body.error.should.equal('A Template Value needs to be passed');
       done();
     })
     .catch((err) => {
@@ -302,23 +343,6 @@ describe('get/ post/ patch community ', () => {
     });
   });
 
-  /**
-*-- Post Request, should give an error, as wrong status passed
-*/
-
-  it('should return an error as wrong status is passed in body with data', (done) => {
-    request
-    .post(`/api/v1/communities/${data.domain}`)
-    .send(wrongstatusdata)
-    .then((result) => {
-      result.status.should.be.equal(500);
-      result.body.error.should.equal('Unexpected error occurred, try again later');
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
-  });
 
 /**
 *-- Patch Request, should give an error, as tags are not passed
@@ -326,29 +350,11 @@ describe('get/ post/ patch community ', () => {
 
   it('should return an error as no tags are passed in body with data', (done) => {
     request
-    .patch(`/api/v1/communities/${data.domain}`)
-    .send(notagsdata)
+    .patch(`/api/v1/communities/${notags.domain}`)
+    .send(notags)
     .then((result) => {
       result.status.should.be.equal(500);
-      result.body.error.should.equal('Unexpected error occurred, try again later');
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
-  });
-
-/**
-*-- Patch Request, should give an error, as roles are not passed
-*/
-
-  it('should return an error as no roles are passed in body with data', (done) => {
-    request
-    .patch(`/api/v1/communities/${data.domain}`)
-    .send(norolesdata)
-    .then((result) => {
-      result.status.should.be.equal(500);
-      result.body.error.should.equal('Unexpected error occurred, try again later');
+      result.body.error.should.equal('At least one Tag is required to to be passed');
       done();
     })
     .catch((err) => {
@@ -358,7 +364,7 @@ describe('get/ post/ patch community ', () => {
 
 
   after(() => {
-    client.execute('TRUNCATE calvincommunities')
+    client.execute('TRUNCATE communities')
     .then(() => { })
     .catch(() => { });
   });
