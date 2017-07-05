@@ -1,4 +1,9 @@
+const toolService = require('../../api/v1/modules/tools/tools.services')
 module.exports = function(eventMessage) {
 	console.log("Got a new community event message: ", eventMessage);
-	//Business logic to handle the event to update/manage tools will go here
+	console.log("domain",eventMessage.domain);
+	toolService.addTools( eventMessage.tools, eventMessage.domain, (err,res)=>{
+		console.log("insde the tool");
+	})
 }
+

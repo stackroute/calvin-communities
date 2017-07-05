@@ -8,7 +8,7 @@ module.exports = function(topicNameArray, consumerOptions, callback) {
   if (topicNameArray.length <= 0) {
     return;
   }
-
+console.log(callback);
   let consumerTopics = topicNameArray.map((topic) => {
     return { topic };
   });
@@ -19,6 +19,7 @@ module.exports = function(topicNameArray, consumerOptions, callback) {
 
   consumer.on('message', (messageObj) => {
     let msgDataObj = JSON.parse(messageObj.value);
+    console.log(msgDataObj.domain);
     callback(msgDataObj);
   });
 }

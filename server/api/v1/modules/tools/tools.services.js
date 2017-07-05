@@ -71,6 +71,7 @@ function updateTools(data, domainName, done) {
 }
 
 function addTools(data, domain, done) {
+  console.log('in tools service');
   const arr = [];
   let query;
   data.forEach((val) => {

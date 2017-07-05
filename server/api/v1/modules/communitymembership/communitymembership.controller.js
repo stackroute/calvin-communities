@@ -44,8 +44,12 @@ function addMembersToCommunity(domainName, values, done) {
           if (valueExist === values.length) {
             async.parallel([
               communityMembershipService.addMembersToCommunity.bind(null, domainName, values, done),
-              membershipService.addMemberToCommunity.bind(null, domainName, values, done),
-            ]);
+             // membershipService.addMemberToCommunity.bind(null, domainName, values, done),
+            ],(error,results)=>{
+          if (err){ return done(err);}
+          publishMessageToTopic(domainName, values);
+          return done(undefined, results);
+        });
           } else {
             done('Member detail already exist');
           }
@@ -212,6 +216,18 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
 
 function getParticularCommunityMembersDetails(domainName, done) {
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
+}
+
+function publishMessageToTopic(dataFromBody, dataFromURI) {
+  let message = { domain: dataFromURI, value: dataFromBody };
+  message= JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic1', message, (err, res) => {
+    if (err) {
+      console.log("error occured", err);
+    } else {
+      console.log("result is", res);
+    }
+  });
 }
 
 module.exports = {

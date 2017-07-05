@@ -12,7 +12,8 @@
     "serve": "concurrently \"ng build --watch\" \"nodemon bin/www\"",
     "installdb": "node ./server/dbcreation.js",
     "truncatedb": "node ./server/dbcleanup.js",
-    "svc.counter": "node server/counters.service"
+    "svc.counter": "node server/counters.service",
+    "svc.tool": "node server/tools.service"
   },
   "private": true,
   "dependencies": {

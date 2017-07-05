@@ -4,13 +4,14 @@ const HighLevelProducer = kafkaNode.HighLevelProducer;
 function publishToTopic(topic, msgs, callback) {
     const client = new kafkaNode.Client();
     const producer = new HighLevelProducer(client);
-     msgs=JSON.stringify(msgs);
+     // msgs=JSON.stringify(msgs);
     let payloads = [{ topic: topic, messages: msgs }];
 
     //Does the topic exists or not?
 
     producer.on('ready', function() {
         producer.send(payloads, function(err, result) {
+            console.log("published!!");
             //Close the connection
             producer.close();
             client.close();

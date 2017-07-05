@@ -8,6 +8,7 @@ const toolsService = require('../tools/tools.services');
 
 const roleService = require('../communityrole/communityrole.service');
 
+const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 // Function for Getting tools
 
@@ -43,7 +44,7 @@ function getActions(dataFromBody, done) {
 function postTools(dataFromBody, dataFromURI, done) {
   let flag = 0;
   let correctValue = 0;
-    // console.log(flag);
+  // console.log(flag);
   dataFromBody.forEach((data) => {
     if (data.toolId && data.actions && data.activityEvents) {
       if (data.toolId !== '' && data.actions !== '' && data.activityEvents !== '') {
@@ -61,16 +62,18 @@ function postTools(dataFromBody, dataFromURI, done) {
   setTimeout(() => {
     if (flag === dataFromBody.length) {
       if (correctValue === dataFromBody.length) {
-                // console.log("hii");
+        // console.log("hii");
         async.parallel([
           communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
-          toolsService.addTools.bind(null, dataFromBody, dataFromURI),
 
         ], (err) => {
           if (err) {
             return done(err);
+          } else {
+            console.log("message here");
+             publishMessageToTopic(dataFromBody, dataFromURI);
+            return done(undefined, { message: 'Updated' });
           }
-          return done(undefined, { message: 'Updated' });
         });
       } else {
         done({ error: 'Tool Exists!!' }, undefined);
@@ -97,35 +100,35 @@ function modifyTool(dataFromBody, dataFromURI, done) {
 
 function deleteAction(domainName, done) {
   communityToolService.getToolsForDeletion(domainName.domainname,
-        domainName.toolid, domainName.name, (err) => {
-          if (err) {
-            done(err, undefined);
-          } else {
-            roleService.communityToolsServiceToDeleteAction(domainName.domainname,
-                    domainName.toolid, domainName.name, (error, res) => {
-                      if (error) {
-                        done(err, undefined);
-                      } else if (res === 0) {
-                        communityToolService.deleteAction(domainName, done);
-                      } else {
-                        done({ error: 'sorry unable to delete action' }, undefined);
-                      }
-                    });
-          }
-        });
+    domainName.toolid, domainName.name, (err) => {
+      if (err) {
+        done(err, undefined);
+      } else {
+        roleService.communityToolsServiceToDeleteAction(domainName.domainname,
+          domainName.toolid, domainName.name, (error, res) => {
+            if (error) {
+              done(err, undefined);
+            } else if (res === 0) {
+              communityToolService.deleteAction(domainName, done);
+            } else {
+              done({ error: 'sorry unable to delete action' }, undefined);
+            }
+          });
+      }
+    });
 }
 
 // To delete an event from a tool
 
 function deleteEvent(domainName, done) {
   communityToolService.getToolsForEventDeletion(domainName.domain,
-        domainName.tool, domainName.name, (err) => {
-          if (err) {
-            done(err, undefined);
-          } else {
-            communityToolService.deleteEvent(domainName, done);
-          }
-        });
+    domainName.tool, domainName.name, (err) => {
+      if (err) {
+        done(err, undefined);
+      } else {
+        communityToolService.deleteEvent(domainName, done);
+      }
+    });
 }
 
 // To delete a tool
@@ -136,27 +139,35 @@ function deleteTool(domain, done) {
       done(error, undefined);
     } else {
       roleService.communityToolsServiceToDeleteTool(domain.domainname, domain.toolid,
-                (err) => {
-                  if (err) {
-                    return done({ error: 'Sorry!!Unable to delete tool!' }, undefined);
-                  }
-                  async.parallel([
-                    toolsService.deleteTools.bind(null, domain),
-                    communityToolService.deleteTools.bind(undefined, domain),
-                  ], (erro, result) => {
-                    if (err) {
-                      return done(erro);
-                    }
-                    return done(undefined, result);
-                  });
-                  return null;
-                });
+        (err) => {
+          if (err) {
+            return done({ error: 'Sorry!!Unable to delete tool!' }, undefined);
+          }
+          async.parallel([
+            toolsService.deleteTools.bind(null, domain),
+            communityToolService.deleteTools.bind(undefined, domain),
+          ], (erro, result) => {
+            if (err) {
+              return done(erro);
+            }
+            return done(undefined, result);
+          });
+          return null;
+        });
     }
   });
 }
 
-function publishMessageToTopic(dataFromBody, dataFromURI){
-let message ={tool:};
+function publishMessageToTopic(dataFromBody, dataFromURI) {
+  let message = { domain: dataFromURI, tools: dataFromBody };
+  message= JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic1', message, (err, res) => {
+    if (err) {
+      console.log("error occured", err);
+    } else {
+      console.log("result is", res);
+    }
+  });
 }
 
 // Exporting the functions to be used in router
