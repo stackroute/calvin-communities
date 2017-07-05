@@ -17,7 +17,7 @@ router.get('/', (req, res) => { // eslint-disable-line consistent-return
     communityCtrl.getAllCommunities((err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.allcommunities error: ', err);
-        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+        return res.status(500).send({ error: err });
       }
       return res.status(200).json(results);
     });
@@ -41,7 +41,7 @@ router.post('/:domain', (req, res) => { // eslint-disable-line consistent-return
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.addcommunity error: ', err);
-        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+        return res.status(500).send({ error: err });
       }
       return res.status(201).jsonp(results[0]);
     });
@@ -68,7 +68,7 @@ router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
     communityCtrl.getCommunity(req.params.domain, counter, (err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.getcommunity error: ', err);
-        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+        return res.status(500).send({ error: err });
       }
       if (results.length === 0) {
         return res.send({ message: 'this domain is available for registration' });
@@ -94,7 +94,7 @@ router.patch('/:domain', (req, res) => { // eslint-disable-line consistent-retur
     communityCtrl.updateCommunity(req.params.domain, req.body, (err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.updatecommunity error:', err);
-        return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
+        return res.status(500).send({ error: err });
       }
       return res.status(202).jsonp(results[0]);
     });
