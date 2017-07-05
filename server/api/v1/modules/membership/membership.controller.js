@@ -1,6 +1,5 @@
 const membershipService = require('./membership.service');
 
-
 /**
  *get community Details of a particular member
  *
@@ -9,9 +8,11 @@ const membershipService = require('./membership.service');
  *
  */
 
+
 function getCommunityList(username, done) {
   membershipService.getCommunityList(username, done);
 }
+
 
 module.exports = {
   getCommunityList,

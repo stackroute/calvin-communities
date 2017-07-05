@@ -17,10 +17,10 @@ router.get('/:username', (req, res) => {
   try {
     const username = req.params.username;
     membershipCtrl.getCommunityList(username, (err, results) => {
-      if (!err) {
-        return res.send(results);
+      if (err) {
+        return res.status(500).send(err);
       }
-      return res.send("Member doesn't exist");
+      return res.send(results);
     });
   } catch (err) {
     return res.status(500).send({ error: 'Unexpected internal error...' });

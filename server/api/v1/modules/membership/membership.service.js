@@ -44,6 +44,7 @@ function addMemberToCommunity(domainName, data, done) {
  *
  */
 
+
 function removeMemberFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
