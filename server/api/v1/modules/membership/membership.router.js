@@ -25,7 +25,6 @@ router.get('/:username', (req, res) => {
   } catch (err) {
     return res.status(500).send({ error: 'Unexpected internal error...' });
   }
-  return null;
 });
 
 module.exports = router;

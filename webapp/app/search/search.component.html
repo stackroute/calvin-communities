@@ -12,6 +12,8 @@
   </div>
   <div class="item item-3" fxFlex="25%" ></div>
 </div>
-<div class="container">
-	
+<div *ngIf="tiles" fxFlex="100%" fxLayoutGap="2%" fxLayoutWrap >
+<div class="list-communities" fxFlex="31%" *ngFor="let data of tiles" fx-flex-fill >
+<md-card>{{data.title}}</md-card>
+</div>
 </div>

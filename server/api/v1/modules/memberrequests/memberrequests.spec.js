@@ -26,8 +26,8 @@ const client = new model.Client({
 describe('Test cases for insert and update data when invite or request occured', () => {
   before(() => {
         // runs before all tests in this block
-    client.execute('insert into communityinviterequests (domain, person, member, status,type) values(\'doctor.wipro.blr\',\'mohan@gmail.com\',\'sandy\',\'invitesent\',\'invite\');');
-    client.execute('insert into communityinviterequests (domain, person, member, status,type) values(\'doctor.wipro.blr\', \'parkavi@gmail.com\',\'\',\'requested\',\'request\');');
+    client.execute('insert into communityinviterequests (domain,role, person, member, status,type) values(\'doctor.wipro.blr\',\'moderator\',\'mohan@gmail.com\',\'sandy\',\'invitesent\',\'invite\');');
+    client.execute('insert into communityinviterequests (domain,role, person, member, status,type) values(\'doctor.wipro.blr\',\'\',\'parkavi@gmail.com\',\'\',\'requested\',\'request\');');
   });
 
 
@@ -156,12 +156,48 @@ describe('Test cases for insert and update data when invite or request occured',
     return null;
   });
 
+  // throw error when role is there if type is request
+
+  it('should give error on post data in database when role is there if request occured', (done) => {
+    request(app)
+            .post(`${uri}art.wipro.blr`)
+            .send(values.role)
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.wrongdata);
+              done();
+            });
+    return null;
+  });
+
   // throw error if member is empty for type invite
 
   it('should give error on post data in database member is empty when invite occured', (done) => {
     request(app)
             .post(`${uri}art.wipro.blr`)
             .send(values.invitemember)
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.wrongdata);
+              done();
+            });
+    return null;
+  });
+
+  // throw error if role is empty for type invite
+
+  it('should give error on post data in database role is empty when invite occured', (done) => {
+    request(app)
+            .post(`${uri}art.wipro.blr`)
+            .send(values.inviterole)
             .expect(404)
             .end((err, res) => {
               if (err) {
@@ -228,7 +264,7 @@ describe('Test cases for insert and update data when invite or request occured',
 
 /* ----------------------TEST CASE FOR UPDATE METHOD-------------------------------------------*/
 
- // error through when status is accepted when the type is request
+ // error throw when status is accepted when the type is request
 
   it('should give error on update data in database when status is accepted while the type is request', (done) => {
     request(app)
@@ -246,7 +282,7 @@ describe('Test cases for insert and update data when invite or request occured',
     return null;
   });
 
-  // error through when member is empty for type request
+  // error throw when member is empty for type request
 
   it('should give error on update status in database when member is empty while the type is request', (done) => {
     request(app)
@@ -264,6 +300,23 @@ describe('Test cases for insert and update data when invite or request occured',
     return null;
   });
 
+// error throw when role is empty for type request
+
+  it('should give error on update status in database when role is empty while the type is request', (done) => {
+    request(app)
+            .patch(`${uri}doctor.wipro.blr/person/parkavi@gmail.com`)
+            .send(values.emptyrole)
+            .expect(404)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              res.body.should.deep.equal(values.notupdate);
+              done();
+            });
+    return null;
+  });
   // update status for request type
   it('update status in database when the type is request', (done) => {
     request(app)
@@ -316,7 +369,6 @@ describe('Test cases for insert and update data when invite or request occured',
   });
 
   /* -----------------------------TEST CASE FOR DELETE----------------------------------------*/
-
   // throw error when value for delete is not in table
   it('throw error when value for delete is not in table', (done) => {
     request(app)

@@ -2,8 +2,6 @@ const async = require('async');
 
 const _ = require('lodash');
 
-const logger = require('../../../../logger');
-
 const communityService = require('./community.service');
 
 const templateController = require('../communitytemplates/communitytemplate.controller');
@@ -36,7 +34,10 @@ function getAllCommunities(done) {
  */
 function getTemplateDetails(community) {
     // loading specified template
-  const status = 'Active'; // initially the community will be active by default
+  const status = 'Active';
+   // initially the community will be active by default
+  const ownersRole = 'Owner';
+  // Owner will be assigned thew mentioned role
   const templateDetails = templateController.getTemplateOfTemplateName(community.template);
   if (templateDetails.length !== 1) {
     return -1;
@@ -47,9 +48,15 @@ function getTemplateDetails(community) {
     templateRoles.push(data.role);
   });
 
+  if (_.has(community, 'roles')) {
+    community.roles.forEach((data) => {
+      templateRoles.push(data);
+    });
+  }
+
     // CommunityCreation Data
   const com = [
-    community.domain.toLowerCase(), community.name, community.purpose,
+    community.domain, community.name, community.avatar, community.purpose,
     templateRoles,
     status, community.template,
     (community.tags).concat(templateDetails[0].tags),
@@ -57,11 +64,11 @@ function getTemplateDetails(community) {
     community.visibility,
     community.owner, community.owner,
   ];
-  logger.debug(com);
+  // logger.debug(com);
     // Adding admin as a member, data for addMembers
   const members = {
     username: community.owner,
-    role: 'Owner',
+    role: ownersRole,
   };
 
     // getting tools data from specified template for addTools
@@ -102,43 +109,57 @@ function getTemplateDetails(community) {
  *
  *
  */
-function addCommunity(community, done) {
+function addCommunity(community, done) { // eslint-disable-line consistent-return
   let values;
-  if (_.has(community, 'name') &&
-        _.has(community, 'domain') &&
-        _.has(community, 'owner') &&
-        _.has(community, 'template') &&
-        _.has(community, 'purpose') &&
-        _.gt(community.tags.length, 0) &&
-        !_.isEmpty(community.name) &&
-        !_.isEmpty(community.owner) &&
-        !_.isEmpty(community.template) &&
-        !_.isEmpty(community.purpose) &&
-        (
-            _.isEqual(community.visibility, 'Public') ||
-            _.isEqual(community.visibility, 'Private') ||
-            _.isEqual(community.visibility, 'Moderated')
-        )
+  const nameRegex = /^([a-zA-Z0-9.]){5,20}$/;
+  if (Object.keys(community).length === 1) { return done('Please pass some data to process'); }
+  if (!community.domain.match(nameRegex)) { return done('Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)'); }
+
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done('At least one Tag is required to to be passed'); }
+
+  if (!_.has(community, 'name') || _.isEmpty(community.name)) { return done('A Name needs to be passed'); }
+
+  if (!_.has(community, 'owner') || _.isEmpty(community.owner)) { return done('An Owner value needs to be passed'); }
+
+  if (!_.has(community, 'template') || _.isEmpty(community.template)) { return done('A Template Value needs to be passed'); }
+
+  if (!_.has(community, 'purpose') || _.isEmpty(community.purpose)) { return done('A Community has to have a purpose'); }
+
+  if (!_.has(community, 'avatar') || _.isEmpty(community.avatar)) { return done('An Avatar needs to be added'); }
+
+  if (!_.has(community, 'visibility')) { return done('Visibility can be from given values only, either \'Public\', \'Private\' or \'Moderated\' '); }
+
+  if (
+     _.isEqual(community.visibility, 'Public') ||
+    _.isEqual(community.visibility, 'Private') ||
+    _.isEqual(community.visibility, 'Moderated')
     ) {
+    community.domain = community.domain.toLowerCase(); // eslint-disable-line no-param-reassign
     values = getTemplateDetails(community);
-  } else return done('Wrong Data Inputs', null);
+  } else return done('Visibility can be from given values only, either \'Public\', \'Private\' or \'Moderated\' ');
 
   if (values === -1) {
-    return done('no template found');
+    return done('A Template Name is supposed to be chosen from mentioned list only');
   }
 
-  return async.parallel([
-    communityService.addCommunity.bind(null, values[0]),
-    membershipController.addMembersToCommunity.bind(null,
-                community.domain.toLowerCase(), [values[1]]),
-    toolsController.postTools.bind(null, values[2], community.domain.toLowerCase()),
-    roleController.postCommunityRoles.bind(null, community.domain.toLowerCase(), values[3]),
+  communityService.getCommunity(community.domain,
+  (err, res) => { // eslint-disable-line consistent-return
+    if (err) throw err;
+    if (res.length === 0) {
+      return async.parallel([
+        communityService.addCommunity.bind(null, values[0]),
+        membershipController.addMembersToCommunity.bind(null,
+                community.domain, [values[1]]),
+        toolsController.postTools.bind(null, values[2], community.domain),
+        roleController.postCommunityRoles.bind(null, community.domain, values[3]),
 
-  ],
-        (err, result) => {
+      ],
+        (error, result) => {
           if (err) return done(err);
           return done(undefined, result[0]);
         });
+    } return done('Domain Already Exists');
+  });
 }
 
 /**
@@ -146,11 +167,11 @@ function addCommunity(community, done) {
  * GET REQUEST
  *
  */
-function getCommunity(domainName, counter, done) {
+function getCommunity(domain, counter, done) {
   if (counter) {
     async.parallel([
-      communityService.getCommunity.bind(null, domainName.toLowerCase()),
-      counterController.getcounter.bind(null, domainName.toLowerCase()),
+      communityService.getCommunity.bind(null, domain.toLowerCase()),
+      counterController.getcounter.bind(null, domain.toLowerCase()),
     ], (err, result) => {
       if (err) return done(err);
       /* eslint-disable no-param-reassign*/
@@ -165,7 +186,7 @@ function getCommunity(domainName, counter, done) {
         // result[0].push(counts);
     });
   } else {
-    communityService.getCommunity(domainName.toLowerCase(), done);
+    communityService.getCommunity(domain.toLowerCase(), done);
   }
 }
 
@@ -175,27 +196,29 @@ function getCommunity(domainName, counter, done) {
  *
  */
 function updateCommunity(domainName, community, done) {
-  if (_.has(community, 'name') &&
-        _.has(community, 'updatedby') &&
-        _.gt(community.tags.length, 0) &&
-        !_.isEmpty(community.updatedby) &&
-        (
-            _.isEqual(community.status, 'Active') ||
-            _.isEqual(community.status, 'Inactive')
-        ) &&
-        (
+  if (Object.keys(community).length === 1) { return done('Please pass some data to process'); }
+
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done('At least one Tag is required to to be passed'); }
+
+  if (!_.has(community, 'name') || _.isEmpty(community.name)) { return done('A Name needs to be passed'); }
+
+  if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done('An Updater\'s data is required to be sent'); }
+
+  if ((
             _.isEqual(community.visibility, 'Public') ||
             _.isEqual(community.visibility, 'Private') ||
-            _.isEqual(community.visibility, 'Moderated')
+            _.isEqual(community.visibility, 'Moderated')) &&
+            (
+            _.isEqual(community.status, 'Active') ||
+            _.isEqual(community.status, 'Inactive')
         )
-    ) {
+        ) {
     const param = [community.name, community.avatar, community.description, community.visibility,
       community.tags, community.updatedby, community.status, domainName.toLowerCase(),
     ];
 
     return communityService.updateCommunity(param, done);
-  }
-  return done('Wrong Data Inputs', null);
+  } return done('Wrong Data Inputs', null);
 }
 
 module.exports = {
