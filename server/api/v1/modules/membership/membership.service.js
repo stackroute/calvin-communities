@@ -1,5 +1,5 @@
 const model = require('cassandra-driver');
-console.log("Reached service");
+
 const connectionString = require('../../../../config').connectionString;
 
 const MEMBERSHIP_TABLE = 'membership';
@@ -21,6 +21,7 @@ function addMemberToCommunity(params, done) {
       done({ error: 'Unexpected internal server error...' }, undefined);
     }
   });
+}
 
   // Get community details of a particular member
   function getCommunityList(username, done) {

@@ -31,7 +31,7 @@ function modifyRoleInCommunity(params, memberRole, done) {
     }
     return done({ error: 'Internal Error Occured' }, undefined);
   })
-
+}
   // Remove member from the community
   function deleteMemberFromCommunity(params, done) {
     membershipService.deleteMemberFromCommunity(params, done);
