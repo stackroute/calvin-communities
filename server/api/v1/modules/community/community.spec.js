@@ -128,6 +128,10 @@ describe('get/ post/ patch community ', () => {
   };
 
 /**
+
+*/
+
+/**
 *use POST request to create a new community with all correct data
 *
 *
@@ -154,7 +158,7 @@ describe('get/ post/ patch community ', () => {
 *
 */
   it(`should create a new community and return new community's data for
-   only minimal mandatory data provided`, (done) => {
+   only mandatory data provided`, (done) => {
     request
     .post(`/api/v1/communities/${insertmandatory.domain}`)
     .send(insertmandatory)
@@ -354,7 +358,7 @@ describe('get/ post/ patch community ', () => {
 
 
   after(() => {
-    client.execute('TRUNCATE communities')
+    client.execute('TRUNCATE calvincommunities')
     .then(() => { })
     .catch(() => { });
   });

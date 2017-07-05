@@ -114,8 +114,9 @@ function getTemplateDetails(community) {
 function addCommunity(community, done) {
 
   let values;
-
   const nameRegex = /^([a-zA-Z0-9.]){5,20}$/;
+  if(Object.keys(community).length === 1)
+    return done(`Please pass some data to process`);
   if( !community.domain.match(nameRegex) )
      return done(`Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)`);
 
@@ -209,6 +210,10 @@ function getCommunity(domain, counter, done) {
  *
  */
 function updateCommunity(domainName, community, done) {
+
+  if(Object.keys(community).length === 1)
+    return done(`Please pass some data to process`);
+
   if( !_.has(community, 'tags') || !_.gt(community.tags.length, 0) )
      return done('At least one Tag is required to to be passed');
 
