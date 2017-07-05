@@ -4,7 +4,6 @@
 
  const client = new Client('localhost:2181');
 
-
  const options = {
    autoCommit: true,
    fetchMaxWaitMs: 1000,

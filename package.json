@@ -11,7 +11,8 @@
     "e2e": "ng e2e",
     "serve": "concurrently \"ng build --watch\" \"nodemon bin/www\"",
     "installdb": "node ./server/dbcreation.js",
-    "truncatedb": "node ./server/dbcleanup.js"
+    "truncatedb": "node ./server/dbcleanup.js",
+    "svc.counter": "node server/counters.service"
   },
   "private": true,
   "dependencies": {

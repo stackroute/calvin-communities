@@ -155,7 +155,10 @@ function deleteTool(domain, done) {
   });
 }
 
-
+/* function publishMessageToTopic(dataFromBody, dataFromURI){
+let message ={tool:};
+}
+*/
 // Exporting the functions to be used in router
 
 module.exports = {
