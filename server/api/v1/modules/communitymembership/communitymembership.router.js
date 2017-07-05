@@ -22,6 +22,7 @@ router.post('/:domain/members', (req, res) => {
       if (err) {
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
+      logger.debug('adding member');
       return res.status(200).send({ message: 'Member added' });
     });
   } catch (err) {
@@ -47,6 +48,7 @@ router.delete('/:domain/members', (req, res) => {
       if (err) {
         return res.status(500).send({ error: 'Error in operation, please try later..!' });
       }
+      logger.debug('removing member');
       return res.status(200).send({ message: 'Member deleted' });
     });
   } catch (err) {
@@ -95,7 +97,7 @@ router.get('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.getParticularCommunityMembersDetails(domainName, (err, results) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(500).send(err);
       }
       return res.send(results);
     });

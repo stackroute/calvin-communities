@@ -119,6 +119,7 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_ROLES} ( \
 
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_REQUESTS} ( \
   domain text, \
+  role text, \
   type text, \
   status text , \
   person text, \
