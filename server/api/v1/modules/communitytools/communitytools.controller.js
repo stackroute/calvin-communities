@@ -168,6 +168,7 @@ function publishMessageToTopic(dataFromBody, dataFromURI) {
       console.log("result is", res);
     }
   });
+}
 
 // Exporting the functions to be used in router
 
