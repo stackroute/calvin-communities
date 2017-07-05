@@ -18,6 +18,7 @@ const logger = require('../../../../logger');
  */
 
 function addMembersToCommunity(domainName, values, done) {
+  logger.debug('hi u r adding a new member');
   let flag = 0;
   let valueExist = 0;
   if (values.length > 0) {
