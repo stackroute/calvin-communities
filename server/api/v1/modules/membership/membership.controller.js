@@ -1,51 +1,66 @@
 const membershipService = require('./membership.service');
 
-/*function addedMemberToCommunity(values, done) {
+function addMemberToCommunity(params, done) {
   let flag = false;
-  if ((values.domain) && (values.username) && (values.role)) {
-    if ((values.domain !== null) && (values.username !== null) && (values.role !== null)) {
+  if ((params.domain) && (params.username) && (params.role)) {
+    if ((params.domain !== null) && (params.username !== null) && (params.role !== null)) {
       flag = true;
     }
   }
   if (flag) {
-    const params = {
+    const values = {
       userName: values.username,
       domainName: values.domain,
       role: values.role,
     };
-    membershipService.addedMemberToCommunity(params, done);
+    membershipService.addMemberToCommunity(values, done);
   } else {
     done('Enter required fields.......!!!!!');
   }
 }
-*/
-// get particular member with all community details
-function getParticularMemberDetailInCommunities(userName, done) {
-  membershipService.getParticularMemberDetailInCommunities(userName, done);
-}
-/*
-function modifyRoleOfMemberFromCommunity(params, memberRole, done) {
-  let flag = false;
-  if (memberRole) {
-    if (memberRole !== null) {
-      flag = true;
+// Function for Posting tools
+
+function postTools(dataFromBody, done) {
+  let count = 0;
+  dataFromBody.forEach((data) => {
+    if (data.domain && data.toolId) {
+      if (data.domain !== null && data.toolId !== null) {
+        count += 1;
+      } else {
+        count += 0;
+      }
     }
-  }
-  if (flag) {
-    membershipService.modifyRoleOfMemberFromCommunity(params, memberRole, done);
+  });
+  if (count === dataFromBody.length) {
+    ToolService.addTools(dataFromBody, done);
   } else {
-    done('Enter required fields.......!!!!!');
+    return done({ error: 'please enter all fields' }, undefined);
   }
+  return done(undefined, { message: 'posted' });
 }
 
-// Remove member from the community
-function removeMemberFromCommunity(params, done) {
-  membershipService.removeMemberFromCommunity(params, done);
+
+// Get community details of a particular member
+function getCommunityList(username, done) {
+  membershipService.getCommunityList(username, done);
 }
-*/
-module.exports = {
-  //addedMemberToCommunity,
-  getParticularMemberDetailInCommunities,
- // modifyRoleOfMemberFromCommunity,
-  //removeMemberFromCommunity,
-};
+
+function modifyRoleInCommunity(params, memberRole, done) {
+  membershipService.getCommunityList(params.domain, (err) => {
+    if (!err) {
+      membershipService.modifyRoleInCommunity(params, memberRole, done);
+    }
+    return done({ error: 'Internal Error Occured' }, undefined);
+  })
+
+  // Remove member from the community
+  function deleteMemberFromCommunity(params, done) {
+    membershipService.deleteMemberFromCommunity(params, done);
+  }
+
+  module.exports = {
+    addMemberToCommunity,
+    getCommunityList,
+    modifyRoleInCommunity,
+    deleteMemberFromCommunity,
+  };
