@@ -10,49 +10,47 @@
  let messages = '';
 
  function getConnection(topics, done) {
-     const client = require('../../config').client;
+   const client = require('../../config').client;
 
-     const options = require('../../config').options;
+   const options = require('../../config').options;
 
-     done(null, client, options, topics);
+   done(null, client, options, topics);
  }
 
  function subscribeToTopic(client, options, topics, done) {
-     const consumer = new Consumer(client, topics, options);
+   const consumer = new Consumer(client, topics, options);
 
-     done(null, consumer);
+   done(null, consumer);
  }
 
  function onMessage(consumer, done) {
-     consumer.on('message', (message) => {
-         logger.debug('value is', message);
+   consumer.on('message', (message) => {
+     logger.debug('value is', message);
          // done(null,message);return;
-         messages = message;
-     });
+     messages = message;
+   });
 
-     consumer.on('error', (err) => {
+   consumer.on('error', (err) => {
          // return done(err, null);
 
-         logger.debug('error', err);
-     });
-     setTimeout(() => {
-         return done(null, messages.value);
-     }, 1000);
+     logger.debug('error', err);
+   });
+   setTimeout(() => done(null, messages.value), 1000);
  }
 
  function baseConsumer(topics, done) {
-     async.waterfall([
-         getConnection.bind(null, topics),
-         subscribeToTopic,
-         onMessage,
-     ], (err, res) => {
-         if (err) {
-             return done(err, null);
-         }
-         return done(undefined, res);
-     });
+   async.waterfall([
+     getConnection.bind(null, topics),
+     subscribeToTopic,
+     onMessage,
+   ], (err, res) => {
+     if (err) {
+       return done(err, null);
+     }
+     return done(undefined, res);
+   });
  }
 
  module.exports = {
-     baseConsumer,
+   baseConsumer,
  };

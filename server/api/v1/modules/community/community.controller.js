@@ -2,8 +2,6 @@ const async = require('async');
 
 const _ = require('lodash');
 
-const logger = require('../../../../logger');
-
 const communityService = require('./community.service');
 
 const templateController = require('../communitytemplates/communitytemplate.controller');
@@ -50,10 +48,10 @@ function getTemplateDetails(community) {
     templateRoles.push(data.role);
   });
 
-  if( _.has(community, 'roles') ) {
-    community.roles.forEach((data) =>{
+  if (_.has(community, 'roles')) {
+    community.roles.forEach((data) => {
       templateRoles.push(data);
-    })
+    });
   }
 
     // CommunityCreation Data
@@ -111,69 +109,57 @@ function getTemplateDetails(community) {
  *
  *
  */
-function addCommunity(community, done) {
-
+function addCommunity(community, done) { // eslint-disable-line consistent-return
   let values;
   const nameRegex = /^([a-zA-Z0-9.]){5,20}$/;
-  if(Object.keys(community).length === 1)
-    return done(`Please pass some data to process`);
-  if( !community.domain.match(nameRegex) )
-     return done(`Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)`);
+  if (Object.keys(community).length === 1) { return done('Please pass some data to process'); }
+  if (!community.domain.match(nameRegex)) { return done('Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)'); }
 
-  if( !_.has(community, 'tags') || !_.gt(community.tags.length, 0) )
-     return done('At least one Tag is required to to be passed');
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done('At least one Tag is required to to be passed'); }
 
-  if ( !_.has(community, 'name') || _.isEmpty(community.name) )
-      return done('A Name needs to be passed');
+  if (!_.has(community, 'name') || _.isEmpty(community.name)) { return done('A Name needs to be passed'); }
 
-  if( !_.has(community, 'owner') || _.isEmpty(community.owner) )
-      return done('An Owner value needs to be passed');
+  if (!_.has(community, 'owner') || _.isEmpty(community.owner)) { return done('An Owner value needs to be passed'); }
 
-  if( !_.has(community, 'template') || _.isEmpty(community.template) )
-      return done('A Template Value needs to be passed');
+  if (!_.has(community, 'template') || _.isEmpty(community.template)) { return done('A Template Value needs to be passed'); }
 
-  if( !_.has(community,'purpose') || _.isEmpty(community.purpose) )
-      return done('A Community has to have a purpose');
+  if (!_.has(community, 'purpose') || _.isEmpty(community.purpose)) { return done('A Community has to have a purpose'); }
 
-  if( !_.has(community,'avatar') || _.isEmpty(community.avatar) )
-      return done('An Avatar needs to be added');
+  if (!_.has(community, 'avatar') || _.isEmpty(community.avatar)) { return done('An Avatar needs to be added'); }
 
-  if( !_.has(community, 'visibility') )
-    return done(`Visibility can be from given values only, either 'Public', 'Private' or 'Moderated' `);
+  if (!_.has(community, 'visibility')) { return done('Visibility can be from given values only, either \'Public\', \'Private\' or \'Moderated\' '); }
 
-  if(
+  if (
      _.isEqual(community.visibility, 'Public') ||
     _.isEqual(community.visibility, 'Private') ||
     _.isEqual(community.visibility, 'Moderated')
     ) {
-    // eslint-disable-line no-param-reassign.
-  community.domain = community.domain.toLowerCase();
+    community.domain = community.domain.toLowerCase(); // eslint-disable-line no-param-reassign
     values = getTemplateDetails(community);
-}
-    else return done(`Visibility can be from given values only, either 'Public', 'Private' or 'Moderated' `)
+  } else return done('Visibility can be from given values only, either \'Public\', \'Private\' or \'Moderated\' ');
 
   if (values === -1) {
-    return done(`A Template Name is supposed to be chosen from mentioned list only`);
+    return done('A Template Name is supposed to be chosen from mentioned list only');
   }
 
-  communityService.getCommunity(community.domain, (err, result) => {
-    if(err) throw err;
-    if(result.length === 0) {
+  communityService.getCommunity(community.domain,
+  (err, res) => { // eslint-disable-line consistent-return
+    if (err) throw err;
+    if (res.length === 0) {
       return async.parallel([
-    communityService.addCommunity.bind(null, values[0]),
-    membershipController.addMembersToCommunity.bind(null,
+        communityService.addCommunity.bind(null, values[0]),
+        membershipController.addMembersToCommunity.bind(null,
                 community.domain, [values[1]]),
-    toolsController.postTools.bind(null, values[2], community.domain),
-    roleController.postCommunityRoles.bind(null, community.domain, values[3]),
+        toolsController.postTools.bind(null, values[2], community.domain),
+        roleController.postCommunityRoles.bind(null, community.domain, values[3]),
 
-  ],
-        (err, result) => {
+      ],
+        (error, result) => {
           if (err) return done(err);
           return done(undefined, result[0]);
         });
-    } else return done('Domain Already Exists');
+    } return done('Domain Already Exists');
   });
-
 }
 
 /**
@@ -210,34 +196,29 @@ function getCommunity(domain, counter, done) {
  *
  */
 function updateCommunity(domainName, community, done) {
+  if (Object.keys(community).length === 1) { return done('Please pass some data to process'); }
 
-  if(Object.keys(community).length === 1)
-    return done(`Please pass some data to process`);
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done('At least one Tag is required to to be passed'); }
 
-  if( !_.has(community, 'tags') || !_.gt(community.tags.length, 0) )
-     return done('At least one Tag is required to to be passed');
+  if (!_.has(community, 'name') || _.isEmpty(community.name)) { return done('A Name needs to be passed'); }
 
-  if ( !_.has(community, 'name') || _.isEmpty(community.name) )
-      return done('A Name needs to be passed');
+  if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done('An Updater\'s data is required to be sent'); }
 
-  if( !_.has(community, 'updatedby') || _.isEmpty(community.updatedby) )
-      return done(`An Updater's data is required to be sent`);
-
-     if ( (
+  if ((
             _.isEqual(community.visibility, 'Public') ||
             _.isEqual(community.visibility, 'Private') ||
-            _.isEqual(community.visibility, 'Moderated') ) &&
+            _.isEqual(community.visibility, 'Moderated')) &&
             (
             _.isEqual(community.status, 'Active') ||
             _.isEqual(community.status, 'Inactive')
         )
-        ){
+        ) {
     const param = [community.name, community.avatar, community.description, community.visibility,
       community.tags, community.updatedby, community.status, domainName.toLowerCase(),
     ];
 
     return communityService.updateCommunity(param, done);
-  } else return done('Wrong Data Inputs', null);
+  } return done('Wrong Data Inputs', null);
 }
 
 module.exports = {

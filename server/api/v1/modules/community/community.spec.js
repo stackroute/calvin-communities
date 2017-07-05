@@ -29,41 +29,41 @@ describe('get/ post/ patch community ', () => {
 * all correct data here
 *
 */
-const alldata = {
-  name: 'a nice name',
-  domain: 'firstdomain',
-  owner: 'psharneja',
-  tags: ['one', 'two'],
-  avatar: 'wedAS.JPG',
-  description: 'this is the first community',
-  purpose: 'sports',
-  template: 'surgeon',
-  visibility: 'Public',
+  const alldata = {
+    name: 'a nice name',
+    domain: 'firstdomain',
+    owner: 'psharneja',
+    tags: ['one', 'two'],
+    avatar: 'wedAS.JPG',
+    description: 'this is the first community',
+    purpose: 'sports',
+    template: 'surgeon',
+    visibility: 'Public',
 
-}
+  };
 
-const domainincaps = {
-  name: 'a nice name',
-  domain: 'SECONDDOMAIN',
-  owner: 'psharneja',
-  tags: ['one', 'two'],
-  avatar: 'wedAS.JPG',
-  description: 'this is the first community',
-  purpose: 'sports',
-  template: 'surgeon',
-  visibility: 'Public',
+  const domainincaps = {
+    name: 'a nice name',
+    domain: 'SECONDDOMAIN',
+    owner: 'psharneja',
+    tags: ['one', 'two'],
+    avatar: 'wedAS.JPG',
+    description: 'this is the first community',
+    purpose: 'sports',
+    template: 'surgeon',
+    visibility: 'Public',
 
-}
+  };
 
-const editdata = {
-  name:'another name',
-  updatedby: 'someone else',
-  description: 'this is now changed',
-  avatar: 'aaaa.jpg',
-  visibility: 'Private',
-  tags: ['new','data'],
-  status: 'Inactive',
-}
+  const editdata = {
+    name: 'another name',
+    updatedby: 'someone else',
+    description: 'this is now changed',
+    avatar: 'aaaa.jpg',
+    visibility: 'Private',
+    tags: ['new', 'data'],
+    status: 'Inactive',
+  };
 
 /**
 *
@@ -71,63 +71,63 @@ const editdata = {
 *
 */
 
-const wrongdomain = {
-  name: 'a nice name',
-  domain: 'firstd$,omain',
-  owner: 'psharneja',
-  tags: ['one', 'two'],
-  avatar: 'wedAS.JPG',
-  description: 'this is the first community',
-  purpose: 'sports',
-  template: 'surgeon',
-  visibility: 'Public',
+  const wrongdomain = {
+    name: 'a nice name',
+    domain: 'firstd$,omain',
+    owner: 'psharneja',
+    tags: ['one', 'two'],
+    avatar: 'wedAS.JPG',
+    description: 'this is the first community',
+    purpose: 'sports',
+    template: 'surgeon',
+    visibility: 'Public',
 
-}
+  };
 
-const noname = {
-  domain: 'firstdomain',
-  owner: 'psharneja',
-  tags: ['one', 'two'],
-  avatar: 'wedAS.JPG',
-  description: 'this is the first community',
-  purpose: 'sports',
-  template: 'surgeon',
-  visibility: 'Public',
-}
+  const noname = {
+    domain: 'firstdomain',
+    owner: 'psharneja',
+    tags: ['one', 'two'],
+    avatar: 'wedAS.JPG',
+    description: 'this is the first community',
+    purpose: 'sports',
+    template: 'surgeon',
+    visibility: 'Public',
+  };
 
-const notemplate = {
-  name: 'a newer community',
-  domain: 'firstthingdomain',
-  owner: 'psharneja',
-  tags: ['one', 'two'],
-  avatar: 'wedAS.JPG',
-  description: 'this is the first community',
-  purpose: 'sports',
-  visibility: 'Public',
-}
+  const notemplate = {
+    name: 'a newer community',
+    domain: 'firstthingdomain',
+    owner: 'psharneja',
+    tags: ['one', 'two'],
+    avatar: 'wedAS.JPG',
+    description: 'this is the first community',
+    purpose: 'sports',
+    visibility: 'Public',
+  };
 
-const wrongtemplate = {
-  name: 'a newer community',
-  domain: 'firstlydomain',
-  owner: 'psharneja',
-  tags: ['one', 'two'],
-  avatar: 'wedAS.JPG',
-  template: 'sometemplate',
-  description: 'this is the first community',
-  purpose: 'sports',
-  visibility: 'Public',
-}
+  const wrongtemplate = {
+    name: 'a newer community',
+    domain: 'firstlydomain',
+    owner: 'psharneja',
+    tags: ['one', 'two'],
+    avatar: 'wedAS.JPG',
+    template: 'sometemplate',
+    description: 'this is the first community',
+    purpose: 'sports',
+    visibility: 'Public',
+  };
 
-const notags = {
-  name: 'a newer community',
-  domain: 'firstdomain',
-  owner: 'psharneja',
-  avatar: 'wedAS.JPG',
-  description: 'this is the first community',
-  purpose: 'sports',
-  template: 'surgeon',
-  visibility: 'Public',
-}
+  const notags = {
+    name: 'a newer community',
+    domain: 'firstdomain',
+    owner: 'psharneja',
+    avatar: 'wedAS.JPG',
+    description: 'this is the first community',
+    purpose: 'sports',
+    template: 'surgeon',
+    visibility: 'Public',
+  };
 
 /**
 
@@ -165,7 +165,7 @@ const notags = {
     .post(`/api/v1/communities/${alldata.domain}`)
     .send(alldata)
     .then((result) => {
-      result.body.error.should.equal(`Domain Already Exists`);
+      result.body.error.should.equal('Domain Already Exists');
       result.status.should.be.equal(500);
       done();
     })
@@ -237,7 +237,7 @@ const notags = {
 *
 *
 */
-it( `should give me details of a community for which we've passed the domain name in caps`, (done) => {
+  it('should give me details of a community for which we\'ve passed the domain name in caps', (done) => {
     request
     .post(`/api/v1/communities/${domainincaps.domain}`)
     .send(domainincaps)
@@ -257,12 +257,12 @@ it( `should give me details of a community for which we've passed the domain nam
 *
 *
 */
-it( `should give error at time of creation of community as template name doesn't exist`, (done) => {
+  it('should give error at time of creation of community as template name doesn\'t exist', (done) => {
     request
     .post(`/api/v1/communities/${wrongtemplate.domain}`)
     .send(wrongtemplate)
     .then((result) => {
-      result.body.error.should.equal(`A Template Name is supposed to be chosen from mentioned list only`);
+      result.body.error.should.equal('A Template Name is supposed to be chosen from mentioned list only');
       result.status.should.be.equal(500);
       done();
     })
@@ -276,12 +276,12 @@ it( `should give error at time of creation of community as template name doesn't
 *
 *
 */
-it( `should give me error ash we've passed specialcharacters in domain name`, (done) => {
+  it('should give me error ash we\'ve passed specialcharacters in domain name', (done) => {
     request
     .post(`/api/v1/communities/${wrongdomain.domain}`)
     .send(wrongdomain)
     .then((result) => {
-      result.body.error.should.equal(`Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)`);
+      result.body.error.should.equal('Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)');
       result.status.should.be.equal(500);
       done();
     })
