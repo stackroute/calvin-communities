@@ -55,12 +55,10 @@ function addCommunity(param, done) {
 description, visibility , createdby, updatedby, createdon, updatedon) \
 VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
 
-
       return client.execute(query, param, (err) => {
         if (err) return done(err, undefined);
         return getCommunity(param[0], done);
       });
-    } return done('Domain Already Exists', undefined);
 }
 /**
  * update a community
@@ -77,7 +75,7 @@ function updateCommunity(param, done) {
         if (err) return done(err, undefined);
         return getCommunity(param[7], done);
       });
-    } return done('Domain Doesn\'t Exist', undefined);
+    } return done(`Domain Doesn't Exist`, undefined);
   });
 }
 
