@@ -12,7 +12,6 @@ const client = new model.Client({
 });
 
 
-
 /**
  *Add memeber to the community
  *
@@ -73,24 +72,24 @@ function modifyRoleOfMemberFromCommunity(domainName, data) {
  *
  */
 
-  function getCommunityList(username, done) {
-    const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${username}' `;
-    return client.execute(query, (err, results) => {
-      if (!err) {
-        if (results.rows.length > 0) {
-          done(undefined,{ username: username, communityDetails: results.rows });
-        } else {
-          done({ error: 'please enter a valid username' }, undefined);
-        }
+function getCommunityList(username, done) {
+  const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${username}' `;
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      if (results.rows.length > 0) {
+        done(undefined, { username, communityDetails: results.rows });
       } else {
-        done(err, undefined);
+        done({ error: 'please enter a valid username' }, undefined);
       }
-    });
-  }
+    } else {
+      done(err, undefined);
+    }
+  });
+}
 
-    module.exports = {
-    addMemberToCommunity,
-    getCommunityList,
-    modifyRoleOfMemberFromCommunity,
-    removeMemberFromCommunity,
-  };
+module.exports = {
+  addMemberToCommunity,
+  getCommunityList,
+  modifyRoleOfMemberFromCommunity,
+  removeMemberFromCommunity,
+};

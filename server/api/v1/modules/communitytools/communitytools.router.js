@@ -72,7 +72,6 @@ router.post('/:domainname/tools', (req, res) => {
       }
       console.log('updated in communityToolCtrl.postTools ');
       return res.status(201).send({ message: 'tool created' });
-
     });
   } catch (err) {
     // console.log('Unexpected error in fetching community roles ', err);

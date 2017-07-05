@@ -69,11 +69,10 @@ function postTools(dataFromBody, dataFromURI, done) {
         ], (err) => {
           if (err) {
             return done(err);
-          } else {
-            console.log("message here");
-             publishMessageToTopic(dataFromBody, dataFromURI);
-            return done(undefined, { message: 'Updated' });
           }
+          console.log('message here');
+          publishMessageToTopic(dataFromBody, dataFromURI);
+          return done(undefined, { message: 'Updated' });
         });
       } else {
         done({ error: 'Tool Exists!!' }, undefined);
@@ -160,12 +159,12 @@ function deleteTool(domain, done) {
 
 function publishMessageToTopic(dataFromBody, dataFromURI) {
   let message = { domain: dataFromURI, tools: dataFromBody };
-  message= JSON.stringify(message);
+  message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic1', message, (err, res) => {
     if (err) {
-      console.log("error occured", err);
+      console.log('error occured', err);
     } else {
-      console.log("result is", res);
+      console.log('result is', res);
     }
   });
 }

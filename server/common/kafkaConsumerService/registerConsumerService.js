@@ -4,16 +4,14 @@ const Consumer = kafka.Consumer;
 const logger = require('../../logger');
 // const config = require('../../config');
 
-module.exports = function(topicNameArray, consumerOptions, callback) {
+module.exports = function (topicNameArray, consumerOptions, callback) {
   if (topicNameArray.length <= 0) {
     return;
   }
 
   console.log(callback);
-  let consumerTopics = topicNameArray.map((topic) => {
-    return { topic };
-  });
-  console.log("Registering for topics ", consumerTopics);
+  const consumerTopics = topicNameArray.map(topic => ({ topic }));
+  console.log('Registering for topics ', consumerTopics);
 
   const client = new kafka.Client();
   const consumer = new Consumer(client, consumerTopics, consumerOptions);

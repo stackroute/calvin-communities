@@ -226,12 +226,12 @@ function updateCommunity(domainName, community, done) {
 
 function publishMessageToTopic(dataFromBody) {
   let message = { domain: dataFromURI };
-  message= JSON.stringify(message);
+  message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic1', message, (err, res) => {
     if (err) {
-      console.log("error occured", err);
+      console.log('error occured', err);
     } else {
-      console.log("result is", res);
+      console.log('result is', res);
     }
   });
 }
