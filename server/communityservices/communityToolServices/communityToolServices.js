@@ -1,3 +1,4 @@
+
 const toolService = require('../../api/v1/modules/tools/tools.services')
 module.exports = function(eventMessage) {
 	console.log("Got a new community event message: ", eventMessage);

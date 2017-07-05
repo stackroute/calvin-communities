@@ -8,14 +8,14 @@ const registerConsumerService = require('./registerConsumerService');
 describe('Testing registering a consumer service to kafka topic', () => {
   before(() => {});
 
-  it('consumer should consume the messages from the topic', function(done) {
-    let topicNameArray = ["topic1", "topic2"];
-    let consumerOptions = { autoCommit: false };
-    let msg = { event: 'new-community', payload: { domain: 'calvin.sro1', name: 'Calvin StackRoute One' } };
+  it('consumer should consume the messages from the topic', (done) => {
+    const topicNameArray = ['topic1', 'topic2'];
+    const consumerOptions = { autoCommit: false };
+    const msg = { event: 'new-community', payload: { domain: 'calvin.sro1', name: 'Calvin StackRoute One' } };
 
     kafkaPublisher.publishToTopic(topicNameArray[0], JSON.stringify(msg), (err, res) => {
       if (err) {
-        console.log("Error in publishing topic ", err);
+        console.log('Error in publishing topic ', err);
         done(err);
       }
 
@@ -23,14 +23,11 @@ describe('Testing registering a consumer service to kafka topic', () => {
         // console.log("Recieved new message ", message);
         message.should.deep.equal(msg);
         done();
-        return;
       });
+    }); // end of publisher
+  }); // end of test scenario
 
-    }); //end of publisher
-
-  }); //end of test scenario
-
-  /*it('standalone consumer registraiton to recieve a message', function(done){
+  /* it('standalone consumer registraiton to recieve a message', function(done){
     let topic = "topic1";
     let msg = "hello";
 
@@ -40,5 +37,4 @@ describe('Testing registering a consumer service to kafka topic', () => {
         return;
       });
   });*/
-
 });

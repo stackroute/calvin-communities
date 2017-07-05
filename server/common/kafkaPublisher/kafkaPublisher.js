@@ -2,6 +2,7 @@ const kafkaNode = require('kafka-node');
 const HighLevelProducer = kafkaNode.HighLevelProducer;
 
 function publishToTopic(topic, msgs, callback) {
+
     const client = new kafkaNode.Client();
     const producer = new HighLevelProducer(client);
      // msgs=JSON.stringify(msgs);
@@ -21,16 +22,16 @@ function publishToTopic(topic, msgs, callback) {
                 callback(err);
                 return;
             }
+
             // console.log("What is the result: ", result);
-            callback(null, result);
-        });
+      callback(null, result);
     });
+  });
 
-    producer.on('error', function(err) {});
-
+  producer.on('error', (err) => {});
 }
 
 
 module.exports = {
-    publishToTopic
+  publishToTopic,
 };

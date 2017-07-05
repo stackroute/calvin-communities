@@ -8,18 +8,18 @@ module.exports = function(topicNameArray, consumerOptions, callback) {
   if (topicNameArray.length <= 0) {
     return;
   }
-console.log(callback);
+
+  console.log(callback);
   let consumerTopics = topicNameArray.map((topic) => {
     return { topic };
   });
   console.log("Registering for topics ", consumerTopics);
 
-  let client = new kafka.Client();
-  let consumer = new Consumer(client, consumerTopics, consumerOptions);
+  const client = new kafka.Client();
+  const consumer = new Consumer(client, consumerTopics, consumerOptions);
 
   consumer.on('message', (messageObj) => {
-    let msgDataObj = JSON.parse(messageObj.value);
-    console.log(msgDataObj.domain);
+    const msgDataObj = JSON.parse(messageObj.value);
     callback(msgDataObj);
   });
-}
+};
