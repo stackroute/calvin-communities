@@ -55,14 +55,12 @@ function addCommunity(param, done) {
 description, visibility , createdby, updatedby, createdon, updatedon) \
 VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
 
-  return client.execute(`SELECT * FROM ${tableCommunities} where domain = ?`, [param[0]], (error, data) => {
-    if (_.isEmpty(data.rows)) {
+
       return client.execute(query, param, (err) => {
         if (err) return done(err, undefined);
         return getCommunity(param[0], done);
       });
     } return done('Domain Already Exists', undefined);
-  });
 }
 /**
  * update a community
