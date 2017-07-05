@@ -159,7 +159,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         (error, result) => {
           if (err) return done(err);
           publishMessageToTopic(community.domain);
-          return done(undefined, result[0]);
+         // return done(undefined, result[0]);
         });
     } return done('Domain Already Exists');
   });

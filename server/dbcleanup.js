@@ -105,6 +105,8 @@ client.connect()
 })
 .catch((err) => {
   client.shutdown();
-  return logger.debug('error in Database operations:', err);
+  logger.debug('error in Database operations:', err);
+  process.exit();
+
 });
 
