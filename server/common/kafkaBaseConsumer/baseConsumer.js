@@ -8,21 +8,18 @@
 
 const allTopics = [{ topic: 'topic1' }];
 
- let client,
-     options,
-     messages = '',
-     consumer;
+ let messages = '';
 
  function getConnection(topics, done) {
-     client = require('../../config').client;
+     const client = require('../../config').client;
 
-     options = require('../../config').options;
+     const options = require('../../config').options;
 
      done(null, client, options, topics);
  }
 
  function subscribeToTopic(client, options, topics, done) {
-     consumer = new Consumer(client, topics, options);
+    const consumer = new Consumer(client, topics, options);
 
      done(null, consumer);
  }
@@ -35,7 +32,7 @@ const allTopics = [{ topic: 'topic1' }];
      });
 
      consumer.on('error', (err) => {
-         return done(err, null);
+         // return done(err, null);
 
          logger.debug('error', err);
      });
