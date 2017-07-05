@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const membershipCtrl = require('./membership.controller')
+const membershipCtrl = require('./membership.controller');
 
 
 /*
