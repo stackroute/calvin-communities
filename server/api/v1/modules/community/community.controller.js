@@ -58,7 +58,7 @@ function getTemplateDetails(community) {
 
     // CommunityCreation Data
   const com = [
-    community.domain, community.name, community.purpose,
+    community.domain, community.name, community.avatar, community.purpose,
     templateRoles,
     status, community.template,
     (community.tags).concat(templateDetails[0].tags),
@@ -122,7 +122,7 @@ function addCommunity(community, done) {
   if( !_.has(community, 'tags') || !_.gt(community.tags.length, 0) )
      return done('At least one Tag is required to to be passed');
 
-  if ( !_.has(community, 'tags') || _.isEmpty(community.name) )
+  if ( !_.has(community, 'name') || _.isEmpty(community.name) )
       return done('A Name needs to be passed');
 
   if( !_.has(community, 'owner') || _.isEmpty(community.owner) )
@@ -133,6 +133,9 @@ function addCommunity(community, done) {
 
   if( !_.has(community,'purpose') || _.isEmpty(community.purpose) )
       return done('A Community has to have a purpose');
+
+  if( !_.has(community,'avatar') || _.isEmpty(community.avatar) )
+      return done('An Avatar needs to be added');
 
   if( !_.has(community, 'visibility') )
     return done(`Visibility can be from given values only, either 'Public', 'Private' or 'Moderated' `);
@@ -206,27 +209,30 @@ function getCommunity(domain, counter, done) {
  *
  */
 function updateCommunity(domainName, community, done) {
-  if (_.has(community, 'name') &&
-        _.has(community, 'updatedby') &&
-        _.gt(community.tags.length, 0) &&
-        !_.isEmpty(community.updatedby) &&
-        (
-            _.isEqual(community.status, 'Active') ||
-            _.isEqual(community.status, 'Inactive')
-        ) &&
-        (
+  if( !_.has(community, 'tags') || !_.gt(community.tags.length, 0) )
+     return done('At least one Tag is required to to be passed');
+
+  if ( !_.has(community, 'name') || _.isEmpty(community.name) )
+      return done('A Name needs to be passed');
+
+  if( !_.has(community, 'updatedby') || _.isEmpty(community.updatedby) )
+      return done(`An Updater's data is required to be sent`);
+
+     if ( (
             _.isEqual(community.visibility, 'Public') ||
             _.isEqual(community.visibility, 'Private') ||
-            _.isEqual(community.visibility, 'Moderated')
+            _.isEqual(community.visibility, 'Moderated') ) &&
+            (
+            _.isEqual(community.status, 'Active') ||
+            _.isEqual(community.status, 'Inactive')
         )
-    ) {
+        ){
     const param = [community.name, community.avatar, community.description, community.visibility,
       community.tags, community.updatedby, community.status, domainName.toLowerCase(),
     ];
 
     return communityService.updateCommunity(param, done);
-  }
-  return done('Wrong Data Inputs', null);
+  } else return done('Wrong Data Inputs', null);
 }
 
 module.exports = {

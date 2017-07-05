@@ -50,10 +50,10 @@ function getCommunity(domainname, done) {
  *
  */
 function addCommunity(param, done) {
-  const query = (`INSERT INTO ${tableCommunities} (domain, name, purpose, roles,\
+  const query = (`INSERT INTO ${tableCommunities} (domain, name, avatar, purpose, roles,\
    status, template, tags, owner, \
 description, visibility , createdby, updatedby, createdon, updatedon) \
-VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
+VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
 
       return client.execute(query, param, (err) => {
         if (err) return done(err, undefined);
