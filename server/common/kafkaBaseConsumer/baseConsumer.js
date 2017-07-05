@@ -6,7 +6,6 @@
 
  const Consumer = kafka.Consumer;
 
-const allTopics = [{ topic: 'topic1' }];
 
  let messages = '';
 
@@ -19,7 +18,7 @@ const allTopics = [{ topic: 'topic1' }];
  }
 
  function subscribeToTopic(client, options, topics, done) {
-    const consumer = new Consumer(client, topics, options);
+     const consumer = new Consumer(client, topics, options);
 
      done(null, consumer);
  }
@@ -53,15 +52,6 @@ const allTopics = [{ topic: 'topic1' }];
          return done(undefined, res);
      });
  }
-
-baseConsumer(allTopics,(err,res)=>{
-  if(err){
-    console.log("error",err);
-  }
-  else{
-    console.log("result obtained is",res);
-  }
-});
 
  module.exports = {
      baseConsumer,
