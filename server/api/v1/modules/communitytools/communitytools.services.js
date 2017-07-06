@@ -37,12 +37,14 @@ function getTools(domainName, done) {
 
 function getToolsforCRUD(domainName, tool, done) {
   const domainname = domainName.toLowerCase();
-  const tools = tool.toLowerCase();
-  const query = (`SELECT actions,activityevents,createdon,updatedon from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${tools}'`);
+  const toolid = tool.toLowerCase();
+  console.log(domainname);
+  console.log(toolid);
+  const query = (`SELECT * from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${toolid}'`);
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        done(undefined, { domain: domainname, tools, data: results.rows });
+        done(undefined, { domain: domainname, toolid, data: results.rows });
       } else {
         done({ error: 'Please enter a valid domain and tools name' }, undefined);
       }

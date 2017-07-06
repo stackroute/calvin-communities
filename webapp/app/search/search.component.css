@@ -5,3 +5,15 @@
 .full-width {
 	width: 100%;
 }
+
+.community-card {
+	width: 30%;
+	margin: 10px;
+}
+md-card {
+	margin: 10px;
+}
+
+.content-container {
+	padding: 50px;
+}

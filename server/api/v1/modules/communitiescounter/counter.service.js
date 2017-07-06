@@ -22,10 +22,11 @@ function getcounter(domain, done) {
 }
 
 function incrementmember(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members_count = members_count + 1 WHERE domain='${domain}'`;
+  console.log("nside increment");
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members + 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
@@ -33,10 +34,10 @@ function incrementmember(domain, done) {
 }
 
 function incrementinvitation(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations_count = invitations_count + 1 WHERE domain='${domain}'`;
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations + 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
@@ -44,10 +45,10 @@ function incrementinvitation(domain, done) {
 }
 
 function incrementrequests(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests_count = requests_count + 1 WHERE domain='${domain}'`;
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests + 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
@@ -55,10 +56,10 @@ function incrementrequests(domain, done) {
 }
 
 function incrementtools(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools_count = tools_count + 1 WHERE domain='${domain}'`;
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools + 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
@@ -66,10 +67,10 @@ function incrementtools(domain, done) {
 }
 
 function decrementrequests(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests_count = requests_count - 1 WHERE domain='${domain}'`;
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests - 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
@@ -77,10 +78,10 @@ function decrementrequests(domain, done) {
 }
 
 function decrementmember(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members_count = members_count - 1 WHERE domain='${domain}'`;
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members - 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
@@ -88,10 +89,10 @@ function decrementmember(domain, done) {
 }
 
 function decrementinvitation(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations_count = requests_count - 1 WHERE domain='${domain}'`;
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = requests - 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
@@ -99,10 +100,10 @@ function decrementinvitation(domain, done) {
 }
 
 function decrementtools(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools_count = tools_count - 1 WHERE domain='${domain}'`;
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools - 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      done(err, result.rows);
+      done(null, result.rows);
     } else {
       done(err, undefined);
     }
