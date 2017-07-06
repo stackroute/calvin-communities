@@ -8,6 +8,7 @@ const async = require('async');
 
 const logger = require('../../../../logger');
 
+const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 /**
  *Add memebers to the community
@@ -33,24 +34,29 @@ function addMembersToCommunity(domainName, values, done) {
       if (values.length === flag) {
         values.forEach((data) => {
           communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
-           data.username, data.role, (error) => {
-             if (error) {
-               valueExist += 1;
-             } else {
-               valueExist += 0;
-             }
-           });
+            data.username, data.role, (error) => {
+              if (error) {
+                valueExist += 1;
+              } else {
+                valueExist += 0;
+              }
+            });
         });
         setTimeout(() => {
           if (valueExist === values.length) {
             async.parallel([
               communityMembershipService.addMembersToCommunity.bind(null, domainName, values, done),
-             // membershipService.addMemberToCommunity.bind(null, domainName, values, done),
+              // membershipService.addMemberToCommunity.bind(null, domainName, values, done),
             ], (error, results) => {
-              if (err) { return done(err); }
-              publishMessageToTopic(domainName, values);
+              if (error) {
+                return done(error);
+                console.log("error");
+              }
+              console.log("noerror");
               return done(undefined, results);
             });
+            publishMessageToTopic(domainName, values);
+
           } else {
             done('Member detail already exist');
           }
@@ -59,7 +65,7 @@ function addMembersToCommunity(domainName, values, done) {
         done('Value of username and role cannot be empty');
       }
     } else {
-    // logger.debug('URI parameter cannot be empty.....');
+      // logger.debug('URI parameter cannot be empty.....');
       done('URI parameter cannot be empty.....');
     }
   } else {
@@ -90,22 +96,22 @@ function removeMembersFromCommunity(domainName, values, done) {
       if (values.length === flag) {
         values.forEach((data) => {
           communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
-          data.username, data.role, (error, message) => {
-            if (message) {
-              valueExist += 1;
-            } else {
-              valueExist += 0;
-            }
-          });
+            data.username, data.role, (error, message) => {
+              if (message) {
+                valueExist += 1;
+              } else {
+                valueExist += 0;
+              }
+            });
         });
         setTimeout(() => {
           if (valueExist === values.length) {
             logger.debug('check details');
             async.parallel([
               communityMembershipService.removeMembersFromCommunity.bind(null,
-               domainName, values, done),
+                domainName, values, done),
               membershipService.removeMemberFromCommunity.bind(null,
-               domainName, values, done),
+                domainName, values, done),
             ]);
           } else {
             done({ error: 'Member detail already exist' });
@@ -158,33 +164,34 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
           if (roleExist === values.length) {
             values.forEach((data) => {
               communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
-              data.username, data.role, (error, message) => {
-                if (message) {
-                  valueExist += 1;
-                } else {
-                  valueExist -= 1;
-                }
-              });
-            }); setTimeout(() => {
+                data.username, data.role, (error, message) => {
+                  if (message) {
+                    valueExist += 1;
+                  } else {
+                    valueExist -= 1;
+                  }
+                });
+            });
+            setTimeout(() => {
               if (valueExist === 0) {
                 values.forEach((data) => {
                   communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
-                 data.username, (error, message) => {
-                   if (message) {
-                     dataExist += 1;
-                   } else {
-                     dataExist += 0;
-                   }
-                 });
+                    data.username, (error, message) => {
+                      if (message) {
+                        dataExist += 1;
+                      } else {
+                        dataExist += 0;
+                      }
+                    });
                 });
               }
               setTimeout(() => {
                 if (dataExist === values.length) {
                   async.parallel([
                     communityMembershipService.modifyRoleOfMembersFromCommunity.bind(null,
-                     domainName, values, done),
+                      domainName, values, done),
                     membershipService.modifyRoleOfMemberFromCommunity.bind(null,
-                     domainName, values, done),
+                      domainName, values, done),
                   ]);
                 } else {
                   done('Data not exist');
@@ -219,8 +226,9 @@ function getParticularCommunityMembersDetails(domainName, done) {
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
-function publishMessageToTopic(dataFromURI, dataFromBody ) {
+function publishMessageToTopic(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, value: dataFromBody };
+  console.log("membershipService", message);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic3', message, (err, res) => {
     if (err) {

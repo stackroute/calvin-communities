@@ -20,14 +20,21 @@ const client = new model.Client({
  *
  */
 
-function addMemberToCommunity(domainName, data) {
+function addMemberToCommunity(domainName, data, done) {
   const arr = [];
   const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon) values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
     arr.push({ query, params: [val.username, domainName.toLowerCase(), val.role.toLowerCase()] });
   });
   logger.debug('Member added');
-  return client.batch(arr, { prepare: true });
+  return client.batch(arr, { prepare: true }, (err,res)=>{
+    if(err){
+      return done(err);
+    }
+    else{
+      return done(null, res);
+    }
+  });
 }
 
 /**
