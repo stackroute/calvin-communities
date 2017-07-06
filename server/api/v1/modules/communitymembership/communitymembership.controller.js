@@ -219,10 +219,10 @@ function getParticularCommunityMembersDetails(domainName, done) {
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
-function publishMessageToTopic(dataFromBody, dataFromURI) {
+function publishMessageToTopic(dataFromURI, dataFromBody ) {
   let message = { domain: dataFromURI, value: dataFromBody };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic1', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
     if (err) {
       console.log('error occured', err);
     } else {

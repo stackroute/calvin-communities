@@ -158,8 +158,10 @@ function deleteTool(domain, done) {
 }
 
 function publishMessageToTopic(dataFromBody, dataFromURI) {
+  console.log("inside publish");
   let message = { domain: dataFromURI, tools: dataFromBody };
   message = JSON.stringify(message);
+  // console.log("sending message",message);
   registerPublisherService.publishToTopic('topic1', message, (err, res) => {
     if (err) {
       console.log('error occured', err);

@@ -158,8 +158,8 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
       ],
         (error, result) => {
           if (err) return done(err);
-          publishMessageToTopic(community.domain);
-         // return done(undefined, result[0]);
+           publishMessageToTopic(community.domain);
+           return done(undefined, result[0]);
         });
     } return done('Domain Already Exists');
   });
@@ -224,10 +224,10 @@ function updateCommunity(domainName, community, done) {
   } return done('Wrong Data Inputs', null);
 }
 
-function publishMessageToTopic(dataFromBody) {
+function publishMessageToTopic(dataFromURI) {
   let message = { domain: dataFromURI };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic1', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       console.log('error occured', err);
     } else {

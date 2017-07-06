@@ -9,7 +9,7 @@ module.exports = function (topicNameArray, consumerOptions, callback) {
     return;
   }
 
-  console.log(callback);
+  // console.log(callback);
   const consumerTopics = topicNameArray.map(topic => ({ topic }));
   console.log('Registering for topics ', consumerTopics);
 
@@ -17,7 +17,9 @@ module.exports = function (topicNameArray, consumerOptions, callback) {
   const consumer = new Consumer(client, consumerTopics, consumerOptions);
 
   consumer.on('message', (messageObj) => {
+    console.log("got message",messageObj);
     const msgDataObj = JSON.parse(messageObj.value);
+     // console.log("value is",msgDataObj);
     callback(msgDataObj);
   });
 };

@@ -5,13 +5,11 @@ function publishToTopic(topic, msgs, callback) {
   const client = new kafkaNode.Client();
   const producer = new HighLevelProducer(client);
      // msgs=JSON.stringify(msgs);
-  const payloads = [{ topic, messages: msgs }];
-
+  const payloads = [{ topic: topic, messages: msgs }];
     // Does the topic exists or not?
 
   producer.on('ready', () => {
     producer.send(payloads, (err, result) => {
-      console.log('published!!');
             // Close the connection
       producer.close();
       client.close();
@@ -27,7 +25,9 @@ function publishToTopic(topic, msgs, callback) {
     });
   });
 
-  producer.on('error', (err) => {});
+  producer.on('error', (err) => {
+    console.log(err);
+  });
 }
 
 
