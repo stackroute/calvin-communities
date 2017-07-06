@@ -17,23 +17,32 @@ function gettingValuesByDomain(domain, done) {
 
 function InsertData(dataFromBody, dataFromParams, done) {
   let flag = false;
-  if ((dataFromBody.person.length) && (dataFromParams)) {
+  let flag2 = 0;
+  const persons = dataFromBody.personrole;
+
+  persons.forEach((b) => {
+    if ((b.email !== 'null') && (b.email)) {
+      if ((dataFromBody.type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '') || (dataFromBody.type.toLowerCase() === 'request' && b.role.toLowerCase() === '')) {
+        flag2 += 1;
+      }
+    }
+  });
+
+  if (dataFromParams) {
     if (dataFromParams !== 'null') {
-      if ((dataFromBody.type.toLowerCase() === 'invite' && dataFromBody.role.toLowerCase() !== '') || (dataFromBody.type.toLowerCase() === 'request' && dataFromBody.role.toLowerCase() === '')) {
-        if ((dataFromBody.type.toLowerCase() === 'invite' && dataFromBody.member.length > 0) || (dataFromBody.type.toLowerCase() === 'request' && dataFromBody.member === '')) {
-          if (dataFromBody.status.toLowerCase() !== 'approved' && dataFromBody.status.toLowerCase() !== 'accepted') {
-            statusstring.forEach((a) => {
-              if (dataFromBody.status.toLowerCase().includes(a)) {
-                flag = true;
-              }
-            });
-          }
+      if ((dataFromBody.type.toLowerCase() === 'invite' && dataFromBody.member.length > 0) || (dataFromBody.type.toLowerCase() === 'request' && dataFromBody.member === '')) {
+        if (dataFromBody.status.toLowerCase() !== 'approved' && dataFromBody.status.toLowerCase() !== 'accepted') {
+          statusstring.forEach((a) => {
+            if (dataFromBody.status.toLowerCase().includes(a)) {
+              flag = true;
+            }
+          });
         }
       }
     }
   }
 
-  if (flag) {
+  if ((flag) && (flag2 === persons.length)) {
     service.InsertData(dataFromBody, dataFromParams, done);
   } else {
     done({ error: 'Please enter valid values!!' }, undefined);

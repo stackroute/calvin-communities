@@ -123,7 +123,7 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_REQUESTS} ( \
   type text, \
   status text , \
   person text, \
-  member text, \
+  invitedBy text, \
   createdon timestamp, \
   updatedon timestamp, \
   PRIMARY KEY(domain, person)
