@@ -36,14 +36,13 @@ const postdata = [{
   },
   toolId: 'git',
 }];
-const patchdata = {
+const patchdata = [{
   actions: {
     post: 'true',
     likes: 'true',
   },
   toolId: 'quora_patch',
-
-};
+}];
 describe('Create a communityrole and update it', () => {
   before(() => {});
   it('Create a new communityrole', (done) => {
@@ -169,7 +168,7 @@ describe('Create a communityrole and update it', () => {
       .then(() => {
         client.execute("SELECT * from communityroles where domain='africans'", (err, result) => {
           if (!err) {
-            result.rows[0].actions.should.have.property('post').equal(patchdata.actions.post);
+            result.rows[0].actions.should.have.property('post').equal(patchdata[0].actions.post);
             done();
           }
         });
@@ -185,7 +184,7 @@ describe('Create a communityrole and update it', () => {
       .then(() => {
         client.execute("SELECT * from communityroles where domain='prakhar'", (err, result) => {
           if (!err) {
-            result.rows[0].actions.should.have.property('post').equal(patchdata.actions.post);
+            result.rows[0].actions.should.have.property('post').equal(patchdata[0].actions.post);
             done();
           }
         });

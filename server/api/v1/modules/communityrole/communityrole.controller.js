@@ -64,7 +64,7 @@ function postCommunityRoles(domainName, postedData, done) {
 }
 
 
-function patchCommunityRoles(patchData, domainName, role, done) {
+/* function patchCommunityRoles(patchData, domainName, role, done) {
   const params = [patchData[0].actions, domainName.toLowerCase(),
     role.toLowerCase(), patchData[0].toolId.toLowerCase(),
   ];
@@ -87,7 +87,31 @@ function patchCommunityRoles(patchData, domainName, role, done) {
     }
   }, 100);
 }
-
+*/
+function patchCommunityRoles(patchData, domainName, role, done) {
+  /* const params = [patchData[0].actions, domainName.toLowerCase(),
+    role.toLowerCase(), patchData[0].toolId.toLowerCase(),
+  ];*/
+  let count = 0;
+  logger.debug(domainName);
+  logger.debug(role);
+  communityRoleService.checkCommunityRole2(domainName, role, (err) => {
+    if (!err) {
+      count += 1;
+      logger.debug(count);
+    } else {
+      count += 0;
+    }
+  });
+  setTimeout(() => {
+    logger.debug('patchData.length', patchData.length);
+    if (count > 0) {
+      communityRoleService.patchCommunityRoles(patchData, domainName, role, done);
+    } else {
+      done({ error: 'Patch only allowed for existant data' }, undefined);
+    }
+  }, 100);
+}
 
 // function patchCommunityRoles(patchData, domainName, role, done) {
 //   logger.debug('patchData[0].actions', patchData[0].actions);

@@ -329,13 +329,35 @@ function postCommunityRoles(domainName, postedData, done) {
   });
 }*/
 
-function patchCommunityRoles(values, done) {
+/* function patchCommunityRoles(values, done) {
   logger.debug('Values from Patch service', values);
 
-  const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ?, updatedon=dateof(now()) where domain = ? AND role=? and toolid=?`); // SORT BY domainname, role`;
-  return client.execute(query, values, { hints: ['map', 'text', 'text', 'text'] }, (err, results) => {
+  const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ?,
+   updatedon=dateof(now()) where domain = ? AND role=? and toolid=?`); // SORT BY domainname, role`;
+  return client.execute(query, values, { hints: ['map', 'text', 'text', 'text'] },
+  (err, results) => {
     if (!err) {
       done(err, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
+}*/
+function patchCommunityRoles(patchData, domainName, role, done) {
+  logger.debug('Inside Patch Request');
+  const arr = [];
+  const query = (`UPDATE ${COMMUNITY_ROLE_TABLE} SET actions = actions + ?, updatedon=dateof(now()) where domain = '${domainName.toLowerCase()}' AND role='${role.toLowerCase()}' and toolid=?`); // SORT BY domainname, role`;
+  patchData.forEach((data) => {
+    logger.debug('data.actions', data.actions);
+    arr.push({
+      query,
+      params: [(data.actions), data.toolId],
+    });
+  });
+  logger.debug('Patch Array :', arr);
+  return client.batch(arr, { prepare: true }, (err) => {
+    if (!err) {
+      done(null, 'Updated');
     } else {
       done(err, undefined);
     }
