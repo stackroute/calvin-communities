@@ -15,7 +15,8 @@
     "installdb": "node ./server/dbcreation.js",
     "truncatedb": "node ./server/dbcleanup.js",
     "svc.counter": "node server/counters.service",
-    "svc.tool": "node server/tools.service"
+    "svc.tool": "node server/tools.service",
+    "svc.member": "node server/member.service"
   },
   "private": true,
   "dependencies": {
