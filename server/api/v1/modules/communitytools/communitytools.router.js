@@ -67,10 +67,10 @@ router.post('/:domainname/tools', (req, res) => {
     const dataFromParams = req.params.domainname;
     communityToolCtrl.postTools(dataFromBody, dataFromParams, (err, results) => {
       if (err) {
-        console.log('Error in communityToolCtrl.postTools error: ', err);
+        // console.log('Error in communityToolCtrl.postTools error: ', err);
         return res.status(404).send(err);
       }
-      console.log('updated in communityToolCtrl.postTools ');
+     // console.log('updated in communityToolCtrl.postTools ');
       return res.status(201).send({ message: 'tool created' });
     });
   } catch (err) {

@@ -70,7 +70,7 @@ function postTools(dataFromBody, dataFromURI, done) {
           if (err) {
             return done(err);
           }
-          console.log('message here');
+          // console.log('message here');
           publishMessageToTopic(dataFromBody, dataFromURI);
           return done(undefined, { message: 'Updated' });
         });
@@ -158,7 +158,7 @@ function deleteTool(domain, done) {
 }
 
 function publishMessageToTopic(dataFromBody, dataFromURI) {
-  console.log("inside publish");
+  // console.log("inside publish");
   let message = { domain: dataFromURI, tools: dataFromBody };
   message = JSON.stringify(message);
   // console.log("sending message",message);
