@@ -14,18 +14,27 @@ const client = new model.Client({
 // Query for insert the values into the row
 
 function InsertData(data, dataFromParams, done) {
-  const person = data.person;
-  let error;
-  let res;
+  const persons = data.personrole;
+  const arr = [];
 
-  person.forEach((email) => {
-    const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,member,status,type,createdon,updatedon) VALUES('${dataFromParams.toLowerCase()}','${data.role.toLowerCase()}','${email.toLowerCase()}','${data.member.toLowerCase()}','${data.status.toLowerCase()}','${data.type.toLowerCase()}',dateof(now()),dateof(now()))`);
-    client.execute(query, (err, result) => {
-      error += err;
-      res += result;
+  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedBy,status,type,createdon,updatedon) VALUES(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
+  persons.forEach((emailandrole) => {
+    const person = emailandrole.email.toLowerCase();
+    const role = emailandrole.role.toLowerCase();
+    arr.push({
+      query,
+      params: [dataFromParams.toLowerCase(),
+        role, person, data.member.toLowerCase(), data.status.toLowerCase(), data.type.toLowerCase(),
+      ],
     });
   });
-  done(error, res);
+  return client.batch(arr, { prepare: true }, (err) => {
+    if (!err) {
+      done(undefined, { message: 'Inserted' });
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
+    }
+  });
 }
 
 
@@ -80,7 +89,7 @@ function statusUpdateRequest(domain, person, bodyData, done) {
   const status = bodyData.status.toLowerCase();
   const member = bodyData.member.toLowerCase();
   const role = bodyData.role.toLowerCase();
-  const query = (`UPDATE ${InviteRequestTable} SET role = '${role}',status = '${status}',member = '${member}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
+  const query = (`UPDATE ${InviteRequestTable} SET role = '${role}',status = '${status}',invitedBy = '${member}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 
