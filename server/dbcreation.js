@@ -142,6 +142,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COUNTER} ( \
   )`);
 
 
+function dbCreate() {
+
 /**
 * KEYSPACE & TABLE Creation
 */
@@ -189,3 +191,8 @@ client.connect()
   logger.debug('error in Database operations:', err);
   process.exit();
 });
+}
+
+module.exports = {
+  dbCreate
+}

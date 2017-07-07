@@ -209,7 +209,7 @@ function updateCommunity(domainName, community, status, done) {
 
   if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done([400, 'An Updater\'s data is required to be sent']); }
 
-  status = status.toLowerCase();
+ // status = status.toLowerCase();
 
  // if (status === 'disable') { status = 'inactive'; } else if (status === 'enable') { status = 'Active'; } else { status = 'Suspended'; }
 
@@ -222,7 +222,7 @@ function updateCommunity(domainName, community, status, done) {
       community.tags, community.updatedby, status, domainName.toLowerCase(),
     ];*/
       const param = [community.name, community.avatar, community.description, community.visibility,
-      community.tags, community.updatedby, domainName.toLowerCase(),
+      community.tags, community.updatedby, domainName.toLowerCase()
     ];
 
     return communityService.updateCommunity(param, done);
