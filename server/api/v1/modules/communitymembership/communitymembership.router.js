@@ -20,7 +20,9 @@ router.post('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.addMembersToCommunity(domainName, values, (err) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        // return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        logger.debug(err);
+        return res.status(400).send(err);
       }
       logger.debug('adding member');
       return res.status(200).send({ message: 'Member added' });
@@ -46,7 +48,8 @@ router.delete('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.removeMembersFromCommunity(domainName, values, (err) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        logger.debug(err);
+        return res.status(400).send(err);
       }
       logger.debug('removing member');
       return res.status(200).send({ message: 'Member deleted' });
@@ -71,8 +74,10 @@ router.patch('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.modifyRoleOfMembersFromCommunity(domainName, values, (err) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        logger.debug(err);
+        return res.status(400).send(err);
       }
+      logger.debug('Role modified');
       return res.status(200).send({ message: 'Role modified' });
     });
   } catch (err) {
@@ -97,8 +102,10 @@ router.get('/:domain/members', (req, res) => {
     const domainName = req.params.domain;
     communityMembershipCtrl.getParticularCommunityMembersDetails(domainName, (err, results) => {
       if (err) {
-        return res.status(500).send(err);
+        logger.debug(err);
+        return res.status(400).send(err);
       }
+      logger.debug(results);
       return res.send(results);
     });
   } catch (err) {

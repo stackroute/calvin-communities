@@ -1,75 +1,118 @@
-/* require('chai').should();
+ require('chai').should();
 
-const app = require('../../../../app');
+ const app = require('../../../../app');
 
-const request = require('supertest');
+ const request = require('supertest');
 
-const model = require('cassandra-driver');
+ const model = require('cassandra-driver');
 
-const logger = require('../../../../logger');
+ const logger = require('../../../../logger');
 
-const connectionString = require('../../../../config').connectionString;
+ const connectionString = require('../../../../config').connectionString;
 
-const client = new model.Client({
-  contactPoints: [connectionString.contact],
-  protocolOptions: { port: connectionString.port },
-  keyspace: connectionString.keyspace,
-});
+ const client = new model.Client({
+   contactPoints: [connectionString.contact],
+   protocolOptions: { port: connectionString.port },
+   keyspace: connectionString.keyspace,
+ });
 
-const COMMUNITY_MEMBERSHIP_TABLE = 'communitymembership';
+ const COMMUNITY_MEMBERSHIP_TABLE = 'communitymembership';
+ const COMMUNITY_ROLES_TABLE = 'communityroles';
+ const value = require('./communitymembership.testData');
 
-describe('Create a community and update it', () => {
-  before(() => {
-        // runs before all tests in this block
+ const uri = '/api/v1/communitymembership/';
 
-    client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
-    where domain='Stack-Route-Immersive'`);
-  });
 
-  it('Add new member to a community', (done) => {
-    request(app)
-            .post('/api/v1/membership/community/member/role')
-            .send({
-              domain: 'Stack-Route-Immersive',
+ describe('Create a community and update it', () => {
+  /**
+ *Run before all test cases in this block
+ *
+ * before hook to execute arbitrary code before this block
+ *
+ *
+ */
+   before(() => {
+     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni';`);
+     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.chnni'`);
+   });
+
+   // it('Add new member to a community', (done) => {
+   //   request(app)
+   //          .post(`${uri}wipro.chnni/members`)
+   //          .send(addMember)
+   //          .then(() => {
+   // client.execute(`SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE}
+   // where domain='wipro.chnni'`, (err, result) => {
+   //              if (!err) {
+   //          // logger.debug(`Result from testcase ${result.rows[0]}`);
+   //                result.rows.length.should.be.equal(2);
+   //                logger.debug(result);
+   //                logger.debug(result.rows[0])
+   //                logger.debug(addMember[0]);
+   //                result.rows.should.deep.equal(addMember[0]);
+   //                done();
+   //              }
+   //            });
+   //          })
+   //    .catch((err) => {
+   //      logger.debug('In error');
+   //      done(err);
+   //    });
+   // });
+
+/**
+ *Testing post method to add member details
+ *
+ * POST request
+ *
+ *
+ */
+   it('Add new member to a community', (done) => {
+     request(app)
+            .post(`${uri}wipro.chnni/members`)
+            .send([{
               username: 'Aravindh',
-              role: 'Trainee-FullStack-Developer',
-            })
+              role: 'trainee-fullStack-developer',
+            }])
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
-              where domain='Stack-Route-Immersive'`, (err, result) => {
-                    // logger.debug(result.rows[0]);
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni'`, (err, result) => {
                 result.rows.length.should.be.equal(1);
-                result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
+                result.rows[0].domain.should.be.equal('wipro.chnni');
                 result.rows[0].username.should.be.equal('Aravindh');
-                result.rows[0].role.should.be.equal('Trainee-FullStack-Developer');
-                    // logger.debug('Data added...');
+                result.rows[0].role.should.be.equal('trainee-fullStack-developer');
               });
               done();
             })
             .catch((err) => {
               done(err);
             });
-  });
+   });
 
-  it('Update a community member', (done) => {
-    request(app)
-            .patch('/api/v1/membership/member/Aravindh/community/Stack-Route-Immersive/role')
-            .send({
-              role: 'Trainee-FullStack',
-            })
+   /**
+ *Testing patch method to check error when given role not available for a domain
+ *
+ * PATCH request
+ *
+ *
+ */
+
+   it('Error updating a community member', (done) => {
+     request(app)
+            .patch(`${uri}wipro.chnni/members`)
+            .send([{
+              username: 'Aravindh',
+              role: 'trainee-fullStack',
+            }])
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
-              where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err, result) => {
-                    // logger.debug(result.rows);
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni' AND username='Aravindh'`, (err, result) => {
                 if (!err) {
-                  result.rows.length.should.be.equal(1);
-                  result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
+                  result.rows.length.should.be.equal(0);
+                  result.rows[0].domain.should.be.equal('wipro.chnni');
                   result.rows[0].username.should.be.equal('Aravindh');
-                  result.rows[0].role.should.be.equal('Trainee-FullStack');
-                        // logger.debug(result.rows);
+                  result.rows[0].role.should.be.equal('trainee-fullStack');
                 }
                 if (err) {
-                        // logger.debug('This community not have a member of this name...!!');
+                  logger.debug('No data available');
                 }
               });
               done();
@@ -77,18 +120,43 @@ describe('Create a community and update it', () => {
             .catch((err) => {
               done(err);
             });
-  });
+   });
 
-  it('Get a member of community with role', (done) => {
-    request(app)
-            .get('/api/v1/membership/community/Stack-Route-Immersive/members')
+/**
+ *Testing post method to add community roles to check availability of role for a domain
+ *
+ * POST request
+ *
+ *
+ */
+   it('should post communityroles to database', (done) => {
+     request(app)
+            .post('/api/v1/communityrole/wipro.chnni')
+            .send(value.addCommunityRolesForSerive)
+            .end((err, res) => {
+              if (err) {
+                return done(err);
+              }
+              res.body.should.deep.equal(value.successAddCommunityRoles);
+              return done();
+            });
+     return null;
+   });
+
+/**
+ *Testing get method to get details of a particular domain
+ *
+ * GET request
+ *
+ *
+ */
+   it('Get a member of community with role', (done) => {
+     request(app)
+            .get(`${uri}wipro.chnni/members`)
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
-              where domain='Stack-Route-Immersive' `, (err, result) => {
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE}  where domain='wipro.chnni' `, (err, result) => {
                 if (!err) {
                   result.rows.length.should.be.equal(1);
-                        // logger.debug(result.rows);
-                        // logger.debug('Data is retrieved from a table');
                 }
               });
               done();
@@ -96,18 +164,32 @@ describe('Create a community and update it', () => {
             .catch((err) => {
               done(err);
             });
-  });
-  it('Delete a community member', (done) => {
-    request(app)
-            .delete('/api/v1/membership/community/Stack-Route-Immersive/removemember/Aravindh')
+   });
+
+          /**
+ *Testing patch method to update role for a members in a domain when role exist for a domain
+ * PATCH request
+ *
+ *
+ */
+
+   it('Update a community member', (done) => {
+     request(app)
+            .patch(`${uri}wipro.chnni/members`)
+            .send([{
+              username: 'Aravindh',
+              role: 'trainee-fullStack',
+            }])
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
-              where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni' AND username='Aravindh'`, (err, result) => {
                 if (!err) {
-                        // logger.debug('Data Deleted..');
+                  result.rows.length.should.be.equal(0);
+                  result.rows[0].domain.should.be.equal('wipro.chnni');
+                  result.rows[0].username.should.be.equal('Aravindh');
+                  result.rows[0].role.should.be.equal('trainee-fullStack');
                 }
                 if (err) {
-                        // logger.debug('This community not have a member of this name...!!');
+                  logger.debug('No data available');
                 }
               });
               done();
@@ -115,36 +197,123 @@ describe('Create a community and update it', () => {
             .catch((err) => {
               done(err);
             });
-  });
-  it('Add new member to a community', (done) => {
-    request(app)
-            .post('/api/v1/membership/community/member/role')
-            .send({
-              domain: 'Stack-Route-Immersive',
-              username: 'Aravindh',
-              role: 'Trainee-FullStack-Developer',
-            })
+   });
+
+   /**
+ *Testing get method to get details of a particular domain
+ *
+ * GET request
+ *
+ *
+ */
+
+   it('Get a member of community with role', (done) => {
+     request(app)
+            .get(`${uri}wipro.chnni/members`)
             .then(() => {
-              client.execute(`SELECT * FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
-              where domain='Stack-Route-Immersive'`, (err, result) => {
-                    //  logger.debug(result.rows[0]);
-                result.rows.length.should.be.equal(1);
-                result.rows[0].domain.should.be.equal('Stack-Route-Immersive');
-                result.rows[0].username.should.be.equal('Aravindh');
-                result.rows[0].role.should.be.equal('Trainee-FullStack-Developer');
-                    // logger.debug('Data added again...');
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE}  where domain='wipro.chnni' `, (err, result) => {
+                if (!err) {
+                  result.rows.length.should.be.equal(1);
+                }
               });
               done();
             })
             .catch((err) => {
               done(err);
             });
-  });
+   });
+   /**
+ *Testing delete method to delete member details
+ *
+ * DELETE request
+ *
+ *
+ */
+   it('Delete a community member', (done) => {
+     request(app)
+            .delete(`${uri}wipro.chnni/members`)
+                        .send([{
+                          username: 'Aravindh',
+                          role: 'trainee-fullStack',
+                        }])
+            .then(() => {
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
+                if (!err) {
+                  logger.debug('Data deleted');
+                }
+                if (err) {
+                  logger.debug('No data available');
+                }
+              });
+              done();
+            })
+            .catch((err) => {
+              done(err);
+            });
+   });
 
+  /**
+ *Testing get method for error when domain not available in database
+ *
+ * GET request
+ *
+ *
+ */
+   it('Error on Get a member of community with role', (done) => {
+     request(app)
+            .get(`${uri}wipro.chnni/members`)
+            .then(() => {
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE}  where domain='wipro.chnni' `, (err, result) => {
+                if (!err) {
+                  result.rows.length.should.be.equal(1);
+                }
+              });
+              done();
+            })
+            .catch((err) => {
+              done(err);
+            });
+   });
+   /**
+ *Testing delete method to check error when given data is not exist
+ *
+ * DELETE request
+ *
+ *
+ */
 
-  after('', () => {
-    client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} \
-    where domain='Stack-Route-Immersive'`);
-  });
-});
-*/
+   it('Error Delete a community member', (done) => {
+     request(app)
+            .delete(`${uri}wipro.chnni/members`)
+                        .send([{
+                          username: 'Aravindh',
+                          role: 'trainee-fullStack',
+                        }])
+            .then(() => {
+              client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='Stack-Route-Immersive' AND username='Aravindh' `, (err) => {
+                if (!err) {
+                  logger.debug('Data deleted');
+                }
+                if (err) {
+                  logger.debug('No data available');
+                }
+              });
+              done();
+            })
+            .catch((err) => {
+              done(err);
+            });
+   });
+
+  /**
+ *Run after all test cases in this block
+ *
+ * after hook to execute arbitrary code after this block
+ *
+ *
+ */
+   after('', () => {
+     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni'`);
+     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.chnni'`);
+   });
+ });
