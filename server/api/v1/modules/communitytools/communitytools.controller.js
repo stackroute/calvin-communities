@@ -66,13 +66,13 @@ function postTools(dataFromBody, dataFromURI, done) {
         async.parallel([
           communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
 
-        ], (err) => {
+        ], (err,result) => {
           if (err) {
             return done(err);
           }
           // console.log('message here');
           publishMessageToTopic(dataFromBody, dataFromURI);
-          return done(undefined, { message: 'Updated' });
+          return done(undefined, result);
         });
       } else {
         done({ error: 'Tool Exists!!' }, undefined);

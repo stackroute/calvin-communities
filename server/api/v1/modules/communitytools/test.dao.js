@@ -1,7 +1,5 @@
  const wrongdata = { message: 'please fill out all fields!!' };
 
- const toolcreated = { message: 'tool created' };
-
  const modified = { message: 'Tool modified' };
 
  const deleted = { message: 'deleted' };
@@ -27,11 +25,47 @@
  const tools = [{
    toolId: 'quora',
    actions: ['broadcast', 'write'],
-   activityEvents: ["'postmessage'"],
+   activityevents: ["'postmessage'"],
  }];
 
+
+ const multipleTools =  [
+    {
+toolId: "sermo",
+actions: ["postmesage", "read", "Likemessage", "edit", "share"],
+activityEvents: ["newannouncement", "like", "remove"]
+ },
+ {
+toolId: "quora",
+actions: ["postmesage", "read", "Likemessage", "edit", "share"],
+activityEvents: ["newannouncement", "like", "remove"]
+ },
+ {
+toolId: "hulu",
+actions: ["postmesage", "read", "Likemessage", "edit", "share"],
+activityEvents: ["newannouncement", "like", "remove"]
+ }
+ ];
+
+ const multipleWrongTools =  [
+    {
+toolId: "sermo",
+actions: ["postmesage", "read", "Likemessage", "edit", "share"],
+activityEvents: ["newannouncement", "like", "remove"]
+ },
+ {
+actions: ["postmesage", "read", "Likemessage", "edit", "share"],
+activityEvents: ["newannouncement", "like", "remove"]
+ },
+ {
+toolId: "hulu",
+actions: ["postmesage", "read", "Likemessage", "edit", "share"],
+activityEvents: ["newannouncement", "like", "remove"]
+ }
+ ];
+
  const toolsAll = [{
-   toolId: 'WeMedUp',
+   toolId: 'wemedup',
    actions: ["'broadcast'", "'write'"],
    activityEvents: ["'postmessage'"],
  }];
@@ -80,7 +114,6 @@
 
  module.exports = {
    wrongdata,
-   toolcreated,
    modified,
    tools,
    wrongtools,
@@ -101,4 +134,6 @@
    eventMsg,
    patchUpper,
    actionDeleted,
+   multipleTools,
+   multipleWrongTools,
  };
