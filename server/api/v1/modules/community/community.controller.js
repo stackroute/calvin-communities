@@ -137,10 +137,10 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
   ) {
     community.domain = community.domain.toLowerCase(); // eslint-disable-line no-param-reassign
     values = getTemplateDetails(community);
-  } else return done([400,'Visibility can be from given values only, either \'Public\', \'Private\' or \'Moderated\' ']);
+  } else return done([400, 'Visibility can be from given values only, either \'Public\', \'Private\' or \'Moderated\' ']);
 
   if (values === -1) {
-    return done([400,'A Template Name is supposed to be chosen from mentioned list only']);
+    return done([400, 'A Template Name is supposed to be chosen from mentioned list only']);
   }
 
   communityService.getCommunity(community.domain,
@@ -156,11 +156,11 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
 
         ],
         (error, result) => {
-          if (err) { logger.debug(err); return done([500,'Internal server error']); }
+          if (err) { logger.debug(err); return done([500, 'Internal server error']); }
           publishMessageToTopic(community.domain);
           return done(undefined, result[0]);
         });
-      } return done([400,'Domain Already Exists']);
+      } return done([400, 'Domain Already Exists']);
     });
 }
 
@@ -198,15 +198,15 @@ function getCommunity(domain, counter, done) {
  *
  */
 function updateCommunity(domainName, community, status, done) {
-  if (Object.keys(community).length === 1) { return done([400,'Please pass some data to process']); }
+  if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
-  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400,'At least one Tag is required to to be passed']); }
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to to be passed']); }
 
   if (typeof (community.tags) === 'string') { community.tags = [community.tags]; } // eslint-disable-line no-param-reassign
 
-  if (!_.has(community, 'name') || _.isEmpty(community.name)) { return done([400,'A Name needs to be passed']); }
+  if (!_.has(community, 'name') || _.isEmpty(community.name)) { return done([400, 'A Name needs to be passed']); }
 
-  if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done([400,'An Updater\'s data is required to be sent']); }
+  if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done([400, 'An Updater\'s data is required to be sent']); }
 
   status = status.toLowerCase();
 

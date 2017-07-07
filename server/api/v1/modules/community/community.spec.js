@@ -65,7 +65,7 @@ describe('get/ post/ patch community ', () => {
     tags: ['new', 'data'],
     domain: 'firstdomain',
     status: 'disable',
-    purpose: 'sports'
+    purpose: 'sports',
   };
 
   /**
@@ -130,7 +130,7 @@ describe('get/ post/ patch community ', () => {
     purpose: 'sports',
     template: 'surgeon',
     visibility: 'Public',
-    status: 'enable'
+    status: 'enable',
   };
 
   /**
@@ -147,17 +147,18 @@ describe('get/ post/ patch community ', () => {
     request
       .post(`/api/v1/communities/${alldata.domain}`)
       .send(alldata)
-      .then((result) => {
+      .then(() => {
         const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
-        client.execute(query, (error, dbresult) => {
-          if(error) { logger.debug("First Test", error); return done(error); }
-          dbresult.rows[0].domain.should.be.equal(alldata.domain);
-          dbresult.rows[0].purpose.should.be.equal(alldata.purpose);
-          dbresult.rows[0].description.should.be.equal(alldata.description);
-          dbresult.rows[0].avatar.should.be.equal(alldata.avatar);
-          dbresult.rows[0].owner.should.be.equal(alldata.owner);
-          done();
-        })
+        client.execute(query,
+          (error, dbresult) => { // eslint-disable-line consistent-return
+            if (error) { logger.debug('First Test', error); return done(error); }
+            dbresult.rows[0].domain.should.be.equal(alldata.domain);
+            dbresult.rows[0].purpose.should.be.equal(alldata.purpose);
+            dbresult.rows[0].description.should.be.equal(alldata.description);
+            dbresult.rows[0].avatar.should.be.equal(alldata.avatar);
+            dbresult.rows[0].owner.should.be.equal(alldata.owner);
+            done();
+          });
       })
       .catch((err) => {
         done(err);
@@ -178,11 +179,12 @@ describe('get/ post/ patch community ', () => {
         result.body.error.should.equal('Domain Already Exists');
         result.status.should.be.equal(400);
         const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
-        client.execute(query, (error, dbresult) => {
-          if(error) { logger.debug("Second Test", error); return done(error); }
-          dbresult.rows[0].domain.should.be.equal(alldata.domain);
-          done();
-        })
+        client.execute(query,
+          (error, dbresult) => { // eslint-disable-line consistent-return
+            if (error) { logger.debug('Second Test', error); return done(error); }
+            dbresult.rows[0].domain.should.be.equal(alldata.domain);
+            done();
+          });
       })
       .catch((err) => {
         done(err);
@@ -199,15 +201,16 @@ describe('get/ post/ patch community ', () => {
       .get(`/api/v1/communities/${alldata.domain}`)
       .then((result) => {
         const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
-        client.execute(query, (error, dbresult) => {
-          if(error) { logger.debug("First Test", error); return done(error); }
-          dbresult.rows[0].domain.should.be.equal(result.body.domain);
-          dbresult.rows[0].purpose.should.be.equal(result.body.purpose);
-          dbresult.rows[0].description.should.be.equal(result.body.description);
-          dbresult.rows[0].avatar.should.be.equal(result.body.avatar);
-          dbresult.rows[0].owner.should.be.equal(result.body.owner);
-          done();
-        })
+        client.execute(query,
+          (error, dbresult) => { // eslint-disable-line consistent-return
+            if (error) { logger.debug('First Test', error); return done(error); }
+            dbresult.rows[0].domain.should.be.equal(result.body.domain);
+            dbresult.rows[0].purpose.should.be.equal(result.body.purpose);
+            dbresult.rows[0].description.should.be.equal(result.body.description);
+            dbresult.rows[0].avatar.should.be.equal(result.body.avatar);
+            dbresult.rows[0].owner.should.be.equal(result.body.owner);
+            done();
+          });
       })
       .catch((err) => {
         done(err);
@@ -225,19 +228,20 @@ describe('get/ post/ patch community ', () => {
       .then((result) => {
         result.body.length.should.be.equal(0);
         result.status.should.be.equal(200);
-        const query = `SELECT * FROM communities where domain = 'chiKen'`;
-        client.execute(query, (error, dbresult) => {
-          if(error) { logger.debug("Fourth Test", error); return done(error); }
-          dbresult.rows.length.should.be.equal(result.body.length);
-          done();
-        })
+        const query = 'SELECT * FROM communities where domain = \'chiKen\'';
+        client.execute(query,
+          (error, dbresult) => { // eslint-disable-line consistent-return
+            if (error) { logger.debug('Fourth Test', error); return done(error); }
+            dbresult.rows.length.should.be.equal(result.body.length);
+            done();
+          });
       })
       .catch((err) => {
         done(err);
       });
   });
 
-/**
+  /**
 *use PATCH request to edit data for a community
 *
 *
@@ -246,18 +250,19 @@ describe('get/ post/ patch community ', () => {
     request
       .patch(`/api/v1/communities/${editdata.domain}/status/${editdata.status}`)
       .send(editdata)
-      .then((result) => {
+      .then(() => {
         const query = `SELECT * FROM communities where domain = '${editdata.domain}'`;
-        client.execute(query, (error, dbresult) => {
-          if(error) {return logger.debug("Fifth Test", error); done(error); }
-          dbresult.rows[0].domain.should.be.equal(editdata.domain);
-          dbresult.rows[0].purpose.should.be.equal(editdata.purpose);
-          dbresult.rows[0].description.should.be.equal(editdata.description);
-          dbresult.rows[0].avatar.should.be.equal(editdata.avatar);
-          dbresult.rows[0].updatedby.should.be.equal(editdata.updatedby);
-          dbresult.rows[0].visibility.should.be.equal(editdata.visibility);
-          done();
-        })
+        client.execute(query,
+          (error, dbresult) => { // eslint-disable-line consistent-return
+            if (error) { return logger.debug('Fifth Test', error); done(error); } // eslint-disable-line no-unreachable
+            dbresult.rows[0].domain.should.be.equal(editdata.domain);
+            dbresult.rows[0].purpose.should.be.equal(editdata.purpose);
+            dbresult.rows[0].description.should.be.equal(editdata.description);
+            dbresult.rows[0].avatar.should.be.equal(editdata.avatar);
+            dbresult.rows[0].updatedby.should.be.equal(editdata.updatedby);
+            dbresult.rows[0].visibility.should.be.equal(editdata.visibility);
+            done();
+          });
       })
       .catch((err) => {
         done(err);
@@ -279,12 +284,13 @@ describe('get/ post/ patch community ', () => {
         result.status.should.be.equal(201);
         const domain = domainincaps.domain.toLowerCase();
         const query = `SELECT * FROM communities where domain = '${domain}'`;
-        client.execute(query, (error, dbresult) => {
-          if(error) {return logger.debug("Sixth Test", error); done(error); }
-          dbresult.rows[0].domain.should.be.equal(result.body.domain);
-          dbresult.rows[0].owner.should.be.equal(result.body.owner);
-          done();
-        })
+        client.execute(query,
+          (error, dbresult) => { // eslint-disable-line consistent-return
+            if (error) { return logger.debug('Sixth Test', error); done(error); } // eslint-disable-line no-unreachable
+            dbresult.rows[0].domain.should.be.equal(result.body.domain);
+            dbresult.rows[0].owner.should.be.equal(result.body.owner);
+            done();
+          });
       })
       .catch((err) => {
         done(err);
