@@ -1,96 +1,308 @@
-/* const wrongData = { error: 'Error in operation, please try later..!' };
 
- const memberDetails = { message: 'Member added' };
+const emptyBodyError = { error: 'Body data cannot be empty' };
 
- const modified = { message: 'Updated' };
+const emptyDataValueError = { error: 'Value of username and role cannot be empty' };
 
- const deleted = { message: 'Deleted' };
+const errorAddingMember = { error: 'Member detail already exist' };
 
- // correct post
- const memberDetails1 = {
-   domain: 'Wipro',
-   username: 'Keerthi',
-   role: 'Full-Stack-Developer',
- };
+const successAddedMember = { message: 'Member added' };
 
- // correct post
- const memberDetails2 = {
-   domain: 'Wipro',
-   username: 'Aravindh',
-   role: 'Full-Stack-Developer',
- };
+const successDeletedMember = { message: 'Member deleted' };
 
- // correct post
- const memberDetails3 = {
-   domain: 'Wipro',
-   username: 'Suresh',
-   role: 'Full-Stack-Developer',
- };
+const noDataExist = { error: 'Member details not available' };
 
- // wrong post
- const noDomainValue = {
-   domain: '',
-   username: 'Keerthi',
-   role: 'Developer',
- };
- // wrong post
- const noUsernameValue = {
-   domain: 'wipro',
-   username: '',
-   role: 'Developer',
- };
+const nodomainExist = { error: 'please enter a valid domain' };
 
- // wrong post
- const noRoleValue = {
-   domain: 'wipro',
-   username: 'Keerthi',
-   role: '',
- };
+const successAddCommunityRoles = {};
 
- // wrong post
- const noValue = {
-   domain: '',
-   username: '',
-   role: '',
- };
+const noRoleInDomain = { error: 'Given role is not available for this community' };
 
- // Role Update
- const updateRoles1 = {
-   role: 'Senior-Full-Stack-Developer',
- };
+const successUpdatedMembers = { message: 'Role modified' };
 
- // Role Update
- const updateRoles2 = {
-   role: 'Digital-Manager',
- };
+const resourceError = { error: 'Resource not found' };
 
- // wrong update
- const noRoleValueUpdate = {
-   role: '',
- };
+const dataExist = { error: 'Same data Exist' };
+
+const dataNotExist = { error: 'Data not exist' };
+
+const emptyBody = [];
+
+const emptyData = [{
+  username: '',
+  role: '',
+}];
+const emptyUsername = [{
+  username: '',
+  role: 'Digital-Developer',
+}];
+
+const noUsername = [{
+  role: 'Digital-Developer',
+}];
+
+const emptyRole = [{
+  username: 'Aravindh',
+  role: '',
+}];
+
+const noRole = [{
+  username: 'Aravindh',
+}];
+
+const addMembers = [
+  {
+    username: 'Aravindh',
+    role: 'Digital-Developer',
+  },
+  {
+    username: 'Keerthi',
+    role: 'Digital-Developer',
+  },
+  {
+    username: 'Aswini',
+    role: 'Digital-Developer',
+  },
+  {
+    username: 'Suresh',
+    role: 'Digital-Developer',
+  },
+  {
+    username: 'Ashok',
+    role: 'Digital-Developer',
+  },
+  {
+    username: 'Karthikeyan',
+    role: 'Digital-Manager',
+  },
+  {
+    username: 'AnithaJaganathan',
+    role: 'Digital-Retainer',
+  },
+  {
+    username: 'Sagar',
+    role: 'Digital-Mentor',
+  },
+  {
+    username: 'Basavaraj',
+    role: 'Digital-Mentor',
+  },
+  {
+    username: 'Simantha',
+    role: 'Digital-Mentor',
+  },
+  {
+    username: 'Nelanjan',
+    role: 'Digital-Mentor',
+  },
+  {
+    username: 'Himani',
+    role: 'Digital-Mentor',
+  },
+];
 
 
- // // Remove member
- //  const deleteMember = {
- //    domain: 'Wipro',
- //    username: 'Suresh',
- //  };
+const addCommunityRoles = [
+  {
+    role: 'Digital-Developer',
+    actions: {
+      post: 'post',
+      guest: 'true',
+    },
+    toolId: 'git',
 
- module.exports = {
-   memberDetails1,
-   memberDetails2,
-   memberDetails3,
-   noDomainValue,
-   noUsernameValue,
-   noRoleValue,
-   noValue,
-   updateRoles1,
-   updateRoles2,
-   noRoleValueUpdate,
-     // deleteMember,
-   wrongData,
-   memberDetails,
-   modified,
-   deleted,
- };
-*/
+  },
+  {
+    role: 'Digital-Manager',
+    actions: {
+      post: 'false',
+      like: 'true',
+    },
+    toolId: 'quora',
+
+  },
+  {
+    role: 'Digital-Retainer',
+    actions: {
+      post: 'post',
+      guest: 'true',
+    },
+    toolId: 'insta',
+
+  },
+  {
+    role: 'Digital-Mentor',
+    actions: {
+      post: 'false',
+      like: 'true',
+    },
+    toolId: 'forum',
+
+  },
+  {
+    role: 'Developer',
+    actions: {
+      post: 'post',
+      guest: 'true',
+    },
+    toolId: 'git',
+
+  },
+  {
+    role: 'Manager',
+    actions: {
+      post: 'false',
+      like: 'true',
+    },
+    toolId: 'quora',
+
+  },
+  {
+    role: 'Retainer',
+    actions: {
+      post: 'post',
+      guest: 'true',
+    },
+    toolId: 'insta',
+
+  },
+  {
+    role: 'Mentor',
+    actions: {
+      post: 'false',
+      like: 'true',
+    },
+    toolId: 'forum',
+
+  },
+
+];
+
+const noRoleExist = [
+  {
+    username: 'Aravindh',
+    role: 'dancer',
+  },
+  {
+    username: 'Keerthi',
+    role: 'singer',
+  },
+  {
+    username: 'Aswini',
+    role: 'Developer',
+  },
+  {
+    username: 'Suresh',
+    role: 'player',
+  },
+];
+
+const updateMembers = [
+  {
+    username: 'Aravindh',
+    role: 'Developer',
+  },
+  {
+    username: 'Keerthi',
+    role: 'Developer',
+  },
+  {
+    username: 'Aswini',
+    role: 'Developer',
+  },
+  {
+    username: 'Suresh',
+    role: 'Developer',
+  },
+  {
+    username: 'Ashok',
+    role: 'Developer',
+  },
+  {
+    username: 'Karthikeyan',
+    role: 'Manager',
+  },
+  {
+    username: 'AnithaJaganathan',
+    role: 'Retainer',
+  },
+  {
+    username: 'Sagar',
+    role: 'Mentor',
+  },
+  {
+    username: 'Basavaraj',
+    role: 'Mentor',
+  },
+  {
+    username: 'Simantha',
+    role: 'Mentor',
+  },
+  {
+    username: 'Nelanjan',
+    role: 'Mentor',
+  },
+  {
+    username: 'Himani',
+    role: 'Mentor',
+  },
+];
+
+const addCommunityRolesForSerive = [
+  {
+    role: 'trainee-fullStack-developer',
+    actions: {
+      post: 'post',
+      guest: 'true',
+    },
+    toolId: 'git',
+
+  },
+  {
+    role: 'trainee-fullStack',
+    actions: {
+      post: 'false',
+      like: 'true',
+    },
+    toolId: 'quora',
+
+  },
+];
+
+const updateNotAvailableMembers = [
+  {
+    username: 'Aravindh',
+    role: 'Digital-Developer',
+  },
+  {
+    username: 'Sithar',
+    role: 'Developer',
+  }];
+
+
+module.exports = {
+  emptyBodyError,
+  emptyDataValueError,
+  errorAddingMember,
+  successAddedMember,
+  emptyBody,
+  emptyData,
+  emptyUsername,
+  noUsername,
+  emptyRole,
+  noRole,
+  addMembers,
+  successDeletedMember,
+  noDataExist,
+  nodomainExist,
+  addCommunityRoles,
+  successAddCommunityRoles,
+  updateMembers,
+  noRoleInDomain,
+  noRoleExist,
+  successUpdatedMembers,
+  resourceError,
+  dataExist,
+  updateNotAvailableMembers,
+  dataNotExist,
+  addCommunityRolesForSerive,
+};

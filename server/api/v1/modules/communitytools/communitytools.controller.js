@@ -65,6 +65,7 @@ function postTools(dataFromBody, dataFromURI, done) {
         // console.log("hii");
         async.parallel([
           communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
+          toolsService.addTools.bind(null, dataFromBody ,dataFromURI), //to be removed by kafka event
 
         ], (err,result) => {
           if (err) {

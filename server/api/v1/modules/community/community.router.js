@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const communityCtrl = require('./community.controller');
 
 const logger = require('../../../../logger');
@@ -17,12 +16,12 @@ router.get('/', (req, res) => { // eslint-disable-line consistent-return
     communityCtrl.getAllCommunities((err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.allcommunities error: ', err);
-        return res.status(500).send({ error: err });
+        return res.status(err[0]).send({ error: err[1] });
       }
-      return res.status(200).json(results);
+      return res.status(300).json(results);
     });
   } catch (err) {
-    logger.error('Unexpected error in fetching communities ', err);
+    logger.error('Unexpected error in fetching communities ', err[1]);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
@@ -41,12 +40,13 @@ router.post('/:domain', (req, res) => { // eslint-disable-line consistent-return
     communityCtrl.addCommunity(req.body, (err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.addcommunity error: ', err);
-        return res.status(500).send({ error: err });
+        return res.status(err[0]).send({ error: err[1] });
       }
+      console.log('1111', results[0]);
       return res.status(201).jsonp(results[0]);
     });
   } catch (err) {
-    logger.error('Unexpected error in adding community ', err);
+    logger.error('Unexpected error in adding community ', err[1]);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
@@ -68,15 +68,15 @@ router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
     communityCtrl.getCommunity(req.params.domain, counter, (err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.getcommunity error: ', err);
-        return res.status(500).send({ error: err });
+        return res.status(err[0]).send({ error: err[1] });
       }
       if (results.length === 0) {
-        return res.send({ message: 'this domain is available for registration' });
+        return res.status(200).send(results);
       }
-      return res.jsonp(results[0]);
+      return res.status(200).jsonp(results[0]);
     });
   } catch (err) {
-    logger.error('Unexpected error in fetching community data ', err);
+    logger.error('Unexpected error in fetching community data ', err[1]);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });
@@ -89,17 +89,19 @@ router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
  *
  *
  */
-router.patch('/:domain', (req, res) => { // eslint-disable-line consistent-return
+router.patch('/:domain/status/:status', (req, res) => { // eslint-disable-line consistent-return
   try {
-    communityCtrl.updateCommunity(req.params.domain, req.body, (err, results) => {
-      if (err) {
-        logger.error('Error in communityCtrl.updatecommunity error:', err);
-        return res.status(500).send({ error: err });
-      }
-      return res.status(202).jsonp(results[0]);
-    });
+//    communityCtrl.updateCommunity(req.params.domain, req.body, req.params.status,
+    communityCtrl.updateCommunity(req.params.domain, req.body,
+      (err, results) => {
+        if (err) {
+          logger.error('Error in communityCtrl.updatecommunity error:', err);
+          return res.status(err[0]).send({ error: err[1] });
+        }
+        return res.status(202).jsonp(results[0]);
+      });
   } catch (err) {
-    logger.error('Unexpected error in patching community ', err);
+    logger.error('Unexpected error in patching community ', err[1]);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
   }
 });

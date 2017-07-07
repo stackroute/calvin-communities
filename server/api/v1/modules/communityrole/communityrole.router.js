@@ -22,13 +22,13 @@ const router = express.Router();
     const domainName = req.params.domainname;
     communityRoleCtrl.getCommunityRoles(domainName, (err, results) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       }
 
       return res.send(results);
     });
   } catch (err) {
-    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+    res.status(400).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
 */
@@ -49,7 +49,7 @@ router.get('/:domainname', (req, res) => {
     if (onlyroles === 'true') {
       communityRoleCtrl.getCommunityRolesOnly(domainName, onlyroles, (err, results) => {
         if (err) {
-          return res.status(500).send(err);
+          return res.status(400).send(err);
         }
 
         return res.send(results);
@@ -58,7 +58,7 @@ router.get('/:domainname', (req, res) => {
       logger.debug('ELSE PART OF ROUTER');
       communityRoleCtrl.getCommunityRoles(domainName, (err, results) => {
         if (err) {
-          return res.status(500).send(err);
+          return res.status(400).send(err);
         }
 
         return res.send(results);
@@ -88,14 +88,14 @@ router.patch('/:domain/:role', controller.patchcommunityrole);
   try {
     communityRoleCtrl.postCommunityRoles(req.body, (err) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       }
 
       return res.send('Added');
     });
   } catch (err) {
     logger.debug(`error:${err}`);
-    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+    res.status(400).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });*/
 router.post('/:domainname', (req, res) => {
@@ -103,9 +103,9 @@ router.post('/:domainname', (req, res) => {
     const domainName = req.params.domainname;
     communityRoleCtrl.postCommunityRoles(domainName, req.body, (err) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       }
-
+      //return res.send(req.body);
       return res.send('Added');
     });
   } catch (err) {
@@ -132,13 +132,13 @@ router.post('/:domainname', (req, res) => {
 
     communityRoleCtrl.patchCommunityRoles(values, domainName, role, (err) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(400).send({ error: 'Error in operation, please try later..!' });
       }
 
       return res.send('Updated');
     });
   } catch (err) {
-    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+    res.status(400).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });*/
 router.patch('/:domainname/roles/:role', (req, res) => {
@@ -149,7 +149,7 @@ router.patch('/:domainname/roles/:role', (req, res) => {
 
     communityRoleCtrl.patchCommunityRoles(values, domainName, role, (err) => {
       if (err) {
-        return res.status(500).send({ error: 'Error in operation, please try later..!' });
+        return res.status(400).send({ error: 'Error in operation, please try later..!' });
       }
 
       return res.send('Updated');
@@ -176,13 +176,13 @@ router.patch('/:domainname/roles/:role', (req, res) => {
 //     const toolid = req.params.toolid;
 //     communityRoleCtrl.getCommunityRoles(domainName, role, toolid, (err, results) => {
 //       if (err) {
-//         return res.status(500).send(err);
+//         return res.status(400).send(err);
 //       }
 
 //       return res.send(results);
 //     });
 //   } catch (err) {
-//     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+//     res.status(400).send({ error: 'Unexpected error occurred, please try again...!' });
 //   }
 // });
 module.exports = router;

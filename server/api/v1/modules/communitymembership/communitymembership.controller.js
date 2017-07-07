@@ -19,7 +19,7 @@ const registerPublisherService = require('../../../../common/kafkaPublisher');
  */
 
 function addMembersToCommunity(domainName, values, done) {
-  logger.debug('hi u r adding a new member');
+  // logger.debug('hi u r adding a new member');
   let flag = 0;
   let valueExist = 0;
   if (values.length > 0) {
@@ -47,29 +47,21 @@ function addMembersToCommunity(domainName, values, done) {
             async.parallel([
               communityMembershipService.addMembersToCommunity.bind(null, domainName, values, done),
               // membershipService.addMemberToCommunity.bind(null, domainName, values, done),
-            ], (error, results) => {
-              if (error) {
-                return done(error);
-                console.log("error");
-              }
-              console.log("noerror");
-              return done(undefined, results);
-            });
+            ]);
             publishMessageToTopic(domainName, values);
 
           } else {
-            done('Member detail already exist');
+            done({ error: 'Member detail already exist' });
           }
-        }, 1000);
+        }, 100);
       } else {
-        done('Value of username and role cannot be empty');
+        done({ error: 'Value of username and role cannot be empty' });
       }
     } else {
-      // logger.debug('URI parameter cannot be empty.....');
-      done('URI parameter cannot be empty.....');
+      done({ error: 'URI parameter cannot be empty.....' });
     }
   } else {
-    done('Body data cannot be empty');
+    done({ error: 'Body data cannot be empty' });
   }
 }
 
@@ -114,18 +106,31 @@ function removeMembersFromCommunity(domainName, values, done) {
                 domainName, values, done),
             ]);
           } else {
-            done({ error: 'Member detail already exist' });
+            done({ error: 'Member details not available' });
           }
         }, 100);
       } else {
-        done('Value of username and role cannot be empty');
+        done({ error: 'Value of username and role cannot be empty' });
       }
     } else {
-      done('URI parameter cannot be empty.....');
+      done({ error: 'URI parameter cannot be empty.....' });
     }
   } else {
-    done('Body data cannot be empty');
+    done({ error: 'Body data cannot be empty' });
   }
+}
+
+
+/**
+ *get particular Community members Detail
+ *
+ * GET REQUEST
+ *
+ *
+ */
+
+function getParticularCommunityMembersDetails(domainName, done) {
+  communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
 
@@ -136,6 +141,7 @@ function removeMembersFromCommunity(domainName, values, done) {
  *
  *
  */
+
 function modifyRoleOfMembersFromCommunity(domainName, values, done) {
   let flag = 0;
   let roleExist = 0;
@@ -184,32 +190,50 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
                       }
                     });
                 });
+//<<<<<<< HEAD
+                setTimeout(() => {
+                  if (dataExist === values.length) {
+                    async.parallel([
+                      communityMembershipService.modifyRoleOfMembersFromCommunity.bind(null,
+                     domainName, values, done),
+                      membershipService.modifyRoleOfMemberFromCommunity.bind(null,
+                     domainName, values, done),
+                    ]);
+                  } else {
+                    done({ error: 'Data not exist' });
+                  }
+                }, 100);
+              } else {
+                done({ error: 'Same data Exist' });
               }
-              setTimeout(() => {
-                if (dataExist === values.length) {
-                  async.parallel([
-                    communityMembershipService.modifyRoleOfMembersFromCommunity.bind(null,
-                      domainName, values, done),
-                    membershipService.modifyRoleOfMemberFromCommunity.bind(null,
-                      domainName, values, done),
-                  ]);
-                } else {
-                  done('Data not exist');
-                }
-              }, 100);
+// =======
+//               }
+//               setTimeout(() => {
+//                 if (dataExist === values.length) {
+//                   async.parallel([
+//                     communityMembershipService.modifyRoleOfMembersFromCommunity.bind(null,
+//                       domainName, values, done),
+//                     membershipService.modifyRoleOfMemberFromCommunity.bind(null,
+//                       domainName, values, done),
+//                   ]);
+//                 } else {
+//                   done('Data not exist');
+//                 }
+//               }, 100);
+// >>>>>>> 59e4589da488c86c8f80bc507169310bf69ee0a8
             }, 100);
           } else {
-            done('Role doesnot availability for this community');
+            done({ error: 'Given role is not available for this community' });
           }
         }, 100);
       } else {
-        done('Data cannot be empty');
+        done({ error: 'Value of username and role cannot be empty' });
       }
     } else {
-      done('URI param cannot be empty');
+      done({ error: 'URI param cannot be empty' });
     }
   } else {
-    done('Body data cannot be empty');
+    done({ error: 'Body data cannot be empty' });
   }
 }
 
