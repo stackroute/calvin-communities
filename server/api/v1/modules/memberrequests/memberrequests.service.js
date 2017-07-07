@@ -13,18 +13,17 @@ const client = new model.Client({
 
 // Query for insert the values into the row
 
-function InsertData(data, dataFromParams, done) {
-  const persons = data.personrole;
+function InsertData(data, dataFromParams, status, type, done) {
+  const persons = data.invitee;
   const arr = [];
-
-  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedBy,status,type,createdon,updatedon) VALUES(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
+  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedby,status,type,createdon,updatedon) VALUES(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
   persons.forEach((emailandrole) => {
     const person = emailandrole.email.toLowerCase();
     const role = emailandrole.role.toLowerCase();
     arr.push({
       query,
       params: [dataFromParams.toLowerCase(),
-        role, person, data.member.toLowerCase(), data.status.toLowerCase(), data.type.toLowerCase(),
+        role, person, data.invitedby.toLowerCase(), status.toLowerCase(), type.toLowerCase(),
       ],
     });
   });
@@ -87,9 +86,9 @@ function gettingValuesByDomain(domain, done) {
 
 function statusUpdateRequest(domain, person, bodyData, done) {
   const status = bodyData.status.toLowerCase();
-  const member = bodyData.member.toLowerCase();
+  const invitedby = bodyData.invitedby.toLowerCase();
   const role = bodyData.role.toLowerCase();
-  const query = (`UPDATE ${InviteRequestTable} SET role = '${role}',status = '${status}',invitedBy = '${member}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
+  const query = (`UPDATE ${InviteRequestTable} SET role = '${role}',status = '${status}',invitedby = '${invitedby}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 
