@@ -66,8 +66,11 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof
  *
  */
 function updateCommunity(param, done) {
-  const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
+  /*const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
     visibility = ? , tags = ? , updatedby = ? , status = ? , updatedon = dateof(now()) where domain = ? `);
+*/
+const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
+    visibility = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
 
   return client.execute(`SELECT * FROM ${tableCommunities} where domain = ?`, [param[7]], (error, data) => {
     if (!_.isEmpty(data.rows)) {
