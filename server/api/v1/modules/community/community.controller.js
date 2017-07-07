@@ -198,7 +198,7 @@ function getCommunity(domain, counter, done) {
  * PATCH REQUEST
  *
  */
-function updateCommunity(domainName, community, done) {
+function updateCommunity(domainName, community, status, done) {
   if (Object.keys(community).length === 1) { return done('Please pass some data to process'); }
 
   if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done('At least one Tag is required to to be passed'); }
@@ -207,17 +207,19 @@ function updateCommunity(domainName, community, done) {
 
   if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done('An Updater\'s data is required to be sent'); }
 
+  status=status.toLowerCase();
+
+  if( status === 'disable') { status = 'Inactive'; }
+    else if( status === 'suspend') { status = 'Terminated' ;}
+      else if (status ==='enable') { status = 'Active'; }
+      else { status = 'Active'; }
   if ((
             _.isEqual(community.visibility, 'Public') ||
             _.isEqual(community.visibility, 'Private') ||
-            _.isEqual(community.visibility, 'Moderated')) &&
-            (
-            _.isEqual(community.status, 'Active') ||
-            _.isEqual(community.status, 'Inactive')
-        )
+            _.isEqual(community.visibility, 'Moderated'))
         ) {
     const param = [community.name, community.avatar, community.description, community.visibility,
-      community.tags, community.updatedby, community.status, domainName.toLowerCase(),
+      community.tags, community.updatedby, status, domainName.toLowerCase(),
     ];
 
     return communityService.updateCommunity(param, done);

@@ -89,9 +89,9 @@ router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
  *
  *
  */
-router.patch('/:domain', (req, res) => { // eslint-disable-line consistent-return
+router.patch('/:domain/status/:status', (req, res) => { // eslint-disable-line consistent-return
   try {
-    communityCtrl.updateCommunity(req.params.domain, req.body, (err, results) => {
+    communityCtrl.updateCommunity(req.params.domain, req.body, req.params.status, (err, results) => {
       if (err) {
         logger.error('Error in communityCtrl.updatecommunity error:', err);
         return res.status(500).send({ error: err });
