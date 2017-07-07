@@ -42,8 +42,15 @@ router.post('/:domain', (req, res) => { // eslint-disable-line consistent-return
         logger.error('Error in communityCtrl.addcommunity error: ', err);
         return res.status(err[0]).send({ error: err[1] });
       }
-      console.log('1111', results[0]);
-      return res.status(201).jsonp(results[0]);
+      if(results) {
+        res.status(201).jsonp(results[0]);
+        return;
+      } else {
+        res.status(201).jsonp("");
+        return;
+      }
+      // console.log('1111', results[0]);
+      // return res.status(201).jsonp(results[0]);
     });
   } catch (err) {
     logger.error('Unexpected error in adding community ', err[1]);
@@ -89,7 +96,7 @@ router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
  *
  *
  */
-router.patch('/:domain/status/:status', (req, res) => { // eslint-disable-line consistent-return
+router.patch('/:domain', (req, res) => { // eslint-disable-line consistent-return
   try {
 //    communityCtrl.updateCommunity(req.params.domain, req.body, req.params.status,
     communityCtrl.updateCommunity(req.params.domain, req.body,
