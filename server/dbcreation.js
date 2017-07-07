@@ -43,7 +43,6 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITIES} ( \
   description text, \
   name text, \
   owner text, \
-  roles set<text>, \
   status text, \
   tags set<text>, \
   template text, \
