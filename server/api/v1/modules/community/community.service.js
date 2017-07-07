@@ -1,6 +1,6 @@
 const model = require('cassandra-driver');
-
 const _ = require('lodash');
+const logger = require('../../../../logger');
 
 const tableCommunities = 'communities';
 
@@ -26,7 +26,7 @@ const client = new model.Client({
 function getAllCommunities(done) {
   const query = `SELECT * FROM ${tableCommunities}`;
   return client.execute(query, (err, results) => {
-    if (err) return done(err, undefined);
+    if (err) { logger.debug(err); return done([500, 'Internal server error']); }
     return done(err, results.rows);
   });
 }
@@ -39,7 +39,7 @@ function getAllCommunities(done) {
 function getCommunity(domainname, done) {
   const query = `SELECT * FROM ${tableCommunities} WHERE domain = ? `;
   return client.execute(query, [domainname], (err, results) => {
-    if (err) return done(err, undefined);
+    if (err) { logger.debug(err); return done([500, 'Internal server error']); }
     return done(undefined, results.rows);
   });
 }
@@ -50,13 +50,13 @@ function getCommunity(domainname, done) {
  *
  */
 function addCommunity(param, done) {
-  const query = (`INSERT INTO ${tableCommunities} (domain, name, avatar, purpose, roles,\
+  const query = (`INSERT INTO ${tableCommunities} (domain, name, avatar, purpose,\
    status, template, tags, owner, \
 description, visibility , createdby, updatedby, createdon, updatedon) \
-VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
+VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof(now()) ) `);
 
   return client.execute(query, param, (err) => {
-    if (err) return done(err, undefined);
+    if (err) { logger.debug(err); return done([500, 'Internal server error']); }
     return getCommunity(param[0], done);
   });
 }
@@ -72,10 +72,10 @@ function updateCommunity(param, done) {
   return client.execute(`SELECT * FROM ${tableCommunities} where domain = ?`, [param[7]], (error, data) => {
     if (!_.isEmpty(data.rows)) {
       return client.execute(query, param, (err) => {
-        if (err) return done(err, undefined);
+        if (err) { logger.debug(err); return done([500, 'Internal server error']); }
         return getCommunity(param[7], done);
       });
-    } return done('Domain Doesn\'t Exist', undefined);
+    } return done([400, 'Domain Doesn\'t Exist'], undefined);
   });
 }
 
@@ -87,7 +87,7 @@ function updateCommunity(param, done) {
 function deleteCommunity(param, done) {
   const query = (`DELETE * FROM ${tableCommunities} where  domain = ? `);
   return client.execute(query, param, (err) => {
-    if (err) return done(err, undefined);
+    if (err) { logger.debug(err); return done([500, 'Internal server error']); }
     return done(undefined);
   });
 }
