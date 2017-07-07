@@ -14,6 +14,8 @@ const roleController = require('../communityrole/communityrole.controller');
 
 const counterController = require('../communitiescounter/counter.controller');
 
+const registerPublisherService = require('../../../../common/kafkaPublisher');
+
 /**
  * Get For all communities,
  *
@@ -156,7 +158,8 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
       ],
         (error, result) => {
           if (err) return done(err);
-          return done(undefined, result[0]);
+           publishMessageToTopic(community.domain);
+           return done(undefined, result[0]);
         });
     } return done('Domain Already Exists');
   });
@@ -219,6 +222,18 @@ function updateCommunity(domainName, community, done) {
 
     return communityService.updateCommunity(param, done);
   } return done('Wrong Data Inputs', null);
+}
+
+function publishMessageToTopic(dataFromURI) {
+  let message = { domain: dataFromURI };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+    if (err) {
+      console.log('error occured', err);
+    } else {
+      console.log('result is', res);
+    }
+  });
 }
 
 module.exports = {

@@ -26,8 +26,8 @@ const client = new model.Client({
 describe('Test cases for insert and update data when invite or request occured', () => {
   before(() => {
         // runs before all tests in this block
-    client.execute('insert into communityinviterequests (domain,role, person, member, status,type) values(\'doctor.wipro.blr\',\'moderator\',\'mohan@gmail.com\',\'sandy\',\'invitesent\',\'invite\');');
-    client.execute('insert into communityinviterequests (domain,role, person, member, status,type) values(\'doctor.wipro.blr\',\'\',\'parkavi@gmail.com\',\'\',\'requested\',\'request\');');
+    client.execute('insert into communityinviterequests (domain,role, person, invitedBy, status,type) values(\'doctor.wipro.blr\',\'moderator\',\'mohan@gmail.com\',\'sandy\',\'invitesent\',\'invite\');');
+    client.execute('insert into communityinviterequests (domain,role, person, invitedBy, status,type) values(\'doctor.wipro.blr\',\'\',\'parkavi@gmail.com\',\'\',\'requested\',\'request\');');
   });
 
 

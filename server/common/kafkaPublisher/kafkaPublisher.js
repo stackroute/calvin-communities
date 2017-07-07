@@ -4,9 +4,8 @@ const HighLevelProducer = kafkaNode.HighLevelProducer;
 function publishToTopic(topic, msgs, callback) {
   const client = new kafkaNode.Client();
   const producer = new HighLevelProducer(client);
-  msgs = JSON.stringify(msgs);
-  const payloads = [{ topic, messages: msgs }];
-
+     // msgs=JSON.stringify(msgs);
+  const payloads = [{ topic: topic, messages: msgs }];
     // Does the topic exists or not?
 
   producer.on('ready', () => {
@@ -20,12 +19,15 @@ function publishToTopic(topic, msgs, callback) {
         callback(err);
         return;
       }
+
             // console.log("What is the result: ", result);
       callback(null, result);
     });
   });
 
-  producer.on('error', (err) => {});
+  producer.on('error', (err) => {
+    console.log(err);
+  });
 }
 
 

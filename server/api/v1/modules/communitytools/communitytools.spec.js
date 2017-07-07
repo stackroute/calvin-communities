@@ -31,38 +31,7 @@ describe('Test cases for tools of a community', () => {
   });
 
 
-  it('should get data for specified domain', (done) => {
-    request(app)
-            .get(`${uri}engineer.wipro.blr/tools`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('tools').a('Array');
-              done();
-            });
-  });
-
-  it('should get data for specified domain when in upper case', (done) => {
-    request(app)
-            .get(`${uri}engineer.wIpRo.bLr/tools`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('tools').a('Array');
-              done();
-            });
-  });
-
+ 
   it('should throw error if value is not found', (done) => {
     request(app)
             .get(`${uri}wipro.blr/tools`)
@@ -98,7 +67,7 @@ describe('Test cases for tools of a community', () => {
 
     //     // username not passed
 
-  it('should give error on post data in database when domain is not given', (done) => {
+  it('should give error on post data in database when tool is not given', (done) => {
     request(app)
             .post(`${uri}wipro.blr/tools`)
             .send(value.wrongtools)
@@ -115,7 +84,7 @@ describe('Test cases for tools of a community', () => {
 
 
     // username string empty
-  it('should give error on post data in database when domain property is empty', (done) => {
+  it('should give error on post data in database when tool property is empty', (done) => {
     request(app)
             .post(`${uri}wipro.blr/tools`)
             .send(value.wrongtool)
@@ -144,6 +113,70 @@ describe('Test cases for tools of a community', () => {
               done();
             });
     return null;
+  });
+   it('should get data for specified domain and tool', (done) => {
+    request(app)
+            .get(`${uri}doctors.blr/tools/wemedup`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('toolid').a('string');
+              expect(res.body).to.have.property('data').a('Array');
+              done();
+            });
+  });
+
+it('should get data for specified domain and tool in upper case', (done) => {
+    request(app)
+            .get(`${uri}Doctors.Blr/tools/WeMedUp`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('data').a('Array');
+              done();
+            });
+  });
+
+  it('should get data for specified domain', (done) => {
+    request(app)
+            .get(`${uri}doctors.blr/tools`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('tools').a('Array');
+              done();
+            });
+  });
+
+ it('should get data for specified domain when in upper case', (done) => {
+    request(app)
+            .get(`${uri}doctors.bLr/tools`)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+              if (err) {
+                done(err);
+                return;
+              }
+              expect(res.body).to.have.property('domain').a('string');
+              expect(res.body).to.have.property('tools').a('Array');
+              done();
+            });
   });
 
   it('should give not post if tool already exists', (done) => {

@@ -12,7 +12,6 @@ const client = new model.Client({
 });
 
 
-
 /**
  *Add memeber to the community
  *
@@ -21,14 +20,21 @@ const client = new model.Client({
  *
  */
 
-function addMemberToCommunity(domainName, data) {
+function addMemberToCommunity(domainName, data, done) {
   const arr = [];
   const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon) values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
     arr.push({ query, params: [val.username, domainName.toLowerCase(), val.role.toLowerCase()] });
   });
   logger.debug('Member added');
-  return client.batch(arr, { prepare: true });
+  return client.batch(arr, { prepare: true }, (err,res)=>{
+    if(err){
+      return done(err);
+    }
+    else{
+      return done(null, res);
+    }
+  });
 }
 
 /**
@@ -73,24 +79,24 @@ function modifyRoleOfMemberFromCommunity(domainName, data) {
  *
  */
 
-  function getCommunityList(username, done) {
-    const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${username}' `;
-    return client.execute(query, (err, results) => {
-      if (!err) {
-        if (results.rows.length > 0) {
-          done(undefined,{ username: username, communityDetails: results.rows });
-        } else {
-          done({ error: 'please enter a valid username' }, undefined);
-        }
+function getCommunityList(username, done) {
+  const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${username}' `;
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      if (results.rows.length > 0) {
+        done(undefined, { username, communityDetails: results.rows });
       } else {
-        done(err, undefined);
+        done({ error: 'please enter a valid username' }, undefined);
       }
-    });
-  }
+    } else {
+      done(err, undefined);
+    }
+  });
+}
 
-    module.exports = {
-    addMemberToCommunity,
-    getCommunityList,
-    modifyRoleOfMemberFromCommunity,
-    removeMemberFromCommunity,
-  };
+module.exports = {
+  addMemberToCommunity,
+  getCommunityList,
+  modifyRoleOfMemberFromCommunity,
+  removeMemberFromCommunity,
+};

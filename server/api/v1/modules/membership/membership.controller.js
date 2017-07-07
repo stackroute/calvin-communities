@@ -9,10 +9,10 @@ const membershipService = require('./membership.service');
  *
  */
 
- function getCommunityList(username, done) {
+function getCommunityList(username, done) {
   membershipService.getCommunityList(username, done);
 }
 
-  module.exports = {
-      getCommunityList,
-  };
+module.exports = {
+  getCommunityList,
+};
