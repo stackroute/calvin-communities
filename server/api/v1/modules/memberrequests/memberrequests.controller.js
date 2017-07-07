@@ -1,4 +1,5 @@
 const service = require('./memberrequests.service');
+const communityRoleService = require('../communityrole/communityrole.service');
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 const statusstring = [
@@ -23,14 +24,14 @@ function InsertData(dataFromBody, dataFromParams, type, done) {
   persons.forEach((b) => {
     if ((b.email !== 'null') && (b.email)) {
       if ((type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '') || (type.toLowerCase() === 'request' && b.role.toLowerCase() === '')) {
-        communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
-            if (message) {
-              console.log("measssge")
+       //communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
+         // if (message) {
+           // console.log("measssge")
               flag2 += 1;
-            } else {
-              flag2 += 0;
-            }
-          });
+           //} else {
+             //flag2 += 0;
+            //}
+         // });
       }
     }
   });
