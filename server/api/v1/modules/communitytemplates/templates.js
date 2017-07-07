@@ -100,7 +100,7 @@ module.exports = [{
   }],
 }, { /* template for the professor -- teacher's community*/
   name: 'professor',
-  purpose: 'Teaching',
+  purpose: 'teaching',
   description: 'This template will provides you the required tools and roles to create a teachers community',
   tags: ['books', 'board', 'school'],
   // tools available for the teacher's community
