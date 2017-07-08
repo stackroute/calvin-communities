@@ -34,7 +34,7 @@ describe('Testcases for checking the communitycounter', () => {
           logger.debug(err2);
           return done(err2)
         }
-        result2[0].should.be.deep.equal(result.rows[0]);
+        result2[0].should.deep.equal(result.rows[0]);
       })
       done();
     })
