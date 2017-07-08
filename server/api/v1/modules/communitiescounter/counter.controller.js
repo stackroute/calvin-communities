@@ -29,7 +29,7 @@ function decrementtools(domain, done) {
 }
 
 function decrementrequests(domain, done) {
-  counterservice.incrementrequests(domain, done);
+  counterservice.decrementrequests(domain, done);
 }
 
 function decrementinvitation(domain, done) {
