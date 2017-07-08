@@ -3,7 +3,7 @@ const communityRoleService = require('../communityrole/communityrole.service');
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 const statusstring = [
-  'approved', 'invitesent', 'accepted', 'requested', 'resent',
+  'approved', 'invitesent', 'accepted', 'requested',
 ];
 
 let status = '';
@@ -21,50 +21,62 @@ function InsertData(dataFromBody, dataFromParams, type, done) {
   let flag = false;
   let flag2 = 0;
   const persons = dataFromBody.invitee;
-  persons.forEach((b) => {
-    if ((b.email !== 'null') && (b.email)) {
-      if ((type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '') || (type.toLowerCase() === 'request' && b.role.toLowerCase() === '')) {
-       //communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
-         // if (message) {
-           // console.log("measssge")
+
+  if (type === 'invite') {
+    persons.forEach((b) => {
+      if ((b.email !== 'null') && (b.email)) {
+        if ((type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '')) {
+          communityRoleService.checkCommunityRole2(dataFromParams, b.role, (error, message) => {
+            if (message) {
               flag2 += 1;
-           //} else {
-             //flag2 += 0;
-            //}
-         // });
+            } else {
+              flag2 += 0;
+            }
+          });
+        }
       }
-    }
-  });
+    });
+  }
+
+  if (type === 'request') {
+    persons.forEach((b) => {
+      if ((b.email !== 'null') && (b.email)) {
+        if ((type.toLowerCase() === 'request' && b.role.toLowerCase() === '')) {
+          flag2 += 1;
+        } else {
+          flag2 += 0;
+        }
+      }
+    });
+  }
 
   if (dataFromParams) {
     if (dataFromParams !== 'null') {
-      if (type) {
-        if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request' && dataFromBody.invitedby === '')) {
-          flag = true;
-        }
+      if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request' && dataFromBody.invitedby === '')) {
+        flag = true;
       }
-    } 
+    }
   }
 
   setTimeout(() => {
-  if ((flag) && (flag2 === persons.length)) {
-    if (type === 'invite') { status = 'invitesent'; } else if (type === 'request') { status = 'requested'; }
-    service.InsertData(dataFromBody, dataFromParams, status, type, (err, result) => {
-      if (err) {
-        return done(err);
-      }
-      if (type === 'invite') {
-        publishMessageToTopic4(dataFromParams);
-      }
-      if (type === 'request') {
-        publishMessageToTopic5(dataFromParams);
-      }
-      return done(undefined, { message: 'Inserted' });
-    });
-  } else {
-    done({ error: 'Please enter valid values!!' }, undefined);
-  }
-}, 100);
+    if ((flag) && (flag2 === persons.length)) {
+      if (type === 'invite') { status = 'invitesent'; } else if (type === 'request') { status = 'requested'; }
+      service.InsertData(dataFromBody, dataFromParams, status, type, (err) => {
+        if (err) {
+          return done(err);
+        }
+        if (type === 'invite') {
+          publishMessageToTopic4(dataFromParams);
+        }
+        if (type === 'request') {
+          publishMessageToTopic5(dataFromParams);
+        }
+        return done(undefined, { message: 'Inserted' });
+      });
+    } else {
+      done({ error: 'Please enter valid values!!' }, undefined);
+    }
+  }, 100);
 }
 
 // Upadate the status for both invite
@@ -96,6 +108,7 @@ function updateStatusInvite(params, dataFromBody, done) {
 
 function updateStatusRequest(params, bodyData, done) {
   let flag = false;
+  let flag2 = false;
   const domain = params.domain.toLowerCase();
   const person = params.person.toLowerCase();
   service.gettingValuesByDomainPerson(domain, person, (error, result) => {
@@ -111,13 +124,21 @@ function updateStatusRequest(params, bodyData, done) {
         });
       }
     }
+    communityRoleService.checkCommunityRole2(domain, bodyData.role, (err, message) => {
+      if (message) {
+        flag2 = true;
+      } else {
+        flag2 = false;
+      }
+    });
 
-
-    if ((flag) && ((inviteType === 'request') && (bodyData.status === 'approved'))) {
-      if ((bodyData.invitedby) && (bodyData.invitedby !== 'null') && (bodyData.role) && (bodyData.role !== 'null')) {
-        service.statusUpdateRequest(domain, person, bodyData, done);
+    setTimeout(() => {
+      if ((flag) && (flag2) && ((inviteType === 'request') && (bodyData.status === 'approved'))) {
+        if ((bodyData.invitedby) && (bodyData.invitedby !== 'null') && (bodyData.role) && (bodyData.role !== 'null')) {
+          service.statusUpdateRequest(domain, person, bodyData, done);
+        } else done({ error: 'Not updated due to invalid values' }, undefined);
       } else done({ error: 'Not updated due to invalid values' }, undefined);
-    } else done({ error: 'Not updated due to invalid values' }, undefined);
+    }, 100);
   });
 }
 
@@ -179,5 +200,8 @@ module.exports = {
   updateStatusInvite,
   updateStatusRequest,
   rejectedInviteRequest,
+  publishMessageToTopic4,
+  publishMessageToTopic5,
+
 
 };
