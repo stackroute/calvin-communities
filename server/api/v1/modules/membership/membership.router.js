@@ -18,13 +18,14 @@ router.get('/:username', (req, res) => {
     const username = req.params.username;
     membershipCtrl.getCommunityList(username, (err, results) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       }
       return res.send(results);
     });
   } catch (err) {
     return res.status(500).send({ error: 'Unexpected internal error...' });
   }
+  return null;
 });
 
 module.exports = router;
