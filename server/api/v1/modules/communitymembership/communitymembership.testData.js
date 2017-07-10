@@ -1,7 +1,8 @@
-
 const emptyBodyError = { error: 'Body data cannot be empty' };
 
 const emptyDataValueError = { error: 'Value of username and role cannot be empty' };
+
+const emptyUserValueError = { error: 'Value of username cannot be empty' };
 
 const errorAddingMember = { error: 'Member detail already exist' };
 
@@ -15,7 +16,7 @@ const nodomainExist = { error: 'please enter a valid domain' };
 
 const successAddCommunityRoles = {};
 
-const noRoleInDomain = { error: 'Given role is not available for this community' };
+const noRoleInDomain = { error: 'Specified role is not available for this community' };
 
 const successUpdatedMembers = { message: 'Role modified' };
 
@@ -33,11 +34,11 @@ const emptyData = [{
 }];
 const emptyUsername = [{
   username: '',
-  role: 'Digital-Developer',
+  role: 'digital-developer',
 }];
 
 const noUsername = [{
-  role: 'Digital-Developer',
+  role: 'digital-developer',
 }];
 
 const emptyRole = [{
@@ -52,58 +53,58 @@ const noRole = [{
 const addMembers = [
   {
     username: 'Aravindh',
-    role: 'Digital-Developer',
+    role: 'digital-developer',
   },
   {
     username: 'Keerthi',
-    role: 'Digital-Developer',
+    role: 'digital-developer',
   },
   {
     username: 'Aswini',
-    role: 'Digital-Developer',
+    role: 'digital-developer',
   },
   {
     username: 'Suresh',
-    role: 'Digital-Developer',
+    role: 'digital-developer',
   },
   {
     username: 'Ashok',
-    role: 'Digital-Developer',
+    role: 'digital-developer',
   },
   {
     username: 'Karthikeyan',
-    role: 'Digital-Manager',
+    role: 'digital-manager',
   },
   {
     username: 'AnithaJaganathan',
-    role: 'Digital-Retainer',
+    role: 'digital-retainer',
   },
   {
     username: 'Sagar',
-    role: 'Digital-Mentor',
+    role: 'digital-mentor',
   },
   {
     username: 'Basavaraj',
-    role: 'Digital-Mentor',
+    role: 'digital-mentor',
   },
   {
     username: 'Simantha',
-    role: 'Digital-Mentor',
+    role: 'digital-mentor',
   },
   {
     username: 'Nelanjan',
-    role: 'Digital-Mentor',
+    role: 'digital-mentor',
   },
   {
     username: 'Himani',
-    role: 'Digital-Mentor',
+    role: 'digital-mentor',
   },
 ];
 
 
 const addCommunityRoles = [
   {
-    role: 'Digital-Developer',
+    role: 'digital-developer',
     actions: {
       post: 'post',
       guest: 'true',
@@ -112,7 +113,7 @@ const addCommunityRoles = [
 
   },
   {
-    role: 'Digital-Manager',
+    role: 'digital-manager',
     actions: {
       post: 'false',
       like: 'true',
@@ -121,7 +122,7 @@ const addCommunityRoles = [
 
   },
   {
-    role: 'Digital-Retainer',
+    role: 'digital-retainer',
     actions: {
       post: 'post',
       guest: 'true',
@@ -130,7 +131,7 @@ const addCommunityRoles = [
 
   },
   {
-    role: 'Digital-Mentor',
+    role: 'digital-mentor',
     actions: {
       post: 'false',
       like: 'true',
@@ -139,7 +140,7 @@ const addCommunityRoles = [
 
   },
   {
-    role: 'Developer',
+    role: 'developer',
     actions: {
       post: 'post',
       guest: 'true',
@@ -148,7 +149,7 @@ const addCommunityRoles = [
 
   },
   {
-    role: 'Manager',
+    role: 'manager',
     actions: {
       post: 'false',
       like: 'true',
@@ -157,7 +158,7 @@ const addCommunityRoles = [
 
   },
   {
-    role: 'Retainer',
+    role: 'retainer',
     actions: {
       post: 'post',
       guest: 'true',
@@ -166,7 +167,7 @@ const addCommunityRoles = [
 
   },
   {
-    role: 'Mentor',
+    role: 'mentor',
     actions: {
       post: 'false',
       like: 'true',
@@ -188,7 +189,7 @@ const noRoleExist = [
   },
   {
     username: 'Aswini',
-    role: 'Developer',
+    role: 'developer',
   },
   {
     username: 'Suresh',
@@ -199,51 +200,51 @@ const noRoleExist = [
 const updateMembers = [
   {
     username: 'Aravindh',
-    role: 'Developer',
+    role: 'developer',
   },
   {
     username: 'Keerthi',
-    role: 'Developer',
+    role: 'developer',
   },
   {
     username: 'Aswini',
-    role: 'Developer',
+    role: 'developer',
   },
   {
     username: 'Suresh',
-    role: 'Developer',
+    role: 'developer',
   },
   {
     username: 'Ashok',
-    role: 'Developer',
+    role: 'developer',
   },
   {
     username: 'Karthikeyan',
-    role: 'Manager',
+    role: 'manager',
   },
   {
     username: 'AnithaJaganathan',
-    role: 'Retainer',
+    role: 'retainer',
   },
   {
     username: 'Sagar',
-    role: 'Mentor',
+    role: 'mentor',
   },
   {
     username: 'Basavaraj',
-    role: 'Mentor',
+    role: 'mentor',
   },
   {
     username: 'Simantha',
-    role: 'Mentor',
+    role: 'mentor',
   },
   {
     username: 'Nelanjan',
-    role: 'Mentor',
+    role: 'mentor',
   },
   {
     username: 'Himani',
-    role: 'Mentor',
+    role: 'mentor',
   },
 ];
 
@@ -271,11 +272,11 @@ const addCommunityRolesForSerive = [
 const updateNotAvailableMembers = [
   {
     username: 'Aravindh',
-    role: 'Digital-Developer',
+    role: 'digital-developer',
   },
   {
     username: 'Sithar',
-    role: 'Developer',
+    role: 'developer',
   }];
 
 
@@ -305,4 +306,5 @@ module.exports = {
   updateNotAvailableMembers,
   dataNotExist,
   addCommunityRolesForSerive,
+  emptyUserValueError,
 };

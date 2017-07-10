@@ -33,9 +33,10 @@ function addMembersToCommunity(domainName, data, done) {
     arr.push({ query, params: [val.username, domainName.toLowerCase(), val.role.toLowerCase()] });
   });
   return client.batch(arr, { prepare: true }, (err) => {
+    // console.log("Batch query err: ", err, " Result is ", result);
     if (!err) {
-      logger.debug('Member added');
-      done(undefined);
+      // logger.debug('Member added');
+      done(null);
     } else {
       done(err);
     }
@@ -88,29 +89,6 @@ function modifyRoleOfMembersFromCommunity(domainName, data, done) {
       done(null);
     } else {
       done(err);
-    }
-  });
-}
-
-
-/**
- *get particular Community members Detail to check availability
- *
- *
- *
- *
- */
-function checkCommunityToUpdateMembersDetail(domainName, userName, memberRole, done) {
-  const query = `SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND username = '${userName}' AND role='${memberRole.toLowerCase()}' ALLOW FILTERING`;
-  return client.execute(query, (err, results) => {
-    if (!err) {
-      if (results.rows.length > 0) {
-        done(undefined, { message: 'User Exist you can modify the data' });
-      } else {
-        done({ error: 'Please enter a valid domain and username name' }, undefined);
-      }
-    } else {
-      done({ error: 'Internal Error occured' }, undefined);
     }
   });
 }
@@ -170,6 +148,5 @@ module.exports = {
   removeMembersFromCommunity,
   modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
-  checkCommunityToUpdateMembersDetail,
   checkCommunityToUpdateMembersDetails,
 };
