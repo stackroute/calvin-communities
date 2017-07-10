@@ -22,14 +22,13 @@ function getcounter(domain, done) {
 }
 
 function incrementmember(domain, done) {
-  //console.log("inside increment");
+  // console.log("inside increment");
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members + 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
     } else {
       done(err, undefined);
-
     }
   });
 }

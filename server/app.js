@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const app = express();
 
@@ -11,15 +12,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(clientPath));
 
-process.stdout.write("Initializing Calvin Communities database");
+process.stdout.write('Initializing Calvin Communities database');
 const dbsetup = require('./dbcreation');
+
 dbsetup.dbCreate();
+
 function welcome() {
-  let motdFile = path.resolve(__dirname, '.webapp.motd');
-  const fs = require('fs');
+  const motdFile = path.resolve(__dirname, '.webapp.motd');
   if (fs.existsSync(motdFile)) {
-    let msg = fs.readFileSync(motdFile, 'utf-8');
-    process.stdout.write('\n' + msg + '\n');
+    const msg = fs.readFileSync(motdFile, 'utf-8');
+    process.stdout.write(`\n${msg}\n`);
   } else {
     process.stdout.write('\n=========== Calvin WWW ===========\n');
   }
