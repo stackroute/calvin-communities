@@ -1,12 +1,7 @@
 const membershipService = require('./membership.service');
 
-
-/**
- *get community Details of a particular member
- *
- * GET REQUEST
- *
- *
+/*
+ * Get community Details of a particular member
  */
 
 function getCommunityList(username, done) {

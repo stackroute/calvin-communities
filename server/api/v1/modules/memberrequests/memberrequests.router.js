@@ -39,13 +39,14 @@ router.get('/:domain', (req, res) => {
  */
 
 
-router.post('/:domain', (req, res) => {
+router.post('/:domain/type/:type', (req, res) => {
   try {
     const dataFromBody = req.body;
     const dataFromParams = req.params.domain;
-    controller.InsertData(dataFromBody, dataFromParams, (err) => {
+    const type = req.params.type;
+    controller.InsertData(dataFromBody, dataFromParams, type, (err) => {
       if (err) {
-        return res.status(404).send(err);
+        return res.status(400).send(err);
       }
       return res.status(201).send({ message: 'Inserted' });
     });
@@ -69,14 +70,33 @@ router.post('/:domain', (req, res) => {
  */
 
 
-router.patch('/:domain/person/:person', (req, res) => {
+router.patch('/invite/:domain/person/:person', (req, res) => {
+  try {
+    const params = req.params;
+    const body = req.body;
+    controller.updateStatusInvite(params, body, (err) => {
+      if (err) {
+        // console.log('Error in controller.updateStatus error: ', err);
+        return res.status(400).send(err);
+      }
+      return res.status(201).send({ message: 'Updated' });
+    });
+  } catch (err) {
+    // console.log('Unexpected error in updating for particular id ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+  return null;
+});
+
+
+router.patch('/request/:domain/person/:person', (req, res) => {
   try {
     const params = req.params;
     const bodyData = req.body;
-    controller.updateStatus(params, bodyData, (err) => {
+    controller.updateStatusRequest(params, bodyData, (err) => {
       if (err) {
         // console.log('Error in controller.updateStatus error: ', err);
-        return res.status(404).send(err);
+        return res.status(400).send(err);
       }
       return res.status(201).send({ message: 'Updated' });
     });

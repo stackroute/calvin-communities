@@ -17,86 +17,55 @@ const notdeleted = { error: 'Unable to delete the domain and person' };
 
 /* -------------------test case for checking POST method -------------------------------*/
 const data = {
-
-  status: 'invitesent',
-  personrole: [{ email: 'july@gmail.com', role: 'moderator' }, { email: 'jamun@gmail.com', role: 'admin' }],
-  type: 'invite',
-  member: 'janaki',
+  invitee: [{ email: 'amu@gmail.com', role: 'admin' }, { email: 'jamun@gmail.com', role: 'admin' }],
+  invitedby: 'janaki',
 };
 
 
 // throw error when member is there if type is request
 const member = {
-  status: 'requested',
-  personrole: [{ email: 'veni@gmail.com', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  type: 'request',
-  member: 'harrri',
+  invitee: [{ email: 'veni@gmail.com', role: 'admin' }],
+  invitedby: 'harrri',
 };
 
 // throw error when role is there if type is request
 const role = {
-  status: 'requested',
-  personrole: [{ email: 'veni@gmail.com', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  type: 'request',
-  member: '',
+  invitee: [{ email: 'veni@gmail.com', role: 'moderator' }],
+  invitedby: '',
 };
 
 // throw error if member is empty for type invite
 const invitemember = {
-  status: 'invitesent',
-  personrole: [{ email: 'veni@gmail.com', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  type: 'invite',
-  member: '',
-  role: 'moderator',
+  invitee: [{ email: 'veni@gmail.com', role: 'admin' }, { email: 'viswa@gmail.com', role: 'admin' }],
+  invitedby: '',
 };
 
 
 // throw error if role is empty for type invite
 const inviterole = {
-  status: 'invitesent',
-  personrole: [{ email: 'veni@gmail.com', role: '' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  type: 'invite',
-  member: 'susu',
+  invitee: [{ email: 'veni@gmail.com', role: '' }, { email: 'viswa@gmail.com', role: 'admin' }],
+  invitedby: 'susu',
 };
 
 // person is empty
 
 const noemail = {
-  status: 'invitesent',
-  personrole: [{ email: '', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  type: 'invite',
-  member: 'janaki',
+  invitee: [{ email: '', role: 'admin' }],
+  invitedby: 'janaki',
 
 };
-
-// wrong value in status
-const statuswrong = {
-
-  domain: 'samsung',
-  status: 'xyz',
-  personrole: [{ email: 'veni@gmail.com', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  type: 'invite',
-  member: 'janaki',
-
-};
-
-// wrong value in type
-const wrongtype =
-  {
-    domain: 'samsung',
-    status: 'xyz',
-    personrole: [{ email: 'veni@gmail.com', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
-    type: 'yyyyyyyyyyy',
-    member: 'janaki',
-
-  };
 
 // member(approver) and role should be empty when type is request
 const requestinput = {
-  status: 'requested',
-  personrole: [{ email: 'gokul@gmail.com', role: '' }, { email: 'saran@gmail.com', role: '' }],
-  type: 'request',
-  member: '',
+  invitee: [{ email: 'gokul@gmail.com', role: '' }],
+  invitedby: '',
+
+};
+
+// wrong role is given
+const roleinvite = {
+  invitee: [{ email: 'gokul@gmail.com', role: 'developer' }],
+  invitedby: 'sandy',
 
 };
 
@@ -106,7 +75,7 @@ const requestinput = {
 
 const checkrequesttype = {
   status: 'accepted',
-  member: 'mani',
+  invitedby: 'mani',
   role: 'moderator',
 };
 
@@ -114,21 +83,29 @@ const checkrequesttype = {
 
 const emptyapprover = {
   status: 'approved',
-  member: '',
+  invitedby: '',
+  role: 'moderator',
 };
 
 // throw error when role is empty if type request
 const emptyrole = {
   status: 'approved',
-  member: 'hari',
+  invitedby: 'hari',
   role: '',
+};
+
+// throw error when role is wrong if type request
+const wrongrole = {
+  status: 'approved',
+  invitedby: 'hari',
+  role: 'worker',
 };
 
 // correct data for status update when the type is request
 
 const valueforrequest = {
   status: 'approved',
-  member: 'hari',
+  invitedby: 'hari',
   role: 'admin',
 };
 
@@ -146,7 +123,6 @@ module.exports = {
   modified,
   data,
   noemail,
-  statuswrong,
   checkrequesttype,
   emptyapprover,
   checkinvitetype,
@@ -154,7 +130,6 @@ module.exports = {
   deleted,
   member,
   requestinput,
-  wrongtype,
   invitemember,
   notFound,
   erroroperation,
@@ -163,4 +138,6 @@ module.exports = {
   inviterole,
   role,
   emptyrole,
+  roleinvite,
+  wrongrole,
 };
