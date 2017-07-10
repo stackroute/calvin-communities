@@ -20,6 +20,65 @@ services:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
       - '9042'
+      - 'npm start'
+
+  counters:
+    image: calvin-communities
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: on-failure
+    volumes:
+      - ./dockerScripts:/temp/scripts
+    depends_on:
+      - cassandra
+      - zookeeper
+      - kafka
+    entrypoint:
+      -  /temp/scripts/wait-for-service.sh
+      - '0.0.0.0'
+      - '9042'
+      - 'npm run svc.counter'
+
+  member:
+    image: calvin-communities
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: on-failure
+    volumes:
+      - ./dockerScripts:/temp/scripts
+    depends_on:
+      - cassandra
+      - zookeeper
+      - kafka
+    entrypoint:
+      -  /temp/scripts/wait-for-service.sh
+      - '0.0.0.0'
+      - '9042'
+      - 'npm run svc.member'
+
+    tool:
+    image: calvin-communities
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: on-failure
+    volumes:
+      - ./dockerScripts:/temp/scripts
+    depends_on:
+      - cassandra
+      - zookeeper
+      - kafka
+    entrypoint:
+      -  /temp/scripts/wait-for-service.sh
+      - '0.0.0.0'
+      - '9042'
+      - 'npm run svc.tool'
+
 
   cassandra:
     image: cassandra:latest
