@@ -144,7 +144,7 @@ function addTools(data, domain, done) {
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
-      done(undefined, { message: 'updated tool' });
+      return getTools(domain, done);
     } else {
       done({ error: 'Internal Error occured' }, undefined);
     }

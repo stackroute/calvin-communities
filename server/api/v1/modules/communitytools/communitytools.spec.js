@@ -25,286 +25,413 @@ const client = new model.Client({
 
 describe('Test cases for tools of a community', () => {
   before(() => {
-        // runs before all tests in this block
+    // runs before all tests in this block
     client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'engineer.wipro.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
     client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'doctors.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
   });
 
 
- 
-  it('should throw error if value is not found', (done) => {
+
+  it('should throw error if value is not found', function(done) {
     request(app)
-            .get(`${uri}wipro.blr/tools`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                    // console.log(res.body);
-                return done();
-              }
-              res.body.should.deep.equal(value.notFound);
+      .get(`${uri}wipro.blr/tools`)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(400)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              results.body.should.deep.equal(value.notFound);
               return done();
-            });
-    return null;
+            }
+          });
+        }
+      })
   });
 
-    // nothing given for domain, username or owner
+  // nothing given for domain, username or owner
 
   it('should give error on post data in database when no values are given', (done) => {
     request(app)
-            .post(`${uri}wipro.blr/tools/`)
-            .expect(500)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.catchError);
-              done();
-            });
+      .post(`${uri}wipro.blr/tools/`)
+      .expect(500)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              results.body.should.deep.equal(value.catchError);
+              return done();
+            }
+          });
+        }
+      })
     return null;
   });
 
-    //     // username not passed
+  //     // username not passed
 
   it('should give error on post data in database when tool is not given', (done) => {
     request(app)
-            .post(`${uri}wipro.blr/tools`)
-            .send(value.wrongtools)
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              res.body.should.deep.equal(value.nullValue);
+      .post(`${uri}wipro.blr/tools`)
+      .send(value.wrongtools)
+      .expect(400)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              results.body.should.deep.equal(value.nullValue);
               return done();
-            });
+            }
+          });
+        }
+      })
     return null;
   });
 
 
-    // username string empty
+  // username string empty
   it('should give error on post data in database when tool property is empty', (done) => {
     request(app)
-            .post(`${uri}wipro.blr/tools`)
-            .send(value.wrongtool)
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              res.body.should.deep.equal(value.nullValue);
+      .post(`${uri}wipro.blr/tools`)
+      .send(value.wrongtool)
+      .expect(400)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              results.body.should.deep.equal(value.nullValue);
               return done();
-            });
+            }
+          });
+        }
+      })
     return null;
   });
 
-      // post data in database, all values given
-  it('should post data in database for all columns ', (done) => {
+  // post data in database, all values given
+  it('should post data in database ', function(done) {
     request(app)
-            .post(`${uri}doctors.blr/tools`)
-            .send(value.toolsAll)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.be.deep.equal(value.toolcreated);
-              done();
-            });
-    return null;
-  });
-   it('should get data for specified domain and tool', (done) => {
-    request(app)
-            .get(`${uri}doctors.blr/tools/wemedup`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('toolid').a('string');
-              expect(res.body).to.have.property('data').a('Array');
-              done();
-            });
-  });
-
-it('should get data for specified domain and tool in upper case', (done) => {
-    request(app)
-            .get(`${uri}Doctors.Blr/tools/WeMedUp`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('data').a('Array');
-              done();
-            });
-  });
-
-  it('should get data for specified domain', (done) => {
-    request(app)
-            .get(`${uri}doctors.blr/tools`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('tools').a('Array');
-              done();
-            });
-  });
-
- it('should get data for specified domain when in upper case', (done) => {
-    request(app)
-            .get(`${uri}doctors.bLr/tools`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('domain').a('string');
-              expect(res.body).to.have.property('tools').a('Array');
-              done();
-            });
-  });
-
-  it('should give not post if tool already exists', (done) => {
-    request(app)
-            .post(`${uri}doctors.blr/tools`)
-            .send(value.toolsAll)
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                return done(err);
-              }
-              res.body.should.deep.equal(value.nullValue);
+      .post(`${uri}singer.blr/tools`)
+      .send(value.toolsAll)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'singer.blr\'', (err, result) => {
+            if (!err) {
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].domain.should.deep.equal(results.body[0].domain);
+              result.rows[0].toolid.should.deep.equal(results.body[0].tools[0].toolid);
+              result.rows[0].actions.should.deep.equal(results.body[0].tools[0].actions);
+              result.rows[0].activityevents.should.deep.equal(results.body[0].tools[0].activityevents);
               return done();
-            });
-    return null;
+            }
+            done(err);
+          });
+        }
+      })
   });
 
-
-   // patch data in database
-  it('should patch data in database, update community', (done) => {
+  it('should not post if tool already exists', (done) => {
     request(app)
-            .patch(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
-            .send(value.updatetools)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.modified);
-              done();
-            });
+      .post(`${uri}singer.blr/tools`)
+      .send(value.toolsAll)
+      .expect(400)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'singer.blr\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(1);
+              results.body.should.deep.equal(value.nullValue);
+              return done();
+            }
+          });
+        }
+      })
     return null;
   });
 
+  it('should get data for specified domain and tool', (done) => {
+    request(app)
+      .get(`${uri}engineer.wipro.blr/tools/quora`)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\'  and toolid =\'quora\'', (err, result) => {
+            if (!err) {
+              // console.log(results.body.domain);
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].domain.should.deep.equal(results.body.domain);
+              expect(results.body).to.have.property('domain').a('string');
+              expect(results.body).to.have.property('toolid').a('string');
+              expect(results.body).to.have.property('data').a('Array');
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
 
-    // patch data in database
+  });
+
+  it('should get data for specified domain and tool in upper case', (done) => {
+    request(app)
+      .get(`${uri}engineeR.wIpro.blr/tools/QuoRa`)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\'  and toolid =\'quora\'', (err, result) => {
+            if (!err) {
+              //console.log(results.body.domain);
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].domain.should.deep.equal(results.body.domain);
+              expect(results.body).to.have.property('domain').a('string');
+              expect(results.body).to.have.property('toolid').a('string');
+              expect(results.body).to.have.property('data').a('Array');
+              return done(null, results);
+            }
+            done(err);
+          });
+        }
+      })
+  });
+
+  it('should get data for specified domain', function(done) {
+    request(app)
+      .get(`${uri}singer.blr/tools`)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'singer.blr\'', (err, result) => {
+            if (!err) {
+              // console.log(results.body.domain);
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].actions.should.deep.equal(results.body.tools[0].actions);
+              expect(results.body).to.have.property('domain').a('string');
+              expect(results.body.tools[0]).to.have.property('toolid').a('string');
+              expect(results.body.tools[0]).to.have.property('actions').a('Array');
+              return done(null, results);
+            }
+            done(err);
+          });
+        }
+      })
+  });
+
+
+
+  it('should get data for specified domain when in upper case', (done) => {
+    request(app)
+      .get(`${uri}singer.bLr/tools`)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'singer.blr\'', (err, result) => {
+            if (!err) {
+              // console.log(results.body.domain);
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].actions.should.deep.equal(results.body.tools[0].actions);
+              expect(results.body).to.have.property('domain').a('string');
+              expect(results.body.tools[0]).to.have.property('toolid').a('string');
+              expect(results.body.tools[0]).to.have.property('actions').a('Array');
+              return done(null, results);
+            }
+            return done(err);
+          });
+        } else {
+          return done(error);
+        }
+      })
+  });
+
+  // patch data in database
+  it('should patch data in database, update community', function(done) {
+    request(app)
+      .patch(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
+      .send(value.updatetools)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].domain.should.deep.equal('engineer.wipro.blr');
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
+  });
+
+
+  // patch data in database
   it('should show failure message when domain does not exist n database', (done) => {
     request(app)
-            .patch(`${uri}${value.notExisting.domain}/tools/${value.patch.tool}`)
-            .send(value.updatetools)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.errMsg);
-              done();
-            });
+      .patch(`${uri}${value.notExisting.domain}/tools/${value.patch.tool}`)
+      .send(value.updatetools)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute(`SELECT * from communitytools where domain='${value.notExisting.domain}' and toolid = '${value.patch.tool}'`, (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
     return null;
   });
 
-    // patch data in database
+  // patch data in database
   it('should show failure message when tool does not exist n database', (done) => {
     request(app)
-            .patch(`${uri}${value.patch.domain}/tools/${value.notExisting.tool}`)
-            .send(value.updatetools)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.errMsg);
-              done();
-            });
+      .patch(`${uri}${value.patch.domain}/tools/${value.notExisting.tool}`)
+      .send(value.updatetools)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute(`SELECT * from communitytools where domain='${value.patch.domain}' and toolid = '${value.notExisting.tool}'`, (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
     return null;
   });
 
-/*   //  Delete an action from table
+  //  Delete an action from table
   it('should delete action for a given domain and tool name', (done) => {
     request(app)
-            .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}/action/publish`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.actionDeleted);
-              done();
-            });
-    return null;
-  });*/
-
-    //  Delete a tool from table
-  it('should delete data in database for a given domain and tool name', (done) => {
-    request(app)
-            .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.deleted);
-              done();
-            });
+      .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}/action/publish`)
+      .end((err, res) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        console.log(res.body);
+        res.body.should.deep.equal(value.actionDeleted);
+        done();
+      });
     return null;
   });
 
-  it('should delete data in database for a given domain and tool name in upper case', (done) => {
+
+  //  Delete a tool from table
+  it('should delete data in database for a given domain and tool name', function(done) {
     request(app)
-            .delete(`${uri}${value.patchUpper.domain}/tools/${value.patchUpper.tool}`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.deleted);
-              done();
-            });
+      .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
+  });
+
+  it('should delete data in database for a given domain and tool name in upper case', function(done) {
+    request(app)
+      .delete(`${uri}${value.patchUpper.domain}/tools/${value.patchUpper.tool}`)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
+  });
+
+  //  Delete a tool from table
+  it('should not delete data if tool name or domain does not exist in database', function(done) {
+    request(app)
+      .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
+            if (!err) {
+              // console.log('Result from testcase', result.rows.length);
+              result.rows.length.should.deep.equal(0);
+              return done();
+            }
+          });
+        }
+      })
+
     return null;
   });
 
-    //  Delete a tool from table
-  it('should not delete data if tool name or domain does not exist in database', (done) => {
+  it('should post data in database for multiple values', function(done) {
     request(app)
-            .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              res.body.should.deep.equal(value.errMsg);
-              done();
-            });
-    return null;
+      .post(`${uri}dancer.blr/tools`)
+      .send(value.multipleTools)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'dancer.blr\'', (err, result) => {
+            if (!err) {
+              result.rows.length.should.deep.equal(3);
+               result.rows[0].domain.should.deep.equal(results.body[0].domain);
+               result.rows[1].toolid.should.deep.equal(results.body[0].tools[1].toolid);
+               result.rows[2].actions.should.deep.equal(results.body[0].tools[2].actions);
+               result.rows[0].activityevents.should.deep.equal(results.body[0].tools[0].activityevents);
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
   });
+
+    it('should not post data in database for multple values when a single array is wrong', function(done) {
+    request(app)
+      .post(`${uri}dancerss.blr/tools`)
+      .send(value.multipleWrongTools)
+      .end(function(error, results) {
+        if (!error) {
+          client.execute('SELECT * from communitytools where domain=\'dancerss.blr\'', (err, result) => {
+            if (!err) {
+              result.rows.length.should.deep.equal(0);
+              results.body.should.deep.equal(value.nullValue);
+              return done();
+            }
+            done(err);
+          });
+        }
+      })
+  });
+
   after('', () => {
-    client.execute("DELETE FROM communitytools where domain='Engineer.wipro.blr';");
+    client.execute("DELETE FROM communitytools where domain='engineer.wipro.blr';");
     client.execute("DELETE FROM communitytools where domain='manager.wipro.blr';");
     client.execute("DELETE FROM communitytools where domain='doctors.blr';");
+    client.execute("DELETE FROM communitytools where domain='singer.blr';");
+    client.execute("DELETE FROM communitytools where domain='dancer.blr';");
+
   });
 });

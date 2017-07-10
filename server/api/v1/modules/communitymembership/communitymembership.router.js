@@ -18,6 +18,7 @@ router.post('/:domain/members', (req, res) => {
   try {
     const values = req.body;
     const domainName = req.params.domain;
+    console.log(values);
     communityMembershipCtrl.addMembersToCommunity(domainName, values, (err) => {
       if (err) {
         // return res.status(500).send({ error: 'Error in operation, please try later..!' });

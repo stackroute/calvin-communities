@@ -158,6 +158,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         (error, result) => {
           if (err) { logger.debug(err); return done([500, 'Internal server error']); }
           publishMessageToTopic(community.domain);
+          console.log('aaaa', result[0]);
           return done(undefined, result[0]);
         });
       } return done([400, 'Domain Already Exists']);
@@ -208,17 +209,20 @@ function updateCommunity(domainName, community, status, done) {
 
   if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done([400, 'An Updater\'s data is required to be sent']); }
 
-  status = status.toLowerCase();
+ // status = status.toLowerCase();
 
-  if (status === 'disable') { status = 'inactive'; } else if (status === 'enable') { status = 'Active'; } else { status = 'Suspended'; }
+ // if (status === 'disable') { status = 'inactive'; } else if (status === 'enable') { status = 'Active'; } else { status = 'Suspended'; }
 
   if ((
     _.isEqual(community.visibility, 'Public') ||
             _.isEqual(community.visibility, 'Private') ||
             _.isEqual(community.visibility, 'Moderated'))
   ) {
-    const param = [community.name, community.avatar, community.description, community.visibility,
+/*    const param = [community.name, community.avatar, community.description, community.visibility,
       community.tags, community.updatedby, status, domainName.toLowerCase(),
+    ];*/
+      const param = [community.name, community.avatar, community.description, community.visibility,
+      community.tags, community.updatedby, domainName.toLowerCase()
     ];
 
     return communityService.updateCommunity(param, done);

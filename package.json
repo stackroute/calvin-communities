@@ -17,7 +17,9 @@
     "services": "concurrently \"node server/counters.service\" && \"node server/tools.service\" && \"node server/member.service\" ",
     "svc.counter": "node server/counters.service",
     "svc.tool": "node server/tools.service",
-    "svc.member": "node server/member.service"
+    "svc.member": "node server/member.service",
+    "svc.invite":"node server/invite.service",
+    "svc.request":"node server/requests.service"
   },
   "private": true,
   "dependencies": {

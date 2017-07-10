@@ -22,7 +22,7 @@ router.get('/:toolid', (req, res) => {
     ToolCtrl.getTools(domainName, (err, results) => {
       if (err) {
                 // console.log('Error in ToolCtrl.getTools error: ', err);
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       }
 
       return res.send(results);

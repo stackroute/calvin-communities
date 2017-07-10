@@ -67,13 +67,13 @@ function postTools(dataFromBody, dataFromURI, done) {
           communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
           toolsService.addTools.bind(null, dataFromBody ,dataFromURI), //to be removed by kafka event
 
-        ], (err) => {
+        ], (err,result) => {
           if (err) {
             return done(err);
           }
           // console.log('message here');
           publishMessageToTopic(dataFromBody, dataFromURI);
-          return done(undefined, { message: 'Updated' });
+          return done(undefined, result);
         });
       } else {
         done({ error: 'Tool Exists!!' }, undefined);

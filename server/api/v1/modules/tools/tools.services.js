@@ -22,7 +22,8 @@ function getTools(domainName, done) {
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        done(undefined, { toolid: domainName, communities: results.rows });
+        // console.log("in service", results.rows[0]);
+        done(undefined, { toolid: domainName, communities: results.rows[0].domains });
       } else {
         done({ error: 'please enter a valid domain name' }, undefined);
       }
@@ -39,7 +40,7 @@ function getToolsForDeletion(domainName, value, done) {
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        const arr = results.rows[0].tools;
+        const arr = results.rows[0].domains;
         arr.forEach((val) => {
           if (val === value) {
             count = true;
@@ -59,21 +60,7 @@ function getToolsForDeletion(domainName, value, done) {
 
 // Inserting into tools table
 
-function updateTools(data, domainName, done) {
-  const query = (`update ${TOOL_TABLE} set domains = domains + {'${data.tools.toLowerCase()}'} where toolid='${domainName.domain.toLowerCase()}';`);
-  return client.execute(query, (err, results) => {
-    if (!err) {
-      done(undefined, results);
-    } else {
-      done({ error: 'Internal Error Occured' }, undefined);
-    }
-  });
-}
-
 function addTools(data, domain, done) {
-  console.log('in tools service');
-  console.log(data);
-  console.log(domain);
   const arr = [];
   let query;
   data.forEach((val) => {
@@ -106,7 +93,6 @@ function deleteTools(data, done) {
 module.exports = {
   addTools,
   getTools,
-  updateTools,
   deleteTools,
   getToolsForDeletion,
 };
