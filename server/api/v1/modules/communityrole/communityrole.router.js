@@ -54,8 +54,7 @@ router.get('/:domainname', (req, res) => {
 
         return res.send(results);
       });
-    } else if (onlyroles === 'undefined' || onlyroles !== 'true') {
-      logger.debug('ELSE PART OF ROUTER');
+    } else if (onlyroles === undefined) {
       communityRoleCtrl.getCommunityRoles(domainName, (err, results) => {
         if (err) {
           return res.status(400).send(err);
@@ -63,7 +62,9 @@ router.get('/:domainname', (req, res) => {
 
         return res.send(results);
       });
-    } else { return ({ error: 'Unexpected error occurred, please try again...!' }, undefined); }
+    } else {
+      return ({ error: 'Unexpected error occurred, please try again...!' }, undefined);
+    }
   } catch (err) {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
@@ -105,7 +106,7 @@ router.post('/:domainname', (req, res) => {
       if (err) {
         return res.status(400).send(err);
       }
-      //return res.send(req.body);
+      // return res.send(req.body);
       return res.send('Added');
     });
   } catch (err) {
