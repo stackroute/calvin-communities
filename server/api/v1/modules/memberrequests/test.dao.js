@@ -17,14 +17,14 @@ const notdeleted = { error: 'Unable to delete the domain and person' };
 
 /* -------------------test case for checking POST method -------------------------------*/
 const data = {
-  invitee: [{ email: 'july@gmail.com', role: 'moderator' }, { email: 'jamun@gmail.com', role: 'admin' }],
+  invitee: [{ email: 'amu@gmail.com', role: 'admin' }, { email: 'jamun@gmail.com', role: 'admin' }],
   invitedby: 'janaki',
 };
 
 
 // throw error when member is there if type is request
 const member = {
-  invitee: [{ email: 'veni@gmail.com', role: 'moderator' }],
+  invitee: [{ email: 'veni@gmail.com', role: 'admin' }],
   invitedby: 'harrri',
 };
 
@@ -36,7 +36,7 @@ const role = {
 
 // throw error if member is empty for type invite
 const invitemember = {
-  invitee: [{ email: 'veni@gmail.com', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
+  invitee: [{ email: 'veni@gmail.com', role: 'admin' }, { email: 'viswa@gmail.com', role: 'admin' }],
   invitedby: '',
 };
 
@@ -50,7 +50,7 @@ const inviterole = {
 // person is empty
 
 const noemail = {
-  invitee: [{ email: '', role: 'moderator' }, { email: 'viswa@gmail.com', role: 'admin' }],
+  invitee: [{ email: '', role: 'admin' }],
   invitedby: 'janaki',
 
 };
@@ -59,6 +59,13 @@ const noemail = {
 const requestinput = {
   invitee: [{ email: 'gokul@gmail.com', role: '' }],
   invitedby: '',
+
+};
+
+// wrong role is given
+const roleinvite = {
+  invitee: [{ email: 'gokul@gmail.com', role: 'developer' }],
+  invitedby: 'sandy',
 
 };
 
@@ -85,6 +92,13 @@ const emptyrole = {
   status: 'approved',
   invitedby: 'hari',
   role: '',
+};
+
+// throw error when role is wrong if type request
+const wrongrole = {
+  status: 'approved',
+  invitedby: 'hari',
+  role: 'worker',
 };
 
 // correct data for status update when the type is request
@@ -124,4 +138,6 @@ module.exports = {
   inviterole,
   role,
   emptyrole,
+  roleinvite,
+  wrongrole,
 };

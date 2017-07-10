@@ -1,16 +1,20 @@
 const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
-const expect = chai.expect;
-const app = require('../../../../app');
 
-const request = require('supertest');
-
-const values = require('./membership.testData');
-
-const uri = '/api/v1/membership/';
+// const expect = chai.expect;
 
 const model = require('cassandra-driver');
+
+const supertest = require('supertest');
+
+const app = require('../../../../app');
+
+const request = supertest(app);
+
+const membership = require('./membership.service');
+
+const apiVersion = '/api/v1/';
 
 const connectionString = require('../../../../config').connectionString;
 
@@ -19,68 +23,137 @@ const client = new model.Client({
   protocolOptions: { port: connectionString.port },
   keyspace: connectionString.keyspace,
 });
+const domainFromURI = 'stack';
+const username = 'mr.x';
 
+const postData = [{
+  domain: 'stack',
+  username: 'mr.x',
+  role: 'admin',
+}, {
+  domain: 'wipro',
+  username: 'mr.w',
+  role: 'moderator',
+}, {
+  domain: 'digital',
+  username: 'mr.digital',
+  role: 'moderator',
+}];
 
-describe('Test cases for insert and update data when invite or request occured', () => {
-  before(() => {
-        // runs before all tests in this block
-    client.execute('insert into membership (domain, username, role) values(\'doctor.wipro.blr\',\'mohan\',\'Trainee-FullStack-Developer\');');
-    client.execute('insert into membership (domain, username, role) values(\'engineer.wipro.blr\', \'mohan\',\'Developer\');');
+const modifyData = [{
+  domain: 'stack',
+  username: 'mr.x',
+  role: 'member',
+}];
+
+describe('Test cases for membership services', () => {
+  it('should insert the data in the database', (done) => {
+    membership.userCommunityDetails(domainFromURI, postData, (error, result) => {
+      if (error) {
+        return done(error, undefined);
+      }
+      client.execute(`SELECT * FROM membership where username = '${username}' `, (err, res) => {
+        if (err) {
+          return done(err, undefined);
+        }
+        res.rows[0].domain.should.deep.equal(postData[0].domain);
+        res.rows[0].username.should.deep.equal(postData[0].username);
+        res.rows[0].role.should.deep.equal(postData[0].role);
+        return done();
+      });
+      return result;
+    });
   });
-
-/* ----------------------TEST CASE FOR GET METHOD-------------------------------------------*/
-
-  it('should get data for specified username', (done) => {
-    request(app)
-            .get(`${uri}mohan`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('user').a('string');
-              expect(res.body).to.have.property('domain').a('Array');
-              done();
-            });
-    return null;
+  it('should modify the data in the database', (done) => {
+    membership.modifyRoleOfMemberFromCommunity(domainFromURI, modifyData, (error, result) => {
+      if (error) {
+        return done(error, undefined);
+      }
+      client.execute(`SELECT * FROM membership where domain = '${domainFromURI}' AND username = '${username}'`, (err, res) => {
+        if (err) {
+          return done(err, undefined);
+        }
+        res.rows[0].domain.should.deep.equal(modifyData[0].domain);
+        res.rows[0].username.should.deep.equal(modifyData[0].username);
+        res.rows[0].role.should.deep.equal(modifyData[0].role);
+        return done();
+      });
+      return result;
+    });
   });
-  it('should throw error if value is not found', (done) => {
-    request(app)
-            .get(`${uri}mohan`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(404)
-            .end((err, res) => {
-              if (err) {
-                return done();
-              }
-              res.body.should.deep.equal(values.notFound);
-              return done();
-            });
-    return null;
+  it('should delete the data in the database', (done) => {
+    membership.removeMemberFromCommunity(domainFromURI, modifyData, (error, result) => {
+      if (error) {
+        return done(error, undefined);
+      }
+      client.execute(`SELECT * FROM membership where domain = '${domainFromURI}' AND username = '${username}'`, (err, res) => {
+        if (err) {
+          return done(err, undefined);
+        }
+        res.rows.length.should.be.equal(0);
+        return done();
+      });
+      return result;
+    });
   });
-
-  it('should get data for specified username when username has upper cases', (done) => {
-    request(app)
-            .get(`${uri}mohan`)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(200)
-            .end((err, res) => {
-              if (err) {
-                done(err);
-                return;
-              }
-              expect(res.body).to.have.property('user').a('string');
-              expect(res.body).to.have.property('domain').a('Array');
-              done();
-            });
-    return null;
+});
+describe('Test case for GET request', () => {
+  it('should get the community list of a member', (done) => {
+    request
+      .get(`${apiVersion}membership/${postData[1].username}`)
+      .end((error, res) => {
+        if (error) {
+          return done(error);
+        }
+        client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}'`, (err, result) => {
+          if (err) {
+            return done(err, undefined);
+          }
+          result.rows[0].domain.should.deep.equal(res.body.communityDetails[0].domain);
+          result.rows[0].role.should.deep.equal(res.body.communityDetails[0].role);
+          return done();
+        });
+        return undefined;
+      });
   });
-
-
-  after('', () => {
-    client.execute("DELETE FROM membership where domain='doctor.wipro.blr' and username='mohan';");
-    client.execute("DELETE FROM membership where domain='engineer.wipro.blr' and username='mohan';");
+  it('should throw error if the user details does not exist', (done) => {
+    request
+      .get(`${apiVersion}membership/${postData[0].username}`)
+      .end((error, res) => {
+        if (error) {
+          return done(error);
+        }
+        client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[0].username}'`, (err, result) => {
+          if (err) {
+            return done(err, undefined);
+          }
+          result.rows.length.should.deep.equal(0);
+          return done();
+        });
+        return (undefined, res);
+      });
   });
+  describe('Test cases for the case-sensitivity', () => {
+    it('should display the user details when the username specified in UPPERCASE', (done) => {
+      request
+        .get(`${apiVersion}membership/${postData[2].username}`)
+        .end((error, res) => {
+          if (error) {
+            return done(error);
+          }
+          client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[2].username}'`, (err, result) => {
+            if (err) {
+              return done(err, undefined);
+            }
+            result.rows[0].domain.should.deep.equal(res.body.communityDetails[0].domain);
+            result.rows[0].role.should.deep.equal(res.body.communityDetails[0].role);
+            return done();
+          });
+          return undefined;
+        });
+    });
+  });
+  // after(() => {
+  //   client.execute('TRUNCATE membership');
+  // });
 });

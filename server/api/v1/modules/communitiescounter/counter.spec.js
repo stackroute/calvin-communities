@@ -36,8 +36,8 @@ describe('Testcases for checking the communitycounter', () => {
         }
         result2[0].should.deep.equal(result.rows[0]);
       });
-      done();
-    });
+    })
+    done();
   });
   it('Testing communityController::incrementmember for sucess scenario', (done) => {
     const query = `SELECT members FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
@@ -83,8 +83,8 @@ describe('Testcases for checking the communitycounter', () => {
               done(errquery);
             }
             parseInt(resultupdated.rows[0].invitations) // eslint-disable-line radix
-              .should.deep.equal(parseInt(result.rows[0]// eslint-disable-line radix
-              .invitations) + 1); // eslint-disable-line radix
+              .should.deep.equal(parseInt(result.rows[0] // eslint-disable-line radix
+                .invitations) + 1); // eslint-disable-line radix
           });
         });
       done();
@@ -109,7 +109,7 @@ describe('Testcases for checking the communitycounter', () => {
               done(errquery);
             }
             parseInt(resultupdated.rows[0].tools) // eslint-disable-line radix
-              .should.deep.equal(parseInt(result.rows[0].tools) + 1);// eslint-disable-line radix
+              .should.deep.equal(parseInt(result.rows[0].tools) + 1); // eslint-disable-line radix
           });
         });
       done();
@@ -133,7 +133,7 @@ describe('Testcases for checking the communitycounter', () => {
             done(errquery);
           }
           parseInt(resultupdated.rows[0].requests) // eslint-disable-line radix
-            .should.deep.equal(parseInt(result.rows[0].requests) + 1);// eslint-disable-line radix
+            .should.deep.equal(parseInt(result.rows[0].requests) + 1); // eslint-disable-line radix
         });
       });
       done();
@@ -159,7 +159,7 @@ describe('Testcases for checking the communitycounter', () => {
               done(errquery);
             }
             parseInt(resultupdated.rows[0].members) // eslint-disable-line radix
-              .should.deep.equal(parseInt(result.rows[0].members) - 1);// eslint-disable-line radix
+              .should.deep.equal(parseInt(result.rows[0].members) - 1); // eslint-disable-line radix
           });
         });
       done();
@@ -185,7 +185,7 @@ describe('Testcases for checking the communitycounter', () => {
               done(errquery);
             }
             parseInt(resultupdated.rows[0].requests) // eslint-disable-line radix
-              .should.deep.equal(parseInt(result.rows[0].requests) - 1);// eslint-disable-line radix
+              .should.deep.equal(parseInt(result.rows[0].requests) - 1); // eslint-disable-line radix
           });
         });
       done();
@@ -211,7 +211,7 @@ describe('Testcases for checking the communitycounter', () => {
               done(errquery);
             }
             parseInt(resultupdated.rows[0].tools) // eslint-disable-line radix
-              .should.deep.equal(parseInt(result.rows[0].tools) - 1);// eslint-disable-line radix
+              .should.deep.equal(parseInt(result.rows[0].tools) - 1); // eslint-disable-line radix
           });
         });
       done();
@@ -237,8 +237,8 @@ describe('Testcases for checking the communitycounter', () => {
               done(errquery);
             }
             parseInt(resultupdated.rows[0].invitations) // eslint-disable-line radix
-              .should.deep.equal(parseInt(result.rows[0]// eslint-disable-line radix
-              .invitations) - 1);// eslint-disable-line radix
+              .should.deep.equal(parseInt(result.rows[0] // eslint-disable-line radix
+                .invitations) - 1); // eslint-disable-line radix
           });
         });
       done();

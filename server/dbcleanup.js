@@ -107,6 +107,5 @@ client.connect()
   client.shutdown();
   logger.debug('error in Database operations:', err);
   process.exit();
-
 });
 

@@ -102,16 +102,17 @@ describe('Test cases for insert and update data when invite or request occured',
 // throw error when person email is empty
 
   it('should give error on post data in database when no email value is given', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'marker.wipro.blr\'');
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
     request(app)
-            .post(`${uri}marker.wipro.blr/type/invite`)
+            .post(`${uri}seconddomain/type/invite`)
             .send(values.noemail)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'marker.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.wrongdata);
                     return done();
                   }
                   return done(err);
@@ -123,16 +124,17 @@ describe('Test cases for insert and update data when invite or request occured',
   // throw error when member is there if type is request
 
   it('should give error on post data in database when member is there if request occured', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'marker.wipro.blr\'');
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
     request(app)
-            .post(`${uri}marker.wipro.blr/type/request`)
+            .post(`${uri}seconddomain/type/request`)
             .send(values.member)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'marker.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.wrongdata);
                     return done();
                   }
                   return done(err);
@@ -144,16 +146,17 @@ describe('Test cases for insert and update data when invite or request occured',
   // throw error when role is there if type is request
 
   it('should give error on post data in database when role is there if request occured', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'marker.wipro.blr\'');
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
     request(app)
-            .post(`${uri}marker.wipro.blr/type/request`)
+            .post(`${uri}seconddomain/type/request`)
             .send(values.role)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'marker.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.wrongdata);
                     return done();
                   }
                   return done(err);
@@ -164,16 +167,40 @@ describe('Test cases for insert and update data when invite or request occured',
   // throw error if member is empty for type invite
 
   it('should give error on post data in database member is empty when invite occured', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'marker.wipro.blr\'');
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
     request(app)
-            .post(`${uri}marker.wipro.blr/type/invite`)
+            .post(`${uri}seconddomain/type/invite`)
             .send(values.invitemember)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'marker.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.wrongdata);
+                    return done();
+                  }
+                  return done(err);
+                });
+              }
+            });
+  });
+
+
+  // throw error if role is wrongly given for type invite
+
+  it('should give error on post data in database when role is wrongly given when invite occured', (done) => {
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
+    request(app)
+            .post(`${uri}seconddomain/type/invite`)
+            .send(values.roleinvite)
+            .expect(400)
+            .end((error, res) => {
+              if (!error) {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
+                  if (!err) {
+                    result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.wrongdata);
                     return done();
                   }
                   return done(err);
@@ -185,16 +212,17 @@ describe('Test cases for insert and update data when invite or request occured',
   // throw error if role is empty for type invite
 
   it('should give error on post data in database role is empty when invite occured', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'marker.wipro.blr\'');
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
     request(app)
-            .post(`${uri}marker.wipro.blr/type/invite`)
+            .post(`${uri}seconddomain/type/invite`)
             .send(values.inviterole)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'marker.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.wrongdata);
                     return done();
                   }
                   return done(err);
@@ -205,23 +233,32 @@ describe('Test cases for insert and update data when invite or request occured',
 
   // Insert date for type invite
   it('should insert data into the table when invite occured', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'stack.wipro.blr\'');
+    client.execute('delete from communityinviterequests where domain = \'firstdomain\'');
+    let iteration = 0;
     request(app)
-            .post(`${uri}stack.wipro.blr/type/invite`)
+            .post(`${uri}firstdomain/type/invite`)
             .send(values.data)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stack.wipro.blr\'', (err, result) => {
-                  if (!err) {
-                    result.rows.length.should.be.equal(2);
-                    result.rows[0].status.should.be.equal('invitesent');
-                    result.rows[0].type.should.be.equal('invite');
-                    result.rows[0].person.should.be.equal('jamun@gmail.com');
-                    result.rows[0].invitedby.should.be.equal('janaki');
-                    return done();
-                  }
-                  return done(err);
+                const persons = values.data.invitee;
+                persons.forEach((data) => {
+                  const query = `SELECT * FROM communityinviterequests where domain ='firstdomain' and person ='${data.email}'`;
+                  client.execute(query, (err, result) => {
+                    if (!err) {
+                      result.rows[0].person.should.be.equal(data.email);
+                      result.rows[0].role.should.be.equal(data.role);
+                      result.rows[0].invitedby.should.be.equal(values.data.invitedby);
+                      res.body.should.deep.equal(values.rowcreated);
+                    }
+                  });
+                  iteration += 1;
                 });
+                if (iteration === persons.length) {
+                  iteration.should.deep.equal(persons.length);
+                  return done();
+                }
+
+                return done(error);
               }
             });
   });
@@ -229,19 +266,20 @@ describe('Test cases for insert and update data when invite or request occured',
 
    // Insert date for type request
   it('should insert data into the table when request occured', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'stackroute.wipro.blr\'');
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
     request(app)
-            .post(`${uri}stackroute.wipro.blr/type/request`)
+            .post(`${uri}seconddomain/type/request`)
             .send(values.requestinput)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stackroute.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(1);
                     result.rows[0].status.should.be.equal('requested');
                     result.rows[0].type.should.be.equal('request');
                     result.rows[0].person.should.be.equal('gokul@gmail.com');
                     result.rows[0].invitedby.should.be.equal('');
+                    res.body.should.deep.equal(values.rowcreated);
                     return done();
                   }
                   return done(err);
@@ -254,18 +292,44 @@ describe('Test cases for insert and update data when invite or request occured',
 // error throw when status is accepted when the type is request
   it('should give error on update data in database when status is accepted while the type is request', (done) => {
     request(app)
-            .patch(`${uri}request/stackroute.wipro.blr/person/gokul@gmail.com`)
+            .patch(`${uri}request/seconddomain/person/gokul@gmail.com`)
             .send(values.checkrequesttype)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stackroute.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\' and person = \'gokul@gmail.com\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(1);
                     result.rows[0].status.should.not.be.equal('accepted');
                     result.rows[0].type.should.be.equal('request');
                     result.rows[0].person.should.be.equal('gokul@gmail.com');
                     result.rows[0].invitedby.should.not.be.equal('mani');
+                    res.body.should.deep.equal(values.notupdate);
+                    return done();
+                  }
+                  return done(err);
+                });
+              }
+            });
+  });
+
+  // error throw when role is wrong when the type is request
+  it('should give error on update data in database when role is wrong while the type is request', (done) => {
+    request(app)
+            .patch(`${uri}request/seconddomain/person/gokul@gmail.com`)
+            .send(values.wrongrole)
+            .expect(400)
+            .end((error, res) => {
+              if (!error) {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
+                  if (!err) {
+                    result.rows.length.should.be.equal(1);
+                    result.rows[0].status.should.not.be.equal('approved');
+                    result.rows[0].type.should.be.equal('request');
+                    result.rows[0].person.should.be.equal('gokul@gmail.com');
+                    result.rows[0].invitedby.should.not.be.equal('hari');
+                    result.rows[0].role.should.not.be.equal('worker');
+                    res.body.should.deep.equal(values.notupdate);
                     return done();
                   }
                   return done(err);
@@ -278,18 +342,19 @@ describe('Test cases for insert and update data when invite or request occured',
 
   it('should give error on update status in database when member is empty while the type is request', (done) => {
     request(app)
-            .patch(`${uri}request/stackroute.wipro.blr/person/gokul@gmail.com`)
+            .patch(`${uri}request/seconddomain/person/gokul@gmail.com`)
             .send(values.emptyapprover)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stackroute.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\' and person = \'gokul@gmail.com\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(1);
                     result.rows[0].status.should.not.be.equal('approved');
                     result.rows[0].type.should.be.equal('request');
                     result.rows[0].person.should.be.equal('gokul@gmail.com');
                     result.rows[0].invitedby.should.be.equal('');
+                    res.body.should.deep.equal(values.notupdate);
                     return done();
                   }
                   return done(err);
@@ -302,12 +367,12 @@ describe('Test cases for insert and update data when invite or request occured',
 
   it('should give error on update status in database when role is empty while the type is request', (done) => {
     request(app)
-            .patch(`${uri}request/stackroute.wipro.blr/person/gokul@gmail.com`)
+            .patch(`${uri}request/seconddomain/person/gokul@gmail.com`)
             .send(values.emptyrole)
             .expect(400)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stackroute.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\' and person = \'gokul@gmail.com\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(1);
                     result.rows[0].status.should.not.be.equal('approved');
@@ -315,6 +380,7 @@ describe('Test cases for insert and update data when invite or request occured',
                     result.rows[0].person.should.be.equal('gokul@gmail.com');
                     result.rows[0].invitedby.should.not.be.equal('hari');
                     result.rows[0].role.should.be.equal('');
+                    res.body.should.deep.equal(values.notupdate);
                     return done();
                   }
                   return done(err);
@@ -325,12 +391,12 @@ describe('Test cases for insert and update data when invite or request occured',
   // update status for request type
   it('update status in database when the type is request', (done) => {
     request(app)
-            .patch(`${uri}request/stackroute.wipro.blr/person/gokul@gmail.com`)
+            .patch(`${uri}request/seconddomain/person/gokul@gmail.com`)
             .send(values.valueforrequest)
             .expect(201)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stackroute.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\' and person = \'gokul@gmail.com\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(1);
                     result.rows[0].status.should.be.equal('approved');
@@ -338,6 +404,7 @@ describe('Test cases for insert and update data when invite or request occured',
                     result.rows[0].person.should.be.equal('gokul@gmail.com');
                     result.rows[0].invitedby.should.be.equal('hari');
                     result.rows[0].role.should.be.equal('admin');
+                    res.body.should.deep.equal(values.modified);
                     return done();
                   }
                   return done(err);
@@ -349,19 +416,20 @@ describe('Test cases for insert and update data when invite or request occured',
    // update status for invite type
   it('update status in database when the type is invite', (done) => {
     request(app)
-            .patch(`${uri}invite/stack.wipro.blr/person/jamun@gmail.com`)
+            .patch(`${uri}invite/firstdomain/person/jamun@gmail.com`)
             .send(values.checkinvitetype)
             .expect(201)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stack.wipro.blr\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'firstdomain\' and person = \'jamun@gmail.com\'', (err, result) => {
                   if (!err) {
-                    result.rows.length.should.be.equal(2);
+                    result.rows.length.should.be.equal(1);
                     result.rows[0].status.should.be.equal('accepted');
                     result.rows[0].type.should.be.equal('invite');
                     result.rows[0].person.should.be.equal('jamun@gmail.com');
                     result.rows[0].invitedby.should.be.equal('janaki');
                     result.rows[0].role.should.be.equal('admin');
+                    res.body.should.deep.equal(values.modified);
                     return done();
                   }
                   return done(err);
@@ -390,13 +458,14 @@ describe('Test cases for insert and update data when invite or request occured',
   // value for delete the row when the invite rejected
   it('delete the domain and person from the table when invite is rejected', (done) => {
     request(app)
-            .delete(`${uri}stack.wipro.blr/person/jamun@gmail.com`)
+            .delete(`${uri}firstdomain/person/jamun@gmail.com`)
             .expect(201)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stackroute.wipro.blr\' and person = \'jamun@gmail.com\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'firstdomain\' and person = \'jamun@gmail.com\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.deleted);
                     return done();
                   }
                   return done(err);
@@ -408,13 +477,14 @@ describe('Test cases for insert and update data when invite or request occured',
     // value for delete the row when the request rejected
   it('delete the domain and person from the table when request is rejected', (done) => {
     request(app)
-            .delete(`${uri}stackroute.wipro.blr/person/gokul@gmail.com`)
+            .delete(`${uri}seconddomain/person/gokul@gmail.com`)
             .expect(201)
-            .end((error) => {
+            .end((error, res) => {
               if (!error) {
-                client.execute('SELECT * FROM communityinviterequests where domain = \'stack.wipro.blr\' and person = \'gokul@gmail.com\'', (err, result) => {
+                client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\' and person = \'gokul@gmail.com\'', (err, result) => {
                   if (!err) {
                     result.rows.length.should.be.equal(0);
+                    res.body.should.deep.equal(values.deleted);
                     return done();
                   }
                   return done(err);
@@ -425,7 +495,7 @@ describe('Test cases for insert and update data when invite or request occured',
 
   after('', () => {
     client.execute('DELETE FROM communityinviterequests where domain=\'doctor.wipro.blr\'');
-    client.execute('DELETE FROM communityinviterequests where domain=\'stackroute.wipro.blr\'');
-    client.execute('DELETE FROM communityinviterequests where domain=\'stack.wipro.blr\'');
+    client.execute('DELETE FROM communityinviterequests where domain=\'seconddomain\'');
+    client.execute('DELETE FROM communityinviterequests where domain=\'firstdomain\'');
   });
 });
