@@ -12,6 +12,23 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
+function flattenFormat(doc, done) {
+  const arr = [];
+  const obj = {};
+  doc.forEach((elem) => {
+    Object.keys(elem.actions).map((key) => {
+      // return { role: doc.role, toolid: doc.toolid, action: key, grant: doc.actions[key] }
+      arr.push({ role: elem.role, toolid: elem.toolid, action: key, grant: elem.actions[key] });
+    });
+  });
+  obj.domain = doc[0].domain;
+  logger.debug(obj);
+  logger.debug('Array is ', arr);
+  obj.roleactions = arr;
+  logger.debug('Final Obj', obj);
+  return (null, obj);
+}
+
 function getCommunityRoles(domainName, done) {
     // logger.debug("SERVICE getCommunityRolesOnly",domainName);
   const query = `SELECT * FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
@@ -20,7 +37,9 @@ function getCommunityRoles(domainName, done) {
     if (!err) {
       logger.debug(typeof results.rows);
       if (results.rows.length > 0) {
-        done(err, results.rows);
+        done(err, flattenFormat((results.rows), (err, result) => {
+
+        }));
       } else {
         logger.debug('error');
         done('please enter a existing domain', undefined);
@@ -30,6 +49,7 @@ function getCommunityRoles(domainName, done) {
     }
   });
 }
+
 
 function getCommunityRolesOnly(domainName, onlyroles, done) {
     // logger.debug("SERVICE getCommunityRolesOnly",domainName,"   ",onlyroles);
@@ -72,17 +92,23 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
                 // logger.debug('unique', unique)
 
         const finalArr = [];
-
+        /* let arr=[];
+        let abject={};*/
         unique.forEach((item) => {
           const obj = {};
                     // logger.debug("item is",item);
+                    /* arr.push(item);*/
           obj.role = item;
           logger.debug('obj', obj);
           finalArr.push(obj);
           logger.debug('finalArr', finalArr);
         });
-
-        done(null, finalArr);
+        /* abject.role=arr;
+        console.log("Only roles:",abject);
+        let str=JSON.stringify(abject);
+        console.log("json parsed",JSON.parse(str))*/
+        // console.log("Only roles:",JSON.parse(JSON.strigify(abject)));
+        done(null, /* abject*/finalArr);
                 // logger.debug(finalArr);
 
 
