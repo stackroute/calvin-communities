@@ -12,40 +12,40 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-function flattenFormat(doc, done) {
+function flattenFormat(doc) {
   const arr = [];
   const obj = {};
   doc.forEach((elem) => {
-    Object.keys(elem.actions).map((key) => {
+    Object.keys(elem.actions).map(key =>
       // return { role: doc.role, toolid: doc.toolid, action: key, grant: doc.actions[key] }
-      arr.push({ role: elem.role, toolid: elem.toolid, action: key, grant: elem.actions[key] });
-    });
+      arr.push({ role: elem.role,
+        toolid: elem.toolid,
+        action: key,
+        grant: elem.actions[key] }), {});
   });
   obj.domain = doc[0].domain;
   logger.debug(obj);
   logger.debug('Array is ', arr);
   obj.roleactions = arr;
   logger.debug('Final Obj', obj);
-  return (null, obj);
+  return obj;
 }
 
 function getCommunityRoles(domainName, done) {
     // logger.debug("SERVICE getCommunityRolesOnly",domainName);
   const query = `SELECT * FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
 
-  return client.execute(query, (err, results) => {
-    if (!err) {
+  return client.execute(query, (error, results) => {
+    if (!error) {
       logger.debug(typeof results.rows);
       if (results.rows.length > 0) {
-        done(err, flattenFormat((results.rows), (err, result) => {
-
-        }));
+        done(null, flattenFormat(results.rows));
       } else {
         logger.debug('error');
         done('please enter a existing domain', undefined);
       }
     } else {
-      done(err, undefined);
+      done(error, undefined);
     }
   });
 }

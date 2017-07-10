@@ -2,6 +2,8 @@ const communityRoleService = require('./communityrole.service');
 
 const logger = require('../../../../logger');
 
+const async = require('async');
+
 function getCommunityRoles(domainName, done) {
   communityRoleService.getCommunityRoles(domainName, done);
 }
@@ -36,31 +38,60 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
     }
   }, 100);
 }*/
-
-function postCommunityRoles(domainName, postedData, done) {
+function checkRole(domainName, postedData, done) {
   let count = 0;
+  let iterations = 0;
   postedData.forEach((val) => {
     if (domainName && val.role && val.actions && val.toolId) {
       if (domainName !== '' && val.role !== '' && val.actions !== '' && val.toolId !== '') {
         logger.debug('from postCommunityRoles', domainName, val.actions, val.toolId);
         communityRoleService.checkCommunityRole(domainName, val.role, val.toolId, (err) => {
+          iterations += 1;
           if (err) {
             count += 1;
             logger.debug(count);
           } else {
             count += 0;
           }
+          if (iterations === postedData.length) {
+            logger.debug('iterations', iterations);
+            logger.debug('count', count);
+            done(null, count);
+          }
         });
       }
     }
   });
-  setTimeout(() => {
-    if (count === postedData.length) {
-      communityRoleService.postCommunityRoles(domainName, postedData, done);
+}
+
+function postRoles(domainName, postedData, count, done) {
+  // console.log(count)
+  logger.debug('counterVALU---->', count);
+  if (count === postedData.length) {
+    communityRoleService.postCommunityRoles(domainName, postedData, (err) => {
+      if (err) {
+        done(err);
+      }
+      return done(undefined, { message: 'Added' });
+    });
+  } else {
+    done({ error: 'entry already exists' }, undefined);
+  }
+}
+
+
+function postCommunityRoles(domainName, postedData, done) {
+  async.waterfall([
+    checkRole.bind(null, domainName, postedData),
+    postRoles.bind(null, domainName, postedData),
+
+  ], (err, result) => {
+    if (err) {
+      done(err);
     } else {
-      done({ error: 'entry already exists' }, undefined);
+      done(null, result);
     }
-  }, 200);
+  });
 }
 
 
@@ -88,10 +119,7 @@ function postCommunityRoles(domainName, postedData, done) {
   }, 100);
 }
 */
-function patchCommunityRoles(patchData, domainName, role, done) {
-  /* const params = [patchData[0].actions, domainName.toLowerCase(),
-    role.toLowerCase(), patchData[0].toolId.toLowerCase(),
-  ];*/
+function checkRole2(domainName, role, done) {
   let count = 0;
   logger.debug(domainName);
   logger.debug(role);
@@ -102,16 +130,38 @@ function patchCommunityRoles(patchData, domainName, role, done) {
     } else {
       count += 0;
     }
+
+    done(null, count);
   });
-  setTimeout(() => {
-    logger.debug('patchData.length', patchData.length);
-    if (count > 0) {
-      communityRoleService.patchCommunityRoles(patchData, domainName, role, done);
-    } else {
-      done({ error: 'Patch only allowed for existant data' }, undefined);
-    }
-  }, 100);
 }
+
+function patchRoles(patchData, domainName, role, count, done) {
+  /*  if (count === patchData.length) {*/
+  logger.debug('patchData.length', patchData.length);
+  if (count > 0) {
+    communityRoleService.patchCommunityRoles(patchData, domainName, role, done);
+  } else {
+    done({ error: 'Patch only allowed for existant data' }, undefined);
+  }
+}
+
+function patchCommunityRoles(patchData, domainName, role, done) {
+  /* const params = [patchData[0].actions, domainName.toLowerCase(),
+    role.toLowerCase(), patchData[0].toolId.toLowerCase(),
+  ];*/
+  async.waterfall([
+    checkRole2.bind(null, domainName, role),
+    patchRoles.bind(null, patchData, domainName, role),
+
+  ], (err, result) => {
+    if (err) {
+      done(err);
+    } else {
+      done(null, result);
+    }
+  });
+}
+
 
 // function patchCommunityRoles(patchData, domainName, role, done) {
 //   logger.debug('patchData[0].actions', patchData[0].actions);

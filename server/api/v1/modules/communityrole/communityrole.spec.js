@@ -64,13 +64,8 @@ describe('Create a communityrole and update it', () => {
             res.text.should.be.equal('Added');
             result.rows.length.should.be.equal(2);
             result.rows[0].actions.should.deep.equal(postdata[0].actions);
-            result.rows.find((elem) => {
-              elem.rolename === postdata[0];
-            });
-
-            result.rows.find((elem) => {
-              elem.rolename === postdata[1].rolename;
-            });
+            result.rows.find(elem => elem.rolename === postdata[0], {});
+            result.rows.find(elem => elem.rolename === postdata[1].rolename, {});
             done();
           } else {
             logger.debug('In error');

@@ -63,7 +63,7 @@ router.get('/:domainname', (req, res) => {
         return res.send(results);
       });
     } else {
-      return ({ error: 'Unexpected error occurred, please try again...!' }, undefined);
+      return res.send({ error: 'Unexpected error occurred, please try again...!' }, undefined);
     }
   } catch (err) {
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
