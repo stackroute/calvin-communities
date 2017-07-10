@@ -12,4 +12,14 @@ module.exports = function(eventMessage) {
       console.log('check for the tools is incremented');
     }
   });
+  counterctrl.incrementrequests(eventMessage.domain,(err,res)=>{
+    if(!err){
+      console.log('check for the requests is incremented');
+    }
+  });
+   counterctrl.incrementinvitation(eventMessage.domain,(err,res)=>{
+    if(!err){
+      console.log('check for the invitations is incremented');
+    }
+  });
 };

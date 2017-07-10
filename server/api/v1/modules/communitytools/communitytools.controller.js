@@ -10,6 +10,8 @@ const roleService = require('../communityrole/communityrole.service');
 
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
+const connectionString = require('../../../../config').topics;
+
 // Function for Getting tools
 
 function getTools(domainName, done) {

@@ -1,4 +1,5 @@
 const model = require('cassandra-driver');
+
 const connectionString = require('../../../../config').connectionString;
 
 const logger = require('../../../../logger');
@@ -12,90 +13,82 @@ const client = new model.Client({
 });
 
 
-/**
- *Add memeber to the community
- *
- * POST REQUEST
- *
- *
- */
-
-function addMemberToCommunity(domainName, data, done) {
-  const arr = [];
-  const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon) values(?,?,?,dateof(now()),dateof(now()))`);
-  data.forEach((val) => {
-    arr.push({ query, params: [val.username, domainName.toLowerCase(), val.role.toLowerCase()] });
-  });
-  logger.debug('Member added');
-  return client.batch(arr, { prepare: true }, (err,res)=>{
-    if(err){
-      return done(err);
-    }
-    else{
-      return done(null, res);
-    }
-  });
-}
-
-/**
- *Remove member from a community
- *
- * DELETE REQUEST
- *
- *
- */
-
-function removeMemberFromCommunity(domainName, data) {
-  const arr = [];
-  const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
-  data.forEach((val) => {
-    arr.push({ query, params: [val.username, domainName.toLowerCase()] });
-  });
-  return client.batch(arr, { prepare: true });
-}
-
-/**
- *Modify role of a member in a community
- *
- * PATCH REQUEST
- *
- *
- */
-
-function modifyRoleOfMemberFromCommunity(domainName, data) {
-  const arr = [];
-  const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? `);
-  data.forEach((val) => {
-    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
-  });
-  return client.batch(arr, { prepare: true });
-}
-
-/**
- *get community Details of a particular member
- *
- * GET REQUEST
- *
- *
+/*
+ * Get community Details of a particular member
  */
 
 function getCommunityList(username, done) {
-  const query = `SELECT domain,role FROM ${MEMBERSHIP_TABLE} WHERE username = '${username}' `;
+  const query = `SELECT domain, role FROM membership WHERE username = '${username}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
-      if (results.rows.length > 0) {
-        done(undefined, { username, communityDetails: results.rows });
-      } else {
-        done({ error: 'please enter a valid username' }, undefined);
-      }
+      done(undefined, { username, communityDetails: results.rows });
     } else {
       done(err, undefined);
     }
   });
 }
 
+/*
+ * Post - Add memebers to the community
+ */
+
+function userCommunityDetails(domainName, data, done) {
+  const arr = [];
+  const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon)
+                  values(?,?,?,dateof(now()),dateof(now()))`);
+  data.forEach((value) => {
+    arr.push(
+      { query, params: [value.username, domainName.toLowerCase(), value.role.toLowerCase()] });
+  });
+  logger.debug('Member to be added');
+  return client.batch(arr, { prepare: true }, (err, res) => {
+    if (err) {
+      return done(err);
+    }
+      // data.forEach((value) => {})
+    return done(null, res);
+  });
+}
+
+/*
+ *  Patch - Modify role of a member in a community
+ */
+
+function modifyRoleOfMemberFromCommunity(domainName, data, done) {
+  const arr = [];
+  const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? `);
+  data.forEach((val) => {
+    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
+  });
+  return client.batch(arr, { prepare: true }, (err, res) => {
+    if (err) {
+      return done(err);
+    }
+    return done(undefined, res);
+  });
+}
+
+/*
+ * Delete- Remove member from a community
+ */
+
+function removeMemberFromCommunity(domainName, data, done) {
+  const arr = [];
+  const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
+  data.forEach((val) => {
+    arr.push({ query, params: [val.username, domainName.toLowerCase()] });
+  });
+  return client.batch(arr, { prepare: true }, (err, res) => {
+    if (err) {
+      return done(err);
+    }
+    return done(undefined, res);
+  });
+}
+
+
 module.exports = {
-  addMemberToCommunity,
+  userCommunityDetails,
   getCommunityList,
   modifyRoleOfMemberFromCommunity,
   removeMemberFromCommunity,

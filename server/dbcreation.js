@@ -143,11 +143,10 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COUNTER} ( \
 
 
 function dbCreate() {
-
 /**
 * KEYSPACE & TABLE Creation
 */
-client.connect()
+  client.connect()
 .then(() => client.execute(queries[0]))
 .then(() => {
   logger.debug('keyspace created');
@@ -194,5 +193,5 @@ client.connect()
 }
 
 module.exports = {
-  dbCreate
-}
+  dbCreate,
+};

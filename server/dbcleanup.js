@@ -68,6 +68,7 @@ queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_COUNTER}`);
  * KEYSPACE & TABLE Creation
  */
 client.connect()
+<<<<<<< HEAD
     .then(() => client.execute(queries[0]))
     .then(() => {
         logger.debug(`table ${TABLE_COMMUNITIES} cleared`);
@@ -109,3 +110,46 @@ client.connect()
         process.exit();
 
     });
+=======
+.then(() => client.execute(queries[0]))
+.then(() => {
+  logger.debug(`table ${TABLE_COMMUNITIES} cleared`);
+  return client.execute(queries[1]);
+})
+.then(() => {
+  logger.debug(`table ${TABLE_COMMUNITY_MEMBERSHIP} cleared`);
+  return client.execute(queries[2]);
+})
+.then(() => {
+  logger.debug(`table ${TABLE_MEMBERSHIP} cleared`);
+  return client.execute(queries[3]);
+})
+.then(() => {
+  logger.debug(`table ${TABLE_COMMUNITY_TOOLS} cleared`);
+  return client.execute(queries[4]);
+})
+.then(() => {
+  logger.debug(`table ${TABLE_TOOLS} cleared`);
+  return client.execute(queries[5]);
+})
+.then(() => {
+  logger.debug(`table ${TABLE_ROLES} cleared`);
+  return client.execute(queries[6]);
+})
+.then(() => {
+  logger.debug(`table ${TABLE_REQUESTS} cleared`);
+  return client.execute(queries[7]);
+})
+.then(() => {
+  logger.debug(`table ${TABLE_COUNTER} cleared`);
+  client.shutdown();
+  logger.debug('all required tables cleared');
+  process.exit();
+})
+.catch((err) => {
+  client.shutdown();
+  logger.debug('error in Database operations:', err);
+  process.exit();
+});
+
+>>>>>>> c2b7730b69d62fac6fc7c288955702aec079b2da
