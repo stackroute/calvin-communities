@@ -15,7 +15,7 @@ const membershipCtrl = require('./membership.controller');
 
 router.get('/:username', (req, res) => {
   try {
-    const username = req.params.username;
+    const username = req.params.username.toLowerCase();
     membershipCtrl.getCommunityList(username, (err, results) => {
       if (err) {
         return res.status(400).send(err);
