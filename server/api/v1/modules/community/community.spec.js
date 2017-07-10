@@ -326,7 +326,7 @@ describe('get/ post/ patch community ', () => {
       .post(`/api/v1/communities/${wrongdomain.domain}`)
       .send(wrongdomain)
       .then((result) => {
-        result.body.error.should.equal('Domain Name has to be at least 8 characters long and consist of Alphanumeric Values and a (.)');
+        result.body.error.should.equal('Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)');
         result.status.should.be.equal(400);
         done();
       })

@@ -109,10 +109,10 @@ function getTemplateDetails(community) {
  */
 function addCommunity(community, done) { // eslint-disable-line consistent-return
   let values;
-  const nameRegex = /^([a-zA-Z0-9.]){8,20}$/;
+  const nameRegex = /^([a-zA-Z0-9.]){5,20}$/;
   if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
-  if (!community.domain.match(nameRegex)) { return done([400, 'Domain Name has to be at least 8 characters long and consist of Alphanumeric Values and a (.)']); }
+  if (!community.domain.match(nameRegex)) { return done([400, 'Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)']); }
 
   if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to to be passed']); }
 
@@ -158,7 +158,6 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         (error, result) => {
           if (err) { logger.debug(err); return done([500, 'Internal server error']); }
           publishMessageToTopic(community.domain);
-          console.log('aaaa', result[0]);
           return done(undefined, result[0]);
         });
       } return done([400, 'Domain Already Exists']);
@@ -198,7 +197,7 @@ function getCommunity(domain, counter, done) {
  * PATCH REQUEST
  *
  */
-function updateCommunity(domainName, community, status, done) {
+function updateCommunity(domainName, community, done) {
   if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
   if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to to be passed']); }

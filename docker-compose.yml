@@ -1,8 +1,8 @@
 version: '2'
 services:
 
-  calvin-communities:
-    image: calvin-communities
+  calvin:
+    image: calvin
     build:
       context: ./
       dockerfile: Dockerfile
@@ -22,8 +22,8 @@ services:
       - '9042'
       - 'npm start'
 
-  counters:
-    image: calvin-communities
+  counter:
+    image: counter
     build:
       context: ./
       dockerfile: Dockerfile
@@ -42,7 +42,7 @@ services:
       - 'npm run svc.counter'
 
   member:
-    image: calvin-communities
+    image: member
     build:
       context: ./
       dockerfile: Dockerfile
@@ -60,8 +60,8 @@ services:
       - '9042'
       - 'npm run svc.member'
 
-    tool:
-    image: calvin-communities
+  tool:
+    image: tool
     build:
       context: ./
       dockerfile: Dockerfile
@@ -100,7 +100,7 @@ services:
       - zookeeper
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
-      KAFKA_CREATE_TOPICS: "communityLifecycle:1:1"
+      KAFKA_CREATE_TOPICS: "topic1:1:1,topic2:1:1,topic3:1:1,topic4:1:1,topic5:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

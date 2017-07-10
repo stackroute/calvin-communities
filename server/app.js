@@ -14,6 +14,7 @@ app.use(express.static(clientPath));
 process.stdout.write("Initializing Calvin Communities database");
 const dbsetup = require('./dbcreation');
 dbsetup.dbCreate();
+
 function welcome() {
   let motdFile = path.resolve(__dirname, '.webapp.motd');
   const fs = require('fs');
