@@ -4,7 +4,7 @@ const communityToolService = require('./communitytools.services');
 
 const async = require('async');
 
-const toolsService = require('../tools/tools.services');
+// const toolsService = require('../tools/tools.services');
 
 const roleService = require('../communityrole/communityrole.service');
 
@@ -14,13 +14,25 @@ const logger = require('../../../../logger');
 
 function publishMessageToTopic(dataFromBody, dataFromURI) {
   // console.log('inside publish');
-  let message = { domain: dataFromURI, tools: dataFromBody };
+  let message = { domain: dataFromURI, tools: dataFromBody, type: 'add' };
   message = JSON.stringify(message);
   // console.log("sending message",message);
   registerPublisherService.publishToTopic('topic1', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
-    } else {
+    } else if (res) {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+function publishMessageToTopics(domainAndTool) {
+  let message = { domain: domainAndTool, type: 'delete' };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic1', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else if (res) {
       logger.debug('result is', res);
     }
   });
@@ -147,6 +159,7 @@ function deleteEvent(domainName, done) {
 // To delete a tool
 
 function deleteTool(domain, done) {
+  console.log('n delete');
   communityToolService.getToolsforCRUD(domain.domainname, domain.toolid, (error) => {
     if (error) {
       done(error, undefined);
@@ -157,12 +170,13 @@ function deleteTool(domain, done) {
             return done({ error: 'Sorry!!Unable to delete tool!' }, undefined);
           }
           async.parallel([
-            toolsService.deleteTools.bind(null, domain),
+            // toolsService.deleteTools.bind(null, domain),
             communityToolService.deleteTools.bind(undefined, domain),
           ], (erro, result) => {
-            if (err) {
+            if (erro) {
               return done(erro);
             }
+            publishMessageToTopics(domain);
             return done(undefined, result);
           });
           return null;

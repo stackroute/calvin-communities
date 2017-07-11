@@ -11,6 +11,7 @@ function publishToTopic(topic, msgs, callback) {
 
   producer.on('ready', () => {
     producer.send(payloads, (err, result) => {
+      console.log("published");
       // Close the connection
       producer.close();
       client.close();
