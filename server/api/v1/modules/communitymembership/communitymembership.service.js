@@ -30,7 +30,7 @@ function addMembersToCommunity(domainName, data, done) {
   const arr = [];
   const query = (`INSERT INTO ${COMMUNITY_MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon) values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
-    arr.push({ query, params: [val.username, domainName.toLowerCase(), val.role.toLowerCase()] });
+    arr.push({ query, params: [val.username.toLowerCase(), domainName.toLowerCase(), val.role.toLowerCase()] });
   });
   return client.batch(arr, { prepare: true }, (err) => {
     // console.log("Batch query err: ", err, " Result is ", result);

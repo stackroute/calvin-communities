@@ -65,7 +65,7 @@ describe('Test cases for membership services', () => {
     });
   });
   it('should modify the data in the database', (done) => {
-    membership.modifyRoleOfMemberFromCommunity(domainFromURI, modifyData, (error, result) => {
+    membership.modifyRoleOfMemberInCommunity(domainFromURI, modifyData, (error, result) => {
       if (error) {
         return done(error, undefined);
       }
