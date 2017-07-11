@@ -95,9 +95,9 @@ function getTemplateDetails(community) {
   // returning all data in single array
   const values = [];
   values.push(com);
-  values.push(members);
-  values.push(tools);
   values.push(roles);
+  values.push(tools);
+  values.push(members);
   return values;
 }
 
@@ -147,16 +147,15 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
     (err, res) => { // eslint-disable-line consistent-return
       if (err) throw err;
       if (res.length === 0) {
-        return async.parallel([
+        return async.series([
           communityService.addCommunity.bind(null, values[0]),
-          membershipController.addMembersToCommunity.bind(null,
-            community.domain, [values[1]]),
+          roleController.postCommunityRoles.bind(null, community.domain, values[1]),
           toolsController.postTools.bind(null, values[2], community.domain),
-          roleController.postCommunityRoles.bind(null, community.domain, values[3]),
-
+          membershipController.addMembersToCommunity.bind(null,
+            community.domain, [values[3]]),
         ],
         (error, result) => {
-          if (err) { logger.debug(err); return done([500, 'Internal server error']); }
+          if (error) { logger.debug(error); return done([500, 'Internal server error']); }
           publishMessageToTopic(community.domain);
           return done(undefined, result[0]);
         });
