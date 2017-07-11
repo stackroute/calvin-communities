@@ -54,7 +54,7 @@ function getMultipleCommunities(domains, done) {
   const query = `SELECT * FROM ${tableCommunities} where DOMAIN in (${arguments})`;
   return client.execute(query, (err, results) => {
     if(err) { logger.debug(err); return done([500, 'Internal server error']); }
-    if(results.rows.length === domains.length) return done(undefined, results.rows);
+    if(results.rows.length === domains.length) {return done(undefined, results.rows);}
     return done('Please give correct domains');
   })
 }
@@ -116,12 +116,17 @@ const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , descripti
 *
 *
 */
-function deleteCommunity(param, done) {
-  const query = (`DELETE * FROM ${tableCommunities} where  domain = ? `);
-  return client.execute(query, param, (err) => {
+function deleteCommunity(domain, done) {
+  const query = (`DELETE FROM ${tableCommunities} where  domain = ? `);
+  return getCommunity(domain, (err, result) => {
+    if(_.isEmpty(result)) {return done('Nothing to Delete')}
+  else {
+  return client.execute(query, [domain], (err) => {
     if (err) { logger.debug(err); return done([500, 'Internal server error']); }
-    return done(undefined);
+    return done(undefined, 'Deleted');
   });
+}
+  })
 }
 
 
