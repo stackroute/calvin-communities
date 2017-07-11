@@ -37,28 +37,54 @@ function userCommunityDetails(domainName, data, done) {
   const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon)
                   values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((value) => {
-    arr.push(
-      { query, params: [value.username, domainName.toLowerCase(), value.role.toLowerCase()] });
+    let user=value.username.toLowerCase();
+    // console.log("user",user);
+    arr.push({ query, params: [user, domainName.toLowerCase(), value.role.toLowerCase()] });
   });
+
   logger.debug('Member to be added');
   return client.batch(arr, { prepare: true }, (err, res) => {
     if (err) {
       return done(err);
     }
-      // data.forEach((value) => {})
+    // data.forEach((value) => {})
     return done(null, res);
   });
 }
 
+// get details for deletion and updation
+function getDetailsForDeletionAndUpdation(domainName, data, done) {
+  let count = false;
+  const query = (`SELECT domain, role from ${MEMBERSHIP_TABLE} WHERE domain=? AND username = ?`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      if (results.rows.length > 0) {
+        const arr = results.rows[0];
+        arr.forEach((val) => {
+          if (val === value) {
+            count = true;
+          }
+        });
+      }
+      if (count) {
+        done(undefined, results);
+      } else {
+        done({ error: 'please enter a valid username' }, undefined);
+      }
+    } else {
+      done({ error: 'Internal error' }, undefined);
+    }
+  });
+}
 /*
  *  Patch - Modify role of a member in a community
  */
 
-function modifyRoleOfMemberFromCommunity(domainName, data, done) {
+function modifyRoleOfMemberInCommunity(domainName, data, done) {
   const arr = [];
   const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? `);
   data.forEach((val) => {
-    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
+    arr.push({ query, params: [val.role.toLowerCase(), domainName, val.username] });
   });
   return client.batch(arr, { prepare: true }, (err, res) => {
     if (err) {
@@ -76,7 +102,7 @@ function removeMemberFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
   data.forEach((val) => {
-    arr.push({ query, params: [val.username, domainName.toLowerCase()] });
+    arr.push({ query, params: [val.username, domainName] });
   });
   return client.batch(arr, { prepare: true }, (err, res) => {
     if (err) {
@@ -90,6 +116,6 @@ function removeMemberFromCommunity(domainName, data, done) {
 module.exports = {
   userCommunityDetails,
   getCommunityList,
-  modifyRoleOfMemberFromCommunity,
+  modifyRoleOfMemberInCommunity,
   removeMemberFromCommunity,
 };
