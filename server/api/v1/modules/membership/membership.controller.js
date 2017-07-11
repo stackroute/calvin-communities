@@ -28,8 +28,9 @@ function userCommunityDetails(domainName, data, done) {
   } else {
     return done({ error: 'please enter all required fields' }, undefined);
   }
-// membershipService.userCommunityDetails(domainName, data, done);
- }
+  // membershipService.userCommunityDetails(domainName, data, done);
+  return null;
+}
 
 /*
  * Modify role of a member in a community
@@ -55,7 +56,7 @@ function removeMemberFromCommunity(domainName, data, done) {
     }
     return done({ error: 'Error Occured' }, undefined);
   });
- // membershipService.removeMemberFromCommunity(domainName, data, done);
+  // membershipService.removeMemberFromCommunity(domainName, data, done);
 }
 
 module.exports = {

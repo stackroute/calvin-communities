@@ -62,7 +62,7 @@ router.patch('/:domain/members', (req, res) => {
       return res.status(200).send({ message: 'Role modified' });
     });
   } catch (err) {
-        logger.debug('Unexpected error in inserting values ', err);
+    logger.debug('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });

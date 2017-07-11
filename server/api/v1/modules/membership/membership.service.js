@@ -37,7 +37,7 @@ function userCommunityDetails(domainName, data, done) {
   const query = (`INSERT INTO ${MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon)
                   values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((value) => {
-    let user=value.username.toLowerCase();
+    const user = value.username.toLowerCase();
     // console.log("user",user);
     arr.push({ query, params: [user, domainName.toLowerCase(), value.role.toLowerCase()] });
   });
@@ -61,7 +61,7 @@ function getDetailsForDeletionAndUpdation(domainName, data, done) {
       if (results.rows.length > 0) {
         const arr = results.rows[0];
         arr.forEach((val) => {
-          if (val === value) {
+          if (val === data) {
             count = true;
           }
         });
@@ -118,4 +118,5 @@ module.exports = {
   getCommunityList,
   modifyRoleOfMemberInCommunity,
   removeMemberFromCommunity,
+  getDetailsForDeletionAndUpdation,
 };

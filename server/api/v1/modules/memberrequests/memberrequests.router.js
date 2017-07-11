@@ -38,7 +38,6 @@ router.get('/:domain', (req, res) => {
  *
  */
 
-
 router.post('/:domain/type/:type', (req, res) => {
   try {
     const dataFromBody = req.body;
@@ -57,7 +56,6 @@ router.post('/:domain/type/:type', (req, res) => {
   return null;
 });
 
-
 /*
 
  * Effective URI of the API is PATCH /memberrequests/:domain/:person
@@ -68,7 +66,6 @@ router.post('/:domain/type/:type', (req, res) => {
  *  - domain and person: specify a specific domain and person, to update particular domain
  *
  */
-
 
 router.patch('/invite/:domain/person/:person', (req, res) => {
   try {
@@ -87,7 +84,6 @@ router.patch('/invite/:domain/person/:person', (req, res) => {
   }
   return null;
 });
-
 
 router.patch('/request/:domain/person/:person', (req, res) => {
   try {
