@@ -192,6 +192,9 @@ function dbCreate() {
 });
 }
 
+
+dbCreate();
+
 module.exports = {
   dbCreate,
 };

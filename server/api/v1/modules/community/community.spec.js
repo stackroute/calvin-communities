@@ -152,7 +152,7 @@ describe('get/ post/ patch community ', () => {
         request
             .post(`/api/v1/communities/${alldata.domain}`)
             .send(alldata)
-            .then(() => {
+            .end(() => {
                 const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
                 client.execute(query,
                     (error, dbresult) => { // eslint-disable-line consistent-return
@@ -166,9 +166,7 @@ describe('get/ post/ patch community ', () => {
                         done();
                     });
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -181,7 +179,8 @@ describe('get/ post/ patch community ', () => {
         request
             .post(`/api/v1/communities/${alldata.domain}`)
             .send(alldata)
-            .then((result) => {
+            .end((err, result) => {
+              if(err) { done(err);}
                 result.body.error.should.equal('Domain Already Exists');
                 result.status.should.be.equal(400);
                 const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
@@ -193,9 +192,7 @@ describe('get/ post/ patch community ', () => {
                         done();
                     });
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -206,7 +203,8 @@ describe('get/ post/ patch community ', () => {
     it('should give me details for a specific community', (done) => {
         request
             .get(`/api/v1/communities/${alldata.domain}`)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
                 client.execute(query,
                     (error, dbresult) => { // eslint-disable-line consistent-return
@@ -220,9 +218,7 @@ describe('get/ post/ patch community ', () => {
                         done();
                     });
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -233,7 +229,8 @@ describe('get/ post/ patch community ', () => {
     it('should tell me if the domain is available to register', (done) => {
         request
             .get('/api/v1/communities/chiKen')
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.body.length.should.be.equal(0);
                 result.status.should.be.equal(200);
                 const query = 'SELECT * FROM communities where domain = \'chiKen\'';
@@ -245,9 +242,7 @@ describe('get/ post/ patch community ', () => {
                         done();
                     });
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -259,7 +254,8 @@ describe('get/ post/ patch community ', () => {
         request
             .patch(`/api/v1/communities/${editdata.domain}`)
             .send(editdata)
-            .then(() => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 const query = `SELECT * FROM communities where domain = '${editdata.domain}'`;
                 client.execute(query,
                     (error, dbresult) => { // eslint-disable-line consistent-return
@@ -275,9 +271,7 @@ describe('get/ post/ patch community ', () => {
                         done();
                     });
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -289,7 +283,8 @@ describe('get/ post/ patch community ', () => {
         request
             .post(`/api/v1/communities/${domainincaps.domain}`)
             .send(domainincaps)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.body.domain.should.be.equal(domainincaps.domain.toLowerCase());
                 result.body.owner.should.be.equal(domainincaps.owner);
                 result.status.should.be.equal(201);
@@ -305,9 +300,7 @@ describe('get/ post/ patch community ', () => {
                         done();
                     });
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -319,14 +312,13 @@ describe('get/ post/ patch community ', () => {
         request
             .post(`/api/v1/communities/${wrongtemplate.domain}`)
             .send(wrongtemplate)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.body.error.should.equal('A Template Name is supposed to be chosen from mentioned list only');
                 result.status.should.be.equal(400);
                 done();
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -338,14 +330,13 @@ describe('get/ post/ patch community ', () => {
         request
             .post(`/api/v1/communities/${wrongdomain.domain}`)
             .send(wrongdomain)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.body.error.should.equal('Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)');
                 result.status.should.be.equal(400);
                 done();
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -355,14 +346,13 @@ describe('get/ post/ patch community ', () => {
     it('should return an error as no data is passed in body', (done) => {
         request
             .post(`/api/v1/communities/${editdata.domain}`)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.status.should.be.equal(400);
                 result.body.error.should.equal('Please pass some data to process');
                 done();
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -373,14 +363,13 @@ describe('get/ post/ patch community ', () => {
         request
             .post(`/api/v1/communities/${noname.domain}`)
             .send(noname)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.status.should.be.equal(400);
                 result.body.error.should.equal('A Name needs to be passed');
                 done();
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /**
@@ -391,14 +380,13 @@ describe('get/ post/ patch community ', () => {
         request
             .post(`/api/v1/communities/${notemplate.domain}`)
             .send(notemplate)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.status.should.be.equal(400);
                 result.body.error.should.equal('A Template Value needs to be passed');
                 done();
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
 
@@ -410,14 +398,13 @@ describe('get/ post/ patch community ', () => {
         request
             .patch(`/api/v1/communities/${notags.domain}`)
             .send(notags)
-            .then((result) => {
+            .end((err, result) => {
+                if(err) { done(err);}
                 result.status.should.be.equal(400);
                 result.body.error.should.equal('At least one Tag is required to to be passed');
                 done();
             })
-            .catch((err) => {
-                done(err);
-            });
+
     });
 
     /******************************************************************************************************/
