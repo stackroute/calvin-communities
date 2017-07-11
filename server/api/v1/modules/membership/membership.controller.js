@@ -1,5 +1,6 @@
 const membershipService = require('./membership.service');
 const async = require('async');
+
 function getCommunityList(username, done) {
   membershipService.getCommunityList(username, done);
 }

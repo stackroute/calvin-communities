@@ -61,6 +61,7 @@ function getToolsForDeletion(domainName, value, done) {
 // Inserting into tools table
 
 function addTools(data, domain, done) {
+  console.log('inside tools reverse');
   const arr = [];
   let query;
   data.forEach((val) => {

@@ -119,9 +119,41 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
  */
 
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody };
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' };
 
- // let message = {dataFromURI, dataFromBody};
+  // let message = {dataFromURI, dataFromBody};
+  logger.debug('membershipService', message);
+  message = JSON.stringify(message);
+  logger.debug('membershipService', message);
+  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+function publishMessageToTopic(dataFromURI, dataFromBody) {
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
+
+  // let message = {dataFromURI, dataFromBody};
+  logger.debug('membershipService', message);
+  message = JSON.stringify(message);
+  logger.debug('membershipService', message);
+  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+function publishMessageToTopic(dataFromURI, dataFromBody) {
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'delete' };
+
+  // let message = {dataFromURI, dataFromBody};
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
@@ -334,7 +366,7 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
   async.waterfall([
     checkConditionForNull.bind(null, flag, domainName, values),
     checkCondtionRoleExistenseForaDomain.bind(null,
-     roleExist, iterateRoleExist, domainName, values),
+      roleExist, iterateRoleExist, domainName, values),
     checkCondtionDataExistenseInDataBaseToUpdate.bind(null,
       dataExist, iterateDataExist, domainName, values),
     conditionCheckedUpdateMembersRole.bind(null, domainName, values),
@@ -392,4 +424,3 @@ module.exports = {
   modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
 };
-
