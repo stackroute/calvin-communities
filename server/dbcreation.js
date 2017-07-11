@@ -4,7 +4,7 @@ const async = require('async');
 const connectionString = require('./config').connectionString;
 
 const client = new model.Client({
-    contactPoints: [connectionString.contact],
+  contactPoints: [connectionString.contact],
 });
 
 /*
@@ -21,7 +21,6 @@ const TABLE_REQUESTS = 'communityinviterequests';
 const TABLE_COUNTER = 'communitiescounter';
 
 const queries = [];
-
 
 
 /**
@@ -136,50 +135,51 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COUNTER} ( \
   )`);
 
 function dboperations(query, done) {
-    client.execute(query, (error, result) => {
-        if (error) {
-            return done(error);
-        } else {
-            logger.debug(`please wait`, ".".repeat(Math.floor((Math.random() * 10) + 1)));
-            return done(undefined, undefined);
-        }
-    })
+  client.execute(query, (error) => {
+    if (error) {
+      return done(error);
+    }
+    logger.debug('please wait', '.'.repeat(Math.floor((Math.random() * 10) + 1)));
+    return done(undefined, undefined);
+  });
 }
 
-function keyspacecreation(done) {
+function keyspaceCreation(done) {
     /**
      * Describing & creating keyspace
      */
-    client.execute(`CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE} WITH replication = \
+  client.execute(`CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE} WITH replication = \
   {'class': 'SimpleStrategy', 'replication_factor': '1'} \
- `, (err, result) => {
-        if (err) { logger.debug('Error in Keyspace Creation, exiting...');
-            process.exit(); } else { logger.debug('Keyspace Created, Moving ahead...');
-            done(); }
-    })
+ `, (err) => {
+    if (err) {
+      logger.debug('Error in Keyspace Creation, exiting...');
+      process.exit();
+    } else {
+      logger.debug('Keyspace Created, Moving ahead...');
+      done();
+    }
+  });
 }
 
-function tablecreation(done) {
+function tableCreation(done) {
     /**
      * creating tables
      */
-    async.each(queries, dboperations, (err, res) => {
-        if (err) return logger.debug('Error in DB Creation', err);
-        logger.debug('Database Created');
-    })
-    done();
+  async.each(queries, dboperations, (err) => { // eslint-disable-line consistent-return
+    if (err) return logger.debug('Error in DB Creation', err);
+    logger.debug('Database Created');
+  });
+  done();
 }
 
 function dbCreate() {
-
-    async.series([keyspacecreation, tablecreation], (err) => {
-        if (err) logger.debug(err);
-    });
-
+  async.series([keyspaceCreation, tableCreation], (err) => {
+    if (err) logger.debug(err);
+  });
 }
 
 dbCreate();
 
 module.exports = {
-    dbCreate,
+  dbCreate,
 };

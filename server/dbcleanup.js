@@ -4,7 +4,7 @@ const logger = require('log4js').getLogger();
 const connectionString = require('./config').connectionString;
 
 const client = new model.Client({
-    contactPoints: [connectionString.contact],
+  contactPoints: [connectionString.contact],
 });
 
 /*
@@ -68,26 +68,27 @@ queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_COUNTER}`);
  */
 
 function truncatetable(query, done) {
-    client.execute(query, (err, res) => {
-        if (err) {
-            return done(err); }
-        logger.debug(`please wait`, ".".repeat(Math.floor((Math.random() * 10) + 1)));
-        done();
-    })
+  client.execute(query, (err) => { // eslint-disable-line consistent-return
+    if (err) {
+      return done(err);
+    }
+    logger.debug('please wait', '.'.repeat(Math.floor((Math.random() * 10) + 1)));
+    done();
+  });
 }
 
 function truncatedb() {
-    async.map(queries, truncatetable, (error) => {
-        if (error) {
-            return logger.debug('Error in truncatin database, please try again later...'); }
-            else { logger.debug('Database Truncated');
-             process.exit(); };
-    })
-
+  async.map(queries, truncatetable, (error) => { // eslint-disable-line consistent-return
+    if (error) {
+      return logger.debug('Error in truncatin database, please try again later...');
+    }
+    logger.debug('Database Truncated');
+    process.exit();
+  });
 }
 
 truncatedb();
 
 module.exports = {
-    truncatedb,
-}
+  truncatedb,
+};
