@@ -20,7 +20,7 @@ module.exports = [{
   }],
   // role actions for the surgeon medical community
   roleActions: [{
-    role: 'admin',
+    role: 'owner',
     toolsActions: [{
       toolId: 'sermo',
       actions: { edit: 'self', post: 'post_self' },
@@ -144,7 +144,7 @@ module.exports = [{
   }],
   // role actions for the artist community
   roleActions: [{
-    role: 'admin',
+    role: 'owner',
     toolsActions: [{
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },

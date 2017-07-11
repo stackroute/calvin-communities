@@ -70,33 +70,21 @@ const roleinvite = {
 };
 
 /* ---------------------------test case for checking PATCH method----------------------------*/
-
-// status should be approved when the type is request
-
-const checkrequesttype = {
-  status: 'accepted',
-  invitedby: 'mani',
-  role: 'moderator',
-};
-
 // member is empty
 
 const emptyapprover = {
-  status: 'approved',
   invitedby: '',
   role: 'moderator',
 };
 
 // throw error when role is empty if type request
 const emptyrole = {
-  status: 'approved',
   invitedby: 'hari',
   role: '',
 };
 
 // throw error when role is wrong if type request
 const wrongrole = {
-  status: 'approved',
   invitedby: 'hari',
   role: 'worker',
 };
@@ -104,17 +92,9 @@ const wrongrole = {
 // correct data for status update when the type is request
 
 const valueforrequest = {
-  status: 'approved',
   invitedby: 'hari',
   role: 'admin',
 };
-
-// correct date for status update when the type is invite
-
-const checkinvitetype = {
-  status: 'accepted',
-};
-
 
 module.exports = {
 
@@ -123,9 +103,7 @@ module.exports = {
   modified,
   data,
   noemail,
-  checkrequesttype,
   emptyapprover,
-  checkinvitetype,
   valueforrequest,
   deleted,
   member,

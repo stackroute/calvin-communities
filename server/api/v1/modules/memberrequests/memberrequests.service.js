@@ -4,7 +4,6 @@ const connectionString = require('../../../../config').connectionString;
 
 const InviteRequestTable = 'communityinviterequests';
 
-
 const client = new model.Client({
   contactPoints: [connectionString.contact],
   protocolOptions: { port: connectionString.port },
@@ -36,10 +35,9 @@ function InsertData(data, dataFromParams, status, type, done) {
   });
 }
 
-
 // Query for delete the row for rejected invite or request
 
-function rejectedInviteRequest(domain, person, done) {
+function rejectedInviteOrRequest(domain, person, done) {
   const query = (`DELETE from ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);
   return client.execute(query, (err) => {
     if (!err) {
@@ -52,7 +50,7 @@ function rejectedInviteRequest(domain, person, done) {
 
 // Query for get the values for particular domain and person
 
-function gettingValuesByDomainPerson(domain, person, done) {
+function gettingValuesByDomainAndPerson(domain, person, done) {
   const query = (`SELECT * FROM ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -62,7 +60,6 @@ function gettingValuesByDomainPerson(domain, person, done) {
     }
   });
 }
-
 
 // Query for get the values for particular domain
 
@@ -81,11 +78,10 @@ function gettingValuesByDomain(domain, done) {
   });
 }
 
-
 // Query for Update status for type request
 
-function statusUpdateRequest(domain, person, bodyData, done) {
-  const status = bodyData.status.toLowerCase();
+function updateStatusForRequest(domain, person, bodyData, statuss, done) {
+  const status = statuss.toLowerCase();
   const invitedby = bodyData.invitedby.toLowerCase();
   const role = bodyData.role.toLowerCase();
   const query = (`UPDATE ${InviteRequestTable} SET role = '${role}',status = '${status}',invitedby = '${invitedby}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
@@ -94,18 +90,17 @@ function statusUpdateRequest(domain, person, bodyData, done) {
 
 // Query for update status for type invite
 
-function statusUpdateInvite(domain, person, bodyData, done) {
-  const status = bodyData.status.toLowerCase();
+function updateStatusForInvite(domain, person, statuss, done) {
+  const status = statuss.toLowerCase();
   const query = (`UPDATE ${InviteRequestTable} SET status = '${status}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 
-
 module.exports = {
-  gettingValuesByDomainPerson,
+  gettingValuesByDomainAndPerson,
   InsertData,
-  statusUpdateRequest,
-  statusUpdateInvite,
-  rejectedInviteRequest,
+  updateStatusForRequest,
+  updateStatusForInvite,
+  rejectedInviteOrRequest,
   gettingValuesByDomain,
 };
