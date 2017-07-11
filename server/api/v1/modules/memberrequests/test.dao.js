@@ -17,55 +17,55 @@ const notdeleted = { error: 'Unable to delete the domain and person' };
 
 /* -------------------test case for checking POST method -------------------------------*/
 const data = {
-  invitee: [{ email: 'amu@gmail.com', role: 'admin' }, { email: 'jamun@gmail.com', role: 'admin' }],
-  invitedby: 'janaki',
+    invitee: [{ email: 'amu@gmail.com', role: 'admin' }, { email: 'jamun@gmail.com', role: 'admin' }],
+    invitedby: 'janaki',
 };
 
 
 // throw error when member is there if type is request
 const member = {
-  invitee: [{ email: 'veni@gmail.com', role: 'admin' }],
-  invitedby: 'harrri',
+    invitee: [{ email: 'veni@gmail.com', role: 'admin' }],
+    invitedby: 'harrri',
 };
 
 // throw error when role is there if type is request
 const role = {
-  invitee: [{ email: 'veni@gmail.com', role: 'moderator' }],
-  invitedby: '',
+    invitee: [{ email: 'veni@gmail.com', role: 'moderator' }],
+    invitedby: '',
 };
 
 // throw error if member is empty for type invite
 const invitemember = {
-  invitee: [{ email: 'veni@gmail.com', role: 'admin' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  invitedby: '',
+    invitee: [{ email: 'veni@gmail.com', role: 'admin' }, { email: 'viswa@gmail.com', role: 'admin' }],
+    invitedby: '',
 };
 
 
 // throw error if role is empty for type invite
 const inviterole = {
-  invitee: [{ email: 'veni@gmail.com', role: '' }, { email: 'viswa@gmail.com', role: 'admin' }],
-  invitedby: 'susu',
+    invitee: [{ email: 'veni@gmail.com', role: '' }, { email: 'viswa@gmail.com', role: 'admin' }],
+    invitedby: 'susu',
 };
 
 // person is empty
 
 const noemail = {
-  invitee: [{ email: '', role: 'admin' }],
-  invitedby: 'janaki',
+    invitee: [{ email: '', role: 'admin' }],
+    invitedby: 'janaki',
 
 };
 
 // member(approver) and role should be empty when type is request
 const requestinput = {
-  invitee: [{ email: 'gokul@gmail.com', role: '' }],
-  invitedby: '',
+    invitee: [{ email: 'gokul@gmail.com', role: '' }],
+    invitedby: '',
 
 };
 
 // wrong role is given
 const roleinvite = {
-  invitee: [{ email: 'gokul@gmail.com', role: 'developer' }],
-  invitedby: 'sandy',
+    invitee: [{ email: 'gokul@gmail.com', role: 'developer' }],
+    invitedby: 'sandy',
 
 };
 
@@ -74,70 +74,70 @@ const roleinvite = {
 // status should be approved when the type is request
 
 const checkrequesttype = {
-  status: 'accepted',
-  invitedby: 'mani',
-  role: 'moderator',
+    status: 'accepted',
+    invitedby: 'mani',
+    role: 'moderator',
 };
 
 // member is empty
 
 const emptyapprover = {
-  status: 'approved',
-  invitedby: '',
-  role: 'moderator',
+    status: 'approved',
+    invitedby: '',
+    role: 'moderator',
 };
 
 // throw error when role is empty if type request
 const emptyrole = {
-  status: 'approved',
-  invitedby: 'hari',
-  role: '',
+    status: 'approved',
+    invitedby: 'hari',
+    role: '',
 };
 
 // throw error when role is wrong if type request
 const wrongrole = {
-  status: 'approved',
-  invitedby: 'hari',
-  role: 'worker',
+    status: 'approved',
+    invitedby: 'hari',
+    role: 'worker',
 };
 
 // correct data for status update when the type is request
 
 const valueforrequest = {
-  status: 'approved',
-  invitedby: 'hari',
-  role: 'admin',
+    status: 'approved',
+    invitedby: 'hari',
+    role: 'admin',
 };
 
 // correct date for status update when the type is invite
 
 const checkinvitetype = {
-  status: 'accepted',
+    status: 'accepted',
 };
 
 
 module.exports = {
 
-  wrongdata,
-  rowcreated,
-  modified,
-  data,
-  noemail,
-  checkrequesttype,
-  emptyapprover,
-  checkinvitetype,
-  valueforrequest,
-  deleted,
-  member,
-  requestinput,
-  invitemember,
-  notFound,
-  erroroperation,
-  notupdate,
-  notdeleted,
-  inviterole,
-  role,
-  emptyrole,
-  roleinvite,
-  wrongrole,
+    wrongdata,
+    rowcreated,
+    modified,
+    data,
+    noemail,
+    checkrequesttype,
+    emptyapprover,
+    checkinvitetype,
+    valueforrequest,
+    deleted,
+    member,
+    requestinput,
+    invitemember,
+    notFound,
+    erroroperation,
+    notupdate,
+    notdeleted,
+    inviterole,
+    role,
+    emptyrole,
+    roleinvite,
+    wrongrole,
 };
