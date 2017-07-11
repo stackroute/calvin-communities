@@ -25,6 +25,12 @@ const tools = [{
   activityEvents: ["'postmessage'"],
 }];
 
+const Capstools = [{
+  toolId: 'QuOra',
+  actions: ['broaDcast', 'wRite'],
+  activityEvents: ["'postmessage'"],
+}];
+
 const multipletools = [{
   toolId: 'forum',
   actions: ['broadcast', 'write'],
@@ -114,4 +120,5 @@ module.exports = {
   errorOccured,
   posted,
   multipleWrongtools,
+  Capstools,
 };

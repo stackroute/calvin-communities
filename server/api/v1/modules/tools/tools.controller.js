@@ -13,21 +13,21 @@ function getTools(domainName, done) {
 function postTools(dataFromBody, domainName, done) {
   let count = 0;
   dataFromBody.forEach((data) => {
-    if ( data.toolId && domainName) {
-      if ( data.toolId !== null && domainName !== null) {
+    if (data.toolId && domainName) {
+      if (data.toolId !== null && domainName !== null) {
         count += 1;
       } else {
         count += 0;
       }
     }
   });
-console.log(count === dataFromBody.length);
+ // console.log(count === dataFromBody.length);
   if (count === dataFromBody.length) {
     ToolService.addTools(dataFromBody, domainName, done);
   } else {
     return done({ error: 'please enter all fields' }, undefined);
   }
-  // return done(undefined, { message: 'posted' });
+  return null;
 }
 
 function modifyTool(dataFromBody, dataFromparams, done) {

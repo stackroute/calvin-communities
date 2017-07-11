@@ -1,6 +1,7 @@
 const model = require('cassandra-driver');
 const app = require('../../../../app');
 const supertest = require('supertest');
+const communityCtrl = require('./community.controller');
 const logger = require('../../../../logger');
 const connectionString = require('../../../../config').connectionString;
 
@@ -59,7 +60,7 @@ describe('get/ post/ patch community ', () => {
   const editdata = {
     name: 'another name',
     updatedby: 'someoneelse',
-    description: 'no no ,this is changed changed',
+    description: 'no,this is changed',
     avatar: 'illum.jpg',
     visibility: 'Private',
     tags: ['new', 'data'],
@@ -67,6 +68,9 @@ describe('get/ post/ patch community ', () => {
     status: 'disable',
     purpose: 'sports',
   };
+
+  const dataarray = ["firstdomain", "seconddomain"];
+  const dataarraystring = "'firstdomain','seconddomain'";
 
   /**
 *
@@ -248,7 +252,7 @@ describe('get/ post/ patch community ', () => {
 */
   it('should edit details for a specific community', (done) => {
     request
-      .patch(`/api/v1/communities/${editdata.domain}/status/${editdata.status}`)
+      .patch(`/api/v1/communities/${editdata.domain}`)
       .send(editdata)
       .then(() => {
         const query = `SELECT * FROM communities where domain = '${editdata.domain}'`;
@@ -390,12 +394,12 @@ describe('get/ post/ patch community ', () => {
 
 
   /**
-*-- Patch Request, should give an error, as tags are not passed
+* Patch Request, should give an error, as tags are not passed
 */
 
   it('should return an error as no tags are passed in body with data', (done) => {
     request
-      .patch(`/api/v1/communities/${notags.domain}/status/${notags.status}`)
+      .patch(`/api/v1/communities/${notags.domain}`)
       .send(notags)
       .then((result) => {
         result.status.should.be.equal(400);
@@ -405,6 +409,33 @@ describe('get/ post/ patch community ', () => {
       .catch((err) => {
         done(err);
       });
+  });
+
+/******************************************************************************************************/
+
+
+it('should return an error as no domains exist when calling for data of multiple domains', (done) => {
+
+  communityCtrl.getMultipleCommunities(dataarray, (error, result) => {
+    if(error) return console.log(error);
+      result.length.should.be.equal(dataarray.length);
+      client.execute(`SELECT * FROM communities where domain in (${dataarraystring})`, (err, res)=> {
+        res.rows.should.deep.equal(result);
+      })
+      done();
+  })
+  });
+
+it('should return an error as no domains exist when calling for data of multiple domains', (done) => {
+
+  communityCtrl.getMultipleCommunities(dataarray, (error, result) => {
+    if(error) return console.log(error);
+      result.length.should.be.equal(dataarray.length);
+      client.execute(`SELECT * FROM communities where domain in (${dataarraystring})`, (err, res)=> {
+        res.rows.should.deep.equal(result);
+      })
+      done();
+  })
   });
 
 

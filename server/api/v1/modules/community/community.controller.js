@@ -35,6 +35,14 @@ function getAllCommunities(done) {
   communityService.getAllCommunities(done);
 }
 
+/**
+*
+* Get Multiple Communities
+*
+*/
+function getMultipleCommunities(domains, done) {
+  communityService.getMultipleCommunities(domains, done);
+}
 
 /**
  * Used with POST Request, to get the template details
@@ -149,11 +157,11 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
       if (res.length === 0) {
         return async.series([
           communityService.addCommunity.bind(null, values[0]),
-          roleController.postCommunityRoles.bind(null, community.domain, values[1]),
+         /* roleController.postCommunityRoles.bind(null, community.domain, values[1]),
           toolsController.postTools.bind(null, values[2], community.domain),
           membershipController.addMembersToCommunity.bind(null,
             community.domain, [values[3]]),
-        ],
+        */],
         (error, result) => {
           if (error) { logger.debug(error); return done([500, 'Internal server error']); }
           publishMessageToTopic(community.domain);
@@ -227,11 +235,20 @@ function updateCommunity(domainName, community, done) {
   } return done('Wrong Data Inputs', null);
 }
 
+/**
+* delete a community
+*
+*
+*/
+function deleteCommunity(domain, done) {
+  communityservice.deleteCommunity(domain, done);
+}
 
 module.exports = {
   getAllCommunities,
+  getMultipleCommunities,
   addCommunity,
   getCommunity,
   updateCommunity,
-
+  deleteCommunity,
 };

@@ -18,6 +18,17 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
+function array2string(domains) {
+
+  let arguments ="'";
+
+  domains.forEach((data) => {
+    arguments += data.toString()+"','";
+  });
+  arguments=(arguments.substr(0,arguments.length-2));
+  return arguments;
+}
+
 /**
  * GET For all communities
  *
@@ -29,6 +40,23 @@ function getAllCommunities(done) {
     if (err) { logger.debug(err); return done([500, 'Internal server error']); }
     return done(err, results.rows);
   });
+}
+
+/**
+* GET for multiple specified communities
+*
+*
+*/
+function getMultipleCommunities(domains, done) {
+
+  const arguments = array2string(domains);
+
+  const query = `SELECT * FROM ${tableCommunities} where DOMAIN in (${arguments})`;
+  return client.execute(query, (err, results) => {
+    if(err) { logger.debug(err); return done([500, 'Internal server error']); }
+    if(results.rows.length === domains.length) return done(undefined, results.rows);
+    return done('Please give correct domains');
+  })
 }
 
 /**
@@ -99,6 +127,7 @@ function deleteCommunity(param, done) {
 
 module.exports = {
   getAllCommunities,
+  getMultipleCommunities,
   addCommunity,
   getCommunity,
   updateCommunity,

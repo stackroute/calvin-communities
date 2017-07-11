@@ -2,6 +2,8 @@
 
  const modified = { message: 'Tool modified' };
 
+ const novalue = { error: 'please fill out all values',
+ };
  const deleted = { message: 'deleted' };
 
  const actionDeleted = { message: 'action deleted' };
@@ -29,39 +31,39 @@
  }];
 
 
- const multipleTools =  [
-    {
-toolId: "sermo",
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"]
- },
- {
-toolId: "quora",
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"]
- },
- {
-toolId: "hulu",
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"]
- }
+ const multipleTools = [
+   {
+     toolId: 'sermo',
+     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+     activityEvents: ['newannouncement', 'like', 'remove'],
+   },
+   {
+     toolId: 'quora',
+     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+     activityEvents: ['newannouncement', 'like', 'remove'],
+   },
+   {
+     toolId: 'hulu',
+     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+     activityEvents: ['newannouncement', 'like', 'remove'],
+   },
  ];
 
- const multipleWrongTools =  [
-    {
-toolId: "sermo",
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"]
- },
- {
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"]
- },
- {
-toolId: "hulu",
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"]
- }
+ const multipleWrongTools = [
+   {
+     toolId: 'sermo',
+     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+     activityEvents: ['newannouncement', 'like', 'remove'],
+   },
+   {
+     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+     activityEvents: ['newannouncement', 'like', 'remove'],
+   },
+   {
+     toolId: 'hulu',
+     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+     activityEvents: ['newannouncement', 'like', 'remove'],
+   },
  ];
 
  const toolsAll = [{
@@ -136,4 +138,5 @@ activityEvents: ["newannouncement", "like", "remove"]
    actionDeleted,
    multipleTools,
    multipleWrongTools,
+   novalue,
  };
