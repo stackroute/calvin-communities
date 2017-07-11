@@ -158,7 +158,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         return async.series([
           communityService.addCommunity.bind(null, values[0]),
           roleController.postCommunityRoles.bind(null, community.domain, values[1]),
-         toolsController.postTools.bind(null, values[2], community.domain),
+          toolsController.postTools.bind(null, values[2], community.domain),
           membershipController.addMembersToCommunity.bind(null,
             community.domain, [values[3]]),
         ],
@@ -217,7 +217,8 @@ function updateCommunity(domainName, community, done) {
 
  // status = status.toLowerCase();
 
- // if (status === 'disable') { status = 'inactive'; } else if (status === 'enable') { status = 'Active'; } else { status = 'Suspended'; }
+ /* if (status === 'disable') { status = 'inactive'; } else if (status === 'enable')
+  { status = 'Active'; } else { status = 'Suspended'; } */
 
   if ((
     _.isEqual(community.visibility, 'Public') ||
@@ -227,8 +228,8 @@ function updateCommunity(domainName, community, done) {
 /*    const param = [community.name, community.avatar, community.description, community.visibility,
       community.tags, community.updatedby, status, domainName.toLowerCase(),
     ];*/
-      const param = [community.name, community.avatar, community.description, community.visibility,
-      community.tags, community.updatedby, domainName.toLowerCase()
+    const param = [community.name, community.avatar, community.description, community.visibility,
+      community.tags, community.updatedby, domainName.toLowerCase(),
     ];
 
     return communityService.updateCommunity(param, done);
