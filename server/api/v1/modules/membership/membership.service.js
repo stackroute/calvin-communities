@@ -28,6 +28,24 @@ function getCommunityList(username, done) {
   });
 }
 
+// function getAvatarForCommunities(username, done) {
+//   console.log("Avtar");
+//   const arr =[];
+//   const query = `SELECT domain FROM membership WHERE username = '${username}'`;
+//   return client.execute(query, (err, results) => {
+//     if(!err) {
+//       console.log(results.rows);
+//       results.rows.forEach(function(data){
+//         console.log("data", data);
+//         arr.push(data.domain);
+//       })
+//       done(undefined, arr);
+//     } else {
+//       done(err, undefined);
+//     }
+//   });
+// }
+
 /*
  * Post - Add memebers to the community
  */
@@ -119,4 +137,5 @@ module.exports = {
   modifyRoleOfMemberInCommunity,
   removeMemberFromCommunity,
   getDetailsForDeletionAndUpdation,
+  // getAvatarForCommunities,
 };

@@ -1,12 +1,58 @@
 const membershipService = require('./membership.service');
-
-/*
- * Get community Details of a particular member
- */
-
+const async = require('async');
 function getCommunityList(username, done) {
   membershipService.getCommunityList(username, done);
 }
+/*
+ * Get community Details of a particular member
+ */
+/*async.waterfall([
+function getCommunityList(username, done) {
+  membershipService.getCommunityList(username, done);
+},
+
+function getAvatarForCommunities(username, done) {
+  membershipService.getAvatarForCommunities(username, done);
+}
+], function(err, result) {
+	if(err) {
+		return err;
+	} else {
+		return result;
+	}
+
+});*/
+// function getCommunityListFromService(username,done){
+// 	console.log("community list");
+// 	membershipService.getCommunityList(username, (err,result)=>{
+// 		if(!err){
+// 			console.log(result);
+// 			done(null,result);
+// 		}else{
+// 			done(err,undefined);
+// 					}
+// 	});
+// }
+// function getAvatarForCommunities(result,done){
+// 	const arr =[];
+// 	console.log("Avtar", result);
+// 	result.forEach(function(data) {
+// 		console.log("data", data.communityDetails);
+// 		arr.push(data.communityDetails.domain);
+// 		console.log("Avtar image", arr);
+// 	})
+// 	done();
+// }
+
+// function getCommunityList(username, done) {
+// 	async.waterfall([
+// 		getCommunityListFromService.bind(null,username),
+// 		getAvatarForCommunities.bind(null)
+// 		]);
+// }
+
+
+
 
 /*
  * post the community details
@@ -61,7 +107,9 @@ function removeMemberFromCommunity(domainName, data, done) {
 
 module.exports = {
   getCommunityList,
+  // getAvatarForCommunities,
   userCommunityDetails,
   modifyRoleOfMemberInCommunity,
   removeMemberFromCommunity,
+
 };
