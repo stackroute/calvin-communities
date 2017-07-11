@@ -199,6 +199,7 @@ function conditionCheckedUpdateMembersRole(domainName, values, dataExistCheckRes
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
     communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, done);
+    publishMessageToTopic(domainName, values);
   } else {
     done({ error: 'Member details not available' });
   }
@@ -277,6 +278,7 @@ function conditionCheckedDeleteMembers(domainName, values, dataExistCheckResult,
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
     communityMembershipService.removeMembersFromCommunity(domainName, values, done);
+    publishMessageToTopic(domainName, values);
   } else {
     done({ error: 'Member details not available' });
   }

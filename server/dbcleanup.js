@@ -68,7 +68,6 @@ queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_COUNTER}`);
  * KEYSPACE & TABLE Creation
  */
 client.connect()
-<<<<<<< HEAD
     .then(() => client.execute(queries[0]))
     .then(() => {
         logger.debug(`table ${TABLE_COMMUNITIES} cleared`);
@@ -108,9 +107,7 @@ client.connect()
         client.shutdown();
         logger.debug('error in Database operations:', err);
         process.exit();
-
     });
-=======
 .then(() => client.execute(queries[0]))
 .then(() => {
   logger.debug(`table ${TABLE_COMMUNITIES} cleared`);
@@ -152,4 +149,3 @@ client.connect()
   process.exit();
 });
 
->>>>>>> c2b7730b69d62fac6fc7c288955702aec079b2da
