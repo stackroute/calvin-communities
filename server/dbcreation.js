@@ -1,16 +1,15 @@
 const model = require('cassandra-driver');
-
 const logger = require('log4js').getLogger();
-
+const async = require('async');
 const connectionString = require('./config').connectionString;
 
 const client = new model.Client({
-  contactPoints: [connectionString.contact],
+    contactPoints: [connectionString.contact],
 });
 
 /*
-* Defining keyspace and table names
-*/
+ * Defining keyspace and table names
+ */
 const KEYSPACE = [connectionString.keyspace];
 const TABLE_COMMUNITIES = 'communities';
 const TABLE_COMMUNITY_MEMBERSHIP = 'communitymembership';
@@ -23,16 +22,11 @@ const TABLE_COUNTER = 'communitiescounter';
 
 const queries = [];
 
-/**
-* Describing keyspace details
-*/
-queries.push(`CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE} WITH replication = \
-  {'class': 'SimpleStrategy', 'replication_factor': '1'} \
- `);
+
 
 /**
-* Describing Table for Community
-*/
+ * Describing Table for Community
+ */
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITIES} ( \
   domain text, \
   purpose text, \
@@ -52,8 +46,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITIES} ( \
 );`);
 
 /**
-* Describing Table for Community Memberships according to Community's perspective
-*/
+ * Describing Table for Community Memberships according to Community's perspective
+ */
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_MEMBERSHIP} ( \
   domain text, \
   username text, \
@@ -64,8 +58,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_MEMBERSHI
   )`);
 
 /**
-* Describing Table for Memberships according to member's perspective
-*/
+ * Describing Table for Memberships according to member's perspective
+ */
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_MEMBERSHIP} ( \
   domain text, \
   username text, \
@@ -76,8 +70,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_MEMBERSHIP} ( \
   )`);
 
 /**
-* Describing Table for Community Tools Data according to community's perspective
-*/
+ * Describing Table for Community Tools Data according to community's perspective
+ */
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} ( \
   domain text, \
   toolid text, \
@@ -89,8 +83,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} ( 
 )`);
 
 /**
-* Describing Table for Tools data according to tool's perspective
-*/
+ * Describing Table for Tools data according to tool's perspective
+ */
 
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_TOOLS} ( \
   domains set<text>, \
@@ -99,8 +93,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_TOOLS} ( \
 )`);
 
 /**
-* Describing Table for Community Roles Data
-*/
+ * Describing Table for Community Roles Data
+ */
 
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_ROLES} ( \
   domain text, \
@@ -113,8 +107,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_ROLES} ( \
   )`);
 
 /**
-* Describing Table for Community Invites/ Requests Data
-*/
+ * Describing Table for Community Invites/ Requests Data
+ */
 
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_REQUESTS} ( \
   domain text, \
@@ -129,8 +123,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_REQUESTS} ( \
   )`);
 
 /**
-* Describing Table for Counters for Community Data Tables
-*/
+ * Describing Table for Counters for Community Data Tables
+ */
 
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COUNTER} ( \
   domain text, \
@@ -141,60 +135,51 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COUNTER} ( \
   PRIMARY KEY (domain)
   )`);
 
-
-function dbCreate() {
-/**
-* KEYSPACE & TABLE Creation
-*/
-  client.connect()
-.then(() => client.execute(queries[0]))
-.then(() => {
-  logger.debug('keyspace created');
-  return client.execute(queries[1]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_COMMUNITIES} created`);
-  return client.execute(queries[2]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_COMMUNITY_MEMBERSHIP} created`);
-  return client.execute(queries[3]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_MEMBERSHIP} created`);
-  return client.execute(queries[4]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_COMMUNITY_TOOLS} created`);
-  return client.execute(queries[5]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_TOOLS} created`);
-  return client.execute(queries[6]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_ROLES} created`);
-  return client.execute(queries[7]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_REQUESTS} created`);
-  return client.execute(queries[8]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_COUNTER} created`);
-  client.shutdown();
-  return logger.debug('all required tables created');
-})
-.catch((err) => {
-  client.shutdown();
-  logger.debug('error in Database operations:', err);
-  process.exit();
-});
+function dboperations(query, done) {
+    client.execute(query, (error, result) => {
+        if (error) {
+            return done(error);
+        } else {
+            logger.debug(`please wait`, ".".repeat(Math.floor((Math.random() * 10) + 1)));
+            return done(undefined, undefined);
+        }
+    })
 }
 
+function keyspacecreation(done) {
+    /**
+     * Describing & creating keyspace
+     */
+    client.execute(`CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE} WITH replication = \
+  {'class': 'SimpleStrategy', 'replication_factor': '1'} \
+ `, (err, result) => {
+        if (err) { logger.debug('Error in Keyspace Creation, exiting...');
+            process.exit(); } else { logger.debug('Keyspace Created, Moving ahead...');
+            done(); }
+    })
+}
+
+function tablecreation(done) {
+    /**
+     * creating tables
+     */
+    async.each(queries, dboperations, (err, res) => {
+        if (err) return logger.debug('Error in DB Creation', err);
+        logger.debug('Database Created');
+    })
+    done();
+}
+
+function dbCreate() {
+
+    async.series([keyspacecreation, tablecreation], (err) => {
+        if (err) logger.debug(err);
+    });
+
+}
 
 dbCreate();
 
 module.exports = {
-  dbCreate,
+    dbCreate,
 };

@@ -158,7 +158,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         return async.series([
           communityService.addCommunity.bind(null, values[0]),
           roleController.postCommunityRoles.bind(null, community.domain, values[1]),
-         //toolsController.postTools.bind(null, values[2], community.domain),
+         toolsController.postTools.bind(null, values[2], community.domain),
           membershipController.addMembersToCommunity.bind(null,
             community.domain, [values[3]]),
         ],
