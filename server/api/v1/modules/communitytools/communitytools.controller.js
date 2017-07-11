@@ -10,80 +10,77 @@ const roleService = require('../communityrole/communityrole.service');
 
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
-const connectionString = require('../../../../config').topics;
+const logger = require('../../../../logger');
 
+function publishMessageToTopic(dataFromBody, dataFromURI) {
+  // console.log('inside publish');
+  let message = { domain: dataFromURI, tools: dataFromBody };
+  message = JSON.stringify(message);
+  // console.log("sending message",message);
+  registerPublisherService.publishToTopic('topic1', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
 // Function for Getting tools
 
 function getTools(domainName, done) {
   communityToolService.getTools(domainName, done);
 }
 
-// Function for Posting tools
-
-/* function postTools(dataFromBody, done) {
-  if (dataFromBody.domain && dataFromBody.id) {
-    if (dataFromBody.domain !== null && dataFromBody.id != null) {
-    async.parallel([communityToolService.addTools.bind(null, dataFromBody),
-    toolsController.modifyTool.bind(null, dataFromBody)],(err,res)=>{
-      if(!err){
-        return done('Updated');
-      }
-      return done(err);
-    })
-    } else {
-      done('please fill out all fields!!', undefined);
-    }
-  } else {
-    done('please fill out all fields!!', undefined);
-  }
-}*/
-
 function getActions(dataFromBody, done) {
   communityToolService.getToolsforCRUD(dataFromBody.domainname, dataFromBody.toolid, done);
 }
 
 
-function postTools(dataFromBody, dataFromURI, done) {
+function checkTool(dataFromBody, dataFromURI, done) {
   let flag = 0;
-  let correctValue = 0;
+  let iterations = 0;
   // console.log(flag);
   dataFromBody.forEach((data) => {
     if (data.toolId && data.actions && data.activityEvents) {
       if (data.toolId !== '' && data.actions !== '' && data.activityEvents !== '') {
-        correctValue += 1;
         communityToolService.getToolsforCRUD(dataFromURI, data.toolId, (error) => {
+          iterations += 1;
           if (error) {
             flag += 1;
           } else {
             flag += 0;
           }
-        });
-      }
-    }
-  });
-  setTimeout(() => {
-    if (flag === dataFromBody.length) {
-      if (correctValue === dataFromBody.length) {
-        // console.log("hii");
-        async.parallel([
-          communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
-          toolsService.addTools.bind(null, dataFromBody ,dataFromURI), //to be removed by kafka event
-
-        ], (err,result) => {
-          if (err) {
-            return done(err);
+          if (iterations === dataFromBody.length) {
+            logger.debug('iterations', iterations);
+            logger.debug('count', flag);
+            done(null, flag);
           }
-          // console.log('message here');
-          publishMessageToTopic(dataFromBody, dataFromURI);
-          return done(undefined, result);
         });
-      } else {
-        done({ error: 'Tool Exists!!' }, undefined);
       }
     } else {
-      done({ error: 'Please enter valid values!!' }, undefined);
+      done({ error: 'please fill out all values' }, flag);
     }
-  }, 200);
+  });
+}
+
+function postTools(dataFromBody, dataFromURI, flag, done) {
+  if (flag === dataFromBody.length) {
+    // console.log("hii");
+    async.parallel([
+      communityToolService.addTools.bind(null, dataFromBody, dataFromURI),
+      // toolsService.addTools.bind(null, dataFromBody, dataFromURI), //to be removed by kafka event
+
+    ], (err, result) => {
+      if (err) {
+        return done(err);
+      }
+      // console.log('message here');
+      publishMessageToTopic(dataFromBody, dataFromURI);
+      return done(undefined, result);
+    });
+  } else {
+    done({ error: 'Please enter valid values!!' }, undefined);
+  }
 }
 
 // To add actions and activity events to existing tools
@@ -94,6 +91,20 @@ function modifyTool(dataFromBody, dataFromURI, done) {
       done(err, undefined);
     } else {
       communityToolService.updateTools(dataFromBody, dataFromURI, done);
+    }
+  });
+}
+
+function postCommunityTools(dataFromBody, dataFromParams, done) {
+  async.waterfall([
+    checkTool.bind(null, dataFromBody, dataFromParams),
+    postTools.bind(null, dataFromBody, dataFromParams),
+
+  ], (err, result) => {
+    if (err) {
+      done(err);
+    } else {
+      done(null, result);
     }
   });
 }
@@ -160,19 +171,6 @@ function deleteTool(domain, done) {
   });
 }
 
-function publishMessageToTopic(dataFromBody, dataFromURI) {
-  // console.log("inside publish");
-  let message = { domain: dataFromURI, tools: dataFromBody };
-  message = JSON.stringify(message);
-  // console.log("sending message",message);
-  registerPublisherService.publishToTopic('topic1', message, (err, res) => {
-    if (err) {
-      console.log('error occured', err);
-    } else {
-      console.log('result is', res);
-    }
-  });
-}
 
 // Exporting the functions to be used in router
 
@@ -184,4 +182,5 @@ module.exports = {
   deleteEvent,
   deleteAction,
   getActions,
+  postCommunityTools,
 };
