@@ -1,6 +1,6 @@
 const communityMembershipService = require('./communitymembership.service');
 
-const membershipService = require('../membership/membership.service');
+// const membershipService = require('../membership/membership.service');
 
 const communityRoleService = require('../communityrole/communityrole.service');
 
@@ -11,107 +11,220 @@ const logger = require('../../../../logger');
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 /**
- *Add memebers to the community
+ *Condition check for null value of username and role for add and modify member details
+ *
+ * POST and UPDATE REQUEST
+ *
+ *
+ */
+
+function checkConditionForNull(flagged, domainName, values, done) {
+  logger.debug('iam in Null check');
+  let flag = flagged;
+  if (values.length > 0) {
+    if (domainName) {
+      values.forEach((data) => {
+        if (data.username && data.role) {
+          flag += 1;
+        } else {
+          flag += 0;
+        }
+      });
+      logger.debug('flag', flag);
+      done(null, flag);
+    } else {
+      done({ error: 'URI parameter cannot be empty.....' });
+    }
+  } else {
+    done({ error: 'Body data cannot be empty' });
+  }
+}
+
+/**
+ *Condition check for existence of role for a specified domain to add and modify member details
+ *
+ * POST and UPDATE REQUEST
+ *
+ *
+ */
+
+function checkCondtionRoleExistenseForaDomain(roleExistCheck,
+  iterateRole, domainName, values, nullCheckResult, done) {
+  logger.debug('iam in role check');
+  logger.debug('nullCheckResult', nullCheckResult);
+  let roleExist = roleExistCheck;
+  let iterateRoleExist = iterateRole;
+  if (values.length === nullCheckResult) {
+    values.forEach((data) => {
+      communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
+        iterateRoleExist += 1;
+        if (message) {
+          roleExist += 1;
+        } else {
+          roleExist += 0;
+        }
+        if (values.length === iterateRoleExist) {
+          logger.debug('iterateRoleExist', iterateRoleExist);
+          logger.debug('roleExist', roleExist);
+          done(null, roleExist);
+        }
+      });
+    });
+  } else {
+    done({ error: 'Value of username and role cannot be empty' });
+  }
+}
+/**
+ *Condition check for data existence to add member details
  *
  * POST REQUEST
  *
  *
  */
 
-function addMembersToCommunity(domainName, values, done) {
-  // logger.debug('hi u r adding a new member');
-  let flag = 0;
-  let valueExist = 0;
-  if (values.length > 0) {
-    if (domainName) {
-      values.forEach((data) => {
-        if (data.username && data.role) {
-          flag += 1;
-        } else {
-          flag += 0;
-        }
-      });
-      if (values.length === flag) {
-        values.forEach((data) => {
-          communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
-            data.username, data.role, (error) => {
-              if (error) {
-                valueExist += 1;
-              } else {
-                valueExist += 0;
-              }
-            });
-        });
-        setTimeout(() => {
-          if (valueExist === values.length) {
-            async.parallel([
-              communityMembershipService.addMembersToCommunity.bind(null, domainName, values, done),
-              // membershipService.addMemberToCommunity.bind(null, domainName, values, done),
-            ]);
-            publishMessageToTopic(domainName, values);
-
+function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
+  iterateData, domainName, values, roleExistCheckResult, done) {
+  logger.debug('iam in dataExist check to add member');
+  logger.debug('roleExistCheckResult', roleExistCheckResult);
+  let iterateDataExist = iterateData;
+  let dataExist = dataExistCheck;
+  if (roleExistCheckResult === values.length) {
+    values.forEach((data) => {
+      communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
+        data.username, (error) => {
+          iterateDataExist += 1;
+          if (error) {
+            dataExist += 1;
           } else {
-            done({ error: 'Member detail already exist' });
+            dataExist += 0;
           }
-        }, 100);
-      } else {
-        done({ error: 'Value of username and role cannot be empty' });
-      }
-    } else {
-      done({ error: 'URI parameter cannot be empty.....' });
-    }
+          if (iterateDataExist === values.length) {
+            logger.debug('iterateDataExist', iterateDataExist);
+            logger.debug('dataExist', dataExist);
+            done(null, dataExist);
+          }
+        });
+    });
   } else {
-    done({ error: 'Body data cannot be empty' });
+    done({ error: 'Specified role is not available for this community' });
   }
 }
 
 /**
- *Remove members from a community
+ *Publish a event
+ *
+ * POST REQUEST
+ *
+ *
+ */
+
+function publishMessageToTopic(dataFromURI, dataFromBody) {
+  let message = { domain: dataFromURI, value: dataFromBody };
+
+ // let message = {dataFromURI, dataFromBody};
+  logger.debug('membershipService', message);
+  message = JSON.stringify(message);
+  logger.debug('membershipService', message);
+  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+
+/**
+ *Condition checked to add members to community
+ *
+ * POST REQUEST
+ *
+ *
+ */
+function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, done) {
+  logger.debug('condition checked to add member');
+  logger.debug('dataExistCheckResult', dataExistCheckResult);
+  if (dataExistCheckResult === values.length) {
+    communityMembershipService.addMembersToCommunity(domainName, values, done);
+    publishMessageToTopic(domainName, values);
+  } else {
+    done({ error: 'Member detail already exist' });
+  }
+}
+/**
+ *Condition check for data existence to update member details
+ *
+ * PATCH REQUEST
+ *
+ *
+ */
+
+function checkCondtionDataExistenseInDataBaseToUpdate(dataExistCheck,
+  iterateData, domainName, values, roleExistCheckResult, done) {
+  let iterateDataExist = iterateData;
+  logger.debug('iam in dataExist check to update member');
+  logger.debug('roleExistCheckResult', roleExistCheckResult);
+  let dataExist = dataExistCheck;
+  if (roleExistCheckResult === values.length) {
+    values.forEach((data) => {
+      communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
+        data.username, (error, message) => {
+          iterateDataExist += 1;
+          if (message) {
+            dataExist += 1;
+          } else {
+            dataExist += 0;
+          }
+          if (iterateDataExist === values.length) {
+            logger.debug('iterateDataExist', iterateDataExist);
+            logger.debug('dataExist', dataExist);
+            done(null, dataExist);
+          }
+        });
+    });
+  } else {
+    done({ error: 'Specified role is not available for this community' });
+  }
+}
+/**
+ *Condition checked to update role of a members in a community
+ *
+ * PATCH REQUEST
+ *
+ *
+ */
+function conditionCheckedUpdateMembersRole(domainName, values, dataExistCheckResult, done) {
+  logger.debug('condition checked to update member');
+  logger.debug('dataExistCheckResult', dataExistCheckResult);
+  if (dataExistCheckResult === values.length) {
+    communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, done);
+  } else {
+    done({ error: 'Member details not available' });
+  }
+}
+
+/**
+ *Condition check for null value of username to delete member details
  *
  * DELETE REQUEST
  *
  *
  */
-
-function removeMembersFromCommunity(domainName, values, done) {
-  let flag = 0;
-  let valueExist = 0;
+function checkConditionForNullToDelete(flagged, domainName, values, done) {
+  logger.debug('iam in Null check');
+  let flag = flagged;
   if (values.length > 0) {
     if (domainName) {
       values.forEach((data) => {
-        if (data.username && data.role) {
+        if (data.username) {
           flag += 1;
         } else {
           flag += 0;
         }
       });
-      if (values.length === flag) {
-        values.forEach((data) => {
-          communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
-            data.username, data.role, (error, message) => {
-              if (message) {
-                valueExist += 1;
-              } else {
-                valueExist += 0;
-              }
-            });
-        });
-        setTimeout(() => {
-          if (valueExist === values.length) {
-            logger.debug('check details');
-            async.parallel([
-              communityMembershipService.removeMembersFromCommunity.bind(null,
-                domainName, values, done),
-              membershipService.removeMemberFromCommunity.bind(null,
-                domainName, values, done),
-            ]);
-          } else {
-            done({ error: 'Member details not available' });
-          }
-        }, 100);
-      } else {
-        done({ error: 'Value of username and role cannot be empty' });
-      }
+      logger.debug('flag', flag);
+      done(null, flag);
     } else {
       done({ error: 'URI parameter cannot be empty.....' });
     }
@@ -119,18 +232,86 @@ function removeMembersFromCommunity(domainName, values, done) {
     done({ error: 'Body data cannot be empty' });
   }
 }
+/**
+ *Condition check for data existence to delete member details
+ *
+ * DELETE REQUEST
+ *
+ *
+ */
+function checkCondtionDataExistenseInDataBaseToDeleteMembers(dataExistCheck,
+  iterateData, domainName, values, nullCheckResult, done) {
+  logger.debug('hi iam checking dataExist to delete member');
+  logger.debug('nullCheckResult', nullCheckResult);
+  let dataExist = dataExistCheck;
+  let iterateDataExist = iterateData;
+  if (nullCheckResult === values.length) {
+    values.forEach((data) => {
+      communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
+        data.username, (error, message) => {
+          iterateDataExist += 1;
+          if (message) {
+            dataExist += 1;
+          } else {
+            dataExist += 0;
+          }
+          if (iterateDataExist === values.length) {
+            logger.debug('iterateDataExist', iterateDataExist);
+            logger.debug('dataExist', dataExist);
+            done(null, dataExist);
+          }
+        });
+    });
+  } else {
+    done({ error: 'Value of username cannot be empty' });
+  }
+}
+/**
+ *Condition checked to delete members in a community
+ * DELETE REQUEST
+ *
+ *
+ */
+function conditionCheckedDeleteMembers(domainName, values, dataExistCheckResult, done) {
+  logger.debug('condition checked to delete member');
+  logger.debug('dataExistCheckResult', dataExistCheckResult);
+  if (dataExistCheckResult === values.length) {
+    communityMembershipService.removeMembersFromCommunity(domainName, values, done);
+  } else {
+    done({ error: 'Member details not available' });
+  }
+}
 
 
 /**
- *get particular Community members Detail
+ *Add members to the community
  *
- * GET REQUEST
+ * POST REQUEST
  *
  *
  */
 
-function getParticularCommunityMembersDetails(domainName, done) {
-  communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
+
+function addMembersToCommunity(domainName, values, done) {
+  const flag = 0; /* eslint-disable no-param-reassign*/
+  const roleExist = 0;
+  const iterateRoleExist = 0;
+  const dataExist = 0;
+  const iterateDataExist = 0;
+  async.waterfall([
+    checkConditionForNull.bind(null, flag, domainName, values),
+    checkCondtionRoleExistenseForaDomain.bind(null,
+      roleExist, iterateRoleExist, domainName, values),
+    checkCondtionDataExistenseInDataBaseToAddMembers.bind(null,
+      dataExist, iterateDataExist, domainName, values),
+    conditionCheckedAddMembers.bind(null, domainName, values),
+  ], (err, result) => {
+    if (err) {
+      done(err);
+    } else {
+      done(null, result);
+    }
+  });
 }
 
 
@@ -143,100 +324,52 @@ function getParticularCommunityMembersDetails(domainName, done) {
  */
 
 function modifyRoleOfMembersFromCommunity(domainName, values, done) {
-  let flag = 0;
-  let roleExist = 0;
-  let valueExist = values.length;
-  let dataExist = 0;
-  if (values.length > 0) {
-    if (domainName) {
-      values.forEach((data) => {
-        if (data.username && data.role) {
-          flag += 1;
-        } else {
-          flag += 0;
-        }
-      });
-      if (values.length === flag) {
-        values.forEach((data) => {
-          communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
-            if (message) {
-              roleExist += 1;
-            } else {
-              roleExist += 0;
-            }
-          });
-        });
-        setTimeout(() => {
-          if (roleExist === values.length) {
-            values.forEach((data) => {
-              communityMembershipService.checkCommunityToUpdateMembersDetail(domainName,
-                data.username, data.role, (error, message) => {
-                  if (message) {
-                    valueExist += 1;
-                  } else {
-                    valueExist -= 1;
-                  }
-                });
-            });
-            setTimeout(() => {
-              if (valueExist === 0) {
-                values.forEach((data) => {
-                  communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
-                    data.username, (error, message) => {
-                      if (message) {
-                        dataExist += 1;
-                      } else {
-                        dataExist += 0;
-                      }
-                    });
-                });
-//<<<<<<< HEAD
-                setTimeout(() => {
-                  if (dataExist === values.length) {
-                    async.parallel([
-                      communityMembershipService.modifyRoleOfMembersFromCommunity.bind(null,
-                     domainName, values, done),
-                      membershipService.modifyRoleOfMemberFromCommunity.bind(null,
-                     domainName, values, done),
-                    ]);
-                  } else {
-                    done({ error: 'Data not exist' });
-                  }
-                }, 100);
-              } else {
-                done({ error: 'Same data Exist' });
-              }
-// =======
-//               }
-//               setTimeout(() => {
-//                 if (dataExist === values.length) {
-//                   async.parallel([
-//                     communityMembershipService.modifyRoleOfMembersFromCommunity.bind(null,
-//                       domainName, values, done),
-//                     membershipService.modifyRoleOfMemberFromCommunity.bind(null,
-//                       domainName, values, done),
-//                   ]);
-//                 } else {
-//                   done('Data not exist');
-//                 }
-//               }, 100);
-// >>>>>>> 59e4589da488c86c8f80bc507169310bf69ee0a8
-            }, 100);
-          } else {
-            done({ error: 'Given role is not available for this community' });
-          }
-        }, 100);
-      } else {
-        done({ error: 'Value of username and role cannot be empty' });
-      }
+  const flag = 0;
+  const roleExist = 0;
+  const iterateRoleExist = 0;
+  const dataExist = 0;
+  const iterateDataExist = 0;
+  async.waterfall([
+    checkConditionForNull.bind(null, flag, domainName, values),
+    checkCondtionRoleExistenseForaDomain.bind(null,
+     roleExist, iterateRoleExist, domainName, values),
+    checkCondtionDataExistenseInDataBaseToUpdate.bind(null,
+      dataExist, iterateDataExist, domainName, values),
+    conditionCheckedUpdateMembersRole.bind(null, domainName, values),
+  ], (err, result) => {
+    if (err) {
+      done(err);
     } else {
-      done({ error: 'URI param cannot be empty' });
+      done(null, result);
     }
-  } else {
-    done({ error: 'Body data cannot be empty' });
-  }
+  });
 }
 
+/**
+ *Remove members from a community
+ *
+ * DELETE REQUEST
+ *
+ *
+ */
+
+function removeMembersFromCommunity(domainName, values, done) {
+  const flag = 0;
+  const dataExist = 0;
+  const iterateDataExist = 0;
+  async.waterfall([
+    checkConditionForNullToDelete.bind(null, flag, domainName, values),
+    checkCondtionDataExistenseInDataBaseToDeleteMembers.bind(null,
+      dataExist, iterateDataExist, domainName, values),
+    conditionCheckedDeleteMembers.bind(null, domainName, values),
+  ], (err, result) => {
+    if (err) {
+      done(err);
+    } else {
+      done(null, result);
+    }
+  });
+}
 
 /**
  *get particular Community members Detail
@@ -250,18 +383,6 @@ function getParticularCommunityMembersDetails(domainName, done) {
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
-function publishMessageToTopic(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody };
-  console.log("membershipService", message);
-  message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
-    if (err) {
-      console.log('error occured', err);
-    } else {
-      console.log('result is', res);
-    }
-  });
-}
 
 module.exports = {
   addMembersToCommunity,
@@ -269,3 +390,4 @@ module.exports = {
   modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
 };
+

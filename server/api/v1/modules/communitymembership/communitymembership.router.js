@@ -18,10 +18,8 @@ router.post('/:domain/members', (req, res) => {
   try {
     const values = req.body;
     const domainName = req.params.domain;
-    console.log(values);
     communityMembershipCtrl.addMembersToCommunity(domainName, values, (err) => {
       if (err) {
-        // return res.status(500).send({ error: 'Error in operation, please try later..!' });
         logger.debug(err);
         return res.status(400).send(err);
       }
@@ -107,7 +105,7 @@ router.get('/:domain/members', (req, res) => {
         return res.status(400).send(err);
       }
       logger.debug(results);
-      return res.send(results);
+      return res.status(200).send(results);
     });
   } catch (err) {
         // logger.debug('Unexpected error in fetching members of a community...', err);
