@@ -36,7 +36,7 @@ describe('Testcases for checking the communitycounter', () => {
         }
         result2[0].should.deep.equal(result.rows[0]);
       });
-    })
+    });
     done();
   });
   it('Testing communityController::incrementmember for sucess scenario', (done) => {
@@ -185,7 +185,8 @@ describe('Testcases for checking the communitycounter', () => {
               done(errquery);
             }
             parseInt(resultupdated.rows[0].requests) // eslint-disable-line radix
-              .should.deep.equal(parseInt(result.rows[0].requests) - 1); // eslint-disable-line radix
+              .should.deep.equal(parseInt(result.rows[0]// eslint-disable-line radix
+              .requests) - 1); // eslint-disable-line radix
           });
         });
       done();
