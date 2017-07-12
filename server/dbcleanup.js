@@ -1,11 +1,10 @@
 const model = require('cassandra-driver');
-
+const async = require('async');
 const logger = require('log4js').getLogger();
-
 const connectionString = require('./config').connectionString;
 
 const client = new model.Client({
-    contactPoints: [connectionString.contact],
+  contactPoints: [connectionString.contact],
 });
 
 /*
@@ -65,88 +64,31 @@ queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_REQUESTS}`);
 queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_COUNTER}`);
 
 /**
- * KEYSPACE & TABLE Creation
+ * truncation of tables
  */
-client.connect()
 
-    .then(() => client.execute(queries[0]))
-    .then(() => {
-        logger.debug(`table ${TABLE_COMMUNITIES} cleared`);
-        return client.execute(queries[1]);
-    })
-    .then(() => {
-        logger.debug(`table ${TABLE_COMMUNITY_MEMBERSHIP} cleared`);
-        return client.execute(queries[2]);
-    })
-    .then(() => {
-        logger.debug(`table ${TABLE_MEMBERSHIP} cleared`);
-        return client.execute(queries[3]);
-    })
-    .then(() => {
-        logger.debug(`table ${TABLE_COMMUNITY_TOOLS} cleared`);
-        return client.execute(queries[4]);
-    })
-    .then(() => {
-        logger.debug(`table ${TABLE_TOOLS} cleared`);
-        return client.execute(queries[5]);
-    })
-    .then(() => {
-        logger.debug(`table ${TABLE_ROLES} cleared`);
-        return client.execute(queries[6]);
-    })
-    .then(() => {
-        logger.debug(`table ${TABLE_REQUESTS} cleared`);
-        return client.execute(queries[7]);
-    })
-    .then(() => {
-        logger.debug(`table ${TABLE_COUNTER} cleared`);
-        client.shutdown();
-        logger.debug('all required tables cleared');
-        process.exit();
-    })
-    .catch((err) => {
-        client.shutdown();
-        logger.debug('error in Database operations:', err);
-        process.exit();
-    });
-.then(() => client.execute(queries[0]))
-.then(() => {
-  logger.debug(`table ${TABLE_COMMUNITIES} cleared`);
-  return client.execute(queries[1]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_COMMUNITY_MEMBERSHIP} cleared`);
-  return client.execute(queries[2]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_MEMBERSHIP} cleared`);
-  return client.execute(queries[3]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_COMMUNITY_TOOLS} cleared`);
-  return client.execute(queries[4]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_TOOLS} cleared`);
-  return client.execute(queries[5]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_ROLES} cleared`);
-  return client.execute(queries[6]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_REQUESTS} cleared`);
-  return client.execute(queries[7]);
-})
-.then(() => {
-  logger.debug(`table ${TABLE_COUNTER} cleared`);
-  client.shutdown();
-  logger.debug('all required tables cleared');
-  process.exit();
-})
-.catch((err) => {
-  client.shutdown();
-  logger.debug('error in Database operations:', err);
-  process.exit();
-});
+function truncatetable(query, done) {
+  client.execute(query, (err) => { // eslint-disable-line consistent-return
+    if (err) {
+      return done(err);
+    }
+    logger.debug('please wait', '.'.repeat(Math.floor((Math.random() * 10) + 1)));
+    done();
+  });
+}
 
+function truncatedb() {
+  async.map(queries, truncatetable, (error) => { // eslint-disable-line consistent-return
+    if (error) {
+      return logger.debug('Error in truncatin database, please try again later...');
+    }
+    logger.debug('Database Truncated');
+    process.exit();
+  });
+}
+
+truncatedb();
+
+module.exports = {
+  truncatedb,
+};

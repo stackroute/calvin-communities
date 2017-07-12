@@ -89,7 +89,7 @@ function postCommunityRoles(domainName, postedData, done) {
     if (err) {
       done(err);
     } else {
-      done(null, result);
+      done(undefined, result);
     }
   });
 }

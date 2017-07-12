@@ -91,7 +91,7 @@ function postTools(dataFromBody, dataFromURI, flag, done) {
       return done(undefined, result);
     });
   } else {
-    done({ error: 'Please enter valid values!!' }, undefined);
+    done({ error: 'Please enter valid values!!' });
   }
 }
 

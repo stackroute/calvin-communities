@@ -7,7 +7,7 @@ function getCommunityList(username, done) {
 /*
  * Get community Details of a particular member
  */
-/*async.waterfall([
+/* async.waterfall([
 function getCommunityList(username, done) {
   membershipService.getCommunityList(username, done);
 },
@@ -51,8 +51,6 @@ function getAvatarForCommunities(username, done) {
 // 		getAvatarForCommunities.bind(null)
 // 		]);
 // }
-
-
 
 
 /*
