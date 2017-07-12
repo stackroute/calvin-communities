@@ -38,7 +38,7 @@ services:
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '2181'
+      - '9042'
       - 'npm run svc.counter'
 
   member:
@@ -57,7 +57,7 @@ services:
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '2181'
+      - '9042'
       - 'npm run svc.member'
 
   tool:
@@ -76,7 +76,7 @@ services:
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '2181'
+      - '9042'
       - 'npm run svc.tool'
 
 
