@@ -18,7 +18,7 @@
     "svc.counter": "node server/counters.service",
     "svc.tool": "node server/tools.service",
     "svc.member": "node server/member.service",
-    "svc.invite":"node server/invite.service"
+    "svc.memberrequests":"node server/memberrequests.service"
   },
   "private": true,
   "dependencies": {

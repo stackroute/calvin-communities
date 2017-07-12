@@ -2,6 +2,7 @@ const memberService = require('../../api/v1/modules/membership/membership.servic
 module.exports = function(eventMessage) {
   console.log('Got a new community event message: ', eventMessage);
   console.log('domain', eventMessage.domain);
+  console.log('type',eventMessage.type);
   if (eventMessage.type === 'add') {
     memberService.userCommunityDetails(eventMessage.domain, eventMessage.value, (err, res) => {
       if (err) {

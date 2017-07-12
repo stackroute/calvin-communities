@@ -42,242 +42,198 @@ const noUsername = [{
 }];
 
 const emptyRole = [{
-  username: 'Aravindh',
+  username: 'aravindh',
   role: '',
 }];
 
 const noRole = [{
-  username: 'Aravindh',
+  username: 'aravindh',
 }];
 
-const addMembers = [
-  {
-    username: 'Aravindh',
-    role: 'digital-developer',
-  },
-  {
-    username: 'Keerthi',
-    role: 'digital-developer',
-  },
-  {
-    username: 'Aswini',
-    role: 'digital-developer',
-  },
-  {
-    username: 'Suresh',
-    role: 'digital-developer',
-  },
-  {
-    username: 'Ashok',
-    role: 'digital-developer',
-  },
-  {
-    username: 'Karthikeyan',
-    role: 'digital-manager',
-  },
-  {
-    username: 'AnithaJaganathan',
-    role: 'digital-retainer',
-  },
-  {
-    username: 'Sagar',
-    role: 'digital-mentor',
-  },
-  {
-    username: 'Basavaraj',
-    role: 'digital-mentor',
-  },
-  {
-    username: 'Simantha',
-    role: 'digital-mentor',
-  },
-  {
-    username: 'Nelanjan',
-    role: 'digital-mentor',
-  },
-  {
-    username: 'Himani',
-    role: 'digital-mentor',
-  },
-];
+const addMembers = [{
+  username: 'aravindh',
+  role: 'digital-developer',
+}, {
+  username: 'keerthi',
+  role: 'digital-developer',
+}, {
+  username: 'aswini',
+  role: 'digital-developer',
+}, {
+  username: 'suresh',
+  role: 'digital-developer',
+}, {
+  username: 'ashok',
+  role: 'digital-developer',
+}, {
+  username: 'karthikeyan',
+  role: 'digital-manager',
+}, {
+  username: 'anithajaganathan',
+  role: 'digital-retainer',
+}, {
+  username: 'sagar',
+  role: 'digital-mentor',
+}, {
+  username: 'basavaraj',
+  role: 'digital-mentor',
+}, {
+  username: 'simantha',
+  role: 'digital-mentor',
+}, {
+  username: 'nelanjan',
+  role: 'digital-mentor',
+}, {
+  username: 'himani',
+  role: 'digital-mentor',
+}];
 
 
-const addCommunityRoles = [
-  {
-    role: 'digital-developer',
-    actions: {
-      post: 'post',
-      guest: 'true',
-    },
-    toolId: 'git',
-
+const addCommunityRoles = [{
+  role: 'digital-developer',
+  actions: {
+    post: 'post',
+    guest: 'true',
   },
-  {
-    role: 'digital-manager',
-    actions: {
-      post: 'false',
-      like: 'true',
-    },
-    toolId: 'quora',
+  toolId: 'git',
 
+}, {
+  role: 'digital-manager',
+  actions: {
+    post: 'false',
+    like: 'true',
   },
-  {
-    role: 'digital-retainer',
-    actions: {
-      post: 'post',
-      guest: 'true',
-    },
-    toolId: 'insta',
+  toolId: 'quora',
 
+}, {
+  role: 'digital-retainer',
+  actions: {
+    post: 'post',
+    guest: 'true',
   },
-  {
-    role: 'digital-mentor',
-    actions: {
-      post: 'false',
-      like: 'true',
-    },
-    toolId: 'forum',
+  toolId: 'insta',
 
+}, {
+  role: 'digital-mentor',
+  actions: {
+    post: 'false',
+    like: 'true',
   },
-  {
-    role: 'developer',
-    actions: {
-      post: 'post',
-      guest: 'true',
-    },
-    toolId: 'git',
+  toolId: 'forum',
 
+}, {
+  role: 'developer',
+  actions: {
+    post: 'post',
+    guest: 'true',
   },
-  {
-    role: 'manager',
-    actions: {
-      post: 'false',
-      like: 'true',
-    },
-    toolId: 'quora',
+  toolId: 'git',
 
+}, {
+  role: 'manager',
+  actions: {
+    post: 'false',
+    like: 'true',
   },
-  {
-    role: 'retainer',
-    actions: {
-      post: 'post',
-      guest: 'true',
-    },
-    toolId: 'insta',
+  toolId: 'quora',
 
+}, {
+  role: 'retainer',
+  actions: {
+    post: 'post',
+    guest: 'true',
   },
-  {
-    role: 'mentor',
-    actions: {
-      post: 'false',
-      like: 'true',
-    },
-    toolId: 'forum',
+  toolId: 'insta',
 
+}, {
+  role: 'mentor',
+  actions: {
+    post: 'false',
+    like: 'true',
   },
+  toolId: 'forum',
+
+},
 
 ];
 
-const noRoleExist = [
-  {
-    username: 'Aravindh',
-    role: 'dancer',
-  },
-  {
-    username: 'Keerthi',
-    role: 'singer',
-  },
-  {
-    username: 'Aswini',
-    role: 'developer',
-  },
-  {
-    username: 'Suresh',
-    role: 'player',
-  },
-];
+const noRoleExist = [{
+  username: 'aravindh',
+  role: 'dancer',
+}, {
+  username: 'keerthi',
+  role: 'singer',
+}, {
+  username: 'aswini',
+  role: 'developer',
+}, {
+  username: 'suresh',
+  role: 'player',
+}];
 
-const updateMembers = [
-  {
-    username: 'Aravindh',
-    role: 'developer',
-  },
-  {
-    username: 'Keerthi',
-    role: 'developer',
-  },
-  {
-    username: 'Aswini',
-    role: 'developer',
-  },
-  {
-    username: 'Suresh',
-    role: 'developer',
-  },
-  {
-    username: 'Ashok',
-    role: 'developer',
-  },
-  {
-    username: 'Karthikeyan',
-    role: 'manager',
-  },
-  {
-    username: 'AnithaJaganathan',
-    role: 'retainer',
-  },
-  {
-    username: 'Sagar',
-    role: 'mentor',
-  },
-  {
-    username: 'Basavaraj',
-    role: 'mentor',
-  },
-  {
-    username: 'Simantha',
-    role: 'mentor',
-  },
-  {
-    username: 'Nelanjan',
-    role: 'mentor',
-  },
-  {
-    username: 'Himani',
-    role: 'mentor',
-  },
-];
+const updateMembers = [{
+  username: 'aravindh',
+  role: 'developer',
+}, {
+  username: 'keerthi',
+  role: 'developer',
+}, {
+  username: 'aswini',
+  role: 'developer',
+}, {
+  username: 'suresh',
+  role: 'developer',
+}, {
+  username: 'ashok',
+  role: 'developer',
+}, {
+  username: 'karthikeyan',
+  role: 'manager',
+}, {
+  username: 'anithajaganathan',
+  role: 'retainer',
+}, {
+  username: 'sagar',
+  role: 'mentor',
+}, {
+  username: 'basavaraj',
+  role: 'mentor',
+}, {
+  username: 'simantha',
+  role: 'mentor',
+}, {
+  username: 'nelanjan',
+  role: 'mentor',
+}, {
+  username: 'himani',
+  role: 'mentor',
+}];
 
-const addCommunityRolesForSerive = [
-  {
-    role: 'trainee-fullStack-developer',
-    actions: {
-      post: 'post',
-      guest: 'true',
-    },
-    toolId: 'git',
-
+const addCommunityRolesForSerive = [{
+  role: 'trainee-fullStack-developer',
+  actions: {
+    post: 'post',
+    guest: 'true',
   },
-  {
-    role: 'trainee-fullStack',
-    actions: {
-      post: 'false',
-      like: 'true',
-    },
-    toolId: 'quora',
+  toolId: 'git',
 
+}, {
+  role: 'trainee-fullStack',
+  actions: {
+    post: 'false',
+    like: 'true',
   },
-];
+  toolId: 'quora',
 
-const updateNotAvailableMembers = [
-  {
-    username: 'Aravindh',
-    role: 'digital-developer',
-  },
-  {
-    username: 'Sithar',
-    role: 'developer',
-  }];
+}];
+
+const updateNotAvailableMembers = [{
+  username: 'aravindh',
+  role: 'digital-developer',
+}, {
+  username: 'sithar',
+  role: 'developer',
+}];
 
 
 module.exports = {

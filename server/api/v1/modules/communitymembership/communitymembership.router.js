@@ -10,8 +10,6 @@ const router = express.Router();
  * Effective URI of the API is POST /:domain/members
  *
  * API for Adding members to the community
- *
- *
  */
 
 router.post('/:domain/members', (req, res) => {
@@ -80,7 +78,6 @@ router.patch('/:domain/members', (req, res) => {
       return res.status(200).send({ message: 'Role modified' });
     });
   } catch (err) {
-        // logger.debug('Unexpected error in inserting values ', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...! ' });
   }
 });
@@ -108,7 +105,6 @@ router.get('/:domain/members', (req, res) => {
       return res.status(200).send(results);
     });
   } catch (err) {
-        // logger.debug('Unexpected error in fetching members of a community...', err);
     res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
 });
