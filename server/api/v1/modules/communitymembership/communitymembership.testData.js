@@ -42,61 +42,61 @@ const noUsername = [{
 }];
 
 const emptyRole = [{
-  username: 'Aravindh',
+  username: 'aravindh',
   role: '',
 }];
 
 const noRole = [{
-  username: 'Aravindh',
+  username: 'aravindh',
 }];
 
 const addMembers = [
   {
-    username: 'Aravindh',
+    username: 'aravindh',
     role: 'digital-developer',
   },
   {
-    username: 'Keerthi',
+    username: 'keerthi',
     role: 'digital-developer',
   },
   {
-    username: 'Aswini',
+    username: 'aswini',
     role: 'digital-developer',
   },
   {
-    username: 'Suresh',
+    username: 'suresh',
     role: 'digital-developer',
   },
   {
-    username: 'Ashok',
+    username: 'ashok',
     role: 'digital-developer',
   },
   {
-    username: 'Karthikeyan',
+    username: 'karthikeyan',
     role: 'digital-manager',
   },
   {
-    username: 'AnithaJaganathan',
+    username: 'anithajaganathan',
     role: 'digital-retainer',
   },
   {
-    username: 'Sagar',
+    username: 'sagar',
     role: 'digital-mentor',
   },
   {
-    username: 'Basavaraj',
+    username: 'basavaraj',
     role: 'digital-mentor',
   },
   {
-    username: 'Simantha',
+    username: 'simantha',
     role: 'digital-mentor',
   },
   {
-    username: 'Nelanjan',
+    username: 'nelanjan',
     role: 'digital-mentor',
   },
   {
-    username: 'Himani',
+    username: 'himani',
     role: 'digital-mentor',
   },
 ];
@@ -180,70 +180,70 @@ const addCommunityRoles = [
 
 const noRoleExist = [
   {
-    username: 'Aravindh',
+    username: 'aravindh',
     role: 'dancer',
   },
   {
-    username: 'Keerthi',
+    username: 'keerthi',
     role: 'singer',
   },
   {
-    username: 'Aswini',
+    username: 'aswini',
     role: 'developer',
   },
   {
-    username: 'Suresh',
+    username: 'suresh',
     role: 'player',
   },
 ];
 
 const updateMembers = [
   {
-    username: 'Aravindh',
+    username: 'aravindh',
     role: 'developer',
   },
   {
-    username: 'Keerthi',
+    username: 'keerthi',
     role: 'developer',
   },
   {
-    username: 'Aswini',
+    username: 'aswini',
     role: 'developer',
   },
   {
-    username: 'Suresh',
+    username: 'suresh',
     role: 'developer',
   },
   {
-    username: 'Ashok',
+    username: 'ashok',
     role: 'developer',
   },
   {
-    username: 'Karthikeyan',
+    username: 'karthikeyan',
     role: 'manager',
   },
   {
-    username: 'AnithaJaganathan',
+    username: 'anithajaganathan',
     role: 'retainer',
   },
   {
-    username: 'Sagar',
+    username: 'sagar',
     role: 'mentor',
   },
   {
-    username: 'Basavaraj',
+    username: 'basavaraj',
     role: 'mentor',
   },
   {
-    username: 'Simantha',
+    username: 'simantha',
     role: 'mentor',
   },
   {
-    username: 'Nelanjan',
+    username: 'nelanjan',
     role: 'mentor',
   },
   {
-    username: 'Himani',
+    username: 'himani',
     role: 'mentor',
   },
 ];
@@ -271,11 +271,11 @@ const addCommunityRolesForSerive = [
 
 const updateNotAvailableMembers = [
   {
-    username: 'Aravindh',
+    username: 'aravindh',
     role: 'digital-developer',
   },
   {
-    username: 'Sithar',
+    username: 'sithar',
     role: 'developer',
   }];
 
