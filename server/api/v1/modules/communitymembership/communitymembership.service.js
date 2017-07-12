@@ -56,7 +56,7 @@ function removeMembersFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE username =? AND domain = ?  IF EXISTS`);
   data.forEach((val) => {
-    arr.push({ query, params: [val.username, domainName.toLowerCase()] });
+    arr.push({ query, params: [val.username.toLowerCase(), domainName.toLowerCase()] });
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
@@ -81,7 +81,7 @@ function modifyRoleOfMembersFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? IF EXISTS `);
   data.forEach((val) => {
-    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
+    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username.toLowerCase()] });
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
@@ -103,7 +103,7 @@ function modifyRoleOfMembersFromCommunity(domainName, data, done) {
  */
 
 function checkCommunityToUpdateMembersDetails(domainName, userName, done) {
-  const query = `SELECT domain,username FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND username = '${userName}' `;
+  const query = `SELECT domain,username FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND username = '${userName.toLowerCase()}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -133,7 +133,7 @@ function getParticularCommunityMembersDetails(domainName, done) {
     if (!err) {
       if (results.rows.length > 0) {
         logger.debug('Member details received');
-        done(undefined, { domain: domainName, MemberDetails: results.rows });
+        done(undefined, { domain: domainName.toLowerCase(), MemberDetails: results.rows });
       } else {
         done({ error: 'please enter a valid domain' }, undefined);
       }
