@@ -1,7 +1,5 @@
 const communityMembershipService = require('./communitymembership.service');
 
-// const membershipService = require('../membership/membership.service');
-
 const communityRoleService = require('../communityrole/communityrole.service');
 
 const async = require('async');
@@ -10,13 +8,11 @@ const logger = require('../../../../logger');
 
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
-/**
+/*
+ *POST and UPDATE Method
  *Condition check for null value of username and role for add and modify member details
- *
- * POST and UPDATE REQUEST
- *
- *
  */
+
 
 function checkConditionForNull(flagged, domainName, values, done) {
   logger.debug('iam in Null check');
@@ -40,12 +36,9 @@ function checkConditionForNull(flagged, domainName, values, done) {
   }
 }
 
-/**
+/*
+ *POST and UPDATE Method
  *Condition check for existence of role for a specified domain to add and modify member details
- *
- * POST and UPDATE REQUEST
- *
- *
  */
 
 function checkCondtionRoleExistenseForaDomain(roleExistCheck,
@@ -74,12 +67,9 @@ function checkCondtionRoleExistenseForaDomain(roleExistCheck,
     done({ error: 'Value of username and role cannot be empty' });
   }
 }
-/**
- *Condition check for data existence to add member details
- *
- * POST REQUEST
- *
- *
+
+/*
+ *POST Method - Condition check for data existence to add member details
  */
 
 function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
@@ -110,20 +100,11 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
   }
 }
 
-/**
- *Publish a event
- *
- * POST REQUEST
- *
- *
+/*
+ *POST Method- Publish a event
  */
-
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  console.log("adding members to reverse");
   let message = { domain: dataFromURI, value: dataFromBody, type: 'add' };
-
-  // let message = {dataFromURI, dataFromBody};
-  // logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('topic3', message, (err, res) => {
@@ -135,12 +116,11 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
   });
 }
 
+/*
+ *PATCH Method- Publish a event
+ */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
-  console.log("Modifying member details");
   let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
-
-  // let message = {dataFromURI, dataFromBody};
-  // logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('topic3', message, (err, res) => {
@@ -151,11 +131,13 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
     }
   });
 }
+
+/*
+ *DELETE Method- Publish a event
+ */
 
 function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, value: dataFromBody, type: 'delete' };
-
-  // let message = {dataFromURI, dataFromBody};
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
@@ -168,16 +150,11 @@ function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
   });
 }
 
-
-/**
- *Condition checked to add members to community
- *
- * POST REQUEST
- *
- *
+/*
+ *POST Method - Condition checked to add members to community
  */
+
 function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, done) {
-  console.log('add member');
   logger.debug('condition checked to add member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
@@ -187,12 +164,9 @@ function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, do
     done({ error: 'Member detail already exist' });
   }
 }
-/**
- *Condition check for data existence to update member details
- *
- * PATCH REQUEST
- *
- *
+
+/*
+ *PATCH Method- Condition check for data existence to update member details
  */
 
 function checkCondtionDataExistenseInDataBaseToUpdate(dataExistCheck,
@@ -222,13 +196,11 @@ function checkCondtionDataExistenseInDataBaseToUpdate(dataExistCheck,
     done({ error: 'Specified role is not available for this community' });
   }
 }
-/**
- *Condition checked to update role of a members in a community
- *
- * PATCH REQUEST
- *
- *
+
+/*
+ *PATCH Method - Condition checked to update role of a members in a community
  */
+
 function conditionCheckedUpdateMembersRole(domainName, values, dataExistCheckResult, done) {
   logger.debug('condition checked to update member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
@@ -240,13 +212,10 @@ function conditionCheckedUpdateMembersRole(domainName, values, dataExistCheckRes
   }
 }
 
-/**
- *Condition check for null value of username to delete member details
- *
- * DELETE REQUEST
- *
- *
+/*
+ * DELETE Method - Condition check for null value of username to delete member details
  */
+
 function checkConditionForNullToDelete(flagged, domainName, values, done) {
   logger.debug('iam in Null check');
   let flag = flagged;
@@ -268,13 +237,11 @@ function checkConditionForNullToDelete(flagged, domainName, values, done) {
     done({ error: 'Body data cannot be empty' });
   }
 }
-/**
- *Condition check for data existence to delete member details
- *
- * DELETE REQUEST
- *
- *
+
+/*
+ *DELETE Method- Condition check for data existence to delete member details
  */
+
 function checkCondtionDataExistenseInDataBaseToDeleteMembers(dataExistCheck,
   iterateData, domainName, values, nullCheckResult, done) {
   logger.debug('hi iam checking dataExist to delete member');
@@ -302,12 +269,11 @@ function checkCondtionDataExistenseInDataBaseToDeleteMembers(dataExistCheck,
     done({ error: 'Value of username cannot be empty' });
   }
 }
-/**
- *Condition checked to delete members in a community
- * DELETE REQUEST
- *
- *
- */
+
+/*
+ * DELETE Method - Condition checked to delete members in a community
+*/
+
 function conditionCheckedDeleteMembers(domainName, values, dataExistCheckResult, done) {
   logger.debug('condition checked to delete member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
@@ -319,18 +285,12 @@ function conditionCheckedDeleteMembers(domainName, values, dataExistCheckResult,
   }
 }
 
-
-/**
- *Add members to the community
- *
- * POST REQUEST
- *
- *
+/*
+ *POST Method- Add members to the community
  */
 
-
 function addMembersToCommunity(domainName, values, done) {
-  const flag = 0; /* eslint-disable no-param-reassign*/
+  const flag = 0;
   const roleExist = 0;
   const iterateRoleExist = 0;
   const dataExist = 0;
@@ -351,13 +311,8 @@ function addMembersToCommunity(domainName, values, done) {
   });
 }
 
-
-/**
- *Modify role of a members in a community
- *
- * PATCH REQUEST
- *
- *
+/*
+ *PATCH Method - Modify role of a members in a community
  */
 
 function modifyRoleOfMembersFromCommunity(domainName, values, done) {
@@ -382,12 +337,8 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
   });
 }
 
-/**
- *Remove members from a community
- *
- * DELETE REQUEST
- *
- *
+/*
+ *DELETE Method - Remove members from a community
  */
 
 function removeMembersFromCommunity(domainName, values, done) {
@@ -408,18 +359,13 @@ function removeMembersFromCommunity(domainName, values, done) {
   });
 }
 
-/**
- *get particular Community members Detail
- *
- * GET REQUEST
- *
- *
+/*
+ * GET Method - get the particular Community members Detail
  */
 
 function getParticularCommunityMembersDetails(domainName, done) {
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
-
 
 module.exports = {
   addMembersToCommunity,

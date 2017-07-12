@@ -12,7 +12,7 @@ const successDeletedMember = { message: 'Member deleted' };
 
 const noDataExist = { error: 'Member details not available' };
 
-const nodomainExist = { error: 'please enter a valid domain' };
+const nouseExist = {error:'username does not exist '};
 
 const successAddCommunityRoles = {};
 

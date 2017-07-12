@@ -21,6 +21,7 @@ function getCommunityList(username, done) {
   const query = `SELECT domain, role FROM membership WHERE username = '${username}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
+      console.log("services", results);
       done(undefined, { username, communityDetails: results.rows });
     } else {
       done(err, undefined);
