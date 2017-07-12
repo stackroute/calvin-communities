@@ -15,7 +15,7 @@ const client = new model.Client({
 function InsertData(data, dataFromParams, status, type, done) {
   const persons = data.invitee;
   const arr = [];
-  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedby,status,type,createdon,updatedon) VALUES(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
+  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedby,status,type,createdon) VALUES(?,?,?,?,?,?,dateof(now()))`);
   persons.forEach((emailandrole) => {
     const person = emailandrole.email.toLowerCase();
     const role = emailandrole.role.toLowerCase();
