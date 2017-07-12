@@ -19,7 +19,7 @@ services:
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9092'
+      - '9042'
       - 'npm start'
 
   calvin-countermgr:
@@ -38,7 +38,7 @@ services:
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9092'
+      - '9042'
       - 'npm run svc.counter'
 
   calvin-memberlookup:
@@ -57,7 +57,7 @@ services:
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9092'
+      - '9042'
       - 'npm run svc.member'
 
   calvin-toollookup:
@@ -76,7 +76,7 @@ services:
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9092'
+      - '9042'
       - 'npm run svc.tool'
 
 
@@ -106,6 +106,6 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_CREATE_TOPICS: "topic1:1:1,topic2:1:1,topic3:1:1,topic4:1:1,topic5:1:1"
-      KAFKA_ZOOKEEPER_CONNECT: calvin-zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
