@@ -11,7 +11,7 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
       - cassandra
       - zookeeper

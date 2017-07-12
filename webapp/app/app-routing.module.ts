@@ -33,7 +33,7 @@ const routes: Routes = [{
           },
           { path: '**', redirectTo: '/dashboard' }
 
- ], { useHash: true });
+ ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
