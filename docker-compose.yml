@@ -1,7 +1,7 @@
 version: '2'
 services:
 
-  calvin:
+  calvin-www:
     image: calvin
     build:
       context: ./
@@ -13,16 +13,16 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - cassandra
-      - zookeeper
-      - kafka
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9042'
+      - '9092'
       - 'npm start'
 
-  counter:
+  calvin-countermgr:
     image: counter
     build:
       context: ./
@@ -32,16 +32,16 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
-      - cassandra
-      - zookeeper
-      - kafka
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9042'
+      - '9092'
       - 'npm run svc.counter'
 
-  member:
+  calvin-memberlookup:
     image: member
     build:
       context: ./
@@ -51,16 +51,16 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
-      - cassandra
-      - zookeeper
-      - kafka
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9042'
+      - '9092'
       - 'npm run svc.member'
 
-  tool:
+  calvin-toollookup:
     image: tool
     build:
       context: ./
@@ -70,36 +70,37 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
-      - cassandra
-      - zookeeper
-      - kafka
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
-      - '9042'
+      - '9092'
       - 'npm run svc.tool'
 
 
-  cassandra:
+  calvin-cassandra:
     image: cassandra:latest
     network_mode: host
     restart: on-failure
     expose:
       - 9042
 
-  zookeeper:
+  calvin-zookeeper:
     image: wurstmeister/zookeeper
-    ports:
-      - 2181:2181
+    expose:
+      - 2181
 
-  kafka:
+  calvin-kafka:
     image: wurstmeister/kafka
-    ports:
-      - 9092:9092
-    links:
-      - zookeeper
+    expose:
+      - 9092
+    depends_on:
+      - calvin-zookeeper
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
+      KAFKA_ADVERTISED_PORT: 9092
       KAFKA_CREATE_TOPICS: "topic1:1:1,topic2:1:1,topic3:1:1,topic4:1:1,topic5:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
