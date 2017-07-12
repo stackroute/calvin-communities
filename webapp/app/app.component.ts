@@ -11,8 +11,8 @@ export class AppComponent {
 navigation = [
     { link: 'dashboard', label: 'Dashboard' },
     { link: 'trending', label: 'Trending Communities' },
-    { link: 'topics', label: 'Common Topics' },
+    { link: 'templates', label: 'Templates' },
     { link: 'populartools', label: 'Popular Tools' },
-    { link: 'search', label: 'Search(temporary)'},
+    { link: 'search', label: 'Search'},
   ];
 }

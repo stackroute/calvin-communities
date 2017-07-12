@@ -13,9 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(clientPath));
 
 process.stdout.write('Initializing Calvin Communities database');
-const dbsetup = require('./dbcreation');
-
-dbsetup.dbCreate();
+require('./dbcreation');
 
 function welcome() {
   const motdFile = path.resolve(__dirname, '.webapp.motd');

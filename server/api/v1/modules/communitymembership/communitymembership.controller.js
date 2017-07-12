@@ -119,9 +119,43 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
  */
 
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody };
+  console.log("adding members to reverse");
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' };
 
- // let message = {dataFromURI, dataFromBody};
+  // let message = {dataFromURI, dataFromBody};
+  // logger.debug('membershipService', message);
+  message = JSON.stringify(message);
+  logger.debug('membershipService', message);
+  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
+  console.log("Modifying member details");
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
+
+  // let message = {dataFromURI, dataFromBody};
+  // logger.debug('membershipService', message);
+  message = JSON.stringify(message);
+  logger.debug('membershipService', message);
+  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'delete' };
+
+  // let message = {dataFromURI, dataFromBody};
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
@@ -143,6 +177,7 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
  *
  */
 function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, done) {
+  console.log('add member');
   logger.debug('condition checked to add member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
@@ -199,6 +234,7 @@ function conditionCheckedUpdateMembersRole(domainName, values, dataExistCheckRes
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
     communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, done);
+    publishMessageToTopicForUpdation(domainName, values);
   } else {
     done({ error: 'Member details not available' });
   }
@@ -277,6 +313,7 @@ function conditionCheckedDeleteMembers(domainName, values, dataExistCheckResult,
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
     communityMembershipService.removeMembersFromCommunity(domainName, values, done);
+    publishMessageToTopicForDeletion(domainName, values);
   } else {
     done({ error: 'Member details not available' });
   }
@@ -332,7 +369,7 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
   async.waterfall([
     checkConditionForNull.bind(null, flag, domainName, values),
     checkCondtionRoleExistenseForaDomain.bind(null,
-     roleExist, iterateRoleExist, domainName, values),
+      roleExist, iterateRoleExist, domainName, values),
     checkCondtionDataExistenseInDataBaseToUpdate.bind(null,
       dataExist, iterateDataExist, domainName, values),
     conditionCheckedUpdateMembersRole.bind(null, domainName, values),
@@ -390,4 +427,3 @@ module.exports = {
   modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
 };
-
