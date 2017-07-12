@@ -89,11 +89,15 @@ services:
 
   calvin-zookeeper:
     image: wurstmeister/zookeeper
+    network_mode: host
+    restart: on-failure
     expose:
       - 2181
 
   calvin-kafka:
     image: wurstmeister/kafka
+    network_mode: host
+    restart: on-failure
     expose:
       - 9092
     depends_on:
