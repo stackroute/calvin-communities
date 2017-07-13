@@ -1,55 +1,10 @@
 const membershipService = require('./membership.service');
 const communityService = require('./../community/community.controller');
 
-// function getCommunityList(username, done) {
-//   membershipService.getCommunityList(username, done);
-// }
 /*
  * Get community Details of a particular member
  */
-/* async.waterfall([
-function getCommunityList(username, done) {
-  membershipService.getCommunityList(username, done);
-},
 
-function getAvatarForCommunities(username, done) {
-  membershipService.getAvatarForCommunities(username, done);
-}
-], function(err, result) {
-  if(err) {
-    return err;
-  } else {
-    return result;
-  }
-
-});*/
-// function getCommunityListFromService(username,done){
-//  console.log("community list");
-//   const arr = [];
-//  membershipService.getCommunityList(username, (err,result)=>{
-//    if(!err){
-//      console.log(result);
-//       result.communityDetails.forEach((data) => {
-//         arr.push(data.domain);
-//         console.log(arr);
-//         done(null, arr);
-//       })
-//      // done(null,result);
-//    }else{
-//      done(err,undefined);
-//          }
-//  });
-// }
-// function getAvatarForCommunities(result,done){
-//  const arr =[];
-//  console.log("Avtar", result);
-//  result.forEach(function(data) {
-//    console.log("data", data.communityDetails);
-//    arr.push(data.communityDetails.domain);
-//    console.log("Avtar image", arr);
-//  })
-//  done();
-// }
 function getCommunityList(username, done) {
   const arr = [];
   membershipService.getCommunityList(username, (error, results) => {
@@ -58,14 +13,19 @@ function getCommunityList(username, done) {
         arr.push(data.domain);
       });
       communityService.getMultipleCommunities(arr, (err, result) => {
-        console.log("communitylist", arr, results);
+        const communities = [];
         if (!err) {
-
-          done(undefined, result);
+          result.forEach((values) => {
+            communities.push({ domain: values.domain, name: values.name, avatar: values.avatar });
+          });
         } else {
-          console.log(err);
           done(err);
         }
+        const usercommunities = {
+          username,
+          communities,
+        };
+        return done(undefined, usercommunities);
       });
     }
   });
