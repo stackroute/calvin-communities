@@ -25,7 +25,7 @@ function array2string(domains) {
     stringed += `${data.toLowerCase().toString()}','`;
   });
   stringed = (stringed.substr(0, stringed.length - 2));
-  logger.debug("After Conversion",stringed);
+  logger.debug('After Conversion', stringed);
   return stringed;
 }
 
@@ -53,7 +53,6 @@ function getMultipleCommunities(domains, done) {
   const query = `SELECT * FROM ${tableCommunities} where DOMAIN in (${stringed})`;
   return client.execute(query, (err, results) => {
     if (err) { logger.debug(err); return done([500, 'Internal server error']); }
-    console.log(results.rows); console.log(domains)
     if (results.rows.length === domains.length) { return done(undefined, results.rows); }
     return done('Please give correct domains');
   });
