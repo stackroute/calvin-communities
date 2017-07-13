@@ -110,6 +110,7 @@ function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations
       } else {
         return done({ error: 'Please enter emailid when inviting!!' });
       }
+      return null;
     });
   }
 
@@ -147,6 +148,7 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
         } else {
           return done({ error: 'Please enter valid values!!' });
         }
+        return null;
       });
     } else {
       return done({ error: 'Given role is not applicable for particular community!!' });
