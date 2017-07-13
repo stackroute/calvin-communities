@@ -30,7 +30,8 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'admin',
     toolsActions: [{
       toolId: 'sermo',
@@ -38,7 +39,8 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'moderator',
     toolsActions: [{
       toolId: 'WeMedUp',
@@ -46,7 +48,8 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'member',
     toolsActions: [{
       toolId: 'sermo',
@@ -84,7 +87,8 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'owner',
     toolsActions: [{
       toolId: 'sermo',
@@ -92,7 +96,8 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'admin',
     toolsActions: [{
       toolId: 'sermo',
@@ -100,7 +105,8 @@ module.exports = [{
     }, {
       toolId: 'WeMedUp',
       actions: { bookmark: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'moderator',
     toolsActions: [{
       toolId: 'sermo',
@@ -138,7 +144,8 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'owner',
     toolsActions: [{
       toolId: 'forum',
@@ -149,7 +156,8 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'admin',
     toolsActions: [{
       toolId: 'forum',
@@ -160,7 +168,8 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'member',
     toolsActions: [{
       toolId: 'forum',
@@ -200,7 +209,8 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'owner',
     toolsActions: [{
       toolId: 'forum',
@@ -211,7 +221,8 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'moderator',
     toolsActions: [{
       toolId: 'forum',
@@ -222,7 +233,8 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  }, {
     role: 'admin',
     toolsActions: [{
       toolId: 'forum',
@@ -260,7 +272,7 @@ module.exports = [{
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
     }]
-  },{
+  }, {
     role: 'admin',
     toolsActions: [{
       toolId: 'forum',
@@ -269,7 +281,7 @@ module.exports = [{
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
     }]
-  },{
+  }, {
     role: 'moderator',
     toolsActions: [{
       toolId: 'calender',
@@ -278,7 +290,7 @@ module.exports = [{
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
     }]
-  },{
+  }, {
     role: 'member',
     toolsActions: [{
       toolId: 'forum',
@@ -291,4 +303,4 @@ module.exports = [{
       actions: { edit: 'self', post: 'post_self' },
     }],
   }],
-}];
+}]
