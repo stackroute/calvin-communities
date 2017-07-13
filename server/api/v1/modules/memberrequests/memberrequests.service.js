@@ -12,10 +12,10 @@ const client = new model.Client({
 
 // Query for insert the values into the row
 
-function InsertData(data, dataFromParams, status, type, done) {
+function InsertDataInvite(data, dataFromParams, status, type, done) {
   const persons = data.invitee;
   const arr = [];
-  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedby,status,type,createdon,updatedon) VALUES(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
+  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedby,status,type,createdon) VALUES(?,?,?,?,?,?,dateof(now()))`);
   persons.forEach((emailandrole) => {
     const person = emailandrole.email.toLowerCase();
     const role = emailandrole.role.toLowerCase();
@@ -27,6 +27,19 @@ function InsertData(data, dataFromParams, status, type, done) {
     });
   });
   return client.batch(arr, { prepare: true }, (err) => {
+    if (!err) {
+      done(undefined, { message: 'Inserted' });
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
+    }
+  });
+}
+
+
+function InsertDataRequest(data, dataFromParams, status, type, done) {
+  const person = data.invitee;
+  const query = (`INSERT INTO ${InviteRequestTable} (domain,person,status,type,createdon) VALUES('${dataFromParams.toLowerCase()}','${person.toLowerCase()}','${status.toLowerCase()}','${type.toLowerCase()}',dateof(now()))`);
+  return client.execute(query, (err) => {
     if (!err) {
       done(undefined, { message: 'Inserted' });
     } else {
@@ -98,7 +111,8 @@ function updateStatusForInvite(domain, person, statuss, done) {
 
 module.exports = {
   gettingValuesByDomainAndPerson,
-  InsertData,
+  InsertDataInvite,
+  InsertDataRequest,
   updateStatusForRequest,
   updateStatusForInvite,
   rejectedInviteOrRequest,

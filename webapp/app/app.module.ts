@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TrendingComponent } from './trending/trending.component';
+import { TemplatesComponent } from './templates/templates.component';
 import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
@@ -21,7 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
   AppComponent,
   DashboardComponent,
-  TrendingComponent,
+  TemplatesComponent,
   PopularToolsComponent,
   TopicsComponent,
   SearchComponent,

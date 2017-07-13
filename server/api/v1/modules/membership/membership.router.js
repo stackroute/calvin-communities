@@ -21,7 +21,7 @@ router.get('/:username', (req, res) => {
   try {
     membershipCtrl.getCommunityList(req.params.username.toLowerCase(), (err, results) => {
       if (err) {
-        return res.status(400).send(err);
+        return res.status(400).send({error:'username does not exist '});
       }
       return res.send(results);
     });

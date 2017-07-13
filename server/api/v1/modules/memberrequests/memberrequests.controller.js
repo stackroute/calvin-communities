@@ -1,5 +1,6 @@
 const service = require('./memberrequests.service');
 const communityRoleService = require('../communityrole/communityrole.service');
+const communityMemberService = require('../communitymembership/communitymembership.service');
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 const async = require('async');
 const logger = require('../../../../logger');
@@ -83,11 +84,12 @@ function PublishEventForRejectionOfRequest(domain) {
 function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations, done) {
   let flag2 = 0;
   let iteration = iterations;
-  const persons = dataFromBody.invitee;
+
   if (type !== 'invite' && type !== 'request') {
-    done({ error: 'Please enter valid values!!' });
+    done({ error: 'Please enter valid type values!!' });
   }
   if (type === 'invite') {
+    const persons = dataFromBody.invitee;
     persons.forEach((b) => {
       if ((b.email !== 'null') && (b.email)) {
         if ((type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '')) {
@@ -103,56 +105,112 @@ function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations
             }
           });
         } else {
-          done({ error: 'Please enter valid values!!' });
+          return done({ error: 'Please select role when inviting!!' });
         }
       } else {
-        done({ error: 'Please enter valid values!!' });
+        return done({ error: 'Please enter emailid when inviting!!' });
       }
     });
   }
 
   if (type === 'request') {
-    persons.forEach((b) => {
-      if ((b.email !== 'null') && (b.email)) {
-        if ((type.toLowerCase() === 'request' && b.role.toLowerCase() === '')) {
-          flag2 += 1;
-        } else {
-          flag2 += 0;
-        }
-      } else {
-        done({ error: 'Please enter valid values!!' });
-      }
-    });
-    done(null, flag2);
+    if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
+      flag2 = 1;
+      done(null, flag2);
+    } else {
+      return done({ error: 'Please enter your emailid when requesting!!' });
+    }
   }
 }
 
-function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, done) {
+function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, done) {
+  let itera = 0;
+  let flag3 = 0;
+  const persons = dataFromBody.invitee;
+
+  if (type === 'invite') {
+    if (flag2 === persons.length) {
+      persons.forEach((b) => {
+        if ((b.email !== 'null') && (b.email)) {
+          communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams, b.email,
+         (error) => {
+           itera += 1;
+           if (error) {
+             flag3 += 1;
+           } else {
+             flag3 += 0;
+           }
+           if (itera === persons.length) {
+             done(null, flag2, flag3);
+           }
+         });
+        } else {
+          return done({ error: 'Please enter valid values!!' });
+        }
+      });
+    } else {
+      return done({ error: 'Given role is not applicable for particular community!!' });
+    }
+  }
+  if (type === 'request') {
+    if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
+      communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams,
+       dataFromBody.invitee, (error) => {
+         if (error) {
+           flag3 = 1;
+         } else {
+           flag3 = 0;
+         }
+         done(null, flag2, flag3);
+       });
+    } else {
+      done({ error: 'Please enter valid values!!' });
+    }
+  }
+}
+
+
+function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, flag3, done) {
   let flag = false;
   const persons = dataFromBody.invitee;
   if (dataFromParams) {
     if (dataFromParams !== 'null') {
-      if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request' && dataFromBody.invitedby === '')) {
+      if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request')) {
         flag = true;
+      } else {
+        return done({ error: 'Please enter the name who is inviting!!' }, undefined);
       }
     }
   }
-  if ((flag) && (flag2 === persons.length)) {
-    if (type === 'invite') { status = 'invitesent'; } else if (type === 'request') { status = 'requested'; }
-    service.InsertData(dataFromBody, dataFromParams, status, type, (err) => {
-      if (err) {
-        done(err);
-      }
-      if (type === 'invite') {
+
+  if (type === 'invite') {
+    if ((flag) && (flag2 === persons.length) && (flag3 === persons.length)) {
+      status = 'invitesent';
+      service.InsertDataInvite(dataFromBody, dataFromParams, status, type, (err) => {
+        if (err) {
+          done(err);
+        }
         publishMessageforInvite(dataFromParams);
-      }
-      if (type === 'request') {
+        return done(undefined, { message: 'Inserted' });
+      });
+    } else {
+      return done({ error: 'Member is already in community!!' }, undefined);
+    }
+  }
+
+  if (type === 'request') {
+    if ((flag) && (flag2 === 1) && (flag3 === 1)) {
+      status = 'requested';
+      service.InsertDataRequest(dataFromBody, dataFromParams, status, type, (err) => {
+        if (err) {
+          done(err);
+        }
         publishMessageforRequest(dataFromParams);
-      }
-      return done(undefined, { message: 'Inserted' });
-    });
-  } else {
-    done({ error: 'Please enter valid values!!' }, undefined);
+        return done(undefined, { message: 'Inserted' });
+      });
+    } else {
+      done({ error: 'Member is already in community!!' }, undefined);
+    }
   }
 }
 
@@ -160,8 +218,8 @@ function InsertData(dataFromBody, dataFromParams, type, done) {
   const iteration = 0;
   async.waterfall([
     ConditionForCheckingRole.bind(null, dataFromBody, dataFromParams, type, iteration),
+    ConditionForCheckingMember.bind(null, dataFromBody, dataFromParams, type),
     CallingServiceForInsert.bind(null, dataFromBody, dataFromParams, type),
-
   ], (err, result) => {
     if (err) {
       done(err);

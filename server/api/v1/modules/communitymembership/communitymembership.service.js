@@ -1,9 +1,7 @@
 const model = require('cassandra-driver');
 
-/**
+/*
  * db config details from config.js
- *
- *
  */
 
 const connectionString = require('../../../../config').connectionString;
@@ -18,24 +16,20 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-/**
- *Add memebers to the community
- *
- * POST REQUEST
- *
- *
+/*
+ *POST Method - Add memebers to the community
  */
 
 function addMembersToCommunity(domainName, data, done) {
   const arr = [];
   const query = (`INSERT INTO ${COMMUNITY_MEMBERSHIP_TABLE} (username,domain,role,createdon,updatedon) values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
-    arr.push({ query, params: [val.username.toLowerCase(), domainName.toLowerCase(), val.role.toLowerCase()] });
+    arr.push({
+      query, params: [val.username.toLowerCase(), domainName.toLowerCase(), val.role.toLowerCase()],
+    });
   });
   return client.batch(arr, { prepare: true }, (err) => {
-    // console.log("Batch query err: ", err, " Result is ", result);
     if (!err) {
-      // logger.debug('Member added');
       done(null);
     } else {
       done(err);
@@ -43,20 +37,15 @@ function addMembersToCommunity(domainName, data, done) {
   });
 }
 
-
-/**
- *Remove members from a community
- *
- * DELETE REQUEST
- *
- *
+/*
+ *DELETE Method - Remove members from a community
  */
 
 function removeMembersFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE username =? AND domain = ?  IF EXISTS`);
   data.forEach((val) => {
-    arr.push({ query, params: [val.username, domainName.toLowerCase()] });
+    arr.push({ query, params: [val.username.toLowerCase(), domainName.toLowerCase()] });
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
@@ -69,19 +58,17 @@ function removeMembersFromCommunity(domainName, data, done) {
 }
 
 
-/**
- *Modify role of a members in a community
- *
- * PATCH REQUEST
- *
- *
+/*
+ *PATCH Method- Modify role of a members in a community
  */
 
 function modifyRoleOfMembersFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`UPDATE ${COMMUNITY_MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? IF EXISTS `);
   data.forEach((val) => {
-    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username] });
+    arr.push({
+      query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username.toLowerCase()],
+    });
   });
   return client.batch(arr, { prepare: true }, (err) => {
     if (!err) {
@@ -94,16 +81,12 @@ function modifyRoleOfMembersFromCommunity(domainName, data, done) {
 }
 
 
-/**
+/*
  *get particular Community members Detail to check user availability
- *
- *
- *
- *
  */
 
 function checkCommunityToUpdateMembersDetails(domainName, userName, done) {
-  const query = `SELECT domain,username FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND username = '${userName}' `;
+  const query = `SELECT domain,username FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' AND username = '${userName.toLowerCase()}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
@@ -117,15 +100,9 @@ function checkCommunityToUpdateMembersDetails(domainName, userName, done) {
   });
 }
 
-
-/**
- *get particular Community members Detail
- *
- * GET REQUEST
- *
- *
+/*
+ *GET Method - get particular Community members Detail
  */
-
 
 function getParticularCommunityMembersDetails(domainName, done) {
   const query = `SELECT username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain = '${domainName.toLowerCase()}' `;
@@ -133,7 +110,7 @@ function getParticularCommunityMembersDetails(domainName, done) {
     if (!err) {
       if (results.rows.length > 0) {
         logger.debug('Member details received');
-        done(undefined, { domain: domainName, MemberDetails: results.rows });
+        done(undefined, { domain: domainName.toLowerCase(), MemberDetails: results.rows });
       } else {
         done({ error: 'please enter a valid domain' }, undefined);
       }

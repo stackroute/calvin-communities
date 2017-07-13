@@ -157,3 +157,217 @@ describe('Test case for GET request', () => {
   //   client.execute('TRUNCATE membership');
   // });
 });
+// describe('Test cases for membership services', () => {
+//   before(() => {
+//      client.execute(`DELETE FROM membership where username='mr.x';`);
+//      client.execute(`DELETE FROM membership where username='mr.w';`);
+//      client.execute(`DELETE FROM membership where username='mr.digital';`);
+//   });
+//   it('should through error resource not found while getting data', (done) => {
+//     request(app)
+//       .get(`${apiVersion}/membership/username`)
+//       .expect('Content-Type', 'application/json; charset=utf-8')
+//       .expect(404)
+//       .end((err, res) => {
+//         if (err) {
+//           done(err);
+//           return;
+//         }
+//         res.body.should.deep.equal(resourceError);
+//         done();
+//       });
+//   });
+//     after('', () => {
+//     client.execute(`DELETE FROM membership where username='mr.x';`);
+//      client.execute(`DELETE FROM membership where username='mr.w';`);
+//      client.execute(`DELETE FROM membership where username='mr.digital';`);
+//   });
+// });
+// describe('Positive test case check for all methods for communitymembership', () => {
+//   /**
+//    *Run before all test cases in this block
+//    *
+//    * before hook to execute arbitrary code before this block
+//    *
+//    *
+//    */
+//   before(() => {
+//   });
+//    /*Testing post method to add member details
+//    *
+//    * POST request
+//    *
+//    *
+//    */
+//   it('Add new members to a community', (done) => {
+//     client.execute(`DELETE FROM membership where username='${postData[1].username}';`);
+//     let iterateTestData = 0;
+//     membership.userCommunityDetails(domainFromURI, postData, (err, result) => {
+//         if (!err) {
+//           //results.body.should.deep.equal(value.successAddedMember);
+//           client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}'`, (error1, res) => {
+//             if (!error1) {
+//               res.rows.length.should.be.equal(value.addMembers.length);
+//               value.addMembers.forEach((data) => {
+//                 client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}' and domain = '${data.domain}'`, (error, result) => {
+//                   if (!error) {
+//                     // logger.debug(result.rows[0].domain);
+//                     // logger.debug(result.rows[0].username);
+//                     // logger.debug(result.rows[0].role);
+//                     // logger.debug(data.username);
+//                     // logger.debug(data.role);
+//                     result.rows[0].username.should.deep.equal(postData[1].username);
+//                     result.rows[0].domain.should.deep.equal(data.domain);
+//                     result.rows[0].role.should.deep.equal(data.role);
+//                     iterateTestData += 1;
+//                     if (iterateTestData === res.rows.length) {
+//                       iterateTestData.should.deep.equal(value.addMembers.length);
+//                       done();
+//                     }
+//                   }
+//                 });
+//               });
+//             }
+//           });
+//         }
+//       });
+//   });
+//   /**
+//    *Testing get method to get details of a particular domain
+//    *
+//    * GET request
+//    *
+//    *
+//    */
+//   it('Get a members in a community', (done) => {
+//     // client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni';`);
+//     let iterateTestData = 0;
+//     request(app)
+//       .get(`${apiVersion}membership/${postData[1].username}`)
+//       .end((error, res) => {
+//         logger.debug(results.body.communityDetails.length);
+//         if (!err) {
+//           client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}'`, (error1, res) => {
+//             if (!error1) {
+//               res.rows.length.should.be.equal(results.body.communityDetails.length);
+//               results.body.MemberDetails.forEach((data) => {
+//                 client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}' and domain = '${data.domain}'`, (error, result) => {
+//                   if (!error) {
+//                     // logger.debug(result.rows[0].domain);
+//                     // logger.debug(result.rows[0].username);
+//                     // logger.debug(result.rows[0].role);
+//                     // logger.debug(data.username);
+//                     // logger.debug(data.role);
+//                     result.rows[0].username.should.deep.equal(results.body.username);
+//                     result.rows[0].domain.should.deep.equal(data.domain);
+//                     result.rows[0].role.should.deep.equal(data.role);
+//                     iterateTestData += 1;
+//                     if (iterateTestData === res.rows.length) {
+//                       iterateTestData.should.deep.equal(results.body.communityDetails.length);
+//                       done();
+//                     }
+//                   }
+//                 });
+//               });
+//             }
+//           });
+//         }
+//       });
+//   });
+//   /**
+//    *Testing patch method to update role of a members
+//    *
+//    * PATCH request
+//    *
+//    *
+//    */
+//   it('update a role of a members in a community', (done) => {
+//     let iterateTestData = 0;
+//     request(app)
+//     membership.modifyRoleOfMemberFromCommunity(domainFromURI, modifyData, (err, results) => {
+//         if (!err) {
+//           results.body.should.deep.equal(value.successUpdatedMembers);
+//           client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}'`, (error1, res) => {
+//             if (!error1) {
+//               res.rows.length.should.be.equal(value.updateMembers.length);
+//               value.updateMembers.forEach((data) => {
+//                 client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}' and domain = '${data.domain}'`, (error, result) => {
+//                   if (!error) {
+//                     // logger.debug(result.rows[0].domain);
+//                     // logger.debug(result.rows[0].username);
+//                     // logger.debug(result.rows[0].role);
+//                     // logger.debug(data.username);
+//                     // logger.debug(data.role);
+//                     result.rows[0].username.should.deep.equal(postData[1].username);
+//                     result.rows[0].domain.should.deep.equal(data.domain);
+//                     result.rows[0].role.should.deep.equal(data.role);
+//                     iterateTestData += 1;
+//                     if (iterateTestData === res.rows.length) {
+//                       iterateTestData.should.deep.equal(value.addMembers.length);
+//                       done();
+//                     }
+//                   }
+//                 });
+//               });
+//             }
+//           });
+//         }
+//       });
+//   });
+//   /**
+//    *Testing get method to get details of a particular domain
+//    *
+//    * GET request
+//    *
+//    *
+//    */
+  
+//   /**
+//    *Testing delete method to delete member details
+//    *
+//    * DELETE request
+//    *
+//    *
+//    */
+//   it('Delete a members from a community', (done) => {
+//     let iterate = value.updateMembers.length;
+//     request(app)
+//     membership.removeMemberFromCommunity(domainFromURI, modifyData, (err, results) => {
+//         if (!err) {
+//           results.body.should.deep.equal(value.successDeletedMember);
+//           client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}'`, (error1, res) => {
+//             if (!error1) {
+//               res.rows.length.should.be.equal(0);
+//               value.updateMembers.forEach((data) => {
+//                 client.execute(`SELECT domain, role FROM membership WHERE username = '${postData[1].username}' and domain = '${data.domain}'`, (error, result) => {
+//                   if (!error) {
+//                     // logger.debug(result.rows[0].domain);
+//                     // logger.debug(result.rows[0].username);
+//                     // logger.debug(data.username);
+//                     // logger.debug(data.role);
+//                     result.rows[0].username.should.deep.equal(postData[1].username);
+//                     result.rows[0].domain.should.deep.equal(data.domain);
+//                   }
+//                 });
+//                 iterate -= 1;
+//                 // logger.debug('iterate', iterate);
+//                 // logger.debug('hi');
+//               });
+//               iterate.should.deep.equal(res.rows.length);
+//               done();
+//             }
+//           });
+//         }
+//       });
+//   });
+//   /**
+//    *Run after all test cases in this block
+//    *
+//    * after hook to execute arbitrary code after this block
+//    *
+//    *
+//    */
+//   after('', () => {
+//   });
+// });
+
