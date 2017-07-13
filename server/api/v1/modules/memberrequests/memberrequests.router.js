@@ -32,7 +32,7 @@ router.get('/:domain', (req, res) => {
 
 
 /*
- * Effective URI of the API is POST /memberrequests/membership
+ * Effective URI of the API is POST /memberrequests/:domain/type/:type
  *
  * API for inserting the username and domain name if invite or request occured
  *
@@ -57,8 +57,7 @@ router.post('/:domain/type/:type', (req, res) => {
 });
 
 /*
-
- * Effective URI of the API is PATCH /memberrequests/:domain/:person
+ * Effective URI of the API is PATCH /memberrequests/invite/:domain/person/:person
  *
  * API for updating the status for a specified domain and person
  *
@@ -70,26 +69,8 @@ router.post('/:domain/type/:type', (req, res) => {
 router.patch('/invite/:domain/person/:person', (req, res) => {
   try {
     const params = req.params;
-    const body = req.body;
-    controller.updateStatusInvite(params, body, (err) => {
-      if (err) {
-        // console.log('Error in controller.updateStatus error: ', err);
-        return res.status(400).send(err);
-      }
-      return res.status(201).send({ message: 'Updated' });
-    });
-  } catch (err) {
-    // console.log('Unexpected error in updating for particular id ', err);
-    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
-  }
-  return null;
-});
-
-router.patch('/request/:domain/person/:person', (req, res) => {
-  try {
-    const params = req.params;
-    const bodyData = req.body;
-    controller.updateStatusRequest(params, bodyData, (err) => {
+    // const body = req.body;
+    controller.updateStatusForInvite(params, (err) => {
       if (err) {
         // console.log('Error in controller.updateStatus error: ', err);
         return res.status(400).send(err);
@@ -104,7 +85,35 @@ router.patch('/request/:domain/person/:person', (req, res) => {
 });
 
 /*
- * Effective URI of the API is DELETE /memberrequests/:domain/:person
+ * Effective URI of the API is PATCH /memberrequests/request/:domain/person/:person
+ *
+ * API for updating the status for a specified domain and person
+ *
+ * URL Parameter
+ *  - domain and person: specify a specific domain and person, to update particular domain
+ *
+ */
+
+router.patch('/request/:domain/person/:person', (req, res) => {
+  try {
+    const params = req.params;
+    const bodyData = req.body;
+    controller.updateStatusForRequest(params, bodyData, (err) => {
+      if (err) {
+        // console.log('Error in controller.updateStatus error: ', err);
+        return res.status(400).send(err);
+      }
+      return res.status(201).send({ message: 'Updated' });
+    });
+  } catch (err) {
+    // console.log('Unexpected error in updating for particular id ', err);
+    res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+  return null;
+});
+
+/*
+ * Effective URI of the API is DELETE /memberrequests/:domain/person/:person
  *
  * API for delete the row in a table of a specified domain
  *
@@ -117,7 +126,7 @@ router.delete('/:domain/person/:person', (req, res) => {
   try {
     const domain = req.params.domain;
     const person = req.params.person;
-    controller.rejectedInviteRequest(domain, person, (err) => {
+    controller.rejectedInviteOrRequest(domain, person, (err) => {
       if (err) {
         // console.log('Error in  controller.rejectedInviteRequest error: ', err);
         return res.status(404).send(err);

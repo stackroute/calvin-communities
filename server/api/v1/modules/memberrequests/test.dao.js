@@ -14,6 +14,20 @@ const notupdate = { error: 'Not updated due to invalid values' };
 
 const notdeleted = { error: 'Unable to delete the domain and person' };
 
+const wrongtype = { error: 'Please enter valid type values!!' };
+
+const emailempty = { error: 'Please enter emailid when inviting!!' };
+
+const roleempty = { error: 'Please select role when inviting!!' };
+
+const emailemptyrequest = { error: 'Please enter your emailid when requesting!!' };
+
+const rolenotapplicable = { error: 'Given role is not applicable for particular community!!' };
+
+const emptyinvitor = { error: 'Please enter the name who is inviting!!' };
+
+const memberexist = { error: 'Member is already in community!!' };
+
 
 /* -------------------test case for checking POST method -------------------------------*/
 const data = {
@@ -22,16 +36,9 @@ const data = {
 };
 
 
-// throw error when member is there if type is request
+// throw error when member is empty if type is request
 const member = {
-  invitee: [{ email: 'veni@gmail.com', role: 'admin' }],
-  invitedby: 'harrri',
-};
-
-// throw error when role is there if type is request
-const role = {
-  invitee: [{ email: 'veni@gmail.com', role: 'moderator' }],
-  invitedby: '',
+  invitee: '',
 };
 
 // throw error if member is empty for type invite
@@ -40,6 +47,11 @@ const invitemember = {
   invitedby: '',
 };
 
+// throw error when member is in community
+const checkingmember = {
+  invitee: [{ email: 'raja@gmail.com', role: 'admin' }],
+  invitedby: 'mani',
+};
 
 // throw error if role is empty for type invite
 const inviterole = {
@@ -55,10 +67,9 @@ const noemail = {
 
 };
 
-// member(approver) and role should be empty when type is request
+// value for request
 const requestinput = {
-  invitee: [{ email: 'gokul@gmail.com', role: '' }],
-  invitedby: '',
+  invitee: 'gokul@gmail.com',
 
 };
 
@@ -70,33 +81,21 @@ const roleinvite = {
 };
 
 /* ---------------------------test case for checking PATCH method----------------------------*/
-
-// status should be approved when the type is request
-
-const checkrequesttype = {
-  status: 'accepted',
-  invitedby: 'mani',
-  role: 'moderator',
-};
-
 // member is empty
 
 const emptyapprover = {
-  status: 'approved',
   invitedby: '',
   role: 'moderator',
 };
 
 // throw error when role is empty if type request
 const emptyrole = {
-  status: 'approved',
   invitedby: 'hari',
   role: '',
 };
 
 // throw error when role is wrong if type request
 const wrongrole = {
-  status: 'approved',
   invitedby: 'hari',
   role: 'worker',
 };
@@ -104,17 +103,9 @@ const wrongrole = {
 // correct data for status update when the type is request
 
 const valueforrequest = {
-  status: 'approved',
   invitedby: 'hari',
   role: 'admin',
 };
-
-// correct date for status update when the type is invite
-
-const checkinvitetype = {
-  status: 'accepted',
-};
-
 
 module.exports = {
 
@@ -123,9 +114,7 @@ module.exports = {
   modified,
   data,
   noemail,
-  checkrequesttype,
   emptyapprover,
-  checkinvitetype,
   valueforrequest,
   deleted,
   member,
@@ -136,8 +125,15 @@ module.exports = {
   notupdate,
   notdeleted,
   inviterole,
-  role,
   emptyrole,
   roleinvite,
   wrongrole,
+  checkingmember,
+  wrongtype,
+  emailempty,
+  roleempty,
+  emailemptyrequest,
+  rolenotapplicable,
+  emptyinvitor,
+  memberexist,
 };

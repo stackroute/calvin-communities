@@ -1,7 +1,7 @@
 module.exports = [{
   /* template for the surgeon -- medical community*/
-  name: 'surgeon',
-  purpose: 'medical',
+  name: 'Surgeon',
+  purpose: 'Medical',
   description: 'This template will provides you the required tools and roles to create a medical community',
   tags: ['medcare', 'doctor'],
   // tools available for the surgeon medical community
@@ -30,11 +30,35 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'WeMedUp',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'member',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }, { /* template for the specialists -- medical community*/
-  name: 'specialists',
-  purpose: 'medical',
+  name: 'Specialists',
+  purpose: 'Medical',
   description: 'This template will provides you the required tools and roles to create a medical community',
   tags: ['medcare', 'doctor', 'therapy'],
   // tools available for the specialists medical community
@@ -63,11 +87,38 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'owner',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'WeMedUp',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }, { /* template for the developer's -- technical community*/
-  name: 'developer',
-  purpose: 'technical',
+  name: 'Developer',
+  purpose: 'Technical',
   description: 'This template will provides you the required tools and roles to create a technical community',
   tags: ['IDE', 'platform'],
   // tools available for the developer's community
@@ -91,6 +142,39 @@ module.exports = [{
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
     }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'owner',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'member',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
       toolId: 'scholastic.com',
       actions: { bookmark: 'self', post: 'post_self' },
     }, {
@@ -99,8 +183,8 @@ module.exports = [{
     }],
   }],
 }, { /* template for the professor -- teacher's community*/
-  name: 'professor',
-  purpose: 'teaching',
+  name: 'Professor',
+  purpose: 'Teaching',
   description: 'This template will provides you the required tools and roles to create a teachers community',
   tags: ['books', 'board', 'school'],
   // tools available for the teacher's community
@@ -125,11 +209,44 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'owner',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
 }, { /* template for the artist -- arts community*/
-  name: 'artist',
-  purpose: 'arts',
+  name: 'Artist',
+  purpose: 'Arts',
   description: 'This template will provides you the required tools and roles to create arts community',
   tags: ['sketches', 'paper', 'paint'],
   // tools available for the artist's community
@@ -154,6 +271,36 @@ module.exports = [{
     }, {
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'chat',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'calender',
+      actions: { bookmark: 'self', add_event: 'self' },
+    }, {
+      toolId: 'chat',
+      actions: { edit: 'self', post: 'post_self' },
+    }]
+  }, {
+    role: 'member',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'calender',
+      actions: { bookmark: 'self', add_event: 'self' },
+    }, {
+      toolId: 'chat',
+      actions: { edit: 'self', post: 'post_self' },
     }],
   }],
-}];
+}]

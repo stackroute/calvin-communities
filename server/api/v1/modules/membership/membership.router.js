@@ -2,7 +2,6 @@ const router = require('express').Router();
 
 const membershipCtrl = require('./membership.controller');
 
-
 /*
  * Effective URI of the API is GET /membership/:username
  *
@@ -15,10 +14,9 @@ const membershipCtrl = require('./membership.controller');
 
 router.get('/:username', (req, res) => {
   try {
-    const username = req.params.username.toLowerCase();
-    membershipCtrl.getCommunityList(username, (err, results) => {
+    membershipCtrl.getCommunityList(req.params.username.toLowerCase(), (err, results) => {
       if (err) {
-        return res.status(400).send(err);
+        return res.status(400).send({ error: 'username does not exist ' });
       }
       return res.send(results);
     });

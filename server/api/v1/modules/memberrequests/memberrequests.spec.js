@@ -22,6 +22,7 @@ const client = new model.Client({
 
 describe('Test cases for insert and update data when invite or request occured', () => {
   before(() => {
+    client.execute('insert into communitymembership(domain,username,role) values(\'seconddomain\',\'raja@gmail.com\',\'admin\');');
     client.execute('insert into communityroles(domain,role,toolid,actions) values(\'firstdomain\',\'admin\',\'forum\',{\'edit\':\'self\'});');
     client.execute('insert into communityroles(domain,role,toolid,actions) values(\'seconddomain\',\'admin\',\'forum\',{\'edit\':\'self\'});');
     client.execute('delete from communityinviterequests where domain = \'doctor.wipro.blr\'');
@@ -29,7 +30,6 @@ describe('Test cases for insert and update data when invite or request occured',
     client.execute('insert into communityinviterequests (domain,role, person, invitedBy, status,type) values(\'doctor.wipro.blr\',\'admin\',\'mano@gmail.com\',\'sandy\',\'invitesent\',\'invite\');');
     client.execute('insert into communityinviterequests (domain,role, person, invitedBy, status,type) values(\'doctor.wipro.blr\',\'moderator\',\'mythili@gmail.com\',\'sandy\',\'invitesent\',\'invite\');');
   });
-
   /* ----------------------TEST CASE FOR GET METHOD-------------------------------------------*/
 
   // get list of data for particular domain
@@ -93,10 +93,9 @@ describe('Test cases for insert and update data when invite or request occured',
       });
     return null;
   });
-
   /* ----------------------TEST CASE FOR POST METHOD-------------------------------------------*/
 
-  // throw error when person email is empty
+  // throw error when person email is empty when inviting
 
   it('should give error on post data in database when no email value is given', (done) => {
     client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
@@ -109,7 +108,7 @@ describe('Test cases for insert and update data when invite or request occured',
           client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
             if (!err) {
               result.rows.length.should.be.equal(0);
-              res.body.should.deep.equal(values.wrongdata);
+              res.body.should.deep.equal(values.emailempty);
               return done();
             }
             return done(err);
@@ -118,9 +117,9 @@ describe('Test cases for insert and update data when invite or request occured',
       });
   });
 
-  // throw error when member is there if type is request
+  // throw error when email is empty if type is request
 
-  it('should give error on post data in database when member is there if request occured', (done) => {
+  it('should give error on post data in database when email is empty if request occured', (done) => {
     client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
     request(app)
       .post(`${uri}seconddomain/type/request`)
@@ -131,7 +130,7 @@ describe('Test cases for insert and update data when invite or request occured',
           client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
             if (!err) {
               result.rows.length.should.be.equal(0);
-              res.body.should.deep.equal(values.wrongdata);
+              res.body.should.deep.equal(values.emailemptyrequest);
               return done();
             }
             return done(err);
@@ -152,7 +151,7 @@ describe('Test cases for insert and update data when invite or request occured',
           client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
             if (!err) {
               result.rows.length.should.be.equal(0);
-              res.body.should.deep.equal(values.wrongdata);
+              res.body.should.deep.equal(values.wrongtype);
               return done();
             }
             return done(err);
@@ -161,28 +160,6 @@ describe('Test cases for insert and update data when invite or request occured',
       });
   });
 
-
-  // throw error when role is there if type is request
-
-  it('should give error on post data in database when role is there if request occured', (done) => {
-    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
-    request(app)
-      .post(`${uri}seconddomain/type/request`)
-      .send(values.role)
-      .expect(400)
-      .end((error, res) => {
-        if (!error) {
-          client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
-            if (!err) {
-              result.rows.length.should.be.equal(0);
-              res.body.should.deep.equal(values.wrongdata);
-              return done();
-            }
-            return done(err);
-          });
-        }
-      });
-  });
   // throw error if member is empty for type invite
 
   it('should give error on post data in database member is empty when invite occured', (done) => {
@@ -196,7 +173,7 @@ describe('Test cases for insert and update data when invite or request occured',
           client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
             if (!err) {
               result.rows.length.should.be.equal(0);
-              res.body.should.deep.equal(values.wrongdata);
+              res.body.should.deep.equal(values.emptyinvitor);
               return done();
             }
             return done(err);
@@ -219,7 +196,7 @@ describe('Test cases for insert and update data when invite or request occured',
           client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
             if (!err) {
               result.rows.length.should.be.equal(0);
-              res.body.should.deep.equal(values.wrongdata);
+              res.body.should.deep.equal(values.rolenotapplicable);
               return done();
             }
             return done(err);
@@ -241,7 +218,29 @@ describe('Test cases for insert and update data when invite or request occured',
           client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
             if (!err) {
               result.rows.length.should.be.equal(0);
-              res.body.should.deep.equal(values.wrongdata);
+              res.body.should.deep.equal(values.roleempty);
+              return done();
+            }
+            return done(err);
+          });
+        }
+      });
+  });
+
+    // throw error if member is already there in commnunity while inviting people
+
+  it('should give error on post data in database member is there in community when invite occured', (done) => {
+    client.execute('delete from communityinviterequests where domain = \'seconddomain\'');
+    request(app)
+      .post(`${uri}seconddomain/type/invite`)
+      .send(values.checkingmember)
+      .expect(400)
+      .end((error, res) => {
+        if (!error) {
+          client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\'', (err, result) => {
+            if (!err) {
+              result.rows.length.should.be.equal(0);
+              res.body.should.deep.equal(values.memberexist);
               return done();
             }
             return done(err);
@@ -297,7 +296,6 @@ describe('Test cases for insert and update data when invite or request occured',
               result.rows[0].status.should.be.equal('requested');
               result.rows[0].type.should.be.equal('request');
               result.rows[0].person.should.be.equal('gokul@gmail.com');
-              result.rows[0].invitedby.should.be.equal('');
               res.body.should.deep.equal(values.rowcreated);
               return done();
             }
@@ -307,30 +305,6 @@ describe('Test cases for insert and update data when invite or request occured',
       });
   });
   /* ----------------------TEST CASE FOR UPDATE METHOD---------------------------------*/
-
-  // error throw when status is accepted when the type is request
-  it('should give error on update data in database when status is accepted while the type is request', (done) => {
-    request(app)
-      .patch(`${uri}request/seconddomain/person/gokul@gmail.com`)
-      .send(values.checkrequesttype)
-      .expect(400)
-      .end((error, res) => {
-        if (!error) {
-          client.execute('SELECT * FROM communityinviterequests where domain = \'seconddomain\' and person = \'gokul@gmail.com\'', (err, result) => {
-            if (!err) {
-              result.rows.length.should.be.equal(1);
-              result.rows[0].status.should.not.be.equal('accepted');
-              result.rows[0].type.should.be.equal('request');
-              result.rows[0].person.should.be.equal('gokul@gmail.com');
-              result.rows[0].invitedby.should.not.be.equal('mani');
-              res.body.should.deep.equal(values.notupdate);
-              return done();
-            }
-            return done(err);
-          });
-        }
-      });
-  });
 
   // error throw when role is wrong when the type is request
   it('should give error on update data in database when role is wrong while the type is request', (done) => {
@@ -346,8 +320,6 @@ describe('Test cases for insert and update data when invite or request occured',
               result.rows[0].status.should.not.be.equal('approved');
               result.rows[0].type.should.be.equal('request');
               result.rows[0].person.should.be.equal('gokul@gmail.com');
-              result.rows[0].invitedby.should.not.be.equal('hari');
-              result.rows[0].role.should.not.be.equal('worker');
               res.body.should.deep.equal(values.notupdate);
               return done();
             }
@@ -372,7 +344,6 @@ describe('Test cases for insert and update data when invite or request occured',
               result.rows[0].status.should.not.be.equal('approved');
               result.rows[0].type.should.be.equal('request');
               result.rows[0].person.should.be.equal('gokul@gmail.com');
-              result.rows[0].invitedby.should.be.equal('');
               res.body.should.deep.equal(values.notupdate);
               return done();
             }
@@ -397,8 +368,6 @@ describe('Test cases for insert and update data when invite or request occured',
               result.rows[0].status.should.not.be.equal('approved');
               result.rows[0].type.should.be.equal('request');
               result.rows[0].person.should.be.equal('gokul@gmail.com');
-              result.rows[0].invitedby.should.not.be.equal('hari');
-              result.rows[0].role.should.be.equal('');
               res.body.should.deep.equal(values.notupdate);
               return done();
             }
@@ -436,7 +405,6 @@ describe('Test cases for insert and update data when invite or request occured',
   it('update status in database when the type is invite', (done) => {
     request(app)
       .patch(`${uri}invite/firstdomain/person/jamun@gmail.com`)
-      .send(values.checkinvitetype)
       .expect(201)
       .end((error, res) => {
         if (!error) {
@@ -516,5 +484,8 @@ describe('Test cases for insert and update data when invite or request occured',
     client.execute('DELETE FROM communityinviterequests where domain=\'doctor.wipro.blr\'');
     client.execute('DELETE FROM communityinviterequests where domain=\'seconddomain\'');
     client.execute('DELETE FROM communityinviterequests where domain=\'firstdomain\'');
+    client.execute('DELETE FROM communityroles where domain=\'firstdomain\'');
+    client.execute('DELETE FROM communityroles where domain=\'seconddomain\'');
+    client.execute('DELETE FROM communitymembership where domain=\'seconddomain\' and username=\'raja@gmail.com\'');
   });
 });

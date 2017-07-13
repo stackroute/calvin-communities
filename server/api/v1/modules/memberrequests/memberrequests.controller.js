@@ -1,14 +1,12 @@
 const service = require('./memberrequests.service');
 const communityRoleService = require('../communityrole/communityrole.service');
+const communityMemberService = require('../communitymembership/communitymembership.service');
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 const async = require('async');
 const logger = require('../../../../logger');
 
-const statusstring = [
-  'approved', 'invitesent', 'accepted', 'requested',
-];
-
 let status = '';
+
 // Getting the table details for particular domain
 
 function gettingValuesByDomain(domain, done) {
@@ -16,8 +14,9 @@ function gettingValuesByDomain(domain, done) {
   service.gettingValuesByDomain(domainname, done);
 }
 
-function publishMessageToTopic4(domain) {
-  let message = { domainname: domain };
+// Publish the event when invite occured
+function publishMessageforInvite(domain) {
+  let message = { domainname: domain, type: 'InviteOccured' };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic4', message, (err, res) => {
     if (err) {
@@ -28,10 +27,23 @@ function publishMessageToTopic4(domain) {
   });
 }
 
-function publishMessageToTopic5(domain) {
-  let message = { domainname: domain };
+// Publish the event when invite occur
+function publishMessageforRequest(domain) {
+  let message = { domainname: domain, type: 'RequestOccured' };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic5', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+// publish event for member when he accepted the invitation or approved the request
+function PublishEventForMemberAdded(person, domain, role) {
+  let message = { personemail: person, domainname: domain, roleforperson: role, type: 'MemberAdding' };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -40,16 +52,44 @@ function publishMessageToTopic5(domain) {
   });
 }
 
+// publish event for counter when rejection of invitation
+function PublishEventForRejectionOfInvite(domain) {
+  let message = { domainname: domain, type: 'InviteRejection' };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+// publish event for counter when rejection of request
+function PublishEventForRejectionOfRequest(domain) {
+  let message = { domainname: domain, type: 'RequestRejection' };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+
 // Insert the values into the table for both request and invite
 
-function rolechecking(dataFromBody, dataFromParams, type, iterations, done) {
+function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations, done) {
   let flag2 = 0;
   let iteration = iterations;
-  const persons = dataFromBody.invitee;
+
   if (type !== 'invite' && type !== 'request') {
-    done({ error: 'Please enter valid values!!' });
+    done({ error: 'Please enter valid type values!!' });
   }
   if (type === 'invite') {
+    const persons = dataFromBody.invitee;
     persons.forEach((b) => {
       if ((b.email !== 'null') && (b.email)) {
         if ((type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '')) {
@@ -65,65 +105,123 @@ function rolechecking(dataFromBody, dataFromParams, type, iterations, done) {
             }
           });
         } else {
-          done({ error: 'Please enter valid values!!' });
+          return done({ error: 'Please select role when inviting!!' });
         }
       } else {
-        done({ error: 'Please enter valid values!!' });
+        return done({ error: 'Please enter emailid when inviting!!' });
       }
+      return null;
     });
   }
 
   if (type === 'request') {
-    persons.forEach((b) => {
-      if ((b.email !== 'null') && (b.email)) {
-        if ((type.toLowerCase() === 'request' && b.role.toLowerCase() === '')) {
-          flag2 += 1;
-        } else {
-          flag2 += 0;
-        }
-      } else {
-        done({ error: 'Please enter valid values!!' });
-      }
-    });
-    done(null, flag2);
+    if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
+      flag2 = 1;
+      done(null, flag2);
+    } else {
+      return done({ error: 'Please enter your emailid when requesting!!' });
+    }
   }
 }
 
-function finalservice(dataFromBody, dataFromParams, type, flag2, done) {
+function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, done) {
+  let itera = 0;
+  let flag3 = 0;
+  const persons = dataFromBody.invitee;
+
+  if (type === 'invite') {
+    if (flag2 === persons.length) {
+      persons.forEach((b) => {
+        if ((b.email !== 'null') && (b.email)) {
+          communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams, b.email,
+         (error) => {
+           itera += 1;
+           if (error) {
+             flag3 += 1;
+           } else {
+             flag3 += 0;
+           }
+           if (itera === persons.length) {
+             done(null, flag2, flag3);
+           }
+         });
+        } else {
+          return done({ error: 'Please enter valid values!!' });
+        }
+        return null;
+      });
+    } else {
+      return done({ error: 'Given role is not applicable for particular community!!' });
+    }
+  }
+  if (type === 'request') {
+    if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
+      communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams,
+       dataFromBody.invitee, (error) => {
+         if (error) {
+           flag3 = 1;
+         } else {
+           flag3 = 0;
+         }
+         done(null, flag2, flag3);
+       });
+    } else {
+      done({ error: 'Please enter valid values!!' });
+    }
+  }
+}
+
+
+function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, flag3, done) {
   let flag = false;
   const persons = dataFromBody.invitee;
   if (dataFromParams) {
     if (dataFromParams !== 'null') {
-      if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request' && dataFromBody.invitedby === '')) {
+      if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request')) {
         flag = true;
+      } else {
+        return done({ error: 'Please enter the name who is inviting!!' }, undefined);
       }
     }
   }
-  if ((flag) && (flag2 === persons.length)) {
-    if (type === 'invite') { status = 'invitesent'; } else if (type === 'request') { status = 'requested'; }
-    service.InsertData(dataFromBody, dataFromParams, status, type, (err) => {
-      if (err) {
-        done(err);
-      }
-      if (type === 'invite') {
-        publishMessageToTopic4(dataFromParams);
-      }
-      if (type === 'request') {
-        publishMessageToTopic5(dataFromParams);
-      }
-      return done(undefined, { message: 'Inserted' });
-    });
-  } else {
-    done({ error: 'Please enter valid values!!' }, undefined);
+
+  if (type === 'invite') {
+    if ((flag) && (flag2 === persons.length) && (flag3 === persons.length)) {
+      status = 'invitesent';
+      service.InsertDataInvite(dataFromBody, dataFromParams, status, type, (err) => {
+        if (err) {
+          done(err);
+        }
+        publishMessageforInvite(dataFromParams);
+        return done(undefined, { message: 'Inserted' });
+      });
+    } else {
+      return done({ error: 'Member is already in community!!' }, undefined);
+    }
+  }
+
+  if (type === 'request') {
+    if ((flag) && (flag2 === 1) && (flag3 === 1)) {
+      status = 'requested';
+      service.InsertDataRequest(dataFromBody, dataFromParams, status, type, (err) => {
+        if (err) {
+          done(err);
+        }
+        publishMessageforRequest(dataFromParams);
+        return done(undefined, { message: 'Inserted' });
+      });
+    } else {
+      done({ error: 'Member is already in community!!' }, undefined);
+    }
   }
 }
 
 function InsertData(dataFromBody, dataFromParams, type, done) {
   const iteration = 0;
   async.waterfall([
-    rolechecking.bind(null, dataFromBody, dataFromParams, type, iteration),
-    finalservice.bind(null, dataFromBody, dataFromParams, type),
-
+    ConditionForCheckingRole.bind(null, dataFromBody, dataFromParams, type, iteration),
+    ConditionForCheckingMember.bind(null, dataFromBody, dataFromParams, type),
+    CallingServiceForInsert.bind(null, dataFromBody, dataFromParams, type),
   ], (err, result) => {
     if (err) {
       done(err);
@@ -135,36 +233,39 @@ function InsertData(dataFromBody, dataFromParams, type, done) {
 
 // Upadate the status for invite
 
-function updateStatusInvite(params, dataFromBody, done) {
+function updateStatusForInvite(params, done) {
   let flag = false;
   const domain = params.domain.toLowerCase();
   const person = params.person.toLowerCase();
-  service.gettingValuesByDomainPerson(domain, person, (error, result) => {
+  let role = '';
+  service.gettingValuesByDomainAndPerson(domain, person, (error, result) => {
     if (error) done({ error: 'error in getting type for the given domain' }, undefined);
     let inviteType = '';
     if (result !== undefined && result.length > 0) {
       inviteType = result[0].type;
-      if ((dataFromBody.status) && (dataFromBody.status !== null)) {
-        statusstring.forEach((a) => {
-          if (dataFromBody.status.includes(a)) {
-            flag = true;
-          }
-        });
-      }
+      role = result[0].role;
+      flag = true;
     }
-    if ((flag) && ((inviteType === 'invite') && (dataFromBody.status === 'accepted'))) {
-      service.statusUpdateInvite(domain, person, dataFromBody, done);
+    if ((flag) && ((inviteType === 'invite'))) {
+      status = 'accepted';
+      service.updateStatusForInvite(domain, person, status, (err) => {
+        if (err) {
+          done(err);
+        }
+        PublishEventForMemberAdded(person, domain, role);
+        return done(undefined, { message: 'Updated' });
+      });
     } else done({ error: 'Not updated due to invalid values' }, undefined);
   });
 }
 
 // Upadate the status for request
 
-function updatecheckdomain(params, bodyData, done) {
+function ConditionForCheckDomainAndPerson(params, bodyData, done) {
   let flag = false;
   const domain = params.domain.toLowerCase();
   const person = params.person.toLowerCase();
-  service.gettingValuesByDomainPerson(domain, person, (error, result) => {
+  service.gettingValuesByDomainAndPerson(domain, person, (error, result) => {
     if (error) done({ error: 'error in getting type for the given domain' }, undefined);
     let inviteType = '';
     if (result !== undefined && result.length > 0) {
@@ -175,7 +276,7 @@ function updatecheckdomain(params, bodyData, done) {
   });
 }
 
-function updatecheckrole(params, bodyData, flag, inviteType, done) {
+function ConditionForCheckRole(params, bodyData, flag, inviteType, done) {
   let flag2 = false;
   const domain = params.domain.toLowerCase();
   communityRoleService.checkCommunityRole2(domain, bodyData.role, (err, message) => {
@@ -188,29 +289,28 @@ function updatecheckrole(params, bodyData, flag, inviteType, done) {
   });
 }
 
-function finalserviceupdate(params, bodyData, flag, flag2, inviteType, done) {
-  let flag3 = false;
+function CallingServiceForUpdate(params, bodyData, flag, flag2, inviteType, done) {
   const domain = params.domain.toLowerCase();
   const person = params.person.toLowerCase();
-  if ((bodyData.status) && (bodyData.status !== null)) {
-    statusstring.forEach((a) => {
-      if (bodyData.status.includes(a)) {
-        flag3 = true;
-      }
-    });
-  }
-  if ((flag) && (flag2) && (flag3) && ((inviteType === 'request') && (bodyData.status === 'approved'))) {
+  if ((flag) && (flag2) && (inviteType === 'request')) {
     if ((bodyData.invitedby) && (bodyData.invitedby !== 'null') && (bodyData.role) && (bodyData.role !== 'null')) {
-      service.statusUpdateRequest(domain, person, bodyData, done);
+      status = 'approved';
+      service.updateStatusForRequest(domain, person, bodyData, status, (err) => {
+        if (err) {
+          done(err);
+        }
+        PublishEventForMemberAdded(person, domain, bodyData.role);
+        return done(undefined, { message: 'Updated' });
+      });
     } else done({ error: 'Not updated due to invalid values' }, undefined);
   } else done({ error: 'Not updated due to invalid values' }, undefined);
 }
 
-function updateStatusRequest(params, bodyData, done) {
+function updateStatusForRequest(params, bodyData, done) {
   async.waterfall([
-    updatecheckdomain.bind(null, params, bodyData),
-    updatecheckrole.bind(null, params, bodyData),
-    finalserviceupdate.bind(null, params, bodyData),
+    ConditionForCheckDomainAndPerson.bind(null, params, bodyData),
+    ConditionForCheckRole.bind(null, params, bodyData),
+    CallingServiceForUpdate.bind(null, params, bodyData),
 
   ], (err, result) => {
     if (err) {
@@ -223,22 +323,35 @@ function updateStatusRequest(params, bodyData, done) {
 
 // Deleting the row in the table when the request or invite is rejected
 
-function rejectedInviteRequest(domainvalue, personvalue, done) {
+function rejectedInviteOrRequest(domainvalue, personvalue, done) {
   let flag = false;
+  let type = '';
   const domainname = domainvalue.toLowerCase();
   const personname = personvalue.toLowerCase();
-  service.gettingValuesByDomainPerson(domainname, personname, (error, result) => {
+  service.gettingValuesByDomainAndPerson(domainname, personname, (error, result) => {
     if (error) done({ error: 'Domain not Exists' }, undefined);
     if (result !== undefined && result.length > 0) {
       const checkdomain = result[0].domain;
       const checkperson = result[0].person;
+      type = result[0].type;
       if (checkdomain === domainname && checkperson === personname) {
         flag = true;
       }
     }
 
     if (flag) {
-      service.rejectedInviteRequest(domainname, personname, done);
+      service.rejectedInviteOrRequest(domainname, personname, (err) => {
+        if (err) {
+          done(err);
+        }
+        if (type === 'invite') {
+          PublishEventForRejectionOfInvite(domainname);
+        }
+        if (type === 'request') {
+          PublishEventForRejectionOfRequest(domainname);
+        }
+        return done(undefined, { message: 'Updated' });
+      });
     } else {
       done({ error: 'Unable to delete the domain and person' }, undefined);
     }
@@ -248,7 +361,7 @@ function rejectedInviteRequest(domainvalue, personvalue, done) {
 module.exports = {
   gettingValuesByDomain,
   InsertData,
-  updateStatusInvite,
-  updateStatusRequest,
-  rejectedInviteRequest,
+  updateStatusForInvite,
+  updateStatusForRequest,
+  rejectedInviteOrRequest,
 };

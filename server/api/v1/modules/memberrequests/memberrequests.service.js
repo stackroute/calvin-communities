@@ -12,10 +12,10 @@ const client = new model.Client({
 
 // Query for insert the values into the row
 
-function InsertData(data, dataFromParams, status, type, done) {
+function InsertDataInvite(data, dataFromParams, status, type, done) {
   const persons = data.invitee;
   const arr = [];
-  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedby,status,type,createdon,updatedon) VALUES(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
+  const query = (`INSERT INTO ${InviteRequestTable} (domain,role,person,invitedby,status,type,createdon) VALUES(?,?,?,?,?,?,dateof(now()))`);
   persons.forEach((emailandrole) => {
     const person = emailandrole.email.toLowerCase();
     const role = emailandrole.role.toLowerCase();
@@ -35,9 +35,22 @@ function InsertData(data, dataFromParams, status, type, done) {
   });
 }
 
+
+function InsertDataRequest(data, dataFromParams, status, type, done) {
+  const person = data.invitee;
+  const query = (`INSERT INTO ${InviteRequestTable} (domain,person,status,type,createdon) VALUES('${dataFromParams.toLowerCase()}','${person.toLowerCase()}','${status.toLowerCase()}','${type.toLowerCase()}',dateof(now()))`);
+  return client.execute(query, (err) => {
+    if (!err) {
+      done(undefined, { message: 'Inserted' });
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
+    }
+  });
+}
+
 // Query for delete the row for rejected invite or request
 
-function rejectedInviteRequest(domain, person, done) {
+function rejectedInviteOrRequest(domain, person, done) {
   const query = (`DELETE from ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);
   return client.execute(query, (err) => {
     if (!err) {
@@ -50,7 +63,7 @@ function rejectedInviteRequest(domain, person, done) {
 
 // Query for get the values for particular domain and person
 
-function gettingValuesByDomainPerson(domain, person, done) {
+function gettingValuesByDomainAndPerson(domain, person, done) {
   const query = (`SELECT * FROM ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -80,8 +93,8 @@ function gettingValuesByDomain(domain, done) {
 
 // Query for Update status for type request
 
-function statusUpdateRequest(domain, person, bodyData, done) {
-  const status = bodyData.status.toLowerCase();
+function updateStatusForRequest(domain, person, bodyData, statuss, done) {
+  const status = statuss.toLowerCase();
   const invitedby = bodyData.invitedby.toLowerCase();
   const role = bodyData.role.toLowerCase();
   const query = (`UPDATE ${InviteRequestTable} SET role = '${role}',status = '${status}',invitedby = '${invitedby}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
@@ -90,17 +103,18 @@ function statusUpdateRequest(domain, person, bodyData, done) {
 
 // Query for update status for type invite
 
-function statusUpdateInvite(domain, person, bodyData, done) {
-  const status = bodyData.status.toLowerCase();
+function updateStatusForInvite(domain, person, statuss, done) {
+  const status = statuss.toLowerCase();
   const query = (`UPDATE ${InviteRequestTable} SET status = '${status}',updatedon=dateof(now()) WHERE domain = '${domain}' AND person = '${person}'`);
   client.execute(query, err => done(err));
 }
 
 module.exports = {
-  gettingValuesByDomainPerson,
-  InsertData,
-  statusUpdateRequest,
-  statusUpdateInvite,
-  rejectedInviteRequest,
+  gettingValuesByDomainAndPerson,
+  InsertDataInvite,
+  InsertDataRequest,
+  updateStatusForRequest,
+  updateStatusForInvite,
+  rejectedInviteOrRequest,
   gettingValuesByDomain,
 };

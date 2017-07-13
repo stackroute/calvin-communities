@@ -1,5 +1,5 @@
 /* ---------------------ROUTER----------------------*/
-
+const logger = require('../../../../logger');
 
 const router = require('express').Router();
 
@@ -38,7 +38,7 @@ router.get('/:domainname/tools/:toolid', (req, res) => {
     const domainName = req.params;
     communityToolCtrl.getActions(domainName, (err, results) => {
       if (err) {
-         console.log('Error in communityToolCtrl.getTools error: ', err);
+        logger.debug('Error in communityToolCtrl.getTools error: ', err);
         return res.status(400).send(err);
       }
 
@@ -65,7 +65,7 @@ router.post('/:domainname/tools', (req, res) => {
   try {
     const dataFromBody = req.body;
     const dataFromParams = req.params.domainname;
-    communityToolCtrl.postTools(dataFromBody, dataFromParams, (err, results) => {
+    communityToolCtrl.postCommunityTools(dataFromBody, dataFromParams, (err, results) => {
       if (err) {
         // console.log('Error in communityToolCtrl.postTools error: ', err);
         return res.status(400).send(err);

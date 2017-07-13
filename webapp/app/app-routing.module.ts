@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TrendingComponent } from './trending/trending.component';
+import { TemplatesComponent } from './templates/templates.component';
 import { SearchComponent } from './search/search.component';
 import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
@@ -20,8 +20,8 @@ const routes: Routes = [{
           		component: SearchComponent
           },
           {
-              path: 'trending',
-              component: TrendingComponent
+              path: 'templates',
+              component: TemplatesComponent
           },
           {
               path: 'topics',

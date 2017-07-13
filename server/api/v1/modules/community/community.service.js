@@ -18,6 +18,16 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
+function array2string(domains) {
+  let stringed = "'";
+
+  domains.forEach((data) => {
+    stringed += `${data.toString()}','`;
+  });
+  stringed = (stringed.substr(0, stringed.length - 2));
+  return stringed;
+}
+
 /**
  * GET For all communities
  *
@@ -28,6 +38,22 @@ function getAllCommunities(done) {
   return client.execute(query, (err, results) => {
     if (err) { logger.debug(err); return done([500, 'Internal server error']); }
     return done(err, results.rows);
+  });
+}
+
+/**
+* GET for multiple specified communities
+*
+*
+*/
+function getMultipleCommunities(domains, done) {
+  const stringed = array2string(domains);
+
+  const query = `SELECT * FROM ${tableCommunities} where DOMAIN in (${stringed})`;
+  return client.execute(query, (err, results) => {
+    if (err) { logger.debug(err); return done([500, 'Internal server error']); }
+    if (results.rows.length === domains.length) { return done(undefined, results.rows); }
+    return done('Please give correct domains');
   });
 }
 
@@ -66,14 +92,15 @@ VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ,  ? , dateof(now()) , dateof
  *
  */
 function updateCommunity(param, done) {
-  /*const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
-    visibility = ? , tags = ? , updatedby = ? , status = ? , updatedon = dateof(now()) where domain = ? `);
+  /* const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
+    visibility = ? , tags = ? , updatedby = ? ,
+    status = ? , updatedon = dateof(now()) where domain = ? `);
 */
-const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
+  const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , description = ?, \
     visibility = ? , tags = ? , updatedby = ? , updatedon = dateof(now()) where domain = ? `);
 
   return client.execute(`SELECT * FROM ${tableCommunities} where domain = ?`, [param[6]], (error, data) => {
-    if(error) return done([500, 'Unexpected Error Occured']);
+    if (error) return done([500, 'Unexpected Error Occured']);
     if (!_.isEmpty(data.rows)) {
       return client.execute(query, param, (err) => {
         if (err) { logger.debug(err); return done([500, 'Internal server error']); }
@@ -88,17 +115,23 @@ const query = (`UPDATE ${tableCommunities} SET name = ? , avatar = ? , descripti
 *
 *
 */
-function deleteCommunity(param, done) {
-  const query = (`DELETE * FROM ${tableCommunities} where  domain = ? `);
-  return client.execute(query, param, (err) => {
-    if (err) { logger.debug(err); return done([500, 'Internal server error']); }
-    return done(undefined);
+function deleteCommunity(domain, done) {
+  const query = (`DELETE FROM ${tableCommunities} where  domain = ? `);
+  return getCommunity(domain, (error, result) => {
+    if (error) { return done(error); }
+    if (_.isEmpty(result)) { return done('Nothing to Delete'); }
+
+    return client.execute(query, [domain], (err) => {
+      if (err) { logger.debug(err); return done([500, 'Internal server error']); }
+      return done(undefined, 'Deleted');
+    });
   });
 }
 
 
 module.exports = {
   getAllCommunities,
+  getMultipleCommunities,
   addCommunity,
   getCommunity,
   updateCommunity,

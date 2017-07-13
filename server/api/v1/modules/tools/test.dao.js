@@ -25,18 +25,24 @@ const tools = [{
   activityEvents: ["'postmessage'"],
 }];
 
+const Capstools = [{
+  toolId: 'QuOra',
+  actions: ['broaDcast', 'wRite'],
+  activityEvents: ["'postmessage'"],
+}];
+
 const multipletools = [{
   toolId: 'forum',
   actions: ['broadcast', 'write'],
-  activityEvents: ["'postmessage'"],
+  activityEvents: ["'postmessage'"]
 }, {
   toolId: 'sermo',
   actions: ['broadcast', 'write'],
-  activityEvents: ["'postmessage'"],
+  activityEvents: ["'postmessage'"]
 }, {
   toolId: 'stack-overflow',
   actions: ['broadcast', 'write'],
-  activityEvents: ["'postmessage'"],
+  activityEvents: ["'postmessage'"]
 }];
 
 const multipleWrongtools = [{
@@ -114,4 +120,5 @@ module.exports = {
   errorOccured,
   posted,
   multipleWrongtools,
+  Capstools,
 };
