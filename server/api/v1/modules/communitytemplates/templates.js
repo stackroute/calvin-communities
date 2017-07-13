@@ -31,6 +31,27 @@ module.exports = [{
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
     }],
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'WeMedUp',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'member',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
   }],
 }, { /* template for the specialists -- medical community*/
   name: 'Specialists',
@@ -64,6 +85,30 @@ module.exports = [{
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
     }],
+    role: 'owner',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'WeMedUp',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }],
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'sermo',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
   }],
 }, { /* template for the developer's -- technical community*/
   name: 'Developer',
@@ -87,6 +132,36 @@ module.exports = [{
   // role actions for the developer's community
   roleActions: [{
     role: 'moderator',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'owner',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'member',
     toolsActions: [{
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
@@ -126,6 +201,36 @@ module.exports = [{
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
     }],
+    role: 'owner',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'scholastic.com',
+      actions: { bookmark: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'theteacherscorner.net',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
   }],
 }, { /* template for the artist -- arts community*/
   name: 'Artist',
@@ -145,6 +250,33 @@ module.exports = [{
   // role actions for the artist community
   roleActions: [{
     role: 'owner',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'calender',
+      actions: { bookmark: 'self', add_event: 'self' },
+    }, {
+      toolId: 'chat',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'admin',
+    toolsActions: [{
+      toolId: 'forum',
+      actions: { edit: 'self', post: 'post_self' },
+    }, {
+      toolId: 'chat',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'moderator',
+    toolsActions: [{
+      toolId: 'calender',
+      actions: { bookmark: 'self', add_event: 'self' },
+    }, {
+      toolId: 'chat',
+      actions: { edit: 'self', post: 'post_self' },
+    }],
+    role: 'member',
     toolsActions: [{
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
