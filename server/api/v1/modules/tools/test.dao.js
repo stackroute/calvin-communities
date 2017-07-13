@@ -34,15 +34,15 @@ const Capstools = [{
 const multipletools = [{
   toolId: 'forum',
   actions: ['broadcast', 'write'],
-  activityEvents: ["'postmessage'"],
+  activityEvents: ["'postmessage'"]
 }, {
   toolId: 'sermo',
   actions: ['broadcast', 'write'],
-  activityEvents: ["'postmessage'"],
+  activityEvents: ["'postmessage'"]
 }, {
   toolId: 'stack-overflow',
   actions: ['broadcast', 'write'],
-  activityEvents: ["'postmessage'"],
+  activityEvents: ["'postmessage'"]
 }];
 
 const multipleWrongtools = [{
