@@ -136,10 +136,42 @@ describe('Test cases for all tools in a community', () => {
     });
     return null;
   });
+  it('should post multiple data to database', (done) => {
+    let iterateData = 0;
+    toolController.postTools(value.multipletools, 'sandhya', (error, res) => {
+      if (!error) {
+        value.multipletools.forEach(function(element) {
+          client.execute(`SELECT * from tools where toolid='${element.toolId}'`, (err, result) => {
+            if (!error) {
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].toolid.should.be.equal(element.toolId);
+              const isPresent = result.rows[0].domains.filter(domain => domain === 'sandhya');
+              isPresent.length.should.be.equal(1);
+              iterateData++;
+            }
+          });
+        });
+        if (iterateData === value.multipletools) {
+          iterateData.should.deep.equal(value.multipletools.length);
+          done();
+        } else {
+          done(error);
+        }
+      } else if (!res) {
+        return done(error);
+      }
+      return null;
+    });
+    return null;
+  });
 
   after('', () => {
     client.execute("DELETE FROM tools where toolid='engineer.wipro.blr';");
     client.execute("DELETE FROM tools where toolid='doctors.blr';");
     client.execute("DELETE FROM tools where toolid='doctors.blr';");
+    /*    client.execute("DELETE FROM tools where toolid='quora';");
+        client.execute("DELETE FROM tools where toolid='sermo';");
+        client.execute("DELETE FROM tools where toolid='stack-overflow';");*/
+
   });
 });
