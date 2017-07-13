@@ -46,8 +46,8 @@ const modifyData = [{
   role: 'member',
 }];
 
-describe('Test cases for membership services', () => {
-  it('should insert the data in the database', (done) => {
+describe('Test cases for membership services', function() {
+  it('should insert the data in the database', function(done) {
     membership.userCommunityDetails(domainFromURI, postData, (error, result) => {
       if (error) {
         return done(error, undefined);
@@ -64,7 +64,7 @@ describe('Test cases for membership services', () => {
       return result;
     });
   });
-  it('should modify the data in the database', (done) => {
+  it('should modify the data in the database', function(done) {
     membership.modifyRoleOfMemberInCommunity(domainFromURI, modifyData, (error, result) => {
       if (error) {
         return done(error, undefined);
@@ -81,7 +81,7 @@ describe('Test cases for membership services', () => {
       return result;
     });
   });
-  it('should delete the data in the database', (done) => {
+  it('should delete the data in the database', function(done) {
     membership.removeMemberFromCommunity(domainFromURI, modifyData, (error, result) => {
       if (error) {
         return done(error, undefined);
@@ -97,8 +97,8 @@ describe('Test cases for membership services', () => {
     });
   });
 });
-describe('Test case for GET request', () => {
-  it('should get the community list of a member', (done) => {
+describe('Test case for GET request', function() {
+  it('should get the community list of a member', function(done) {
     request
       .get(`${apiVersion}membership/${postData[1].username}`)
       .end((error, res) => {
@@ -116,7 +116,7 @@ describe('Test case for GET request', () => {
         return undefined;
       });
   });
-  it('should throw error if the user details does not exist', (done) => {
+  it('should throw error if the user details does not exist', function(done) {
     request
       .get(`${apiVersion}membership/${postData[0].username}`)
       .end((error, res) => {
@@ -133,7 +133,7 @@ describe('Test case for GET request', () => {
         return (undefined, res);
       });
   });
-  describe('Test cases for the case-sensitivity', () => {
+  describe('Test cases for the case-sensitivity', function() {
     it('should display the user details when the username specified in UPPERCASE', (done) => {
       request
         .get(`${apiVersion}membership/${postData[2].username}`)
@@ -321,7 +321,6 @@ describe('Test case for GET request', () => {
 //    *
 //    *
 //    */
-  
 //   /**
 //    *Testing delete method to delete member details
 //    *

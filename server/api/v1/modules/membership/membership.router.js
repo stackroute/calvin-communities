@@ -21,7 +21,7 @@ router.get('/:username', (req, res) => {
   try {
     membershipCtrl.getCommunityList(req.params.username.toLowerCase(), (err, results) => {
       if (err) {
-        return res.status(400).send({error:'username does not exist '});
+        return res.status(400).send({ error: 'username does not exist ' });
       }
       return res.send(results);
     });
@@ -30,19 +30,5 @@ router.get('/:username', (req, res) => {
   }
   return null;
 });
-// router.get('/:username/List', (req, res) => {
-//   try {
-//     membershipCtrl.getAvatarForCommunities(req.params.username.toLowerCase(), (err, results) => {
-//       if (err) {
-//         return res.status(400).send(err);
-//       }
-//       return res.send(results);
-//     });
-//   } catch (err) {
-//     return res.status(500).send({ error: 'Unexpected internal error...' });
-//   }
-//   return null;
-// });
-
 
 module.exports = router;
