@@ -69,8 +69,8 @@ describe('get/ post/ patch community ', function() {
     purpose: 'sports',
   };
 
-  const dataarray = ['firstdomain', 'seconddomain'];
-  const dataarraystring = "'firstdomain','seconddomain'";
+  const dataarray = ['firstdomain', 'secondomain'];
+  const dataarraystring = "'firstdomain','secondomain'";
 
     /**
      *
@@ -289,7 +289,6 @@ describe('get/ post/ patch community ', function() {
             .send(domainincaps)
             .end(function(err, result) {
               if (err) { done(err); }
-              console.log(result);
               result.body.domain.should.be.equal(domainincaps.domain.toLowerCase());
               result.body.owner.should.be.equal(domainincaps.owner);
               result.status.should.be.equal(201);
@@ -412,10 +411,10 @@ describe('get/ post/ patch community ', function() {
 */
 
 
-  it('should give data for multiple domains calling for data of multiple domains', function(done) {
+  it('should give details for multiple domains', function(done) {
     communityCtrl.getMultipleCommunities(dataarray,
      function(error, result) { // eslint-disable-line consistent-return
-       if (error) return logger.debug(error);
+       if (error)  logger.debug(error);
        result.length.should.be.equal(dataarray.length);
        client.execute(`SELECT * FROM communities where domain in (${dataarraystring})`, function(err,res) {
          res.rows.should.deep.equal(result);
@@ -456,6 +455,7 @@ describe('get/ post/ patch community ', function() {
       });
     });
   });
+
 
 
   after(function() {
