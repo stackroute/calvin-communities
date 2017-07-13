@@ -48,13 +48,11 @@ function getAllCommunities(done) {
 */
 function getMultipleCommunities(domains, done) {
   const stringed = array2string(domains);
-  console.log('mltiple call service');
 
   const query = `SELECT * FROM ${tableCommunities} where DOMAIN in (${stringed})`;
   return client.execute(query, (err, results) => {
     if (err) { logger.debug(err); return done([500, 'Internal server error']); }
-    if (results.rows.length === domains.length) { console.log('going back with data');return done(undefined, results.rows); }
-    console.log('going back without data');
+    if (results.rows.length === domains.length) { return done(undefined, results.rows); }
     return done('Please give correct domains');
   });
 }

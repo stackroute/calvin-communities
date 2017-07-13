@@ -41,7 +41,6 @@ function getAllCommunities(done) {
 *
 */
 function getMultipleCommunities(domains, done) {
-  console.log('multiple call controller');
   communityService.getMultipleCommunities(domains, done);
 }
 

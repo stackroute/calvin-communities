@@ -58,11 +58,13 @@ function getCommunityList(username, done) {
         arr.push(data.domain);
       });
       communityService.getMultipleCommunities(arr, (err, result) => {
-        console.log("communitylist", arr);
+        console.log("communitylist", arr, results);
         if (!err) {
-          done(null, result);
+
+          done(undefined, result);
         } else {
-          done(err, undefined);
+          console.log(err);
+          done(err);
         }
       });
     }

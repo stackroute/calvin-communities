@@ -259,7 +259,8 @@ module.exports = [{
     }, {
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  },{
     role: 'admin',
     toolsActions: [{
       toolId: 'forum',
@@ -267,7 +268,8 @@ module.exports = [{
     }, {
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  },{
     role: 'moderator',
     toolsActions: [{
       toolId: 'calender',
@@ -275,7 +277,8 @@ module.exports = [{
     }, {
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
-    }],
+    }]
+  },{
     role: 'member',
     toolsActions: [{
       toolId: 'forum',
