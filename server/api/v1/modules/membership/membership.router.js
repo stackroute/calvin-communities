@@ -2,11 +2,6 @@ const router = require('express').Router();
 
 const membershipCtrl = require('./membership.controller');
 
-const membershipServ = require('./membership.service');
-
-const logger = require('../../../../logger');
-
-
 /*
  * Effective URI of the API is GET /membership/:username
  *

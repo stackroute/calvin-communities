@@ -76,7 +76,10 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
   const arr = [];
   const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? `);
   data.forEach((val) => {
-    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username.toLowerCase()] });
+    arr.push({
+      query,
+      params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username.toLowerCase()],
+    });
   });
   return client.batch(arr, { prepare: true }, (err, res) => {
     if (err) {

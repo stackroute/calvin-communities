@@ -1,10 +1,9 @@
 const membershipService = require('./membership.service');
 const communityService = require('./../community/community.controller');
-const async = require('async');
 
-// function getCommunityList(username, done) {
-//   membershipService.getCommunityList(username, done);
-// }
+function getCommunityList(username, done) {
+  membershipService.getCommunityList(username, done);
+}
 /*
  * Get community Details of a particular member
  */
@@ -51,22 +50,23 @@ function getAvatarForCommunities(username, done) {
 //  })
 //  done();
 // }
-
-function getCommunityList(username, done) {
-  const arr = [];
-  membershipService.getCommunityList(username, (err, result) => {
-    if (!err) {
-      console.log("result", result);
-      result.communityDetails.forEach((data) => {
-        arr.push(data.domain);
-      });
-      communityService.getMultipleCommunities(arr, (err, result) => {})
-      done(null, arr);
-    } else {
-      done(err, undefined);
-    }
-  });
-}
+// function getCommunityList(username, done) {
+//   const arr = [];
+//   membershipService.getCommunityList(username, (error, results) => {
+//     if (!error) {
+//       results.communityDetails.forEach((data) => {
+//         arr.push(data.domain);
+//       });
+//       communityService.getMultipleCommunities(arr, (err, result) => {
+//         if (!err) {
+//           done(null, result);
+//         } else {
+//           done(err, undefined);
+//         }
+//       });
+//     }
+//   });
+// }
 
 /*
  * post the community details
