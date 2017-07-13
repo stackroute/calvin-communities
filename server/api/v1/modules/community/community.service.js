@@ -18,16 +18,6 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-function array2string(domains) {
-  let stringed = "'";
-
-  domains.forEach((data) => {
-    stringed += `${data.toString()}','`;
-  });
-  stringed = (stringed.substr(0, stringed.length - 2));
-  return stringed;
-}
-
 /**
  * GET For all communities
  *
@@ -47,9 +37,8 @@ function getAllCommunities(done) {
 *
 */
 function getMultipleCommunities(domains, done) {
-  const stringed = array2string(domains);
 
-  const query = `SELECT * FROM ${tableCommunities} where DOMAIN in (${stringed})`;
+  const query = `SELECT * FROM ${tableCommunities} where DOMAIN in (${domains})`;
   return client.execute(query, (err, results) => {
     if (err) { logger.debug(err); return done([500, 'Internal server error']); }
     if (results.rows.length === domains.length) { return done(undefined, results.rows); }

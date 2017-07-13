@@ -24,6 +24,18 @@ function publishMessageToTopic(dataFromURI) {
   });
 }
 
+// conversion of array to string, as required by cassandra
+function array2string(domains) {
+  let stringed = "'";
+
+  domains.forEach((data) => {
+    stringed += `${data.toString()}','`;
+  });
+  stringed = (stringed.substr(0, stringed.length - 2));
+  return stringed;
+}
+
+
 /**
  * Get For all communities,
  *
@@ -41,7 +53,8 @@ function getAllCommunities(done) {
 *
 */
 function getMultipleCommunities(domains, done) {
-  communityService.getMultipleCommunities(domains, done);
+  const stringed = array2string(domains);
+  communityService.getMultipleCommunities(stringed, done);
 }
 
 /**
