@@ -34,4 +34,21 @@ router.get('/:toolid', (req, res) => {
   return null;
 });
 
+router.get('/', (req, res) => {
+  try{
+    console.log("toolsrouter");
+    ToolCtrl.getDomainsAndTools((err, results) => {
+      console.log("passed");
+      if(err) {
+        console.log("error");
+         return res.status(400).send(err);
+      }
+console.log("results", results);
+      return res.send(results);
+    });
+  } catch (err) {
+    console.log("error occured in catch");
+    return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
+  }
+});
 module.exports = router;

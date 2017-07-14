@@ -1,7 +1,7 @@
 <md-sidenav-container fullscreen class="sidenav-container">
   <md-sidenav #sidenav mode="push" opened="false">
     <md-toolbar color="primary">
-    <img routerLink="/dashboard" src="/assets/logo/logo.png" id="sidebar-logo" /> <span class="logo">Calvin</span>
+    <img routerLink="/dashboard" src="/assets/logo/logo.png" id="sidebar-logo" /> <div class="mdc-typography--display4 logo">Calvin</div>
 		</md-toolbar>
 		<md-nav-list>
 		<a md-list-item *ngFor="let item of navigation" (click)="sidenav.close()"

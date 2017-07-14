@@ -2,6 +2,11 @@
 
 const ToolService = require('./tools.services'); //
 
+
+function getDomainsAndTools( done) {
+  console.log("toolctrl");
+  ToolService.getDomainsAndTools(done);
+}
 // Function for Getting tools
 
 function getTools(domainName, done) {
@@ -57,4 +62,5 @@ module.exports = {
   postTools,
   modifyTool,
   deleteTool,
+  getDomainsAndTools,
 };
