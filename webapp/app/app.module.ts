@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { NvD3Component } from 'ng2-nvd3';
 import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { TemplateListService } from './templatelist/templatelist.service';
 import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
+import { ToolsGraphComponent } from './tools-graph/tools-graph.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.comp
   ManageCommunityComponent,
   ContentComponent,
   TemplateListComponent,
-  PurposeComponent
+  PurposeComponent,
+  ToolsGraphComponent,
+  NvD3Component
   ],
   imports: [
     BrowserModule,
