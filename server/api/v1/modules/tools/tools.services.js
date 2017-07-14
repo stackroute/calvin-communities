@@ -15,6 +15,18 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
+function getDomainsAndTools(done) {
+  console.log("toolsservices");
+  const query = (`SELECT * FROM ${TOOL_TABLE}`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      console.log("result", results.rows);
+      done(undefined, results.rows);
+    } else {
+      done(err, undefined);
+    }
+  });
+}
 // Query to select values from tools table
 
 function getTools(domainName, done) {
@@ -96,4 +108,5 @@ module.exports = {
   getTools,
   deleteTools,
   getToolsForDeletion,
+  getDomainsAndTools,
 };

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatesComponent } from './templates/templates.component';
+import { TemplateListComponent } from './templatelist/templatelist.component';
 import { SearchComponent } from './search/search.component';
 import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
@@ -33,8 +34,13 @@ const routes: Routes = [{
               component: PopularToolsComponent
           },
           {
+              path: 'templatelist',
+              component: TemplateListComponent
+          },
+          {   
               path: 'purpose',
               component: PurposeComponent
+
           },
           { path: '**', redirectTo: '/dashboard' }
 
