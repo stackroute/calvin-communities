@@ -5,6 +5,7 @@ import { SearchComponent } from './search/search.component';
 import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
 import { Routes, RouterModule } from '@angular/router';
+import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
 
 const routes: Routes = [{
           path: '',
@@ -30,6 +31,10 @@ const routes: Routes = [{
           {
               path: 'populartools',
               component: PopularToolsComponent
+          },
+          {
+              path: 'purpose',
+              component: PurposeComponent
           },
           { path: '**', redirectTo: '/dashboard' }
 
