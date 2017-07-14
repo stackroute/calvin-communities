@@ -3,9 +3,11 @@
      fxLayout
      fxLayout.xs="column"
      fxLayoutAlign="center"
-     fxLayoutGap="0px"
-     fxLayoutGap.xs=".2">
-<md-card fxFlex="25%" *ngFor="let data of getResults" >
+     fxLayoutGap="10px"
+     fxLayoutGap.xs="0">
+<div *ngIf="getResults" fxFlex="100%" fxLayoutGap="2%" fxLayoutWrap >
+<div class="list-communities"  fxFlex="30%" *ngFor="let data of getResults" fx-flex-fill >
+<md-card>
   <md-card-header>
    <md-card-title>{{data.name}}</md-card-title>
      <md-card-subtitle>{{data.purpose}}</md-card-subtitle>
@@ -40,6 +42,7 @@
   <button md-raised-button color="primary" (click)="update()">View Communties</button>
  </md-card-actions>
 </md-card>
+</div>
 </div>
 
 <router-outlet>

@@ -10,18 +10,23 @@ import { AppComponent } from './app.component';
 import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardGraphsComponent } from './dashboardGraphs/dashboardGraphs.component';
+import { DashboardGraphService } from './dashboardGraphs/dashboardGraphs.service';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
 import { ManageCommunityComponent } from './managecommunity/managecommunity.component';
+import { TemplatesService } from './templates/templates.service';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TemplateListComponent } from './templatelist/templatelist.component';
+import { TemplateListService } from './templatelist/templatelist.service';
 import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
 import 'd3';
 import 'nvd3';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +41,8 @@ import 'nvd3';
   ManageCommunityComponent,
   ContentComponent,
   PurposeComponent,
-  NvD3Component
+  NvD3Component,
+  TemplateListComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +53,7 @@ import 'nvd3';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [],
+  providers: [TemplatesService,TemplateListService, DashboardGraphService ],
   bootstrap: [AppComponent],
   entryComponents: [ SearchComponent ]
 
