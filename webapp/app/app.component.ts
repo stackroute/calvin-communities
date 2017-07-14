@@ -14,5 +14,6 @@ navigation = [
     { link: 'templates', label: 'Templates' },
     { link: 'populartools', label: 'Popular Tools' },
     { link: 'search', label: 'Search'},
+    { link: 'purpose', label: 'Purpose'},
   ];
 }
