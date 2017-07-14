@@ -17,7 +17,7 @@ import { ManageCommunityComponent } from './managecommunity/managecommunity.comp
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
 @NgModule({
   declarations: [
   AppComponent,
@@ -28,7 +28,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   SearchComponent,
   ManageCommunityComponent,
   NotifyComponent,
-  ContentComponent
+  ContentComponent,
+  PurposeComponent
+
   ],
   imports: [
     BrowserModule,
