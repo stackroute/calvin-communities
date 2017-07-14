@@ -14,10 +14,12 @@ import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
 import { NotifyComponent } from './notify/notify.component';
 import { ManageCommunityComponent } from './managecommunity/managecommunity.component';
+import { TemplatesService } from './templates/templates.service';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { TemplateListComponent } from './templatelist/templatelist.component';
+import { TemplateListService } from './templatelist/templatelist.service';
 @NgModule({
   declarations: [
   AppComponent,
@@ -28,7 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   SearchComponent,
   ManageCommunityComponent,
   NotifyComponent,
-  ContentComponent
+  ContentComponent,
+  TemplateListComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [],
+  providers: [TemplatesService,TemplateListService],
   bootstrap: [AppComponent],
   entryComponents: [ SearchComponent ]
 
