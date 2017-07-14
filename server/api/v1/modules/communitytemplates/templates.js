@@ -30,7 +30,7 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'admin',
     toolsActions: [{
@@ -39,7 +39,7 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'moderator',
     toolsActions: [{
@@ -48,7 +48,7 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'member',
     toolsActions: [{
@@ -87,7 +87,7 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'owner',
     toolsActions: [{
@@ -96,7 +96,7 @@ module.exports = [{
     }, {
       toolId: 'forum',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'admin',
     toolsActions: [{
@@ -105,7 +105,7 @@ module.exports = [{
     }, {
       toolId: 'WeMedUp',
       actions: { bookmark: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'moderator',
     toolsActions: [{
@@ -144,7 +144,7 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'owner',
     toolsActions: [{
@@ -156,7 +156,7 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'admin',
     toolsActions: [{
@@ -168,7 +168,7 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'member',
     toolsActions: [{
@@ -209,7 +209,7 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'owner',
     toolsActions: [{
@@ -221,7 +221,7 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'moderator',
     toolsActions: [{
@@ -233,7 +233,7 @@ module.exports = [{
     }, {
       toolId: 'theteacherscorner.net',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'admin',
     toolsActions: [{
@@ -271,7 +271,7 @@ module.exports = [{
     }, {
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'admin',
     toolsActions: [{
@@ -280,7 +280,7 @@ module.exports = [{
     }, {
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'moderator',
     toolsActions: [{
@@ -289,7 +289,7 @@ module.exports = [{
     }, {
       toolId: 'chat',
       actions: { edit: 'self', post: 'post_self' },
-    }]
+    }],
   }, {
     role: 'member',
     toolsActions: [{
@@ -303,4 +303,4 @@ module.exports = [{
       actions: { edit: 'self', post: 'post_self' },
     }],
   }],
-}]
+}];

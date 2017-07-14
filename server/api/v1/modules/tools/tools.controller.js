@@ -3,8 +3,7 @@
 const ToolService = require('./tools.services'); //
 
 
-function getDomainsAndTools( done) {
-  console.log("toolctrl");
+function getDomainsAndTools(done) {
   ToolService.getDomainsAndTools(done);
 }
 // Function for Getting tools
@@ -26,7 +25,7 @@ function postTools(dataFromBody, domainName, done) {
       }
     }
   });
- // console.log(count === dataFromBody.length);
+  // console.log(count === dataFromBody.length);
   if (count === dataFromBody.length) {
     ToolService.addTools(dataFromBody, domainName, done);
   } else {

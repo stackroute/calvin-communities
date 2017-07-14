@@ -20,6 +20,9 @@ import { TemplatesService } from './templates/templates.service';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { PurposeComponent } from './purpose/purpose.component';
+import { GetPurposeService } from './purpose/purpose.service';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { TemplateListService } from './templatelist/templatelist.service';
 import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
@@ -52,7 +55,7 @@ import { ToolsGraphComponent } from './tools-graph/tools-graph.component';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [TemplatesService,TemplateListService],
+  providers: [GetPurposeService,TemplatesService,TemplateListService],
   bootstrap: [AppComponent],
   entryComponents: [ SearchComponent ]
 
