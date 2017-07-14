@@ -24,9 +24,15 @@ function getListOfPurposes() {
  * controller for the specified template data retrieved based on purpose
  */
 function getTemplatesOfPurpose(purpose) {
-  const templatesOnPurpose = templates.filter(element => element.purpose === purpose);
+  console.log(purpose);
+  let templatesOnPurpose = [];
+  templates.filter(element => {if(element.purpose.toLowerCase() === purpose){
+    templatesOnPurpose.push(element);
+  }});
+  console.log("hello", templatesOnPurpose);
   if (templatesOnPurpose.length === 0) {
     return templates;
+    console.log("nooo");
   }
   return templatesOnPurpose;
 }

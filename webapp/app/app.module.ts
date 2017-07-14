@@ -17,7 +17,10 @@ import { ManageCommunityComponent } from './managecommunity/managecommunity.comp
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
+import { PurposeComponent } from './purpose/purpose.component';
+import { GetPurposeService } from './purpose/purpose.service';
+
+
 @NgModule({
   declarations: [
   AppComponent,
@@ -41,7 +44,7 @@ import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.comp
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [],
+  providers: [GetPurposeService],
   bootstrap: [AppComponent],
   entryComponents: [ SearchComponent ]
 
