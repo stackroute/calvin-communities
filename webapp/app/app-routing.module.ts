@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { SearchComponent } from './search/search.component';
-import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
 import { Routes, RouterModule } from '@angular/router';
-
+import { ToolsComponent} from './tools/tools.component';
 const routes: Routes = [{
           path: '',
           redirectTo: '/dashboard',
@@ -28,8 +27,8 @@ const routes: Routes = [{
               component: TopicsComponent
           },
           {
-              path: 'populartools',
-              component: PopularToolsComponent
+              path: 'tools',
+              component: ToolsComponent
           },
           { path: '**', redirectTo: '/dashboard' }
 

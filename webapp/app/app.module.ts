@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatesComponent } from './templates/templates.component';
-import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
 import { NotifyComponent } from './notify/notify.component';
@@ -17,18 +16,19 @@ import { ManageCommunityComponent } from './managecommunity/managecommunity.comp
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {ToolsComponent} from './tools/tools.component';
+import{ToolService} from './tools/tools.service';
 @NgModule({
   declarations: [
   AppComponent,
   DashboardComponent,
   TemplatesComponent,
-  PopularToolsComponent,
   TopicsComponent,
   SearchComponent,
   ManageCommunityComponent,
   NotifyComponent,
-  ContentComponent
+  ContentComponent,
+  ToolsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +39,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [],
+  providers: [ToolService],
   bootstrap: [AppComponent],
   entryComponents: [ SearchComponent ]
 
