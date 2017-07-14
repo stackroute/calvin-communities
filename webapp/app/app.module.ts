@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import 'hammerjs';
+import { NvD3Component } from 'ng2-nvd3';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentComponent } from './content/content.component';
@@ -19,6 +20,8 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
+import 'd3';
+import 'nvd3';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.comp
   SearchComponent,
   ManageCommunityComponent,
   ContentComponent,
-  PurposeComponent
+  PurposeComponent,
+  NvD3Component
   ],
   imports: [
     BrowserModule,
