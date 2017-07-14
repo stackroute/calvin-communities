@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import 'hammerjs';
+import { NvD3Component } from 'ng2-nvd3';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardGraphsComponent } from './dashboardGraphs/dashboardGraphs.component';
+import { DashboardGraphService } from './dashboardGraphs/dashboardGraphs.service';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { PopularToolsComponent } from './populartools/populartools.component';
@@ -23,6 +25,8 @@ import { PurposeComponent } from './purpose/purpose.component';
 import { GetPurposeService } from './purpose/purpose.service';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { TemplateListService } from './templatelist/templatelist.service';
+import 'd3';
+import 'nvd3';
 
 
 @NgModule({
@@ -37,8 +41,9 @@ import { TemplateListService } from './templatelist/templatelist.service';
   SearchComponent,
   ManageCommunityComponent,
   ContentComponent,
+  PurposeComponent,
+  NvD3Component,
   TemplateListComponent,
-  PurposeComponent
   ],
   imports: [
     BrowserModule,
@@ -49,9 +54,8 @@ import { TemplateListService } from './templatelist/templatelist.service';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [GetPurposeService,TemplatesService,TemplateListService],
+  providers: [GetPurposeService, TemplatesService,TemplateListService, DashboardGraphService ],
   bootstrap: [AppComponent],
-  entryComponents: [ SearchComponent ]
 
 })
 export class AppModule { }
