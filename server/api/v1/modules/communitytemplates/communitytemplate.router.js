@@ -20,6 +20,20 @@ router.get('/', (req, res) => {
     return res.status(500).send({ error: 'Unexpected internal error occurred, please try later...!' });
   }
 });
+/*
+ * API for returning all the templates.
+ *
+ * Effective URI of the API for all the templates is
+ * GET /communitytemplates/allpurposes
+ *
+ */
+router.get('/allpurposes', (req, res) => {
+  try {
+    return res.send(templateCtrl.getListOfPurposes());
+  } catch (err) {
+    return res.status(500).send({ error: 'Unexpected internal error occurred, please try later...!' });
+  }
+});
 
 /*
  * API for returning the data for the specified template
