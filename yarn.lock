@@ -150,6 +150,10 @@
   dependencies:
     tsickle "^0.21.0"
 
+"@material/typography@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@material/typography/-/typography-0.2.2.tgz#dc5f0763ad7d6e5ad5c86c394b360f2b4cf30bb2"
+
 "@ngtools/json-schema@1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.0.9.tgz#19e46db409c66b4c43841eab514ff9640871affc"
