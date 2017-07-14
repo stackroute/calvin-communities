@@ -1,10 +1,13 @@
 <div>
-  <md-card class="card-align">
-    <div class="community-list" *ngFor="let val of tools.tools">
+  <div fxFlex='5'></div>
+  <md-card class="card-align" fxFlex='30'>
+    <md-card-title>Tools listing</md-card-title>
+    <div class="Tools-list" *ngFor="let val of tools">
       <h1></h1>
       <md-list align="start">
         <md-list-item>
-          <img md-list-avatar src="./assets/img/tool.png">
+          <!--<img md-list-avatar src="./assets/img/tool.png">-->
+          <i class="material-icons">build</i>
           <div fxFlex='80'>
             <div>
               <h5><b>{{val.toolid}}</b></h5>
@@ -16,3 +19,6 @@
   </md-card>
 <div>
   <router-outlet></router-outlet>
+  <!--<md-card>
+    <h1>safgfgfdgdfd</h1>
+  </md-card>-->

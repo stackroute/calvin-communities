@@ -140,14 +140,14 @@ describe('Test cases for all tools in a community', () => {
     let iterateData = 0;
     toolController.postTools(value.multipletools, 'sandhya', (error, res) => {
       if (!error) {
-        value.multipletools.forEach(function(element) {
+        value.multipletools.forEach((element) => {
           client.execute(`SELECT * from tools where toolid='${element.toolId}'`, (err, result) => {
             if (!error) {
               result.rows.length.should.deep.equal(1);
               result.rows[0].toolid.should.be.equal(element.toolId);
               const isPresent = result.rows[0].domains.filter(domain => domain === 'sandhya');
               isPresent.length.should.be.equal(1);
-              iterateData++;
+              iterateData += iterateData;
             }
           });
         });
@@ -172,6 +172,5 @@ describe('Test cases for all tools in a community', () => {
     /*    client.execute("DELETE FROM tools where toolid='quora';");
         client.execute("DELETE FROM tools where toolid='sermo';");
         client.execute("DELETE FROM tools where toolid='stack-overflow';");*/
-
   });
 });
