@@ -1,73 +1,33 @@
 const membershipService = require('./membership.service');
 const communityService = require('./../community/community.controller');
-const async = require('async');
 
-// function getCommunityList(username, done) {
-//   membershipService.getCommunityList(username, done);
-// }
 /*
  * Get community Details of a particular member
  */
-/* async.waterfall([
-function getCommunityList(username, done) {
-  membershipService.getCommunityList(username, done);
-},
-
-function getAvatarForCommunities(username, done) {
-  membershipService.getAvatarForCommunities(username, done);
-}
-], function(err, result) {
-	if(err) {
-		return err;
-	} else {
-		return result;
-	}
-
-});*/
-// function getCommunityListFromService(username,done){
-// 	console.log("community list");
-//   const arr = [];
-// 	membershipService.getCommunityList(username, (err,result)=>{
-// 		if(!err){
-// 			console.log(result);
-//       result.communityDetails.forEach((data) => {
-//         arr.push(data.domain);
-//         console.log(arr);
-//         done(null, arr);
-//       })
-// 			// done(null,result);
-// 		}else{
-// 			done(err,undefined);
-// 					}
-// 	});
-// }
-// function getAvatarForCommunities(result,done){
-// 	const arr =[];
-// 	console.log("Avtar", result);
-// 	result.forEach(function(data) {
-// 		console.log("data", data.communityDetails);
-// 		arr.push(data.communityDetails.domain);
-// 		console.log("Avtar image", arr);
-// 	})
-// 	done();
-// }
 
 function getCommunityList(username, done) {
   const arr = [];
-	membershipService.getCommunityList(username, (err,result)=>{
-    if(!err){
-      console.log("result", result);
-      result.communityDetails.forEach((data) => {
+  membershipService.getCommunityList(username, (error, results) => {
+    if (!error) {
+      results.communityDetails.forEach((data) => {
         arr.push(data.domain);
-        console.log("data", arr);
-        });
-        communityService.getMultipleCommunities(arr, (err,result) => {
-          console.log("domain", arr);
-        })
-        done(null, arr);
-    }else{
-      done(err,undefined);
-          }
+      });
+      communityService.getMultipleCommunities(arr, (err, result) => {
+        const communities = [];
+        if (!err) {
+          result.forEach((values) => {
+            communities.push({ domain: values.domain, name: values.name, avatar: values.avatar });
+          });
+        } else {
+          done(err);
+        }
+        const usercommunities = {
+          username,
+          communities,
+        };
+        return done(undefined, usercommunities);
+      });
+    }
   });
 }
 
@@ -91,7 +51,6 @@ function userCommunityDetails(domainName, data, done) {
   } else {
     return done({ error: 'please enter all required fields' }, undefined);
   }
-  // membershipService.userCommunityDetails(domainName, data, done);
   return null;
 }
 
@@ -99,13 +58,12 @@ function userCommunityDetails(domainName, data, done) {
  * Modify role of a member in a community
  */
 function modifyRoleOfMemberInCommunity(domainName, data, done) {
-  membershipService.getDetailsForDeletionAndUpdation(domainName, data, (err) => {
+  membershipService.getCommunityList(domainName, (err) => {
     if (!err) {
       return membershipService.modifyRoleOfMemberInCommunity(domainName, data, done);
     }
-    return done({ error: 'Error Occured' }, undefined);
+    return done({ error: 'Modification cannot be done for the non-existing user' }, undefined);
   });
-  // membershipService.modifyRoleOfMemberInCommunity(domainName, data, done);
 }
 
 /*
@@ -113,13 +71,12 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
  */
 
 function removeMemberFromCommunity(domainName, data, done) {
-  membershipService.getDetailsForDeletionAndUpdation(domainName, data, (err) => {
+  membershipService.getCommunityList(domainName, (err) => {
     if (!err) {
-      membershipService.removeMemberFromCommunity(domainName, data, done);
+      return membershipService.removeMemberFromCommunity(domainName, data, done);
     }
-    return done({ error: 'Error Occured' }, undefined);
+    return done({ error: 'Deletion cannot be done for non-existing user' }, undefined);
   });
-  // membershipService.removeMemberFromCommunity(domainName, data, done);
 }
 
 module.exports = {

@@ -21,9 +21,9 @@ function getcounter(domain, done) {
   });
 }
 
-function incrementmember(domain, done) {
-  // console.log("inside increment");
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members + 1 WHERE domain='${domain}'`;
+function incrementmember(domain,payload,done) {
+  console.log("inside members", payload);
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -33,8 +33,9 @@ function incrementmember(domain, done) {
   });
 }
 
-function incrementinvitation(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations + 1 WHERE domain='${domain}'`;
+function incrementinvitation(domain,payload,done) {
+  console.log("inside invitation", payload);
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -44,8 +45,9 @@ function incrementinvitation(domain, done) {
   });
 }
 
-function incrementrequests(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests + 1 WHERE domain='${domain}'`;
+function incrementrequests(domain,payload, done) {
+  console.log("inside requests", payload);
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -55,8 +57,9 @@ function incrementrequests(domain, done) {
   });
 }
 
-function incrementtools(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools + 1 WHERE domain='${domain}'`;
+function incrementtools(domain, payload,done) {
+  console.log("inside tools", payload);
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -66,8 +69,8 @@ function incrementtools(domain, done) {
   });
 }
 
-function decrementrequests(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests - 1 WHERE domain='${domain}'`;
+function decrementrequests(domain,payload,done) {
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -77,8 +80,8 @@ function decrementrequests(domain, done) {
   });
 }
 
-function decrementmember(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members - 1 WHERE domain='${domain}'`;
+function decrementmember(domain,payload,done) {
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -88,8 +91,8 @@ function decrementmember(domain, done) {
   });
 }
 
-function decrementinvitation(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations- 1 WHERE domain='${domain}'`;
+function decrementinvitation(domain,payload,done) {
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -99,8 +102,8 @@ function decrementinvitation(domain, done) {
   });
 }
 
-function decrementtools(domain, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools - 1 WHERE domain='${domain}'`;
+function decrementtools(domain,payload,done) {
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
       done(null, result);
@@ -120,5 +123,5 @@ module.exports = {
   decrementmember,
   decrementrequests,
   decrementinvitation,
-
 };
+

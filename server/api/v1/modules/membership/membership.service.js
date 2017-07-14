@@ -21,7 +21,6 @@ function getCommunityList(username, done) {
   const query = `SELECT domain, role FROM membership WHERE username = '${username}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
-      console.log("services", results);
       done(undefined, { username, communityDetails: results.rows });
     } else {
       done(err, undefined);
@@ -57,44 +56,18 @@ function userCommunityDetails(domainName, data, done) {
                   values(?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((value) => {
     const user = value.username.toLowerCase();
-    // console.log("user",user);
     arr.push({ query, params: [user, domainName.toLowerCase(), value.role.toLowerCase()] });
   });
 
-  logger.debug('Member to be added');
+  logger.debug('Members added');
   return client.batch(arr, { prepare: true }, (err, res) => {
     if (err) {
       return done(err);
     }
-    // data.forEach((value) => {})
     return done(null, res);
   });
 }
 
-// get details for deletion and updation
-function getDetailsForDeletionAndUpdation(domainName, data, done) {
-  let count = false;
-  const query = (`SELECT domain, role from ${MEMBERSHIP_TABLE} WHERE domain=? AND username = ?`);
-  return client.execute(query, (err, results) => {
-    if (!err) {
-      if (results.rows.length > 0) {
-        const arr = results.rows[0];
-        arr.forEach((val) => {
-          if (val === data) {
-            count = true;
-          }
-        });
-      }
-      if (count) {
-        done(undefined, results);
-      } else {
-        done({ error: 'please enter a valid username' }, undefined);
-      }
-    } else {
-      done({ error: 'Internal error' }, undefined);
-    }
-  });
-}
 /*
  *  Patch - Modify role of a member in a community
  */
@@ -103,7 +76,10 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
   const arr = [];
   const query = (`UPDATE ${MEMBERSHIP_TABLE} SET role =? ,updatedon = dateof(now()) WHERE domain =? AND username =? `);
   data.forEach((val) => {
-    arr.push({ query, params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username.toLowerCase()] });
+    arr.push({
+      query,
+      params: [val.role.toLowerCase(), domainName.toLowerCase(), val.username.toLowerCase()],
+    });
   });
   return client.batch(arr, { prepare: true }, (err, res) => {
     if (err) {
@@ -137,6 +113,5 @@ module.exports = {
   getCommunityList,
   modifyRoleOfMemberInCommunity,
   removeMemberFromCommunity,
-  getDetailsForDeletionAndUpdation,
   // getAvatarForCommunities,
 };
