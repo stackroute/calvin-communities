@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import 'hammerjs';
+import 'lodash';
 import { NvD3Component } from 'ng2-nvd3';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

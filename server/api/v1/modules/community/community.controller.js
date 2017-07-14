@@ -117,7 +117,7 @@ function getTemplateDetails(community) {
  */
 function addCommunity(community, done) { // eslint-disable-line consistent-return
   let values;
-  const nameRegex = /^([a-zA-Z0-9.]){5,20}$/;
+  const nameRegex = /^([a-zA-Z0-9.]){5,30}$/;
   if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
   if (!community.domain.match(nameRegex)) { return done([400, 'Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)']); }
