@@ -21,9 +21,10 @@ import { TemplatesService } from './templates/templates.service';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PurposeComponent } from './purpose/purpose.component';
+import { GetPurposeService } from './purpose/purpose.service';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { TemplateListService } from './templatelist/templatelist.service';
-import { PurposeComponent } from './TemplateCommunities/TemplateCommunities.component';
 import 'd3';
 import 'nvd3';
 
@@ -53,9 +54,8 @@ import 'nvd3';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [TemplatesService,TemplateListService, DashboardGraphService ],
+  providers: [GetPurposeService, TemplatesService,TemplateListService, DashboardGraphService ],
   bootstrap: [AppComponent],
-  entryComponents: [ SearchComponent ]
 
 })
 export class AppModule { }

@@ -19,7 +19,7 @@ function getDomainsAndTools(done) {
   console.log("toolsservices");
   const query = (`SELECT * FROM ${TOOL_TABLE}`);
   return client.execute(query, (err, results) => {
-    if(!err) {
+    if (!err) {
       console.log("result", results.rows);
       done(undefined, results.rows);
     } else {
