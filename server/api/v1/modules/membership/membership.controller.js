@@ -15,9 +15,13 @@ function getCommunityList(username, done) {
       communityService.getMultipleCommunities(arr, (err, result) => {
         const communities = [];
         if (!err) {
+          results.communityDetails.forEach((data) => {
           result.forEach((values) => {
-            communities.push({ domain: values.domain, name: values.name, avatar: values.avatar });
-          });
+            if(values.domain === data.domain){
+            communities.push({ domain: values.domain, name: values.name, avatar: values.avatar, role: data.role });
+          }
+        });
+      })
         } else {
           done(err);
         }
