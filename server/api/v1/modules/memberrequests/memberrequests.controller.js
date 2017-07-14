@@ -15,10 +15,10 @@ function gettingValuesByDomain(domain, done) {
 }
 
 // Publish the event when invite occured
-function publishMessageforInvite(domain) {
-  let message = { domainname: domain, type: 'InviteOccured' };
+function publishMessageforInvite(domainname, count) {
+  let message = { domain: domainname, event: 'newinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -28,10 +28,10 @@ function publishMessageforInvite(domain) {
 }
 
 // Publish the event when invite occur
-function publishMessageforRequest(domain) {
-  let message = { domainname: domain, type: 'RequestOccured' };
+function publishMessageforRequest(domainname, count) {
+  let message = { domain: domainname, event: 'newrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -41,7 +41,7 @@ function publishMessageforRequest(domain) {
 }
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
-  let message = { personemail: person, domainname: domain, roleforperson: role, type: 'MemberAdding' };
+  let message = { personemail: person, domainname: domain, roleforperson: role};
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic4', message, (err, res) => {
     if (err) {
@@ -53,10 +53,10 @@ function PublishEventForMemberAdded(person, domain, role) {
 }
 
 // publish event for counter when rejection of invitation
-function PublishEventForRejectionOfInvite(domain) {
-  let message = { domainname: domain, type: 'InviteRejection' };
+function PublishEventForRejectionOfInvite(domainname, count) {
+  let message = { domain: domainname, event: 'rejectinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -66,10 +66,10 @@ function PublishEventForRejectionOfInvite(domain) {
 }
 
 // publish event for counter when rejection of request
-function PublishEventForRejectionOfRequest(domain) {
-  let message = { domainname: domain, type: 'RequestRejection' };
+function PublishEventForRejectionOfRequest(domainname, count) {
+  let message = { domain: domainname, event: 'rejectrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -192,7 +192,7 @@ function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, flag
         if (err) {
           done(err);
         }
-        publishMessageforInvite(dataFromParams);
+        publishMessageforInvite(dataFromParams, flag2);
         return done(undefined, { message: 'Inserted' });
       });
     } else {
@@ -207,7 +207,7 @@ function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, flag
         if (err) {
           done(err);
         }
-        publishMessageforRequest(dataFromParams);
+        publishMessageforRequest(dataFromParams, flag2);
         return done(undefined, { message: 'Inserted' });
       });
     } else {
@@ -340,15 +340,16 @@ function rejectedInviteOrRequest(domainvalue, personvalue, done) {
     }
 
     if (flag) {
+      const count = 1;
       service.rejectedInviteOrRequest(domainname, personname, (err) => {
         if (err) {
           done(err);
         }
         if (type === 'invite') {
-          PublishEventForRejectionOfInvite(domainname);
+          PublishEventForRejectionOfInvite(domainname, count);
         }
         if (type === 'request') {
-          PublishEventForRejectionOfRequest(domainname);
+          PublishEventForRejectionOfRequest(domainname, count);
         }
         return done(undefined, { message: 'Updated' });
       });
