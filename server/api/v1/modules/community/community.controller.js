@@ -189,6 +189,11 @@ function getCommunity(domain, counter, done) {
         result[0][0].members = result[1][0].members;
         result[0][0].requests = result[1][0].requests;
         result[0][0].tools = result[1][0].tools;
+      } else {
+         result[0][0].invitations = 0;
+        result[0][0].members = 0;
+        result[0][0].requests = 0;
+        result[0][0].tools = 0;
       }
       /* eslint-disable no-param-reassign*/
       return done(undefined, result[0]);

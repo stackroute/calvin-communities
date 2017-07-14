@@ -17,7 +17,7 @@ $communities-calvin-accent:  mat-palette($mat-green, A200);
 $communities-calvin-warn:    mat-palette($mat-red, A200, A100, A400);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$communities-calvin-theme: mat-dark-theme($communities-calvin-primary, $communities-calvin-accent, $communities-calvin-warn);
+$communities-calvin-theme: mat-light-theme($communities-calvin-primary, $communities-calvin-accent, $communities-calvin-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
