@@ -1,50 +1,30 @@
 const counterservice = require('./counter.service');
 
-function getcounter(domain, done) {
-  counterservice.getcounter(domain, done);
+let eventnames={
+  'newmemberadded': counterservice.incrementmember,
+  'newtooladded': counterservice.incrementtools,
+  'newinvite': counterservice.incrementinvitation,
+  'newrequests': counterservice.incrementrequests,
+  'removemember':counterservice.decrementmember,
+  'removetool':counterservice.decrementtools,
+  'rejectinvite':counterservice.decrementinvitation,
+  'rejectrequests':counterservice.decrementrequests,
 }
 
-function incrementmember(domain, done) {
-  counterservice.incrementmember(domain, done);
-}
+function onevent(domain,eventname,payload, done) {
+  let eventregistry = eventnames[eventname];
+  if(!eventregistry) {
+    done("event not supported..!");
+    return;
+  }
 
-function incrementinvitation(domain, done) {
-  counterservice.incrementinvitation(domain, done);
+  eventregistry(domain, payload, done);
 }
+onevent('stackroute','newmemberadded',2,(err,result) =>{
+  console.log('dscdscdsa');
+});
 
-function incrementtools(domain, done) {
-  counterservice.incrementtools(domain, done);
-}
-
-function incrementrequests(domain, done) {
-  counterservice.incrementrequests(domain, done);
-}
-
-function decrementmember(domain, done) {
-  counterservice.decrementmember(domain, done);
-}
-
-function decrementtools(domain, done) {
-  counterservice.decrementtools(domain, done);
-}
-
-function decrementrequests(domain, done) {
-  counterservice.decrementrequests(domain, done);
-}
-
-function decrementinvitation(domain, done) {
-  counterservice.decrementinvitation(domain, done);
-}
 
 module.exports = {
-  incrementrequests,
-  incrementinvitation,
-  getcounter,
-  incrementmember,
-  incrementtools,
-  decrementtools,
-  decrementmember,
-  decrementrequests,
-  decrementinvitation,
-
+  onevent
 };

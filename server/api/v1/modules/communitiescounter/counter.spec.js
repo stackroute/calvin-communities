@@ -1,6 +1,6 @@
 require('chai').should();
 require('../../../../app');
-const counterctrl = require('./counter.controller');
+const counterservice = require('./counter.service');
 const model = require('cassandra-driver');
 
 const COMMUNITIES_COUNTER_TABLE = 'communitiescounter';
@@ -22,14 +22,14 @@ describe('Testcases for checking the communitycounter', () => {
       .catch(() => {});
   });
 
-  it('Testing communityController::getcounter for sucess scenario', (done) => {
+  it('Testing communityservice::getcounter for sucess scenario', (done) => {
     const query = `SELECT * FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         done(err);
       }
-      counterctrl.getcounter(domain, (err2, result2) => {
+      counterservice.getcounter(domain, (err2, result2) => {
         if (err2) {
           logger.debug(err2);
           done(err2);
@@ -39,14 +39,14 @@ describe('Testcases for checking the communitycounter', () => {
     });
     done();
   });
-  it('Testing communityController::incrementmember for sucess scenario', (done) => {
+  it('Testing communityservice::incrementmember for sucess scenario', (done) => {
     const query = `SELECT members FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         return done(err);
       }
-      counterctrl.incrementmember(domain,
+      counterservice.incrementmember(domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);
@@ -64,14 +64,14 @@ describe('Testcases for checking the communitycounter', () => {
       done();
     });
   });
-  it('Testing communityController::incrementinvitation for sucess scenario', (done) => {
+  it('Testing communityservice::incrementinvitation for sucess scenario', (done) => {
     const query = `SELECT invitations FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         done(err);
       }
-      counterctrl.incrementinvitation(domain,
+      counterservice.incrementinvitation(domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);
@@ -90,14 +90,14 @@ describe('Testcases for checking the communitycounter', () => {
       done();
     });
   });
-  it('Testing communityController::incrementtools for sucess scenario', (done) => {
+  it('Testing communityservice::incrementtools for sucess scenario', (done) => {
     const query = `SELECT tools FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         done(err);
       }
-      counterctrl.incrementtools(domain,
+      counterservice.incrementtools(domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);
@@ -115,14 +115,14 @@ describe('Testcases for checking the communitycounter', () => {
       done();
     });
   });
-  it('Testing communityController::incrementrequests for sucess scenario', (done) => {
+  it('Testing communityservice::incrementrequests for sucess scenario', (done) => {
     const query = `SELECT requests FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         done(err);
       }
-      counterctrl.incrementrequests(domain, (err2) => {
+      counterservice.incrementrequests(domain, (err2) => {
         if (err2) { // eslint-disable-line consistent-return
           logger.debug(err2);
           done(err2);
@@ -139,14 +139,14 @@ describe('Testcases for checking the communitycounter', () => {
       done();
     });
   });
-  it('Testing communityController::decrementmember for sucess scenario', (done) => {
+  it('Testing communityservice::decrementmember for sucess scenario', (done) => {
     const query = `SELECT members FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         return done(err);
       }
-      counterctrl.decrementmember(domain,
+      counterservice.decrementmember(domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);
@@ -165,14 +165,14 @@ describe('Testcases for checking the communitycounter', () => {
       done();
     });
   });
-  it('Testing communityController::decrementrequests for sucess scenario', (done) => {
+  it('Testing communityservice::decrementrequests for sucess scenario', (done) => {
     const query = `SELECT requests FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         done(err);
       }
-      counterctrl.decrementrequests(domain,
+      counterservice.decrementrequests(domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);
@@ -192,14 +192,14 @@ describe('Testcases for checking the communitycounter', () => {
       done();
     });
   });
-  it('Testing communityController::decrementtools for sucess scenario', (done) => {
+  it('Testing communityservice::decrementtools for sucess scenario', (done) => {
     const query = `SELECT tools FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         done(err);
       }
-      counterctrl.decrementtools(domain,
+      counterservice.decrementtools(domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);
@@ -218,14 +218,14 @@ describe('Testcases for checking the communitycounter', () => {
       done();
     });
   });
-  it('Testing communityController::decrementinvitation for sucess scenario', (done) => {
+  it('Testing communityservice::decrementinvitation for sucess scenario', (done) => {
     const query = `SELECT invitations FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
     client.execute(query, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         logger.debug(err);
         done(err);
       }
-      counterctrl.decrementinvitation(domain,
+      counterservice.decrementinvitation(domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);

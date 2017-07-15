@@ -9,9 +9,9 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$communities-calvin-primary: mat-palette($mat-light-blue);
+$communities-calvin-primary: mat-palette($mat-blue-grey, 700);
 
-$communities-calvin-accent:  mat-palette($mat-indigo, A200, A100, A400);
+$communities-calvin-accent:  mat-palette($mat-green, A200);
 
 // The warn palette is optional (defaults to red).
 $communities-calvin-warn:    mat-palette($mat-red, A200, A100, A400);

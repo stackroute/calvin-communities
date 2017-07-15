@@ -1,5 +1,6 @@
 const service = require('./memberrequests.service');
 const communityRoleService = require('../communityrole/communityrole.service');
+const communityMemberService = require('../communitymembership/communitymembership.service');
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 const async = require('async');
 const logger = require('../../../../logger');
@@ -14,10 +15,10 @@ function gettingValuesByDomain(domain, done) {
 }
 
 // Publish the event when invite occured
-function publishMessageforInvite(domain) {
-  let message = { domainname: domain, type: 'InviteOccured' };
+function publishMessageforInvite(domainname, count) {
+  let message = { domain: domainname, event: 'newinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -27,10 +28,10 @@ function publishMessageforInvite(domain) {
 }
 
 // Publish the event when invite occur
-function publishMessageforRequest(domain) {
-  let message = { domainname: domain, type: 'RequestOccured' };
+function publishMessageforRequest(domainname, count) {
+  let message = { domain: domainname, event: 'newrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -40,7 +41,7 @@ function publishMessageforRequest(domain) {
 }
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
-  let message = { personemail: person, domainname: domain, roleforperson: role, type: 'MemberAdding' };
+  let message = { personemail: person, domainname: domain, roleforperson: role};
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic4', message, (err, res) => {
     if (err) {
@@ -52,10 +53,10 @@ function PublishEventForMemberAdded(person, domain, role) {
 }
 
 // publish event for counter when rejection of invitation
-function PublishEventForRejectionOfInvite(domain) {
-  let message = { domainname: domain, type: 'InviteRejection' };
+function PublishEventForRejectionOfInvite(domainname, count) {
+  let message = { domain: domainname, event: 'rejectinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -65,10 +66,10 @@ function PublishEventForRejectionOfInvite(domain) {
 }
 
 // publish event for counter when rejection of request
-function PublishEventForRejectionOfRequest(domain) {
-  let message = { domainname: domain, type: 'RequestRejection' };
+function PublishEventForRejectionOfRequest(domainname, count) {
+  let message = { domain: domainname, event: 'rejectrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -83,11 +84,12 @@ function PublishEventForRejectionOfRequest(domain) {
 function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations, done) {
   let flag2 = 0;
   let iteration = iterations;
-  const persons = dataFromBody.invitee;
+
   if (type !== 'invite' && type !== 'request') {
-    done({ error: 'Please enter valid values!!' });
+    done({ error: 'Please enter valid type values!!' });
   }
   if (type === 'invite') {
+    const persons = dataFromBody.invitee;
     persons.forEach((b) => {
       if ((b.email !== 'null') && (b.email)) {
         if ((type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '')) {
@@ -103,56 +105,114 @@ function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations
             }
           });
         } else {
-          done({ error: 'Please enter valid values!!' });
+          return done({ error: 'Please select role when inviting!!' });
         }
       } else {
-        done({ error: 'Please enter valid values!!' });
+        return done({ error: 'Please enter emailid when inviting!!' });
       }
+      return null;
     });
   }
 
   if (type === 'request') {
-    persons.forEach((b) => {
-      if ((b.email !== 'null') && (b.email)) {
-        if ((type.toLowerCase() === 'request' && b.role.toLowerCase() === '')) {
-          flag2 += 1;
-        } else {
-          flag2 += 0;
-        }
-      } else {
-        done({ error: 'Please enter valid values!!' });
-      }
-    });
-    done(null, flag2);
+    if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
+      flag2 = 1;
+      done(null, flag2);
+    } else {
+      return done({ error: 'Please enter your emailid when requesting!!' });
+    }
   }
 }
 
-function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, done) {
+function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, done) {
+  let itera = 0;
+  let flag3 = 0;
+  const persons = dataFromBody.invitee;
+
+  if (type === 'invite') {
+    if (flag2 === persons.length) {
+      persons.forEach((b) => {
+        if ((b.email !== 'null') && (b.email)) {
+          communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams, b.email,
+         (error) => {
+           itera += 1;
+           if (error) {
+             flag3 += 1;
+           } else {
+             flag3 += 0;
+           }
+           if (itera === persons.length) {
+             done(null, flag2, flag3);
+           }
+         });
+        } else {
+          return done({ error: 'Please enter valid values!!' });
+        }
+        return null;
+      });
+    } else {
+      return done({ error: 'Given role is not applicable for particular community!!' });
+    }
+  }
+  if (type === 'request') {
+    if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
+      communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams,
+       dataFromBody.invitee, (error) => {
+         if (error) {
+           flag3 = 1;
+         } else {
+           flag3 = 0;
+         }
+         done(null, flag2, flag3);
+       });
+    } else {
+      done({ error: 'Please enter valid values!!' });
+    }
+  }
+}
+
+
+function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, flag3, done) {
   let flag = false;
   const persons = dataFromBody.invitee;
   if (dataFromParams) {
     if (dataFromParams !== 'null') {
-      if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request' && dataFromBody.invitedby === '')) {
+      if ((type.toLowerCase() === 'invite' && dataFromBody.invitedby.length > 0) || (type.toLowerCase() === 'request')) {
         flag = true;
+      } else {
+        return done({ error: 'Please enter the name who is inviting!!' }, undefined);
       }
     }
   }
-  if ((flag) && (flag2 === persons.length)) {
-    if (type === 'invite') { status = 'invitesent'; } else if (type === 'request') { status = 'requested'; }
-    service.InsertData(dataFromBody, dataFromParams, status, type, (err) => {
-      if (err) {
-        done(err);
-      }
-      if (type === 'invite') {
-        publishMessageforInvite(dataFromParams);
-      }
-      if (type === 'request') {
-        publishMessageforRequest(dataFromParams);
-      }
-      return done(undefined, { message: 'Inserted' });
-    });
-  } else {
-    done({ error: 'Please enter valid values!!' }, undefined);
+
+  if (type === 'invite') {
+    if ((flag) && (flag2 === persons.length) && (flag3 === persons.length)) {
+      status = 'invitesent';
+      service.InsertDataInvite(dataFromBody, dataFromParams, status, type, (err) => {
+        if (err) {
+          done(err);
+        }
+        publishMessageforInvite(dataFromParams, flag2);
+        return done(undefined, { message: 'Inserted' });
+      });
+    } else {
+      return done({ error: 'Member is already in community!!' }, undefined);
+    }
+  }
+
+  if (type === 'request') {
+    if ((flag) && (flag2 === 1) && (flag3 === 1)) {
+      status = 'requested';
+      service.InsertDataRequest(dataFromBody, dataFromParams, status, type, (err) => {
+        if (err) {
+          done(err);
+        }
+        publishMessageforRequest(dataFromParams, flag2);
+        return done(undefined, { message: 'Inserted' });
+      });
+    } else {
+      done({ error: 'Member is already in community!!' }, undefined);
+    }
   }
 }
 
@@ -160,8 +220,8 @@ function InsertData(dataFromBody, dataFromParams, type, done) {
   const iteration = 0;
   async.waterfall([
     ConditionForCheckingRole.bind(null, dataFromBody, dataFromParams, type, iteration),
+    ConditionForCheckingMember.bind(null, dataFromBody, dataFromParams, type),
     CallingServiceForInsert.bind(null, dataFromBody, dataFromParams, type),
-
   ], (err, result) => {
     if (err) {
       done(err);
@@ -280,15 +340,16 @@ function rejectedInviteOrRequest(domainvalue, personvalue, done) {
     }
 
     if (flag) {
+      const count = 1;
       service.rejectedInviteOrRequest(domainname, personname, (err) => {
         if (err) {
           done(err);
         }
         if (type === 'invite') {
-          PublishEventForRejectionOfInvite(domainname);
+          PublishEventForRejectionOfInvite(domainname, count);
         }
         if (type === 'request') {
-          PublishEventForRejectionOfRequest(domainname);
+          PublishEventForRejectionOfRequest(domainname, count);
         }
         return done(undefined, { message: 'Updated' });
       });

@@ -117,7 +117,7 @@ function getTemplateDetails(community) {
  */
 function addCommunity(community, done) { // eslint-disable-line consistent-return
   let values;
-  const nameRegex = /^([a-zA-Z0-9.]){5,20}$/;
+  const nameRegex = /^([a-zA-Z0-9.]){5,30}$/;
   if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
   if (!community.domain.match(nameRegex)) { return done([400, 'Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)']); }
@@ -189,6 +189,11 @@ function getCommunity(domain, counter, done) {
         result[0][0].members = result[1][0].members;
         result[0][0].requests = result[1][0].requests;
         result[0][0].tools = result[1][0].tools;
+      } else {
+         result[0][0].invitations = 0;
+        result[0][0].members = 0;
+        result[0][0].requests = 0;
+        result[0][0].tools = 0;
       }
       /* eslint-disable no-param-reassign*/
       return done(undefined, result[0]);
@@ -215,9 +220,9 @@ function updateCommunity(domainName, community, done) {
 
   if (!_.has(community, 'updatedby') || _.isEmpty(community.updatedby)) { return done([400, 'An Updater\'s data is required to be sent']); }
 
- // status = status.toLowerCase();
+  // status = status.toLowerCase();
 
- /* if (status === 'disable') { status = 'inactive'; } else if (status === 'enable')
+  /* if (status === 'disable') { status = 'inactive'; } else if (status === 'enable')
   { status = 'Active'; } else { status = 'Suspended'; } */
 
   if ((
@@ -225,7 +230,8 @@ function updateCommunity(domainName, community, done) {
             _.isEqual(community.visibility, 'Private') ||
             _.isEqual(community.visibility, 'Moderated'))
   ) {
-/*    const param = [community.name, community.avatar, community.description, community.visibility,
+    /*    const param = [community.name, community.avatar, community.description,
+     community.visibility,
       community.tags, community.updatedby, status, domainName.toLowerCase(),
     ];*/
     const param = [community.name, community.avatar, community.description, community.visibility,

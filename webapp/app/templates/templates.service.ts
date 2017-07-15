@@ -3,12 +3,13 @@ import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class templatesService {
+export class TemplatesService {
 
 		constructor(private http: Http) { };
 
-		getTemplates() {
-
+		selectTemplate(dummy)
+		{
+           return this.http.get(`api/v1/communitytemplates/${dummy}`).map((response: Response) => response.json());
 		}
 
 

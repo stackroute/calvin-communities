@@ -22,9 +22,10 @@ function array2string(domains) {
   let stringed = "'";
 
   domains.forEach((data) => {
-    stringed += `${data.toString()}','`;
+    stringed += `${data.toLowerCase().toString()}','`;
   });
   stringed = (stringed.substr(0, stringed.length - 2));
+  logger.debug('After Conversion', stringed);
   return stringed;
 }
 

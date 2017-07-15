@@ -1,5 +1,5 @@
 const registerConsumerService = require('./common/kafkaConsumerService');
-const memberInviteRequestService = require('./communityservices/memberInviteRequestService');
+const memberRequestsService = require('./communityservices/memberRequestsService');
 
 
 registerConsumerService(['topic4'], { autoCommit: true }, memberRequestsService);

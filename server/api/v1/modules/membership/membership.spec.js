@@ -157,3 +157,4 @@ describe('Test case for GET request', () => {
   //   client.execute('TRUNCATE membership');
   // });
 });
+

@@ -13,7 +13,9 @@ navigation = [
     { link: 'trending', label: 'Trending Communities' },
     {link: 'communities', label:'Communities'},
     { link: 'templates', label: 'Templates' },
-    { link: 'populartools', label: 'Popular Tools' },
+    { link: 'tools', label: ' Tools' },
     { link: 'search', label: 'Search'},
+    { link: 'templatelist', label: 'TemplateList'},
+    { link: 'purpose', label: 'Purpose'},
   ];
 }

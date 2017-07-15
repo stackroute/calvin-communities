@@ -23,6 +23,21 @@ describe('Test GET request to API /communitytemplates/', function () {
         done();
       });
   });
+  it('Fetch all purposes', function (done) {
+    request(app)
+      .get(`${apiVersion}/communitytemplates/allpurposes`)
+      .end((err, res) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        templateCtrl.getListOfPurposes((result) => {
+          res.body.should.deep.equal(result);
+          res.body.length.should.deep.equal(result.length);
+        });
+        done();
+      });
+  });
 
   it('Fetch templates by specifying existing purpose', function (done) {
     request(app)
