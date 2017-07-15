@@ -15,7 +15,6 @@ import { DashboardGraphService } from './dashboardGraphs.service';
 })
 
 export class DashboardGraphsComponent implements OnInit {
- d3: any;
 
   constructor(private GraphService: DashboardGraphService) {
 
