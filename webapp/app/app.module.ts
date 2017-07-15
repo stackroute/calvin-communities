@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import 'hammerjs';
 import 'lodash';
+import 'd3';
+import 'nvd3';
 import { NvD3Component } from 'ng2-nvd3';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,13 +24,11 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ToolsComponent} from './tools/tools.component';
-import{ToolService} from './tools/tools.service';
+import { ToolService } from './tools/tools.service';
 import { PurposeComponent } from './purpose/purpose.component';
 import { GetPurposeService } from './purpose/purpose.service';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { TemplateListService } from './templatelist/templatelist.service';
-import 'd3';
-import 'nvd3';
 
 @NgModule({
   declarations: [
@@ -44,8 +44,8 @@ import 'nvd3';
   ToolsComponent,
   ContentComponent,
   PurposeComponent,
-  NvD3Component,
   TemplateListComponent,
+  NvD3Component,
   ],
   imports: [
     BrowserModule,

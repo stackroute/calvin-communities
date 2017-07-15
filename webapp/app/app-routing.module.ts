@@ -38,7 +38,7 @@ const routes: Routes = [{
               path: 'templatelist',
               component: TemplateListComponent
           },
-          {   
+          {
               path: 'purpose',
               component: PurposeComponent
 
@@ -48,7 +48,7 @@ const routes: Routes = [{
  ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
