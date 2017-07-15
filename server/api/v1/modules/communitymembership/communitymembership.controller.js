@@ -1,6 +1,6 @@
 const communityMembershipService = require('./communitymembership.service');
 
-const communityRoleService = require('../communityrole/communityrole.service');
+const communityRoleCtrl = require('../communityrole/communityrole.controller');
 
 const async = require('async');
 
@@ -49,7 +49,7 @@ function checkCondtionRoleExistenseForaDomain(roleExistCheck,
   let iterateRoleExist = iterateRole;
   if (values.length === nullCheckResult) {
     values.forEach((data) => {
-      communityRoleService.checkCommunityRole2(domainName, data.role, (error, message) => {
+      communityRoleCtrl.checkCommunityRole2(domainName, data.role, (error, message) => {
         iterateRoleExist += 1;
         if (message) {
           roleExist += 1;
@@ -367,9 +367,19 @@ function getParticularCommunityMembersDetails(domainName, done) {
   communityMembershipService.getParticularCommunityMembersDetails(domainName, done);
 }
 
+/*
+ *Checking condition - get particular Community members Detail to check user availability
+ */
+
+function checkCommunityToUpdateMembersDetails(domainName, userName, done) {
+  communityMembershipService.checkCommunityToUpdateMembersDetails(domainName, userName, done);
+}
+
+
 module.exports = {
   addMembersToCommunity,
   removeMembersFromCommunity,
   modifyRoleOfMembersFromCommunity,
   getParticularCommunityMembersDetails,
+  checkCommunityToUpdateMembersDetails,
 };

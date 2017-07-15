@@ -14,6 +14,8 @@ import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
 import { NotifyComponent } from './notify/notify.component';
 import { ManageCommunityComponent } from './managecommunity/managecommunity.component';
+import { CommunitiesComponent } from './communities/communities.component';
+import { CommunitiesService } from './communities/communities.service';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   PopularToolsComponent,
   TopicsComponent,
   SearchComponent,
+  CommunitiesComponent,
   ManageCommunityComponent,
   NotifyComponent,
   ContentComponent
@@ -39,7 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [],
+  providers: [CommunitiesService],
   bootstrap: [AppComponent],
   entryComponents: [ SearchComponent ]
 

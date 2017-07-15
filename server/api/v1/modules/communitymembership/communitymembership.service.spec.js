@@ -33,6 +33,7 @@ describe('Negative test case check for communitymembership when data existence c
   before(() => {
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni';`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.chnni'`);
+    client.execute('TRUNCATE calvincommunity.membership');
   });
 
 
@@ -203,6 +204,7 @@ describe('Negative test case check for communitymembership when data existence c
 
 
   after('', () => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni'`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.chnni'`);
   });
@@ -221,6 +223,7 @@ describe('Negative test case check for communitymembership when URI parameter is
    * before hook to execute arbitrary code before this block
    */
   before(() => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.blr';`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.blr'`);
   });
@@ -316,6 +319,7 @@ describe('Negative test case check for communitymembership when URI parameter is
 
 
   after('', () => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.blr'`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.blr'`);
   });
@@ -334,6 +338,7 @@ describe('Negative test case check for communitymembership when specified role i
    * before hook to execute arbitrary code before this block
    */
   before(() => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.blr';`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.blr'`);
   });
@@ -393,6 +398,7 @@ describe('Negative test case check for communitymembership when specified role i
 
 
   after('', () => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.blr'`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.blr'`);
   });
@@ -410,6 +416,7 @@ describe('Negative test case check for all methods for communitymembership when 
    * before hook to execute arbitrary code before this block
    */
   before(() => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.blr';`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.blr'`);
   });
@@ -696,6 +703,7 @@ describe('Negative test case check for all methods for communitymembership when 
    */
 
   after('', () => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.blr'`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.blr'`);
   });
@@ -713,6 +721,7 @@ describe('Negative test case check for all methods for communitymembership when 
    * before hook to execute arbitrary code before this block
    */
   before(() => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.blr';`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.blr'`);
   });
@@ -881,6 +890,7 @@ describe('Positive test case check for all methods for communitymembership', () 
    * before hook to execute arbitrary code before this block
    */
   before(() => {
+    client.execute('TRUNCATE calvincommunity.membership');
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni';`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.chnni'`);
   });
@@ -1100,5 +1110,7 @@ describe('Positive test case check for all methods for communitymembership', () 
   after('', () => {
     client.execute(`DELETE FROM ${COMMUNITY_MEMBERSHIP_TABLE} where domain='wipro.chnni'`);
     client.execute(`DELETE FROM ${COMMUNITY_ROLES_TABLE} where domain='wipro.chnni'`);
+    client.execute('TRUNCATE calvincommunity.communitymembership');
+    client.execute('TRUNCATE calvincommunity.membership');
   });
 });
