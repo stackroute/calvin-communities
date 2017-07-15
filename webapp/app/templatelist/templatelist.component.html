@@ -23,7 +23,7 @@
   <div *ngFor="let tag of data.tags">
     <md-list>
      <md-list-item>{{tag}}</md-list-item>
-    </md-list>  
+    </md-list>
     </div>
   </md-card-header>
   <md-tab-group>
@@ -34,7 +34,7 @@
    </md-tab>
    <md-tab label="Roles">
     <md-list *ngFor="let roles of data.roleActions">
-      <md-list-item>{{roles.role}}</md-list-item>
+      {{roles.role}}
     </md-list>
    </md-tab>
   </md-tab-group>
