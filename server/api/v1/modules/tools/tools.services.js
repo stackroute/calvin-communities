@@ -16,7 +16,6 @@ const client = new model.Client({
 });
 
 function getDomainsAndTools(done) {
-  console.log("toolsservices");
   const query = (`SELECT toolid FROM ${TOOL_TABLE}`);
   return client.execute(query, (err, results) => {
     if (!err) {
