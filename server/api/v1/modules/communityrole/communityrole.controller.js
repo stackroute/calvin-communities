@@ -1,18 +1,12 @@
 const communityRoleService = require('./communityrole.service');
-
 const logger = require('../../../../logger');
-
 const async = require('async');
-
 function getCommunityRoles(domainName, done) {
   communityRoleService.getCommunityRoles(domainName, done);
 }
-
-
 function getCommunityRolesOnly(domainName, onlyroles, done) {
   communityRoleService.getCommunityRolesOnly(domainName, onlyroles, done);
 }
-
 /* function postCommunityRoles(postedData, done) {
   let count = 0;
   postedData.forEach((val) => {
@@ -63,7 +57,6 @@ function checkRole(domainName, postedData, done) {
     }
   });
 }
-
 function postRoles(domainName, postedData, count, done) {
   // console.log(count)
   logger.debug('counterVALU---->', count);
@@ -78,13 +71,10 @@ function postRoles(domainName, postedData, count, done) {
     done({ error: 'entry already exists' }, undefined);
   }
 }
-
-
 function postCommunityRoles(domainName, postedData, done) {
   async.waterfall([
     checkRole.bind(null, domainName, postedData),
     postRoles.bind(null, domainName, postedData),
-
   ], (err, result) => {
     if (err) {
       done(err);
@@ -93,8 +83,6 @@ function postCommunityRoles(domainName, postedData, done) {
     }
   });
 }
-
-
 /* function patchCommunityRoles(patchData, domainName, role, done) {
   const params = [patchData[0].actions, domainName.toLowerCase(),
     role.toLowerCase(), patchData[0].toolId.toLowerCase(),
@@ -130,11 +118,9 @@ function checkRole2(domainName, role, done) {
     } else {
       count += 0;
     }
-
     done(null, count);
   });
 }
-
 function patchRoles(patchData, domainName, role, count, done) {
   /*  if (count === patchData.length) {*/
   logger.debug('patchData.length', patchData.length);
@@ -144,7 +130,6 @@ function patchRoles(patchData, domainName, role, count, done) {
     done({ error: 'Patch only allowed for existant data' }, undefined);
   }
 }
-
 function patchCommunityRoles(patchData, domainName, role, done) {
   /* const params = [patchData[0].actions, domainName.toLowerCase(),
     role.toLowerCase(), patchData[0].toolId.toLowerCase(),
@@ -152,7 +137,6 @@ function patchCommunityRoles(patchData, domainName, role, done) {
   async.waterfall([
     checkRole2.bind(null, domainName, role),
     patchRoles.bind(null, patchData, domainName, role),
-
   ], (err, result) => {
     if (err) {
       done(err);
@@ -162,7 +146,9 @@ function patchCommunityRoles(patchData, domainName, role, done) {
   });
 }
 
-
+function checkCommunityRole2(domainName, role, done){
+  communityRoleService.checkCommunityRole2(domainName, role, done);
+}
 // function patchCommunityRoles(patchData, domainName, role, done) {
 //   logger.debug('patchData[0].actions', patchData[0].actions);
 //   const params = [patchData[0].actions, domainName.toLowerCase(),
@@ -170,11 +156,10 @@ function patchCommunityRoles(patchData, domainName, role, done) {
 //   // logger.debug("patchData[0].actions",patchData[0].toolId.toLowerCase());
 //   communityRoleService.patchCommunityRoles(params, done);
 // }
-
 module.exports = {
-
   getCommunityRoles,
   postCommunityRoles,
   patchCommunityRoles,
   getCommunityRolesOnly,
+  checkCommunityRole2,
 };

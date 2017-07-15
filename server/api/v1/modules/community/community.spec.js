@@ -21,7 +21,7 @@ const client = new model.Client({
 });
 
 
-describe('get/ post/ patch community ', function () {
+describe('get/ post/ patch / delete community ', function () {
   before(function () {
     client.execute('TRUNCATE communities')
       .then(function () {})
