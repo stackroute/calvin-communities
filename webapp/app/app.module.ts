@@ -25,6 +25,10 @@ import { PurposeComponent } from './purpose/purpose.component';
 import { GetPurposeService } from './purpose/purpose.service';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { TemplateListService } from './templatelist/templatelist.service';
+import { CommunityPageService } from './communitypage/communitypage.service';
+import { CommunityPageComponent } from './communitypage/communitypage.component';
+
+
 import 'd3';
 import 'nvd3';
 
@@ -44,6 +48,7 @@ import 'nvd3';
   PurposeComponent,
   NvD3Component,
   TemplateListComponent,
+  CommunityPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +59,7 @@ import 'nvd3';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [GetPurposeService, TemplatesService,TemplateListService, DashboardGraphService ],
+  providers: [GetPurposeService, TemplatesService,TemplateListService, DashboardGraphService, CommunityPageService ],
   bootstrap: [AppComponent],
 
 })

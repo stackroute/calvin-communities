@@ -7,6 +7,8 @@ import { PopularToolsComponent } from './populartools/populartools.component';
 import { TopicsComponent } from './topics/topics.component';
 import { Routes, RouterModule } from '@angular/router';
 import { PurposeComponent } from './purpose/purpose.component';
+import { CommunityPageComponent } from './communitypage/communitypage.component';
+
 
 const routes: Routes = [{
           path: '',
@@ -41,6 +43,10 @@ const routes: Routes = [{
               path: 'purpose',
               component: PurposeComponent
 
+          },
+          {
+              path: 'communitypage',
+              component: CommunityPageComponent
           },
           { path: '**', redirectTo: '/dashboard' }
 

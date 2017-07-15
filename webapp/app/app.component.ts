@@ -16,5 +16,6 @@ navigation = [
     { link: 'search', label: 'Search'},
     { link: 'templatelist', label: 'TemplateList'},
     { link: 'purpose', label: 'Purpose'},
+    { link: 'communitypage', label: 'communitypage'},
   ];
 }
