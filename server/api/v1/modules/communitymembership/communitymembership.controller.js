@@ -104,7 +104,7 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
  *POST Method- Publish a event
  */
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' };
+  let message = { domain: dataFromURI, value: dataFromBody, type:'add' };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('topic3', message, (err, res) => {
@@ -120,7 +120,7 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
  *PATCH Method- Publish a event
  */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
+  let message = { domain: dataFromURI, value: dataFromBody, type:'modify' };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('topic3', message, (err, res) => {
@@ -137,7 +137,7 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
  */
 
 function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody, type: 'delete' };
+  let message = { domain: dataFromURI, value: dataFromBody.length, type:'delete' };
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);

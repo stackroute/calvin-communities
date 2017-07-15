@@ -1,90 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { ChartsModule } from 'ng2-charts';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MdCardModule } from '@angular/material';
+import { ToolsGraphService } from './tools-graph.service';
+import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'calvin-tools-graph',
-  templateUrl: './tools-graph.component.html',
-  styleUrls: ['./tools-graph.component.css']
+  templateUrl: './tools-graph.component.html'
 })
 export class ToolsGraphComponent implements OnInit {
 
-  constructor() { }
+constructor(private GraphService: ToolsGraphService) {
+};
 
-  ngOnInit() {
+  tools;
+  data;
+  count;
+
+
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+
+ ngOnInit() {
+    this.getToolsGraphDetails();
+  }
+getToolsGraphDetails() {
+let count , tool;
+    this.GraphService.getDomainsAndTools()
+      .subscribe(tools => {
+        this.tools = tools;
+        this.tools.forEach((tool) => {
+              count = tool.domains.length;
+        })
+        console.log("length", count);
+       console.log("check",this.tools);
+
+        })
+
+          }
+
+  public barChartLabels:string[] = [this.tools];
+  public barChartType:string = 'bar';
+  public barChartLegend:boolean = true;
+
+  public barChartData:any[] = [
+    {data: this.tools , label: 'Tools'},
+    {data: this.count, label: 'Domains'}
+  ];
+
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
   }
 
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
+  public randomize():void {
+    let clone = JSON.parse(JSON.stringify(this.barChartData));
+    clone[0].data = this.data;
+    this.barChartData = clone;
+  }
 }
-
-import { Component, OnInit,Input, Inject } from '@angular/core';
-import { ToolActions } from './community-tool-actions.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Params, RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
-import { MD_DIALOG_DATA, MdDialog, MdDialogRef} from '@angular/material';
-
-@Component({
-  selector: 'calvin-community-tool-actions',
-  templateUrl: './community-tool-actions.component.html',
-  styleUrls: ['./community-tool-actions.component.css']
-})
-export class CommunityToolActionsComponent implements OnInit {
-  selected = [];
-  getresults=[];
-  
-  checkBoxValue: boolean = false;
-  sample = [];
-  a=[];
-  domainName;
-  roleName;
-  y={};
-  @Input() community;
- 
-  constructor(private tool: ToolActions, private route:ActivatedRoute,@Inject(MD_DIALOG_DATA) public data: any,
-  public dialogRef: MdDialogRef<CommunityToolActionsComponent>) { 
-  this.domainName = data.domain ; 
-  this.roleName=data.role;
-  console.log('domin name from dialog',this.roleName);
-    
-    this.tool.listTools(this.domainName).subscribe(res => {return this.sample.push(res);
-    });
-    
-}
-
-  getCheckboxValue(toolId, status) {
-    // console.log(id);
-    const grant="true";
-    //console.log(status)
-    const x={};
-    x[status]=grant;
-    
-    //console.log(x)
-    // console.log(action);
-    const actions=x;
-     const index = this.selected.indexOf(toolId);
-     //console.log(index)
-    if (index === -1) {
-      this.selected.push({toolId,actions});
-    } else {
-      this.selected.splice(index, 1);
-    }
-    //console.log(this.selected,"fdsgsdgsdg");
-    
-    return this.selected;
-    // 
-  }
-  
-  exists(toolName, status) {
-    return this.selected.indexOf({toolName,status}) > -1;
-  }
-  update()
-  {
-    // console.log(this.selected);
-    // console.log(this.domainName);
-    // console.log(this.roleName);
-    return this.tool.updateTools(this.domainName,this.roleName,this.selected).subscribe(res=>{return this.sample.push(res);
-    });
-  }
-
-  ngOnInit() {
-    
-  }
- 
- }

@@ -1,19 +1,29 @@
-<!-- <div fxLayout="column" md-dialog-content *ngIf="sample">
-    <div *ngFor="let core of sample">
-        <md-input-container fxLayoutAlign="start stretch">
-            <input mdInput placeholder="Role Name:" value={{roleName}}/>
-        </md-input-container>
-        <div *ngFor="let value of core.tools">
-            <md-input-container fxLayoutAlign="start stretch">
-                <input mdInput placeholder="" value={{value.toolid}}/>
-            </md-input-container>
-            <md-checkbox *ngFor="let key of value.actions" (checked)="exists(value.toolid,key)" (click)="getCheckboxValue(value.toolid,key)"
-                fxFlexLayout.xs="row">{{key}}</md-checkbox>
-        </div>
-    </div>
-</div>
 
-<div md-dialog-actions fxLayoutAlign="end">
-    <button md-button md-dialog-close>Cancel</button>
-    <button md-raised-button md-dialog-close color="primary" (click)="update()">Apply</button>
-</div> -->
+    <div class="container"
+     fxLayout
+     fxLayout.xs="row"
+     fxLayoutAlign="center"
+     fxLayoutGap="10px"
+     fxLayoutGap.xs="0">
+       <div class="item item-3" fxFlex >
+       <md-card>
+       <md-card-title>ToolsGraph</md-card-title>
+    <md-card-subtitle>Tools Used Frequently</md-card-subtitle>
+
+  <div style="display: block">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  <button (click)="randomize()">Update</button>
+  </md-card>
+</div>
+</div>
+ 
+
+
