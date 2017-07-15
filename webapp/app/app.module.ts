@@ -27,20 +27,14 @@ import { ManageCommunityComponent } from './managecommunity/managecommunity.comp
 import { CommunitiesComponent } from './communities/communities.component';
 import { CommunitiesService } from './communities/communities.service';
 import { TemplatesService } from './templates/templates.service';
-import { MaterialModule } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ToolsComponent} from './tools/tools.component';
+import { ToolsComponent } from './tools/tools.component';
 import { ToolService } from './tools/tools.service';
->>>>>>> 86fd720cc890461d35244c6e93dd40b1677f279b
 import { PurposeComponent } from './purpose/purpose.component';
 import { GetPurposeService } from './purpose/purpose.service';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { TemplateListService } from './templatelist/templatelist.service';
 import { ToolsGraphComponent } from './tools-graph/tools-graph.component';
 import { ToolsGraphService } from './tools-graph/tools-graph.service';
-import 'd3';
-import 'nvd3';
 import { CommunityPageService } from './communitypage/communitypage.service';
 import { CommunityPageComponent } from './communitypage/communitypage.component';
 
@@ -62,9 +56,8 @@ import { CommunityPageComponent } from './communitypage/communitypage.component'
   TemplateListComponent,
   PurposeComponent,
   ToolsGraphComponent,
-  NvD3Component
-  CommunityPageComponent,
   NvD3Component,
+  CommunityPageComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +69,6 @@ import { CommunityPageComponent } from './communitypage/communitypage.component'
     AppRoutingModule,
     ChartsModule
     ],
-  providers: [GetPurposeService, TemplatesService,TemplateListService, ToolsGraphService, DashboardGraphService ],
   providers: [ToolService,GetPurposeService, TemplatesService,
   TemplateListService, DashboardGraphService,CommunitiesService, CommunityPageService ],
   bootstrap: [AppComponent],
