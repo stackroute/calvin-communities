@@ -6,7 +6,6 @@ const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 
 function getDomainsAndTools(done) {
-  console.log("toolctrl");
   ToolService.getDomainsAndTools(done);
 }
 // Function for Getting tools

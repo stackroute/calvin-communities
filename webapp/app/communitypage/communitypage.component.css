@@ -1,0 +1,33 @@
+.search {
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+  min-height: 100px;
+}
+
+.search>a {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  margin-top: 1px;
+}
+
+button {
+  min-height: 50px;
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+}
+
+.column-2,
+.column-1,
+md-nav-list {
+  background-color: #2d3e4e;
+  color: white;
+}
+.md-headline {
+    font-size: 20px;
+    font-weight: bold;
+}
