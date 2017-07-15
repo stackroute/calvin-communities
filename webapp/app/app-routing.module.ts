@@ -4,9 +4,11 @@ import { TemplatesComponent } from './templates/templates.component';
 import { TemplateListComponent } from './templatelist/templatelist.component';
 import { SearchComponent } from './search/search.component';
 import { TopicsComponent } from './topics/topics.component';
+import {CommunitiesComponent} from './communities/communities.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ToolsComponent} from './tools/tools.component';
 import { PurposeComponent } from './purpose/purpose.component';
+
 
 
 const routes: Routes = [{
@@ -42,6 +44,10 @@ const routes: Routes = [{
               path: 'purpose',
               component: PurposeComponent
 
+          },
+          {
+              path: 'communities',
+              component: CommunitiesComponent
           },
           { path: '**', redirectTo: '/dashboard' }
 

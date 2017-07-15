@@ -19,6 +19,8 @@ import { TemplatesComponent } from './templates/templates.component';
 import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
 import { ManageCommunityComponent } from './managecommunity/managecommunity.component';
+import { CommunitiesComponent } from './communities/communities.component';
+import { CommunitiesService } from './communities/communities.service';
 import { TemplatesService } from './templates/templates.service';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -39,6 +41,7 @@ import { TemplateListService } from './templatelist/templatelist.service';
   TemplatesComponent,
   TopicsComponent,
   SearchComponent,
+  CommunitiesComponent,
   ManageCommunityComponent,
   ContentComponent,
   ToolsComponent,
@@ -56,7 +59,9 @@ import { TemplateListService } from './templatelist/templatelist.service';
     FlexLayoutModule,
     AppRoutingModule
     ],
-  providers: [ToolService,GetPurposeService, TemplatesService,TemplateListService, DashboardGraphService],
+
+  providers: [ToolService,GetPurposeService, TemplatesService,
+  TemplateListService, DashboardGraphService,CommunitiesService],
   bootstrap: [AppComponent],
 
 })
