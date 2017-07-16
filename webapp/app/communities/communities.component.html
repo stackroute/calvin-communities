@@ -1,4 +1,4 @@
-<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="20px">
+<div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="20px">
   <div *ngIf="getResults" fxFlex="100%" fxLayoutGap="15px" fxLayoutWrap>
     <div class="list-communities" fxFlex="30%" *ngFor="let data of getResults" fx-flex-fill>
       <md-card>
@@ -38,6 +38,5 @@
         </md-card-footer>
       </md-card>
     </div>
-    <router-outlet></router-outlet>
   </div>
 </div>

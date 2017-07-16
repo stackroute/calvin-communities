@@ -12,3 +12,7 @@ md-sidenav {
 #sidebar-logo {
 	height: 60%;
 }
+
+.spacer {
+	flex: 1 1 auto;
+}

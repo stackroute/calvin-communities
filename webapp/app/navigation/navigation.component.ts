@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 
 @Component({
   selector: 'calvin-navigation',
@@ -6,8 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
+  isDarkTheme: boolean = false;
+  constructor() {
 
-  constructor() {}
+  }
 
   ngOnInit() {}
   navigation = [

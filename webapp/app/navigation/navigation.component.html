@@ -1,3 +1,4 @@
+<div [class.dark]="isDarkTheme">
 <md-sidenav-container fullscreen class="sidenav-container">
   <md-sidenav #sidenav mode="push" opened="false">
     <md-toolbar color="primary">
@@ -10,14 +11,25 @@
         </a>
                 </md-nav-list>
   </md-sidenav>
-<md-toolbar color="primary">
- <button md-icon-button class="hidden-md-up" (click)="sidenav.toggle()"><md-icon>menu</md-icon></button>
- <img routerLink="" src="/assets/logo/logo.png" class="logo" />
-
-          <button md-button class="nav-button" *ngFor="let item of navigation" [routerLink]="[item.link]" routerLinkActive="active">
+<md-toolbar color="primary" class="mat-elevation-z2">
+ <button md-icon-button  class="hidden-md-up" (click)="sidenav.toggle()"><md-icon>menu</md-icon></button>
+ <img routerLink="" src="/assets/logo/logo.png" class="logo" /><div class="mdc-typography--display4 logo">Calvin</div>
+     <span class="spacer"></span>
+     <div class="mdc-typography--display4">
+          <button md-button class="hidden-sm-down nav-button" *ngFor="let item of navigation" [routerLink]="[item.link]" routerLinkActive="active">
             {{item.label}}
           </button>
+          <md-slide-toggle
+          color="primary"
+          (click)="isDarkTheme = !isDarkTheme"
+         >
+      </md-slide-toggle>
+      </div>
 </md-toolbar>
+
 <router-outlet></router-outlet>
+
 <calvin-foot-note></calvin-foot-note>
+
 </md-sidenav-container>
+</div>

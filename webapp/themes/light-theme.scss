@@ -4,17 +4,17 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$communities-calvin-primary: mat-palette($mat-blue-grey, 700);
+$primary: mat-palette($mat-blue-grey, 700);
 
-$communities-calvin-accent:  mat-palette($mat-teal, 500);
+$accent:  mat-palette($mat-teal, 500);
 
 // The warn palette is optional (defaults to red).
-$communities-calvin-warn:    mat-palette($mat-red, A200, A100, A400);
+$warn:    mat-palette($mat-red, A200, A100, A400);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$communities-calvin-light-theme: mat-light-theme($communities-calvin-primary, $communities-calvin-accent, $communities-calvin-warn);
+$theme: mat-light-theme($primary, $accent, $warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($communities-calvin-light-theme);
+@include angular-material-theme($theme);

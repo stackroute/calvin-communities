@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
-
+import {MdInputModule} from '@angular/material';
 
 
 @Component({

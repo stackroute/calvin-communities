@@ -11,12 +11,11 @@
 @include mat-core();
 
 @import 'light-theme.scss';
-@import 'dark-theme.scss';
 
-.light-theme {
-  @include angular-material-theme($communities-calvin-light-theme);
-}
+@include angular-material-theme($theme);
 
-.dark-theme {
-  @include angular-material-theme($communities-calvin-dark-theme);
+.dark {
+ @import 'dark-theme.scss';
+ @include angular-material-theme($dark-theme);
+
 }
