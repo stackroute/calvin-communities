@@ -1,3 +1,4 @@
+
 <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="0px" fxLayoutGap.xs=".2">
   <md-card fxFlex="25%" *ngFor="let data of getResults">
     <md-card-header>
@@ -35,6 +36,32 @@
       </md-list>
     </md-card-content>
     <!--<md-tab-group>
+  <div class="container"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="0px"
+     fxLayoutGap.xs=".2">
+<md-card fxFlex="25%" *ngFor="let data of getResults" >
+  <md-card-header>
+   <md-card-title>{{data.name}}</md-card-title>
+     <md-card-subtitle>{{data.purpose}}</md-card-subtitle>
+  </md-card-header>
+  <img md-card-image src="https://images.nigms.nih.gov/PublicAssets/5811/NCMIR%20tongue%202.jpg">
+  <md-card-content>
+    <p>
+      {{data.description}}
+    </p>
+  </md-card-content>
+  <md-card-header>
+    <md-card-title>Tags</md-card-title>
+  <div *ngFor="let tag of data.tags">
+    <md-list>
+     <md-list-item>{{tag}}</md-list-item>
+    </md-list>
+    </div>
+  </md-card-header>
+  <md-tab-group>
    <md-tab label="Tools">
     <md-list *ngFor="let tool of data.tools" >
       {{tool.toolId}}
@@ -50,6 +77,11 @@
       <button md-button color="primary" (click)="update()">View Communties</button>
     </md-card-actions>
   </md-card>
+  </md-tab-group>
+ <md-card-actions fxLayoutAlign="end">
+  <button md-raised-button color="accent" (click)="update()">View Communties</button>
+ </md-card-actions>
+</md-card>
 </div>
 <router-outlet>
 </router-outlet>

@@ -8,6 +8,7 @@ import { OverlayContainer } from '@angular/material';
 })
 export class AppComponent {
 
+<<<<<<< HEAD
 navigation = [
     { logo: 'dashboard', link: 'dashboard', label: 'Dashboard' },
     { logo: 'group', link: 'communities', label:'Communities'},
@@ -17,4 +18,7 @@ navigation = [
     { logo: 'bookmark', link: 'purpose', label: 'Purpose'},
     { logo: '', link: 'communitypage', label: 'CommunityPage'},
   ];
+=======
+
+>>>>>>> 17aab5d243c4c9babc99c5a5e231b8131c5d9a47
 }
