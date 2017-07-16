@@ -17,13 +17,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChartModule } from 'angular2-chartjs';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DashboardGraphsComponent } from './dashboardGraphs/dashboardGraphs.component';
-import { DashboardGraphService } from './dashboardGraphs/dashboardGraphs.service';
+import { DashboardGraphsComponent } from './dashboard-graphs/dashboard-graphs.component';
+import { DashboardGraphService } from './dashboard-graphs/dashboard-graphs.service';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { TemplatesComponent } from './templates/templates.component';
-import { TopicsComponent } from './topics/topics.component';
 import { SearchComponent } from './search/search.component';
-import { ManageCommunityComponent } from './managecommunity/managecommunity.component';
 import { CommunitiesComponent } from './communities/communities.component';
 import { CommunitiesService } from './communities/communities.service';
 import { TemplatesService } from './templates/templates.service';
@@ -31,13 +29,14 @@ import { ToolsComponent } from './tools/tools.component';
 import { ToolService } from './tools/tools.service';
 import { PurposeComponent } from './purpose/purpose.component';
 import { GetPurposeService } from './purpose/purpose.service';
-import { TemplateListComponent } from './templatelist/templatelist.component';
-import { TemplateListService } from './templatelist/templatelist.service';
+import { TemplateListComponent } from './template-list/template-list.component';
+import { TemplateListService } from './template-list/template-list.service';
 import { ToolsGraphComponent } from './tools-graph/tools-graph.component';
 import { ToolsGraphService } from './tools-graph/tools-graph.service';
-import { CommunityPageService } from './communitypage/communitypage.service';
-import { CommunityPageComponent } from './communitypage/communitypage.component';
+import { CommunityPageService } from './community-page/community-page.service';
+import { CommunityPageComponent } from './community-page/community-page.component';
 import { FootNoteComponent } from './foot-note/foot-note.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -46,10 +45,8 @@ import { FootNoteComponent } from './foot-note/foot-note.component';
   DashboardGraphsComponent,
   NotificationsComponent,
   TemplatesComponent,
-  TopicsComponent,
   SearchComponent,
   CommunitiesComponent,
-  ManageCommunityComponent,
   ToolsComponent,
   PurposeComponent,
   TemplateListComponent,
@@ -57,7 +54,8 @@ import { FootNoteComponent } from './foot-note/foot-note.component';
   ToolsGraphComponent,
   NvD3Component,
   CommunityPageComponent,
-  FootNoteComponent
+  FootNoteComponent,
+  NavigationComponent
   ],
   imports: [
     BrowserModule,

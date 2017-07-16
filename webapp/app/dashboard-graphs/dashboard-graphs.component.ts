@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MdCardModule } from '@angular/material';
-import {MdProgressSpinnerModule} from '@angular/material';
-import { DashboardGraphService } from './dashboardGraphs.service';
+import { MdProgressSpinnerModule } from '@angular/material';
+import { DashboardGraphService } from './dashboard-graphs.service';
 
 
 @Component({
   selector: 'calvin-dashboard-graphs',
-  templateUrl: `./dashboardGraphs.component.html`,
+  templateUrl: `./dashboard-graphs.component.html`,
   styleUrls: [
-    '../../../node_modules/nvd3/build/nv.d3.css', './dashboardGraphs.component.css'
+    '../../../node_modules/nvd3/build/nv.d3.css', './dashboard-graphs.component.css'
   ],
   encapsulation: ViewEncapsulation.None
 

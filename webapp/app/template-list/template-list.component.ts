@@ -3,11 +3,11 @@ import { Http, Response} from '@angular/http';
 import {MdButtonModule} from '@angular/material';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import {MdTabsModule} from '@angular/material';
-import {TemplateListService} from './templatelist.service';
+import {TemplateListService} from './template-list.service';
 
 @Component({
-  templateUrl: './templatelist.component.html',
-  styleUrls: ['./templatelist.component.css']
+  templateUrl: './template-list.component.html',
+  styleUrls: ['./template-list.component.css']
 })
 export class TemplateListComponent implements OnInit {
 getResults = [];

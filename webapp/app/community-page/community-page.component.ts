@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { CommunityPageService } from './communitypage.service';
+import { CommunityPageService } from './community-page.service';
 
 @Component({
-  templateUrl: './communitypage.component.html',
-  styleUrls: ['./communitypage.component.css'],
+  templateUrl: './community-page.component.html',
+  styleUrls: ['./community-page.component.css'],
 })
 
 
