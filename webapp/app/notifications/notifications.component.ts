@@ -9,4 +9,10 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 })
 export class NotificationsComponent {
 
+public options = {
+    position: ["bottom", "left"],
+    timeOut: 5000,
+    lastOnBottom: true
+}
+
 }

@@ -2,9 +2,10 @@
 
 const ToolService = require('./tools.services'); //
 
+const registerPublisherService = require('../../../../common/kafkaPublisher');
+
 
 function getDomainsAndTools(done) {
-  console.log("toolctrl");
   ToolService.getDomainsAndTools(done);
 }
 // Function for Getting tools
@@ -29,6 +30,7 @@ function postTools(dataFromBody, domainName, done) {
   // console.log(count === dataFromBody.length);
   if (count === dataFromBody.length) {
     ToolService.addTools(dataFromBody, domainName, done);
+    PublishEventWhenEventAdded(domainName, count );
   } else {
     return done({ error: 'please enter all fields' }, undefined);
   }
@@ -52,6 +54,19 @@ function deleteTool(dataFromURI, done) {
       return ToolService.deleteTools(dataFromURI, done);
     }
     return done(err, undefined);
+  });
+}
+
+// publish event for counter when tool is added
+function PublishEventWhenEventAdded(domainname, count) {
+  let message = { domain: domainname, event: 'newtooladded', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+    if (err) {
+     // logger.debug('error occured', err);
+    } else {
+     // logger.debug('result is', res);
+    }
   });
 }
 

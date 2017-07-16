@@ -1,18 +1,11 @@
-
-    <div class="container"
-     fxLayout
-     fxLayout.xs="row"
-     fxLayoutAlign="center"
-     fxLayoutGap="10px"
-     fxLayoutGap.xs="0">
-       <div class="item item-3" fxFlex >
-       <md-card>
-       <md-card-title>Communities</md-card-title>
-    <md-card-subtitle>on the Basis of Purposes</md-card-subtitle>
-  <md-card-content>
-      <nvd3 [options]="options" [data]="data"></nvd3>
-  </md-card-content>
-
-</md-card>
-</div>
+<div class="container" fxLayout fxLayout.xs="column" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div class="item item-3" fxFlex>
+    <md-card>
+      <md-card-title>Communities</md-card-title>
+      <md-card-subtitle>on the Basis of Purposes</md-card-subtitle>
+      <md-card-content>
+        <nvd3 [options]="options" [data]="data"></nvd3>
+      </md-card-content>
+    </md-card>
+  </div>
 </div>

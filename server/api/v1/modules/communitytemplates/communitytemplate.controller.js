@@ -14,9 +14,7 @@ function getListOfPurposes() {
   templates.forEach((templatesdata) => {
     purposes.push(templatesdata.purpose);
   });
-  const unique = purposes.filter((element, index, arr) => {
-    return arr.indexOf(element) == index
-  });
+  const unique = purposes.filter((element, index, arr) => arr.indexOf(element) === index);
   return unique;
 }
 
@@ -24,15 +22,9 @@ function getListOfPurposes() {
  * controller for the specified template data retrieved based on purpose
  */
 function getTemplatesOfPurpose(purpose) {
-  console.log(purpose);
-  let templatesOnPurpose = [];
-  templates.filter(element => {if(element.purpose.toLowerCase() === purpose){
-    templatesOnPurpose.push(element);
-  }});
-  console.log("hello", templatesOnPurpose);
+  const templatesOnPurpose = templates.filter(element => element.purpose.toLowerCase() === purpose);
   if (templatesOnPurpose.length === 0) {
     return templates;
-    console.log("nooo");
   }
   return templatesOnPurpose;
 }
@@ -42,7 +34,8 @@ function getTemplatesOfPurpose(purpose) {
  */
 
 function getTemplateOfTemplateName(name) {
-  const templatename = templates.filter(element => element.name === name);
+  const templatename =
+  templates.filter(element => element.name.toLowerCase() === name.toLowerCase());
   return templatename;
 }
 

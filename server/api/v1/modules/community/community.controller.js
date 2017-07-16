@@ -81,6 +81,9 @@ function getTemplateDetails(community) {
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
+      purpose: element.purpose,
+      toolname: element.toolName,
+      avatar: element.avatar,
       toolId: element.toolId,
       actions: element.actions,
       activityEvents: element.activityEvents,
@@ -117,12 +120,12 @@ function getTemplateDetails(community) {
  */
 function addCommunity(community, done) { // eslint-disable-line consistent-return
   let values;
-  const nameRegex = /^([a-zA-Z0-9.]){5,20}$/;
+  const nameRegex = /^([a-zA-Z0-9.]){5,30}$/;
   if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
   if (!community.domain.match(nameRegex)) { return done([400, 'Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)']); }
 
-  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to to be passed']); }
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to be passed']); }
 
   if (typeof (community.tags) === 'string') { community.tags = [community.tags]; } // eslint-disable-line no-param-reassign
 
@@ -212,7 +215,7 @@ function getCommunity(domain, counter, done) {
 function updateCommunity(domainName, community, done) {
   if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
-  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to to be passed']); }
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to be passed']); }
 
   if (typeof (community.tags) === 'string') { community.tags = [community.tags]; } // eslint-disable-line no-param-reassign
 
@@ -239,7 +242,7 @@ function updateCommunity(domainName, community, done) {
     ];
 
     return communityService.updateCommunity(param, done);
-  } return done('Wrong Data Inputs', null);
+  }else {return done('Wrong Data Inputs', null); }
 }
 
 /**

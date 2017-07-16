@@ -18,6 +18,7 @@ const client = new model.Client({
 function getDomainsAndTools(done) {
   console.log("toolsservices");
   const query = (`SELECT * FROM ${TOOL_TABLE}`);
+
   return client.execute(query, (err, results) => {
     if (!err) {
       console.log("result", results.rows);
@@ -77,7 +78,7 @@ function addTools(data, domain, done) {
   const arr = [];
   let query;
   data.forEach((val) => {
-    query = (`update ${TOOL_TABLE} set domains = domains + {'${domain.toLowerCase()}'} where toolid='${val.toolId.toLowerCase()}';`);
+    query = (`update ${TOOL_TABLE} set domains = domains + {'${domain.toLowerCase()}'}, avatar= '${val.avatar.toLowerCase()}', toolname = '${val.toolname.toLowerCase()}'  where toolid='${val.toolId.toLowerCase()}';`);
     arr.push({ query });
   });
 

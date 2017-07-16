@@ -74,10 +74,13 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_MEMBERSHIP} ( \
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} ( \
   domain text, \
   toolid text, \
+  toolname text, \
   actions set<text>, \
   activityevents set<text>, \
   createdon timestamp, \
   updatedon timestamp, \
+  avatar text, \
+  purpose text, \
   PRIMARY KEY (domain, toolid)
 )`);
 
@@ -88,6 +91,8 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} ( 
 queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_TOOLS} ( \
   domains set<text>, \
   toolid text, \
+  toolname text, \
+  avatar text, \
   PRIMARY KEY(toolid)
 )`);
 
@@ -145,15 +150,15 @@ function dboperations(query, done) {
 }
 
 function keyspaceCreation(done) {
-    /**
-     * Describing & creating keyspace
-     */
+  /**
+   * Describing & creating keyspace
+   */
   client.execute(`CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE} WITH replication = \
   {'class': 'SimpleStrategy', 'replication_factor': '1'} \
  `, (err) => {
     if (err) {
-      logger.debug('Error in Keyspace Creation, exiting...');
-      process.exit();
+      logger.debug('Error in Keyspace Creation, trying again...');
+      process.exit(1);
     } else {
       logger.debug('Keyspace Created, Moving ahead...');
       done();
@@ -162,11 +167,11 @@ function keyspaceCreation(done) {
 }
 
 function tableCreation(done) {
-    /**
-     * creating tables
-     */
+  /**
+   * creating tables
+   */
   async.each(queries, dboperations, (err) => { // eslint-disable-line consistent-return
-    if (err) return logger.debug('Error in DB Creation', err);
+    if (err) { logger.debug('Error in DB Creation, trying again...', err); process.exit(1)}
     logger.debug('Database Created');
   });
   done();
@@ -174,7 +179,7 @@ function tableCreation(done) {
 
 function dbCreate() {
   async.series([keyspaceCreation, tableCreation], (err) => {
-    if (err) logger.debug(err);
+    if (err){ logger.debug("Error in Db Creation, trying again...", err); process.exit(1)}
   });
 }
 

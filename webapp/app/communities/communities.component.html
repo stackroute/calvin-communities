@@ -1,0 +1,43 @@
+<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="20px">
+  <div *ngIf="getResults" fxFlex="100%" fxLayoutGap="15px" fxLayoutWrap>
+    <div class="list-communities" fxFlex="30%" *ngFor="let data of getResults" fx-flex-fill>
+      <md-card>
+        <md-card-header>
+          <img md-card-avatar src={{data.avatar}}><img md-card-avatar>
+          <md-card-title>{{data.name}}</md-card-title>
+          <md-card-subtitle>{{data.domain}}</md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+          <md-card-subtitle>purpose</md-card-subtitle>
+          <p>
+            {{data.purpose}}
+          </p>
+        </md-card-content>
+        <md-card-content>
+          <md-card-subtitle>Description</md-card-subtitle>
+          <p>
+            {{data.description}}
+          </p>
+        </md-card-content>
+        <md-card-content>
+          <md-card-subtitle>Tools</md-card-subtitle>
+<!--           {{data.tools}} -->
+        </md-card-content>
+         <md-card-actions fxLayoutAlign="end">
+  <button md-raised-button color="primary" (click)="update()">View Communties</button>
+ </md-card-actions>
+<!--         <md-card-actions fxLayoutAlign="end">
+          <button md-mini-fab color="primary">
+            <md-icon>send</md-icon>
+          </button>
+        </md-card-actions> -->
+        <md-card-footer>
+        <div fxLayoutAlign="center"> Owner:{{data.owner}}</div>
+          <div fxLayoutAlign="center"> Status:{{data.status}}</div>
+          <div fxLayoutAlign="center"> Updated On:{{data.updatedon}}</div>
+        </md-card-footer>
+      </md-card>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>
