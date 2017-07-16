@@ -215,7 +215,7 @@ function getCommunity(domain, counter, done) {
 function updateCommunity(domainName, community, done) {
   if (Object.keys(community).length === 1) { return done([400, 'Please pass some data to process']); }
 
-  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to to be passed']); }
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to be passed']); }
 
   if (typeof (community.tags) === 'string') { community.tags = [community.tags]; } // eslint-disable-line no-param-reassign
 
