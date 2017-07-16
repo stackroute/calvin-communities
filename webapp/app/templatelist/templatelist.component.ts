@@ -4,6 +4,7 @@ import {MdButtonModule} from '@angular/material';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import {MdTabsModule} from '@angular/material';
 import {TemplateListService} from './templatelist.service';
+//import { ExpansionPanelsModule } from 'ng2-expansion-panels';
 
 @Component({
   templateUrl: './templatelist.component.html',

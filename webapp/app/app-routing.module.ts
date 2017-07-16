@@ -22,7 +22,7 @@ const routes: Routes = [{
           		component: SearchComponent
           },
           {
-              path: 'templates',
+              path: 'templates/:purpose',
               component: TemplatesComponent
           },
           {

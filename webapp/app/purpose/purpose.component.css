@@ -25,3 +25,9 @@ md-card {
 .heading {
     font-weight: bold;
 }
+.routerLink
+{
+    text-decoration: none;
+}
+
+
