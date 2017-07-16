@@ -16,12 +16,12 @@ const client = new model.Client({
 });
 
 function getDomainsAndTools(done) {
-  console.log("toolsservices");
+  console.log('toolsservices');
   const query = (`SELECT * FROM ${TOOL_TABLE}`);
 
   return client.execute(query, (err, results) => {
     if (!err) {
-      console.log("result", results.rows);
+      console.log('result', results.rows);
       done(undefined, results.rows);
     } else {
       done(err, undefined);

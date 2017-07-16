@@ -193,7 +193,7 @@ function getCommunity(domain, counter, done) {
         result[0][0].requests = result[1][0].requests;
         result[0][0].tools = result[1][0].tools;
       } else {
-         result[0][0].invitations = 0;
+        result[0][0].invitations = 0;
         result[0][0].members = 0;
         result[0][0].requests = 0;
         result[0][0].tools = 0;
@@ -242,7 +242,7 @@ function updateCommunity(domainName, community, done) {
     ];
 
     return communityService.updateCommunity(param, done);
-  }else {return done('Wrong Data Inputs', null); }
+  } return done('Wrong Data Inputs', null);
 }
 
 /**

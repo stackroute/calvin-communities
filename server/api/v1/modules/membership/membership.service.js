@@ -97,7 +97,7 @@ function removeMemberFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
   console.log(data.length);
-  console.log(typeof(data));
+  console.log(typeof (data));
   console.log(data);
   data.forEach((val) => {
     arr.push({ query, params: [val.username.toLowerCase(), domainName.toLowerCase()] });

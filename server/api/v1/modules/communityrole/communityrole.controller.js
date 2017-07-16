@@ -1,6 +1,7 @@
 const communityRoleService = require('./communityrole.service');
 const logger = require('../../../../logger');
 const async = require('async');
+
 function getCommunityRoles(domainName, done) {
   communityRoleService.getCommunityRoles(domainName, done);
 }
@@ -146,7 +147,7 @@ function patchCommunityRoles(patchData, domainName, role, done) {
   });
 }
 
-function checkCommunityRole2(domainName, role, done){
+function checkCommunityRole2(domainName, role, done) {
   communityRoleService.checkCommunityRole2(domainName, role, done);
 }
 // function patchCommunityRoles(patchData, domainName, role, done) {

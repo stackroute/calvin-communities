@@ -227,7 +227,7 @@ describe('Test cases for insert and update data when invite or request occured',
       });
   });
 
-    // throw error if member is already there in commnunity while inviting people
+  // throw error if member is already there in commnunity while inviting people
 
   it('should give error on post data in database member is there in community when invite occured', (done) => {
     client.execute('delete from communityinviterequests where domain = \'seconddomain\'');

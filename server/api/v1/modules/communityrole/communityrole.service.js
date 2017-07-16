@@ -32,7 +32,7 @@ function flattenFormat(doc) {
 }
 
 function getCommunityRoles(domainName, done) {
-    // logger.debug("SERVICE getCommunityRolesOnly",domainName);
+  // logger.debug("SERVICE getCommunityRolesOnly",domainName);
   const query = `SELECT * FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
 
   return client.execute(query, (error, results) => {
@@ -52,21 +52,21 @@ function getCommunityRoles(domainName, done) {
 
 
 function getCommunityRolesOnly(domainName, onlyroles, done) {
-    // logger.debug("SERVICE getCommunityRolesOnly",domainName,"   ",onlyroles);
+  // logger.debug("SERVICE getCommunityRolesOnly",domainName,"   ",onlyroles);
   const query = `SELECT role FROM ${COMMUNITY_ROLE_TABLE} WHERE domain = '${domainName.toLowerCase()}'`; // SORT BY domainname, role`;
-    // logger.debug(query);
+  // logger.debug(query);
   return client.execute(query, (err, results) => {
     if (!err) {
-            // logger.debug("Inside getCommunityRolesOnly--------",results.rows.length);
-            // const arr = [];
-            // const result = '';
+      // logger.debug("Inside getCommunityRolesOnly--------",results.rows.length);
+      // const arr = [];
+      // const result = '';
 
       if (results.rows.length > 0) {
-                // logger.debug("helllllo");
+        // logger.debug("helllllo");
 
-                // logger.debug("OBJECT VALUE:", results.rows);
-                // logger.debug("Stringified object value", JSON.stringify(results.rows));
-                /* const newArr = results.rows.filter((value, index, self) => {
+        // logger.debug("OBJECT VALUE:", results.rows);
+        // logger.debug("Stringified object value", JSON.stringify(results.rows));
+        /* const newArr = results.rows.filter((value, index, self) => {
             logger.debug('value', value);
             logger.debug('sefl', self);
             logger.debug('self.indexOf(value) === index', self.indexOf(value) === index);
@@ -81,23 +81,23 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
           logger.debug('my unique array', Array.from(new Set(data)));
         }*/
 
-                // for(obj in results.rows)
-                // {
-                //   logger.debug(obj);
-                // }
+        // for(obj in results.rows)
+        // {
+        //   logger.debug(obj);
+        // }
 
-                // logger.debug('results.rows', results.rows)
+        // logger.debug('results.rows', results.rows)
 
         const unique = [...new Set(results.rows.map(item => item.role))];
-                // logger.debug('unique', unique)
+        // logger.debug('unique', unique)
 
         const finalArr = [];
         /* let arr=[];
         let abject={};*/
         unique.forEach((item) => {
           const obj = {};
-                    // logger.debug("item is",item);
-                    /* arr.push(item);*/
+          // logger.debug("item is",item);
+          /* arr.push(item);*/
           obj.role = item;
           logger.debug('obj', obj);
           finalArr.push(obj);
@@ -109,33 +109,33 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
         console.log("json parsed",JSON.parse(str))*/
         // console.log("Only roles:",JSON.parse(JSON.strigify(abject)));
         done(null, /* abject*/finalArr);
-                // logger.debug(finalArr);
+        // logger.debug(finalArr);
 
 
-                // results.rows.forEach(function(data){
-                //   logger.debug("DATA",data);
-                //   logger.debug("DATA stringified", JSON.stringify(data));
-                //   arr.push(JSON.stringify(data));
-                // });
+        // results.rows.forEach(function(data){
+        //   logger.debug("DATA",data);
+        //   logger.debug("DATA stringified", JSON.stringify(data));
+        //   arr.push(JSON.stringify(data));
+        // });
 
-                // arr.push(JSON.stringify(results.rows));
-                // arr=Array.from(new Set(arr));
-                // logger.debug("RANDOM COMMAND",arr);
-                // result = result+arr;
-                // logger.debug('result', result);
-                // logger.debug(JSON.parse(result));
-                // logger.debug("FINAL RESULT VALUE IS", result);
-                // result=result;
-                /* JSON.parse(JSON.stringify(result));*/
-                // logger.debug("JSON PARSE",JSON.parse(result));
-                // logger.debug("FINAL RESULT VALUE",result);
-                // done(undefined, [result]);
+        // arr.push(JSON.stringify(results.rows));
+        // arr=Array.from(new Set(arr));
+        // logger.debug("RANDOM COMMAND",arr);
+        // result = result+arr;
+        // logger.debug('result', result);
+        // logger.debug(JSON.parse(result));
+        // logger.debug("FINAL RESULT VALUE IS", result);
+        // result=result;
+        /* JSON.parse(JSON.stringify(result));*/
+        // logger.debug("JSON PARSE",JSON.parse(result));
+        // logger.debug("FINAL RESULT VALUE",result);
+        // done(undefined, [result]);
       } else {
-                // logger.debug('error');
+        // logger.debug('error');
         done('please enter a existing domain', undefined);
       }
     } else {
-            // logger.debug("last else");
+      // logger.debug("last else");
       done(err, undefined);
     }
   });
@@ -209,7 +209,7 @@ function postCommunityRoles(domainName, postedData, done) {
     Object.keys(data.actions).forEach((key) => {
       const value = data.actions[key];
       actions += `'${key}':'${value}' ,`;
-            // actions = actions.substring(0, actions.lastIndexOf(","));
+      // actions = actions.substring(0, actions.lastIndexOf(","));
     });
     actions = actions.substring(0, actions.lastIndexOf(','));
     actions = `{${actions}}`;
@@ -217,7 +217,7 @@ function postCommunityRoles(domainName, postedData, done) {
 
     query = `INSERT INTO ${COMMUNITY_ROLE_TABLE} (domain, role, actions, toolid, createdon, updatedon)
      VALUES ( '${domainName.toLowerCase()}' , '${data.role.toLowerCase()}' , ${actions.toLowerCase()} , '${data.toolId.toLowerCase()}', dateof(now()), dateof(now()) )`;
-        // let params = [data.domain, data.role, data.actions, data.toolId];
+    // let params = [data.domain, data.role, data.actions, data.toolId];
     logger.debug(data.actions);
     const d = {
       query,

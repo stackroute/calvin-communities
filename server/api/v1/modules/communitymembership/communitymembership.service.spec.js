@@ -1074,34 +1074,34 @@ describe('Positive test case check for all methods for communitymembership', () 
   it('Delete a members from a community', (done) => {
     let iterate = value.updateMembers.length;
     request(app)
-        .delete(`${uri}wipro.chnni/members`)
-        .send(value.updateMembers)
-        .expect(200)
-        .end((err, results) => {
-          if (!err) {
-            results.body.should.deep.equal(value.successDeletedMember);
-            client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain='wipro.chnni'`, (error1, res) => {
-              if (!error1) {
-                res.rows.length.should.be.equal(0);
-                value.updateMembers.forEach((data) => {
-                  client.execute(`SELECT domain,username FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain='wipro.chnni' and username='${data.username}'`, (error, result) => {
-                    if (!error) {
-                      result.rows[0].domain.should.deep.equal('wipro.chnni');
-                      result.rows[0].username.should.deep.equal(data.username);
-                    }
-                  }); iterate -= 1;
-                });
+      .delete(`${uri}wipro.chnni/members`)
+      .send(value.updateMembers)
+      .expect(200)
+      .end((err, results) => {
+        if (!err) {
+          results.body.should.deep.equal(value.successDeletedMember);
+          client.execute(`SELECT domain,username,role FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain='wipro.chnni'`, (error1, res) => {
+            if (!error1) {
+              res.rows.length.should.be.equal(0);
+              value.updateMembers.forEach((data) => {
+                client.execute(`SELECT domain,username FROM ${COMMUNITY_MEMBERSHIP_TABLE} WHERE domain='wipro.chnni' and username='${data.username}'`, (error, result) => {
+                  if (!error) {
+                    result.rows[0].domain.should.deep.equal('wipro.chnni');
+                    result.rows[0].username.should.deep.equal(data.username);
+                  }
+                }); iterate -= 1;
+              });
 
-                iterate.should.deep.equal(res.rows.length);
+              iterate.should.deep.equal(res.rows.length);
 
-                done();
-              }
-            });
-          }
-        });
+              done();
+            }
+          });
+        }
+      });
   });
 
-/*
+  /*
  *Run after all test cases in this block
  *
  * after hook to execute arbitrary code after this block

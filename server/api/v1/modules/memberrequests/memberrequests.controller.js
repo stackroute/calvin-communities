@@ -41,7 +41,7 @@ function publishMessageforRequest(domainname, count) {
 }
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
-  let message = { personemail: person, domainname: domain, roleforperson: role};
+  let message = { personemail: person, domainname: domain, roleforperson: role };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic4', message, (err, res) => {
     if (err) {
@@ -134,17 +134,17 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
       persons.forEach((b) => {
         if ((b.email !== 'null') && (b.email)) {
           communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams, b.email,
-         (error) => {
-           itera += 1;
-           if (error) {
-             flag3 += 1;
-           } else {
-             flag3 += 0;
-           }
-           if (itera === persons.length) {
-             done(null, flag2, flag3);
-           }
-         });
+            (error) => {
+              itera += 1;
+              if (error) {
+                flag3 += 1;
+              } else {
+                flag3 += 0;
+              }
+              if (itera === persons.length) {
+                done(null, flag2, flag3);
+              }
+            });
         } else {
           return done({ error: 'Please enter valid values!!' });
         }
@@ -157,14 +157,14 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
   if (type === 'request') {
     if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
       communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams,
-       dataFromBody.invitee, (error) => {
-         if (error) {
-           flag3 = 1;
-         } else {
-           flag3 = 0;
-         }
-         done(null, flag2, flag3);
-       });
+        dataFromBody.invitee, (error) => {
+          if (error) {
+            flag3 = 1;
+          } else {
+            flag3 = 0;
+          }
+          done(null, flag2, flag3);
+        });
     } else {
       done({ error: 'Please enter valid values!!' });
     }

@@ -16,12 +16,12 @@ function getCommunityList(username, done) {
         const communities = [];
         if (!err) {
           results.communityDetails.forEach((data) => {
-          result.forEach((values) => {
-            if(values.domain === data.domain){
-            communities.push({ domain: values.domain, name: values.name, avatar: values.avatar, role: data.role });
-          }
-        });
-      })
+            result.forEach((values) => {
+              if (values.domain === data.domain) {
+                communities.push({ domain: values.domain, name: values.name, avatar: values.avatar, role: data.role });
+              }
+            });
+          });
         } else {
           done(err);
         }

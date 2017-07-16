@@ -70,7 +70,7 @@ router.post('/:domainname/tools', (req, res) => {
         // console.log('Error in communityToolCtrl.postTools error: ', err);
         return res.status(400).send(err);
       }
-     // console.log('updated in communityToolCtrl.postTools ');
+      // console.log('updated in communityToolCtrl.postTools ');
       return res.status(201).send(results);
     });
   } catch (err) {

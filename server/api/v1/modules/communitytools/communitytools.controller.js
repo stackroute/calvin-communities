@@ -54,7 +54,7 @@ function checkTool(dataFromBody, dataFromURI, done) {
   // console.log(flag);
   dataFromBody.forEach((data) => {
     if (data.toolId && data.actions && data.activityEvents && data.avatar && data.toolname && data.purpose) {
-      if (data.toolId !== '' && data.actions !== '' && data.activityEvents !== '' && data.avatar!== '' && data.toolname !== '' && data.purpose !== '') {
+      if (data.toolId !== '' && data.actions !== '' && data.activityEvents !== '' && data.avatar !== '' && data.toolname !== '' && data.purpose !== '') {
         communityToolService.getToolsforCRUD(dataFromURI, data.toolId, (error) => {
           iterations += 1;
           if (error) {

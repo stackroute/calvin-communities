@@ -21,8 +21,8 @@ function getcounter(domain, done) {
   });
 }
 
-function incrementmember(domain,payload,done) {
-  console.log("inside members", payload);
+function incrementmember(domain, payload, done) {
+  console.log('inside members', payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -33,8 +33,8 @@ function incrementmember(domain,payload,done) {
   });
 }
 
-function incrementinvitation(domain,payload,done) {
-  console.log("inside invitation", payload);
+function incrementinvitation(domain, payload, done) {
+  console.log('inside invitation', payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -45,8 +45,8 @@ function incrementinvitation(domain,payload,done) {
   });
 }
 
-function incrementrequests(domain,payload, done) {
-  console.log("inside requests", payload);
+function incrementrequests(domain, payload, done) {
+  console.log('inside requests', payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -57,8 +57,8 @@ function incrementrequests(domain,payload, done) {
   });
 }
 
-function incrementtools(domain, payload,done) {
-  console.log("inside tools", payload);
+function incrementtools(domain, payload, done) {
+  console.log('inside tools', payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -69,7 +69,7 @@ function incrementtools(domain, payload,done) {
   });
 }
 
-function decrementrequests(domain,payload,done) {
+function decrementrequests(domain, payload, done) {
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET requests = requests - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -80,7 +80,7 @@ function decrementrequests(domain,payload,done) {
   });
 }
 
-function decrementmember(domain,payload,done) {
+function decrementmember(domain, payload, done) {
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -91,7 +91,7 @@ function decrementmember(domain,payload,done) {
   });
 }
 
-function decrementinvitation(domain,payload,done) {
+function decrementinvitation(domain, payload, done) {
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
@@ -102,7 +102,7 @@ function decrementinvitation(domain,payload,done) {
   });
 }
 
-function decrementtools(domain,payload,done) {
+function decrementtools(domain, payload, done) {
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {

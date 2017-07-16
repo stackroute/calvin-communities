@@ -30,7 +30,7 @@ function postTools(dataFromBody, domainName, done) {
   // console.log(count === dataFromBody.length);
   if (count === dataFromBody.length) {
     ToolService.addTools(dataFromBody, domainName, done);
-    PublishEventWhenEventAdded(domainName, count );
+    PublishEventWhenEventAdded(domainName, count);
   } else {
     return done({ error: 'please enter all fields' }, undefined);
   }
@@ -63,9 +63,9 @@ function PublishEventWhenEventAdded(domainname, count) {
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('topic2', message, (err, res) => {
     if (err) {
-     // logger.debug('error occured', err);
+      // logger.debug('error occured', err);
     } else {
-     // logger.debug('result is', res);
+      // logger.debug('result is', res);
     }
   });
 }

@@ -313,7 +313,7 @@ module.exports = [{
     toolId: 'calender',
     toolName: 'Calendar- All your ToDo Lists, Managed',
     purpose: 'Schedules',
-    avatar:'http://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/calendar-icon.png',
+    avatar: 'http://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/calendar-icon.png',
     actions: ['reminder', 'to-do-list', 'holidays', 'birthday'],
     activityEvents: ['remainder', 'checklist'],
   }],
