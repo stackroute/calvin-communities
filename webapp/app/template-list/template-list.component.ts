@@ -17,6 +17,6 @@ getResults = [];
   }
   ngOnInit() {
     this.TemplateListService.selectTemplate().subscribe(
-       data => { this.getResults = data}); 
+       data => { this.getResults = data; console.log(this.getResults)}); 
   }
 }
