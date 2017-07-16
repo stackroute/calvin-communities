@@ -27,10 +27,6 @@ const routes: Routes = [
           		component: SearchComponent
           },
           {
-              path: 'templates',
-              component: TemplatesComponent
-          },
-          {
               path: 'tools',
               component: ToolsComponent
           },

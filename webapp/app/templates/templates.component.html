@@ -1,6 +1,42 @@
 
-
-<div class="container"
+<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="0px" fxLayoutGap.xs=".2">
+  <md-card fxFlex="25%" *ngFor="let data of getResults">
+    <md-card-header>
+      <md-card-title>{{data.name}}</md-card-title>
+      <md-card-subtitle>{{data.purpose}}</md-card-subtitle>
+    </md-card-header>
+    <img md-card-image src={{data.image}}>
+    <md-card-content>
+      <p>
+        {{data.description}}
+      </p>
+    </md-card-content>
+    <md-card-header>
+      <md-card-title>Tags</md-card-title>
+      <div *ngFor="let tag of data.tags">
+        <md-list>
+          <md-list-item>{{tag}}</md-list-item>
+        </md-list>
+      </div>
+    </md-card-header>
+    <md-card-content>
+      <div fxFlex="50" class="tools">
+        <md-list>
+          <h3>Tools</h3>
+          <div *ngFor="let tool of data.tools">
+            {{tool.toolId}}
+          </div>
+        </md-list>
+      </div>
+      <md-list class="roles">
+        <h3>Roles</h3>
+        <div *ngFor="let roles of data.roleActions">
+          {{roles.role}}
+        </div>
+      </md-list>
+    </md-card-content>
+    <!--<md-tab-group>
+  <div class="container"
      fxLayout
      fxLayout.xs="column"
      fxLayoutAlign="center"
@@ -36,6 +72,11 @@
       {{roles.role}}
     </md-list>
    </md-tab>
+  </md-tab-group>-->
+    <md-card-actions fxLayoutAlign="end">
+      <button md-button color="primary" (click)="update()">View Communties</button>
+    </md-card-actions>
+  </md-card>
   </md-tab-group>
  <md-card-actions fxLayoutAlign="end">
   <button md-raised-button color="accent" (click)="update()">View Communties</button>
