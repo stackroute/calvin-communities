@@ -15,7 +15,6 @@ import { NvD3Component } from 'ng2-nvd3';
 import { ChartsModule } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ContentComponent } from './content/content.component';
 import { ChartModule } from 'angular2-chartjs';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardGraphsComponent } from './dashboardGraphs/dashboardGraphs.component';
@@ -38,6 +37,7 @@ import { ToolsGraphComponent } from './tools-graph/tools-graph.component';
 import { ToolsGraphService } from './tools-graph/tools-graph.service';
 import { CommunityPageService } from './communitypage/communitypage.service';
 import { CommunityPageComponent } from './communitypage/communitypage.component';
+import { FootNoteComponent } from './foot-note/foot-note.component';
 
 @NgModule({
   declarations: [
@@ -50,15 +50,14 @@ import { CommunityPageComponent } from './communitypage/communitypage.component'
   SearchComponent,
   CommunitiesComponent,
   ManageCommunityComponent,
-  ContentComponent,
   ToolsComponent,
-  ContentComponent,
   PurposeComponent,
   TemplateListComponent,
   PurposeComponent,
   ToolsGraphComponent,
   NvD3Component,
-  CommunityPageComponent
+  CommunityPageComponent,
+  FootNoteComponent
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,6 @@ export class AppComponent {
 
 navigation = [
     { link: 'dashboard', label: 'Dashboard' },
-    { link: 'trending', label: 'Trending Communities' },
     {link: 'communities', label:'Communities'},
     { link: 'templates', label: 'Templates' },
     { link: 'tools', label: ' Tools' },

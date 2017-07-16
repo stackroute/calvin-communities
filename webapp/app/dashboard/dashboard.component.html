@@ -4,9 +4,10 @@
      fxLayoutAlign="center"
      fxLayoutGap="50px"
      fxLayoutGap.xs="0">
-       <div class="item item-1" fxFlex="10%" ></div>
-       <div class="item item-2" fxFlex="60%" >
+       <div  fxFlex="10%" ></div>
+       <div #graphs fxFlex="60%" >
        <calvin-dashboard-graphs></calvin-dashboard-graphs>
        </div>
-  <div class="item item-3" fxFlex ><calvin-notifications></calvin-notifications></div>
+  <div #notifications fxFlex >
+  <calvin-notifications></calvin-notifications></div>
   </div>
