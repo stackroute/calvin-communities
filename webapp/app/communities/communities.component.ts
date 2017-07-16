@@ -10,8 +10,8 @@ import {CommunitiesService} from './communities.service';
   providers:[]
 })
 export class CommunitiesComponent {
-	getCommunitiesResults =[];
-	getToolsResults =[];
+/*	getCommunitiesResults =[];
+	getToolsResults =[];*/
 	getResults =[];
 	constructor(private communitiesService : CommunitiesService){};
 
@@ -29,12 +29,14 @@ export class CommunitiesComponent {
 	ngOnInit() {
 		this.communitiesService.selectCommunities().subscribe(res => { 
 		 this.getResults = res;
-		  console.log(this.getResults);
+		  /*console.log(this.getResults);
+		  console.log(res);*/
 		});
 this.communitiesService.selectTools().subscribe(result => { 
 		 this.getResults = result;
-		 console.log(this.getResults);
-		 });
+	/*	 console.log(this.getResults);
+		 console.log(result);*/
+		  });
 
 		// this.communitiesService.getCommunities().subscribe(res => { 
 		//  this.getResults = res;

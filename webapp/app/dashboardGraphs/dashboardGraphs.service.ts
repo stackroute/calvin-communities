@@ -6,7 +6,9 @@ const url = `http://localhost:3000`;
 
 @Injectable()
 export class DashboardGraphService {
+
   constructor(private http: Http) {};
+
 
   getPurposes() {
     return this.http.get(`${url}/api/v1/communitytemplates/allpurposes`).map(res => res.json());
