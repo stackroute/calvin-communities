@@ -22,4 +22,8 @@ export class NavigationComponent implements OnInit {
     { logo: '', link: 'templates', label: 'Templates' },
     { logo: '', link: 'communitypage', label: 'CommunityPage' },
   ];
+
+  toggle(){
+    this.isDarkTheme = this.isDarkTheme === false ? true : false;
+  }
 }
