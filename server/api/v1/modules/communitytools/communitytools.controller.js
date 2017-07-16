@@ -51,6 +51,7 @@ function getActions(dataFromBody, done) {
 function checkTool(dataFromBody, dataFromURI, done) {
   let flag = 0;
   let iterations = 0;
+  console.log("check"dataFromBody);
   // console.log(flag);
   dataFromBody.forEach((data) => {
     if (data.toolId && data.actions && data.activityEvents && data.avatar && data.toolname && data.purpose) {
@@ -70,7 +71,7 @@ function checkTool(dataFromBody, dataFromURI, done) {
         });
       }
     } else {
-      done({ error: 'please fill out all values' }, flag);
+      done({ error: 'please fill out all values' });
     }
   });
 }
@@ -108,7 +109,6 @@ function modifyTool(dataFromBody, dataFromURI, done) {
 }
 
 function postCommunityTools(dataFromBody, dataFromParams, done) {
-  console.log("ffffffff",dataFromBody)
   async.waterfall([
     checkTool.bind(null, dataFromBody, dataFromParams),
     postTools.bind(null, dataFromBody, dataFromParams),

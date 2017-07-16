@@ -81,6 +81,8 @@ function getTemplateDetails(community) {
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
+      toolName: element.toolName,
+      avatar: element.avatar,
       toolId: element.toolId,
       actions: element.actions,
       activityEvents: element.activityEvents,

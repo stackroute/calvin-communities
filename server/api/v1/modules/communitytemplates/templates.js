@@ -8,14 +8,20 @@ module.exports = [{
   // tools available for the surgeon medical community
   tools: [{
     toolId: 'forum',
+    toolName: 'Forum',
+    avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
     activityEvents: ['newannouncement', 'like', 'remove'],
   }, {
     toolId: 'WeMedUp',
+    toolName: 'WeMedUp- A Medical Tool',
+    avatar: 'http://www.wemedup.com/img/logo.png',
     actions: ['postmesage', 'read', 'Likemessage'],
     activityEvents: ['newannouncement', 'remove'],
   }, {
     toolId: 'sermo',
+    toolName: 'Sermo- A Tool for Surgeons',
+    avatar: 'http://www.worldpharmanews.com/images/logo/sermo.png',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
     activityEvents: ['like', 'remove'],
   }],
@@ -66,14 +72,20 @@ module.exports = [{
   // tools available for the specialists medical community
   tools: [{
     toolId: 'forum',
+    toolName: 'Forum',
+    avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
     activityEvents: ['newannouncement', 'like', 'remove'],
   }, {
     toolId: 'WeMedUp',
+    toolName: 'WeMedUp- A Medical Tool',
+    avatar: 'http://www.wemedup.com/img/logo.png',
     actions: ['postmesage', 'read', 'Likemessage'],
     activityEvents: ['newannouncement', 'remove'],
   }, {
     toolId: 'sermo',
+    toolName: 'Sermo- A Tool for Surgeons',
+    avatar: 'http://www.worldpharmanews.com/images/logo/sermo.png',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
     activityEvents: ['like', 'remove'],
   }],
@@ -127,14 +139,20 @@ module.exports = [{
   // tools available for the developer's community
   tools: [{
     toolId: 'Stackoverflow',
+    toolName: 'Stackoverflow- A Tool for all needs of a Developer',
+    avatar: 'https://cdn.sstatic.net/Sites/stackoverflow/company/img/logos/so/so-logo.png?v=9c558ec15d8a',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
     activityEvents: ['newannouncement', 'remove'],
   }, {
     toolId: 'theteacherscorner.net',
+    toolName: 'The Teacher\'s Corner',
+    avatar: 'https://voxy.com/wp-content/uploads/2016/05/Teachers-Corner-Header-Image-1.jpg',
     actions: ['postmesage', 'read', 'Likemessage', 'comment', 'share', 'invitation'],
     activityEvents: ['like', 'remove'],
   }, {
     toolId: 'Github',
+    toolName: 'Github- A World of Repositories',
+    avatar: 'https://assets-cdn.github.com/images/modules/logos_page/Octocat.png',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'upload'],
     activityEvents: ['newannouncement', 'like'],
   }],
@@ -194,14 +212,20 @@ module.exports = [{
   // tools available for the teacher's community
   tools: [{
     toolId: 'theteacherscorner.net',
+    toolName: 'The Teacher\'s Corner',
+    avatar: 'https://voxy.com/wp-content/uploads/2016/05/Teachers-Corner-Header-Image-1.jpg',
     actions: ['postmesage', 'read', 'Likemessage'],
     activityEvents: ['newannouncement', 'like', 'remove'],
   }, {
     toolId: 'scholastic.com',
+    toolName: 'Scholastic- A World of Learners',
+    avatar: 'http://www.bookbusinessmag.com/wp-content/uploads/sites/4/2015/08/1.jpg?x19104',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
     activityEvents: ['newannouncement', 'remove'],
   }, {
     toolId: 'forum',
+    toolName: 'Forum',
+    avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
     activityEvents: ['newannouncement', 'remove'],
   }],
@@ -261,15 +285,21 @@ module.exports = [{
   // tools available for the artist's community
   tools: [{
     toolId: 'theabundantartist.com',
-    actions: ['postmesage', 'read', 'Likemessage'],
+    toolName: 'The Abundant Artist- A Place for Artists',
+    avatar: 'http://theabundantartist.com/wp-content/uploads/2016/04/cropped-taa-logo.png',
+    actions: ['postmessage', 'read', 'Likemessage'],
     activityEvents: ['newannouncement', 'like', 'remove'],
   }, {
     toolId: 'www.creativebloq.com',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share', 'upload'],
+    toolName: 'Creative Bloq- Art & design Inspiration',
+    avatar: 'http://kirileonard.com/wp-content/uploads/2015/06/creative_bloq_logo.png',
+    actions: ['postmessage', 'read', 'Likemessage', 'edit', 'share', 'upload'],
     activityEvents: ['newannouncement', 'remove'],
   }, {
     toolId: 'calender',
-    actions: ['remainder', 'to-do-list', 'holidays', 'birthday'],
+    toolName: 'Calendar- All your ToDo Lists, Managed',
+    avatar:'http://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/calendar-icon.png',
+    actions: ['reminder', 'to-do-list', 'holidays', 'birthday'],
     activityEvents: ['remainder', 'checklist'],
   }],
   // role actions for the artist community
