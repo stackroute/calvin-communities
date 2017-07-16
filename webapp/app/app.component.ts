@@ -9,13 +9,13 @@ import { OverlayContainer } from '@angular/material';
 export class AppComponent {
 
 navigation = [
-    { link: 'dashboard', label: 'Dashboard' },
-    {link: 'communities', label:'Communities'},
-    { link: 'templates', label: 'Templates' },
-    { link: 'tools', label: ' Tools' },
-    { link: 'search', label: 'Search'},
-    { link: 'templatelist', label: 'TemplateList'},
-    { link: 'purpose', label: 'Purpose'},
-    { link: 'communitypage', label: 'CommunityPage'},
+    { logo: 'dashboard', link: 'dashboard', label: 'Dashboard' },
+    { logo: 'group', link: 'communities', label:'Communities'},
+    { logo: 'build', link: 'tools', label: 'Tools' },
+    { logo: 'search', link: 'search', label: 'Search'},
+    { logo: 'dns', link: 'templatelist', label: 'TemplateList'},
+    { logo: 'bookmark', link: 'purpose', label: 'Purpose'},
+    { logo: '', link: 'templates', label: 'Templates' },
+    { logo: '', link: 'communitypage', label: 'CommunityPage'},
   ];
 }
