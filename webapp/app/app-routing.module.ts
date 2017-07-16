@@ -28,10 +28,6 @@ const routes: Routes = [
           		component: SearchComponent
           },
           {
-              path: 'templates/:purpose',
-              component: TemplatesComponent
-          },
-          {
               path: 'topics',
               component: TopicsComponent
           },

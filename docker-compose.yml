@@ -7,7 +7,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     ports:
@@ -28,7 +28,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
@@ -47,7 +47,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
@@ -66,7 +66,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
@@ -83,21 +83,23 @@ services:
   calvin-cassandra:
     image: cassandra:latest
     network_mode: host
-    restart: on-failure
+    restart: always
     expose:
       - 9042
+    volumes:
+      - ./database:/var/lib/cassandra
 
   calvin-zookeeper:
     image: wurstmeister/zookeeper
     network_mode: host
-    restart: on-failure
+    restart: always
     expose:
       - 2181
 
   calvin-kafka:
     image: wurstmeister/kafka
     network_mode: host
-    restart: on-failure
+    restart: always
     expose:
       - 9092
     depends_on:

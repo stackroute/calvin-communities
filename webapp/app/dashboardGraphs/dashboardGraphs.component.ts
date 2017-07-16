@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MdCardModule } from '@angular/material';
+import {MdProgressSpinnerModule} from '@angular/material';
 import { DashboardGraphService } from './dashboardGraphs.service';
 
 
@@ -24,8 +25,10 @@ export class DashboardGraphsComponent implements OnInit {
   data;
   domains;
   count = [];
+  flag;
 
   ngOnInit() {
+    this.flag = 0;
     this.getGraphDetails();
   }
 
@@ -48,6 +51,7 @@ export class DashboardGraphsComponent implements OnInit {
               this.count.push({ type: purpose, value: count })
               count = 0;
             });
+            this.flag = 1;
             if(flag) {this.getGraph(this.count); }
             if(!flag) {this.getGraph([]);}
           })
@@ -55,6 +59,7 @@ export class DashboardGraphsComponent implements OnInit {
   }
 
   getGraph(data) {
+
     this.options = {
       chart: {
         type: 'pieChart',
@@ -72,7 +77,14 @@ export class DashboardGraphsComponent implements OnInit {
             bottom: 5,
             left: 0
           }
-        }
+        },
+        pie:{
+        dispatch: {
+          elementClick: function(e) {
+            console.log(e.data.type)
+          },
+      }
+    }
       }
     }
     this.data = data;

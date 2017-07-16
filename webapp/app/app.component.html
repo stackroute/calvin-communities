@@ -1,22 +1,23 @@
 <md-sidenav-container fullscreen class="sidenav-container">
   <md-sidenav #sidenav mode="push" opened="false">
     <md-toolbar color="primary">
-    <img routerLink="/dashboard" src="/assets/logo/logo.png" id="sidebar-logo" /> <div class="mdc-typography--display4 logo">Calvin</div>
+    <img routerLink="" src="/assets/logo/logo.png" id="sidebar-logo" /> <div class="mdc-typography--display4 logo">Calvin</div>
 		</md-toolbar>
 		<md-nav-list>
 		<a md-list-item *ngFor="let item of navigation" (click)="sidenav.close()"
            [routerLink]="[item.link]" routerLinkActive="active">
-          {{item.label}}
+          <md-icon>{{item.logo}}</md-icon> {{item.label}}
         </a>
                 </md-nav-list>
   </md-sidenav>
 <md-toolbar color="primary">
  <button md-icon-button (click)="sidenav.toggle()"><md-icon>menu</md-icon></button>
- <img routerLink="/dashboard" src="/assets/logo/logo.png" class="logo" />
+ <img routerLink="" src="/assets/logo/logo.png" class="logo" />
 
           <button md-button class="nav-button" *ngFor="let item of navigation" [routerLink]="[item.link]" routerLinkActive="active">
             {{item.label}}
           </button>
 </md-toolbar>
 <router-outlet></router-outlet>
+<calvin-foot-note></calvin-foot-note>
 </md-sidenav-container>
