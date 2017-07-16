@@ -35,6 +35,10 @@ const routes: Routes = [
               component: TemplateListComponent
           },
           {
+            path:'templates',
+            component: TemplatesComponent
+          },
+          {
               path: 'purpose',
               component: PurposeComponent
 

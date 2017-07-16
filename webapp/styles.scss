@@ -1,3 +1,4 @@
+
 $toolbar-breakpoint: 600px;
 
 $grid-breakpoints: (
@@ -8,7 +9,7 @@ $grid-breakpoints: (
   xl: 1200px
 );
 
-@import 'theme.scss';
+@import 'themes.scss';
 
 .default-theme {
   @include angular-material-theme($communities-calvin-theme);

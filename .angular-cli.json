@@ -22,9 +22,6 @@
         "styles.css",
         "styles.scss"
       ],
-      "stylePreprocessorOptions": {
-        "includePaths": ["./", "./themes"]
-      },
       "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -55,7 +52,7 @@
     }
   },
   "defaults": {
-    "styleExt": ["css","scss"],
+    "styleExt": "css",
     "component": {}
   }
 }
