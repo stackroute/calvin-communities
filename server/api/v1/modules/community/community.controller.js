@@ -122,7 +122,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
 
   if (!community.domain.match(nameRegex)) { return done([400, 'Domain Name has to be at least 5 characters long and consist of Alphanumeric Values and a (.)']); }
 
-  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to to be passed']); }
+  if (!_.has(community, 'tags') || !_.gt(community.tags.length, 0)) { return done([400, 'At least one Tag is required to be passed']); }
 
   if (typeof (community.tags) === 'string') { community.tags = [community.tags]; } // eslint-disable-line no-param-reassign
 
