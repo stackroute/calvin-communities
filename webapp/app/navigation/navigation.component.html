@@ -11,7 +11,7 @@
                 </md-nav-list>
   </md-sidenav>
 <md-toolbar color="primary">
- <button md-icon-button (click)="sidenav.toggle()"><md-icon>menu</md-icon></button>
+ <button md-icon-button class="hidden-md-up" (click)="sidenav.toggle()"><md-icon>menu</md-icon></button>
  <img routerLink="" src="/assets/logo/logo.png" class="logo" />
 
           <button md-button class="nav-button" *ngFor="let item of navigation" [routerLink]="[item.link]" routerLinkActive="active">

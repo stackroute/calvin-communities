@@ -1,16 +1,22 @@
+@import 'styles-variables';
 
-$toolbar-breakpoint: 600px;
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/utilities';
 
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
-);
+@import 'styles-reset';
 
-@import 'themes.scss';
+@import '~@angular/material/theming';
 
-.default-theme {
-  @include angular-material-theme($communities-calvin-theme);
+@include mat-core();
+
+@import 'light-theme.scss';
+@import 'dark-theme.scss';
+
+.light-theme {
+  @include angular-material-theme($communities-calvin-light-theme);
+}
+
+.dark-theme {
+  @include angular-material-theme($communities-calvin-dark-theme);
 }

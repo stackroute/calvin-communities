@@ -10,12 +10,10 @@ import 'hammerjs';
 import 'lodash';
 import 'd3';
 import 'nvd3';
-import { SimpleNotificationsModule } from 'angular2-notifications';
 import { NvD3Component } from 'ng2-nvd3';
 import { ChartsModule } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChartModule } from 'angular2-chartjs';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardGraphsComponent } from './dashboard-graphs/dashboard-graphs.component';
 import { DashboardGraphService } from './dashboard-graphs/dashboard-graphs.service';
@@ -61,10 +59,8 @@ import { NavigationComponent } from './navigation/navigation.component';
   imports: [
     BrowserModule,
     FormsModule,
-    ChartModule,
     HttpModule,
     BrowserAnimationsModule,
-    SimpleNotificationsModule.forRoot(),
     MaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
