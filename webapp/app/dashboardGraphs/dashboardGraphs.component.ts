@@ -8,7 +8,7 @@ import { DashboardGraphService } from './dashboardGraphs.service';
   selector: 'calvin-dashboard-graphs',
   templateUrl: `./dashboardGraphs.component.html`,
   styleUrls: [
-    '../../../node_modules/nvd3/build/nv.d3.css'
+    '../../../node_modules/nvd3/build/nv.d3.css', './dashboardGraphs.component.css'
   ],
   encapsulation: ViewEncapsulation.None
 
@@ -29,8 +29,8 @@ export class DashboardGraphsComponent implements OnInit {
     this.getGraphDetails();
   }
 
-
   getGraphDetails() {
+    let flag = false;
     let count = 0;
     this.GraphService.getPurposes()
       .subscribe(p => {
@@ -42,12 +42,14 @@ export class DashboardGraphsComponent implements OnInit {
               this.domains.forEach((domain) => {
                 if (domain.purpose.toLowerCase() == purpose.toLowerCase()) {
                   count++;
+                  flag = true;
                 }
               });
               this.count.push({ type: purpose, value: count })
               count = 0;
             });
-            this.getGraph(this.count);
+            if(flag) {this.getGraph(this.count); }
+            if(!flag) {this.getGraph([]);}
           })
       })
   }
@@ -73,10 +75,7 @@ export class DashboardGraphsComponent implements OnInit {
         }
       }
     }
-    const a = [{ type: 'Medical', value: 5 }, { type: 'Technical', value: '2' }, { type: 'Artist', value: '3' }];
-    console.log(a);
-    data.push();
-    console.log(data);
     this.data = data;
+
   }
 }
