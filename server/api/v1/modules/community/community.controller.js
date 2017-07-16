@@ -81,7 +81,8 @@ function getTemplateDetails(community) {
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
-      toolName: element.toolName,
+      purpose: templateDetails[0].purpose,
+      toolname: element.toolName,
       avatar: element.avatar,
       toolId: element.toolId,
       actions: element.actions,
@@ -241,7 +242,7 @@ function updateCommunity(domainName, community, done) {
     ];
 
     return communityService.updateCommunity(param, done);
-  } return done('Wrong Data Inputs', null);
+  }else {return done('Wrong Data Inputs', null); }
 }
 
 /**

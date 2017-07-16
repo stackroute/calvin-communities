@@ -51,7 +51,6 @@ function getActions(dataFromBody, done) {
 function checkTool(dataFromBody, dataFromURI, done) {
   let flag = 0;
   let iterations = 0;
-  console.log("check"dataFromBody);
   // console.log(flag);
   dataFromBody.forEach((data) => {
     if (data.toolId && data.actions && data.activityEvents && data.avatar && data.toolname && data.purpose) {
