@@ -1,23 +1,15 @@
-<div>
-  <div fxFlex='5'></div>
-  <md-card class="card-align" fxFlex='30'>
-    <md-card-title>Tools listing</md-card-title>
-    <div class="Tools-list" *ngFor="let val of tools">
-      <h1></h1>
-      <md-list align="start">
-        <md-list-item>
-          <!--<img md-list-avatar src="./assets/img/tool.png">-->
-          <i class="material-icons">build</i>
-          <div fxFlex='80'>
-            <div>
-              <h5><b>{{val.toolid}}</b></h5>
-            </div>
-          </div>
-        </md-list-item>
-      </md-list>
-    </div>
-  </md-card>
-<div>
-  <!--<md-card>
-    <h1>safgfgfdgdfd</h1>
-  </md-card>-->
+<div class="abc">
+   <md-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+  </md-paginator>
+
+ <md-list>
+    <h3 md-subheader>Tools-list listed</h3>
+    <md-list-item *ngFor="let val of tools">
+      <img md-list-avatar src="{{val.avatar}}">
+      <h4 md-line>{{val.toolname}}</h4>
+      <p md-line class="demo-2"> {{val.toolid}} </p>
+     <p md-line class="demo-3">{{val.domains.length}} Communities are Connected</p>
+    </md-list-item>
+  </md-list>
+
+</div>

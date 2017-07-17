@@ -18,4 +18,6 @@ router.use('/tools', require('./modules/tools'));
 
 router.use('/events', require('./modules/eventmapping'));
 
+router.use('/webhooks', require('./modules/webhook'));
+
 module.exports = router;
