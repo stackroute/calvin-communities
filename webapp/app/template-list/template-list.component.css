@@ -9,15 +9,32 @@ md-card {
     margin-left: 20px;
     margin-right: 10px;
 }
-
+/*
 .tools{
     margin-left: 60px;
 }
 
 .roles{
     margin-left:-10px;
-}
+}*/
 
 .height {
   height: 300px;
+}
+.chip
+{
+    padding-right: 2%;
+    padding-top: 5px;
+}
+.tools
+{
+  padding-top: 10px;
+}
+
+.example-form {
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
 }
