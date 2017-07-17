@@ -17,3 +17,7 @@ md-card {
 .roles{
     margin-left:-10px;
 }
+
+.height {
+  height: 300px;
+}

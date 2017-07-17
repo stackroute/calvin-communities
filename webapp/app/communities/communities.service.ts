@@ -11,9 +11,9 @@ export class CommunitiesService {
 		return this.http.get(`api/v1/communities`)
 		.map(response => response.json());
 	}
-	selectTools(){
+	/*selectTools(){
 		console.log('hi');
-		return this.http.get(`api/v1/communitytools`)
+		return this.http.get(`api/v1/tools`)
 		.map(response => response.json());
-	}
+	}*/
 }

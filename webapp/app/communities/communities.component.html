@@ -19,20 +19,20 @@
             {{data.description}}
           </p>
         </md-card-content>
-        <md-card-content>
+<!--         <md-card-content>
           <md-card-subtitle>Tools</md-card-subtitle>
-<!--           {{data.tools}} -->
-        </md-card-content>
-         <md-card-actions fxLayoutAlign="end">
-  <button md-raised-button color="accent" (click)="update()">View Communties</button>
- </md-card-actions>
-<!--         <md-card-actions fxLayoutAlign="end">
+                    {{data.tools}}
+        </md-card-content> -->
+        <md-card-actions fxLayoutAlign="end">
+          <button md-raised-button color="accent" (click)="update()">CommunityDetails</button>
+        </md-card-actions>
+        <!--         <md-card-actions fxLayoutAlign="end">
           <button md-mini-fab color="primary">
             <md-icon>send</md-icon>
           </button>
         </md-card-actions> -->
         <md-card-footer>
-        <div fxLayoutAlign="center"> Owner:{{data.owner}}</div>
+          <div fxLayoutAlign="center"> Owner:{{data.owner}}</div>
           <div fxLayoutAlign="center"> Status:{{data.status}}</div>
           <div fxLayoutAlign="center"> Updated On:{{data.updatedon}}</div>
         </md-card-footer>

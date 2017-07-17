@@ -32,11 +32,11 @@ export class CommunitiesComponent {
 		  /*console.log(this.getResults);
 		  console.log(res);*/
 		});
-this.communitiesService.selectTools().subscribe(result => { 
+/*this.communitiesService.selectTools().subscribe(result => { 
 		 this.getResults = result;
-	/*	 console.log(this.getResults);
-		 console.log(result);*/
-		  });
+		 console.log(this.getResults);
+		 console.log(result);
+		  });*/
 
 		// this.communitiesService.getCommunities().subscribe(res => { 
 		//  this.getResults = res;
