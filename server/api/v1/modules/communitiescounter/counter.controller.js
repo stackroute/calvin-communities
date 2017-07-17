@@ -22,6 +22,12 @@ function onevent(domain, eventname, payload, done) {
 }
 
 
+function getcounter(domain, done) {
+  counterservice.getcounter(domain, done);
+}
+
+
 module.exports = {
   onevent,
+  getcounter
 };
