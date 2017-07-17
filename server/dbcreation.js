@@ -19,6 +19,8 @@ const TABLE_TOOLS = 'tools';
 const TABLE_ROLES = 'communityroles';
 const TABLE_REQUESTS = 'communityinviterequests';
 const TABLE_COUNTER = 'communitiescounter';
+const TABLE_TOOL_EVENTS = 'toolevents';
+const TABLE_EVENT_MAPPING = 'eventmapping';
 
 const queries = [];
 
@@ -137,6 +139,30 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COUNTER} ( \
   requests counter, \
   tools counter, \
   PRIMARY KEY (domain)
+  )`);
+
+/**
+ * Describing Table for Tool Events for Community Toolsink
+ */
+
+queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_TOOL_EVENTS} ( \
+  toolid text, \
+  eventid text, \
+  eventname text, \
+  eventdescription text, \
+  metadata text, \
+  PRIMARY KEY (toolid, eventid)
+  )`);
+
+/**
+ * Describing Table for Event Mapping for Event Mapping
+ */
+
+queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_EVENT_MAPPING} ( \
+  toolid text, \
+  eventid text, \
+  communityeventtype text, \
+  PRIMARY KEY (toolid)
   )`);
 
 function dboperations(query, done) {

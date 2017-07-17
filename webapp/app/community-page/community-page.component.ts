@@ -9,10 +9,15 @@ import { CommunityPageService } from './community-page.service';
 
 
 export class CommunityPageComponent {
-alldata = ["domain1","domain2"];
-arr = [];
-memberArray = [];
-toolsArray = [];
+  alldata = ["domain1","domain2"];
+  arr = [];
+
+  communityObj = {};
+  communityMembers = {};
+  communityTools = {};
+
+  memberArray = [];
+  toolsArray = [];
 
 constructor(private getpurposeservice : CommunityPageService){};
 
@@ -22,6 +27,7 @@ ngOnInit(){
       this.getpurposeservice.getCommunityDetails("sandhyas")
       .subscribe(
         data =>{
+          this.communityObj = data;
           this.arr.push(data);
           console.log("Angular Data",data);
           this.getMembers("sandhyas");
@@ -37,10 +43,11 @@ getMembers(domain){
   this.getpurposeservice.getMembers(domain)
   .subscribe(
     data=>{
+      this.communityMembers = data;
       console.log(data.domain);  
-      console.log(data.MemberDetails[0].username);        
+      // console.log(data.MemberDetails[0].username);        
       this.memberArray.push(data);
-      console.log(this.memberArray);
+      // console.log(this.memberArray);
     }
     )
 }
@@ -48,6 +55,7 @@ getTools(domain){
   this.getpurposeservice.getTools(domain)
   .subscribe(
     data=>{
+      this.communityTools = data;
       console.log(data);        
       this.toolsArray.push(data);
     }

@@ -20,11 +20,14 @@ function onevent(domain, eventname, payload, done) {
 
   eventregistry(domain, payload, done);
 }
-onevent('stackroute', 'newmemberadded', 2, (err, result) => {
-  console.log('dscdscdsa');
-});
+
+
+function getcounter(domain, done) {
+  counterservice.getcounter(domain, done);
+}
 
 
 module.exports = {
   onevent,
+  getcounter
 };
