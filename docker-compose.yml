@@ -87,7 +87,7 @@ services:
     expose:
       - 9042
     volumes:
-      - ./database:/var/lib/cassandra
+      - /database:/var/lib/cassandra
 
   calvin-zookeeper:
     image: wurstmeister/zookeeper
