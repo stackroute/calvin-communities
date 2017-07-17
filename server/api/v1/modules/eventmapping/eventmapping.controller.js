@@ -9,7 +9,6 @@ const token = require('../../../../config').jwtdetails;
 
 const COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 
-
 function authenticate(domain, toolid, done) {
   jwt.sign({domain: domain, toolid: toolid}, token.secret, (err, code) => {
     if(err) { logger.debug(err); return done([400, 'Error in Operation'])}
@@ -17,6 +16,7 @@ function authenticate(domain, toolid, done) {
       })
 
 }
+
 function getToolEventMapping(parameters, done) {
   eventmappingServices.getToolEventMapping(parameters, done);
 }
@@ -56,7 +56,6 @@ function postEventMapping(parameters, details, done) {
     done([400, 'Required data inputs were not found']);
   }
 }
-
 function updateEventMapping(parameters, details, done) {
   let wrongvalues = 0;
   const queries = [];
@@ -93,3 +92,4 @@ module.exports = {
   authenticate,
   updateEventMapping,
 };
+

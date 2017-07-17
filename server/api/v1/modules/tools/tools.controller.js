@@ -72,6 +72,18 @@ function deleteTool(dataFromURI, done) {
   });
 }
 
+// publish event for counter when tool is added
+function PublishEventWhenEventAdded(domainname, count) {
+  let message = { domain: domainname, event: 'newtooladded', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
+    if (err) {
+      // logger.debug('error occured', err);
+    } else {
+      // logger.debug('result is', res);
+    }
+  });
+}
 
 // Exporting the functions to be used in router
 

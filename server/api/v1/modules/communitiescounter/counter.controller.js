@@ -20,13 +20,9 @@ function onevent(domain, eventname, payload, done) {
 
   eventregistry(domain, payload, done);
 }
-
-
 function getcounter(domain, done) {
   counterservice.getcounter(domain, done);
 }
-
-
 module.exports = {
   onevent,
   getcounter,

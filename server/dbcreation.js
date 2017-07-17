@@ -172,14 +172,14 @@ function keyspaceCreation(done) {
   client.execute(`CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE} WITH replication = \
   {'class': 'SimpleStrategy', 'replication_factor': '1'} \
  `, (err) => {
-      if (err) {
-        logger.debug('Error in Keyspace Creation, trying again...');
-        process.exit(1);
-      } else {
-        logger.debug('Keyspace Created, Moving ahead...');
-        done();
-      }
-    });
+    if (err) {
+      logger.debug('Error in Keyspace Creation, trying again...');
+      process.exit(1);
+    } else {
+      logger.debug('Keyspace Created, Moving ahead...');
+      done();
+    }
+  });
 }
 
 function tableCreation(done) {

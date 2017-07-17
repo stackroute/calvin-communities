@@ -1,10 +1,23 @@
-const jwt = require('jsonwebtoken');
+/*const jwt = require('jsonwebtoken');
 // const async = require('async');
 const config = require('../../../../appconfig/env/development');
 const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher');
 const token = require('../../../../config').jwtdetails;
 
 function verifyToken(token, done) {
+  console.log('verify token');
+  jwt.verify(token, config.appConstants.secret, (err, decoded) => {
+    if (err) {
+      console.log('error');
+      return done(err, 'Unauthorized');
+    }
+    console.log('verified');
+    publishEvent.publishToTopic(topic, payload, (error, result) => {
+      if (error) {
+        return done(undefined, error);
+      }
+      return done(undefined, result);
+    });
   // console.log('verify token', config.jwtdetails.secret);
   jwt.verify(token, config.jwtdetails.secret, (err) => {
     if (err) {
@@ -29,3 +42,4 @@ function verifyToken(token, done) {
 module.exports = {
   verifyToken,
 };
+*/
