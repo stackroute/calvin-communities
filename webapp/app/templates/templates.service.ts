@@ -7,10 +7,17 @@ export class TemplatesService {
 
 		constructor(private http: Http) { };
 
-		// selectTemplate(dummy)
-		// {
-        //    return this.http.get(`api/v1/communitytemplates/${dummy}`).map((response: Response) => response.json());
-		// }
+    selectTemplates()
+		{
+           return this.http.get(`api/v1/communitytemplates/`).map((response: Response) => response.json());
+		}
 
+     getAllTemplates(value){
+    	console.log("hello");
+    	  return this.http.get('/api/v1/communitytemplates?purpose='+value).map(res=>res.json());
+    }
 
+	    getAllCommunities() {
+    return this.http.get(`/api/v1/communities`).map(res => res.json());
+  }
 }

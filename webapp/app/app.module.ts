@@ -36,7 +36,8 @@ import { CommunityPageComponent } from './community-page/community-page.componen
 import { FootNoteComponent } from './foot-note/foot-note.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { MdListModule } from '@angular/material';
-
+import {CommunitiesListComponent} from './communitieslist/communitieslist.component';
+import {CommunitiesListService} from './communitieslist/communitieslist.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { MdListModule } from '@angular/material';
   NvD3Component,
   CommunityPageComponent,
   FootNoteComponent,
-  NavigationComponent
+  NavigationComponent,
+  CommunitiesListComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,7 @@ import { MdListModule } from '@angular/material';
     ChartsModule
     ],
   providers: [ToolService,GetPurposeService, TemplatesService,
-  TemplateListService, DashboardGraphService,CommunitiesService, CommunityPageService ],
+  TemplateListService, DashboardGraphService,CommunitiesService, CommunityPageService,CommunitiesListService],
   bootstrap: [AppComponent],
 
 })
