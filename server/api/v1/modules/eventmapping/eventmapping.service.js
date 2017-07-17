@@ -2,7 +2,7 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../../../config').connectionString;
 
-const EVENTMAPPING_TABLE = 'eventmapping';
+const TABLE_COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 
 // Connecting to cassandra
 
@@ -12,7 +12,7 @@ const client = new model.Client({
   keyspace: connectionString.keyspace,
 });
 
-// Get list of events mapping
+/*// Get list of events mapping
 function getmappingDetails(tooldata, eventdata, done) {
 	console.log("service");
 	// const toolid = tooldata.toLowerCase();
@@ -35,8 +35,25 @@ function getmappingDetails(tooldata, eventdata, done) {
       done({ error: 'Internal Error occured' }, undefined);
     }
   });
+}*/
+
+
+function getEventMapping(){
+
 }
 
+function postEventMapping(){
+
+
+}
+
+function updateEventMapping(){
+
+}
+
+
 module.exports = {
-	getmappingDetails,
+	getEventMapping,
+  postEventMapping,
+  updateEventMapping
 }

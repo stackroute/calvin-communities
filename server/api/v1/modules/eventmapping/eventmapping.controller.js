@@ -1,7 +1,6 @@
 const async = require('async');
-
+const _ = require('lodash');
 const communitytoolsCtrl = require('../communitytools/communitytools.controller');
-
 const eventmappingServices = require('./eventmapping.service');
 
 
@@ -26,14 +25,38 @@ async.waterfall([getActivityEvents.bind(null, domainName, data)], function(err, 
 }
 });*/
 
-function getmappingDetails(dataFromBody, done) {
-	console.log(dataFromBody);
-	console.log("aaa",dataFromBody.tooldata)
-	eventmappingServices.getmappingDetails(dataFromBody.tooldata, dataFromBody.eventid, done);
+function getEventMapping() {
 
 }
 
+function postEventMapping(parameters, details, done) {
+
+  if (!_.has(details, 'name') || !_.has(details, 'description') ||
+    !_.has(details, 'communityevent') || !_.has(details, 'metadata')) {
+  	return done([400, 'Required Details are not found']);
+  }
+
+  if(parameters && details) {
+  	console.log('hiii');
+  	done();
+  }
+
+}
+
+function updateEventMapping() {
+
+}
+
+
+/*function getmappingDetails(dataFromBody, done) {
+	eventmappingServices.getmappingDetails(dataFromBody.tooldata, dataFromBody.eventid, done);
+
+}*/
+
+
+
 module.exports = {
-	getmappingDetails,
-	getActivityEvents,
+  getEventMapping,
+  postEventMapping,
+  updateEventMapping
 }
