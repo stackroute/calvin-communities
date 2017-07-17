@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 // const async = require('async');
 const config = require('../../../../appconfig/env/development');
 const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher');
+const token = require('../../../../config').jwtdetails;
 
 function verifyToken(token, done) {
   // console.log('verify token', config.jwtdetails.secret);
