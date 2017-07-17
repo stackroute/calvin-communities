@@ -159,14 +159,13 @@ function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, do
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
     communityMembershipService.addMembersToCommunity(domainName, values, (err) => {
-        if (err) {
-          done(err);
-        }
-        publishMessageToTopic(domainName, values);
-        return done(undefined, { message: 'Member added' });
-    
-  }); 
-  }else {
+      if (err) {
+        done(err);
+      }
+      publishMessageToTopic(domainName, values);
+      return done(undefined, { message: 'Member added' });
+    });
+  } else {
     done({ error: 'Member detail already exist' });
   }
 }

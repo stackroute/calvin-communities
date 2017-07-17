@@ -53,7 +53,8 @@ function checkTool(dataFromBody, dataFromURI, done) {
   let iterations = 0;
   // console.log(flag);
   dataFromBody.forEach((data) => {
-    if (data.toolId && data.actions && data.activityEvents && data.avatar && data.toolname && data.purpose) {
+    if (data.toolId && data.actions && data.activityEvents && data.avatar
+     && data.toolname && data.purpose) {
       if (data.toolId !== '' && data.actions !== '' && data.activityEvents !== '' && data.avatar !== '' && data.toolname !== '' && data.purpose !== '') {
         communityToolService.getToolsforCRUD(dataFromURI, data.toolId, (error) => {
           iterations += 1;
@@ -159,7 +160,7 @@ function deleteEvent(domainName, done) {
 // To delete a tool
 
 function deleteTool(domain, done) {
-  console.log('n delete');
+  // console.log('n delete');
   communityToolService.getToolsforCRUD(domain.domainname, domain.toolid, (error) => {
     if (error) {
       done(error, undefined);

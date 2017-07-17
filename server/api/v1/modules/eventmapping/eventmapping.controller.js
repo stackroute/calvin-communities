@@ -14,7 +14,6 @@ function getToolMapping(parameters, done) {
 }
 
 function postEventMapping(parameters, details, done) {
-
   let wrongvalues = 0;
   const queries = [];
   let query;
@@ -23,29 +22,30 @@ function postEventMapping(parameters, details, done) {
       !_.has(data, 'communityactivityevent') || !_.has(data, 'metadata')) {
       wrongvalues++;
     }
-     query = 'insert into '+ COMMUNITY_TOOL_EVENT_MAP +' (domain, toolid, eventid, eventname, eventdescription, communityactivityevent, metadata) values (?,?,?,?,?,?,?)';
+    query = `insert into ${COMMUNITY_TOOL_EVENT_MAP} (domain, toolid, eventid, eventname, eventdescription, communityactivityevent, metadata) values (?,?,?,?,?,?,?)`;
 
-   queries.push({ query: query, params: [parameters.domain, parameters.toolid, data.eventid,
-   	data.eventname, data.eventdescription, data.communityactivityevent, data.metadata]});
-
-  })
-  if(wrongvalues === 0) {
-  	async.waterfall([
-  		eventmappingServices.getToolMapping.bind(null, parameters),
-  		 eventmappingServices.postEventMapping.bind(null, queries),
-  		],(err, result) =>{
-  			if(err){ console.log('err', err); return done([400, `Seems you're trying to reintegrate this tool with same domain`]) }
-  			if(result) done(undefined, result);
-
-  	})
+    queries.push({
+      query,
+      params: [parameters.domain, parameters.toolid, data.eventid,
+        data.eventname, data.eventdescription, data.communityactivityevent, data.metadata,
+      ],
+    });
+  });
+  if (wrongvalues === 0) {
+    async.waterfall([
+      eventmappingServices.getToolMapping.bind(null, parameters),
+      eventmappingServices.postEventMapping.bind(null, queries),
+    ], (err, result) => {
+      if (err) { console.log('err', err); return done([400, 'Seems you\'re trying to reintegrate this tool with same domain']); }
+      if (result) done(undefined, result);
+    });
   } else {
     done([400, 'Required data inputs were not found']);
   }
-
 }
 
 function updateEventMapping(parameters, details, done) {
-	let wrongvalues = 0;
+  let wrongvalues = 0;
   const queries = [];
   let query;
   details.forEach((data) => {
@@ -53,34 +53,28 @@ function updateEventMapping(parameters, details, done) {
       !_.has(data, 'communityactivityevent') || !_.has(data, 'metadata')) {
       wrongvalues++;
     }
-     query = `update ${COMMUNITY_TOOL_EVENT_MAP} set eventname=?, eventdescription=?, communityactivityevent=? , metadata=? where domain=? and toolid=? and eventid=?`;
+    query = `update ${COMMUNITY_TOOL_EVENT_MAP} set eventname=?, eventdescription=?, communityactivityevent=? , metadata=? where domain=? and toolid=? and eventid=?`;
 
-   queries.push({ query: query, params: [data.eventname, data.eventdescription, data.communityactivityevent, data.metadata, parameters.domain, parameters.toolid, data.eventid]});
-
-  })
-  console.log(queries)
-  if(wrongvalues === 0) {
-  	async.waterfall([
-  		eventmappingServices.getToolMapping.bind(null, parameters),
-  		 eventmappingServices.updateEventMapping.bind(null, queries),
-  		],(err, result) =>{
-  			if(err){ console.log('err', err); return done([400, `Unexpected Error, or maybe the tool isn't integrated yet`]) }
-  			if(result) done(undefined, result);
-
-  	})
+    queries.push({ query, params: [data.eventname, data.eventdescription, data.communityactivityevent, data.metadata, parameters.domain, parameters.toolid, data.eventid] });
+  });
+  console.log(queries);
+  if (wrongvalues === 0) {
+    async.waterfall([
+      eventmappingServices.getToolMapping.bind(null, parameters),
+      eventmappingServices.updateEventMapping.bind(null, queries),
+    ], (err, result) => {
+      if (err) { console.log('err', err); return done([400, 'Unexpected Error, or maybe the tool isn\'t integrated yet']); }
+      if (result) done(undefined, result);
+    });
   } else {
     done([400, 'Required data inputs were not found']);
   }
-
-
 }
-
-
 
 
 module.exports = {
   getToolMapping,
   getToolEventMapping,
   postEventMapping,
-  updateEventMapping
-}
+  updateEventMapping,
+};
