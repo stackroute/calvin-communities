@@ -187,7 +187,7 @@ function tableCreation(done) {
    * creating tables
    */
   async.each(queries, dboperations, (err) => { // eslint-disable-line consistent-return
-    if (err) { logger.debug('Error in DB Creation, trying again...', err); process.exit(1); }
+    if (err) { logger.debug('Error in DB Creation, try again...', err); process.exit(1); }
     logger.debug('Database Created');
   });
   done();
@@ -195,7 +195,7 @@ function tableCreation(done) {
 
 function dbCreate() {
   async.series([keyspaceCreation, tableCreation], (err) => {
-    if (err) { logger.debug('Error in Db Creation, trying again...', err); process.exit(1); }
+    if (err) { logger.debug('Error in Db Creation, try again...', err); process.exit(1); }
   });
 }
 
