@@ -25,25 +25,44 @@ async.waterfall([getActivityEvents.bind(null, domainName, data)], function(err, 
 }
 });*/
 
-function getEventMapping() {
+function getToolEventMapping(parameters, done) {
+	eventmappingServices.getToolEventMapping(parameters, done);
+}
 
+function getEventMapping(parameters, done) {
+	eventmappingServices.getEventMapping(parameters, done);
 }
 
 function postEventMapping(parameters, details, done) {
+  console.log(details)
 
-  if (!_.has(details, 'name') || !_.has(details, 'description') ||
+ /* if (!_.has(details, 'name') || !_.has(details, 'description') ||
     !_.has(details, 'communityevent') || !_.has(details, 'metadata')) {
-  	return done([400, 'Required Details are not found']);
-  }
+  	return done([400, 'Required Details not found']);
+  }*/
+  details.forEach((data) => {
+  	console.log(data);
+  })
 
   if(parameters && details) {
-  	console.log('hiii');
-  	done();
+  	const mappingdata = {
+  		domain: parameters.domain,
+  		toolid: parameters.toolid,
+  		eventid : parameters.eventid,
+  		eventname: details.name,
+  		eventdescription: details.description,
+  		communityactivityevent: details.communityevent,
+  		metadata: details.metadata
+
+  	}
+  	eventmappingServices.postEventMapping(mappingdata, done);
+  } else {
+  	done([400, 'Required Details not found'])
   }
 
 }
 
-function updateEventMapping() {
+function updateEventMapping(parameters, details, done) {
 
 }
 
@@ -57,6 +76,7 @@ function updateEventMapping() {
 
 module.exports = {
   getEventMapping,
+  getToolEventMapping,
   postEventMapping,
   updateEventMapping
 }

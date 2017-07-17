@@ -1,11 +1,10 @@
 const model = require('cassandra-driver');
-
 const connectionString = require('../../../../config').connectionString;
+const logger = require('../../../../logger');
 
-const TABLE_COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
+const COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 
 // Connecting to cassandra
-
 const client = new model.Client({
   contactPoints: [connectionString.contact],
   protocolOptions: { port: connectionString.port },
@@ -37,13 +36,40 @@ function getmappingDetails(tooldata, eventdata, done) {
   });
 }*/
 
+function getEventMapping(data, done){
+  const query = `select * from ${COMMUNITY_TOOL_EVENT_MAP} \
+  where domain = '${data.domain}' and toolid = '${data.toolid}' `;
 
-function getEventMapping(){
+  client.execute(query, (err, result) => {
+    if(err) {logger.error('Error posting event details', err); return done([500, 'Unexpected error occured'])};
+    if(!err) { return done(undefined, result.rows); }
+  })
+
 
 }
 
-function postEventMapping(){
+function getToolEventMapping(data, done){
+  const query = `select * from ${COMMUNITY_TOOL_EVENT_MAP} \
+  where domain = '${data.domain}' and toolid = '${data.toolid}' `;
 
+  client.execute(query, (err, result) => {
+    if(err) {logger.error('Error posting event details', err); return done([500, 'Unexpected error occured'])};
+    if(!err) { return done(undefined, result.rows); }
+  })
+
+
+}
+
+function postEventMapping(data, done){
+  const query = `insert into ${COMMUNITY_TOOL_EVENT_MAP} (domain, toolid, eventid, eventname, \
+   eventdescription, communityactivityevent, metadata) values ('${data.domain}', '${data.toolid}', \
+   '${data.eventid}', '${data.eventname}', '${data.eventdescription}', '${data.communityactivityevent}', \
+   '${data.metadata}')`;
+
+   client.execute(query, (err) => {
+    if(err) {logger.error('Error posting event details', err); return done([500, 'Unexpected error occured'])};
+    if(!err) { return done(undefined, 'data'); }
+   })
 
 }
 
@@ -53,6 +79,7 @@ function updateEventMapping(){
 
 
 module.exports = {
+  getToolEventMapping,
 	getEventMapping,
   postEventMapping,
   updateEventMapping
