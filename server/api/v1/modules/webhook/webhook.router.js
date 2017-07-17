@@ -2,10 +2,11 @@ const router = require('express').Router();
 
 const webhookCtrl = require('./webhook.controller');
 
-router.get('/:verifytoken', (req, res) => {
+router.post('/:token', (req, res) => {
   try {
     console.log("router");
-    webhookCtrl.verifyToken(req.query.token, (err, result) => {
+    console.log(req.params.token);
+     webhookCtrl.verifyToken(req.params.token, (err, result) => {
       if (err) {
         return res.status(400).send(err);
       } else {
@@ -13,6 +14,7 @@ router.get('/:verifytoken', (req, res) => {
       }
     });
   } catch (err) {
+  	console.log('errrrr',err);
     return res.status(500).send({ error: 'Unexpected internal error...' });
   }
 });

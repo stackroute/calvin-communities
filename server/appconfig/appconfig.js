@@ -6,15 +6,7 @@ const defaults = {
 };
 
 const appConfig = {
-  development: extend(require('./env/development'), defaults),
-  dbconfig: {
-    dburl: '127.0.0.1',
-    keyspacename: 'calvincommunity',
-  },
-  appConstants: {
-    secret: 'secret key',
-    expiryTime: 60 * 500,
-  },
+  development: extend(require('./env/development'), defaults)
 };
 
 let env = process.env.NODE_ENV || 'development';
