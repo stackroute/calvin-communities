@@ -35,7 +35,7 @@ const routes: Routes = [
               component: TemplateListComponent
           },
           {
-            path:'templates/:purpose',
+            path:'templates',
             component: TemplatesComponent
           },
           {

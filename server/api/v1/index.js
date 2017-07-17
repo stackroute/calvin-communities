@@ -16,4 +16,6 @@ router.use('/communitytemplates', require('./modules/communitytemplates'));
 
 router.use('/tools', require('./modules/tools'));
 
+router.use('/eventmapping', require('./modules/eventmapping'));
+
 module.exports = router;

@@ -7,10 +7,14 @@ export class TemplateListService {
 
 		constructor(private http: Http) { };
 
-		selectTemplate()
+		selectTemplates()
 		{
            return this.http.get(`api/v1/communitytemplates/`).map((response: Response) => response.json());
 		}
-
+     
+//         getAllCommunities() {
+//     return this.http.get(`/api/v1/communities`).map(res => res.json());
+//   }
+     
 
 }
