@@ -188,11 +188,12 @@ function getCommunity(domain, counter, done) {
       if (err) return done(err);
       /* eslint-disable no-param-reassign*/
       if (!_.isEmpty(result[1])) {
-        result[0][0].invitations = result[1][0].invitations;
-        result[0][0].members = result[1][0].members;
-        result[0][0].requests = result[1][0].requests;
-        result[0][0].tools = result[1][0].tools;
+        result[0][0].invitations = (result[1][0].invitations || 0 );
+        result[0][0].members = (result[1][0].members || 0 );
+        result[0][0].requests = (result[1][0].requests || 0);
+        result[0][0].tools = (result[1][0].tools || 0 );
       } else {
+        console.log("here", result[0][0]);
         result[0][0].invitations = 0;
         result[0][0].members = 0;
         result[0][0].requests = 0;
