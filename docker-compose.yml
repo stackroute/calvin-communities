@@ -107,7 +107,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
       KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_CREATE_TOPICS: "topic1:1:1,topic2:1:1,topic3:1:1,topic4:1:1,topic5:1:1"
+      KAFKA_CREATE_TOPICS: "CommunityLifecycleEvents:1:1,ToolEvents:1:1,CommunityActivityEvents:1:1"
       KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

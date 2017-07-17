@@ -61,7 +61,7 @@ function deleteTool(dataFromURI, done) {
 function PublishEventWhenEventAdded(domainname, count) {
   let message = { domain: domainname, event: 'newtooladded', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       // logger.debug('error occured', err);
     } else {

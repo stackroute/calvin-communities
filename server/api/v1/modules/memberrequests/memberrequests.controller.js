@@ -18,7 +18,7 @@ function gettingValuesByDomain(domain, done) {
 function publishMessageforInvite(domainname, count) {
   let message = { domain: domainname, event: 'newinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -31,7 +31,7 @@ function publishMessageforInvite(domainname, count) {
 function publishMessageforRequest(domainname, count) {
   let message = { domain: domainname, event: 'newrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -43,7 +43,7 @@ function publishMessageforRequest(domainname, count) {
 function PublishEventForMemberAdded(person, domain, role) {
   let message = { personemail: person, domainname: domain, roleforperson: role };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -56,7 +56,7 @@ function PublishEventForMemberAdded(person, domain, role) {
 function PublishEventForRejectionOfInvite(domainname, count) {
   let message = { domain: domainname, event: 'rejectinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -69,7 +69,7 @@ function PublishEventForRejectionOfInvite(domainname, count) {
 function PublishEventForRejectionOfRequest(domainname, count) {
   let message = { domain: domainname, event: 'rejectrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
