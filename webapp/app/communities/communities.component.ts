@@ -3,6 +3,7 @@ import { Http, Response} from '@angular/http';
 import {MdButtonModule} from '@angular/material';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import {CommunitiesService} from './communities.service';
+// import * as momemt from 'moment';
 
 @Component({
   templateUrl: './communities.component.html',
@@ -23,9 +24,9 @@ getTools(value){
 					/*console.log(value.domain);*/
 					this.getFinalResults.push({domain:value.domain,name:value.name,purpose:value.purpose,description:value.description,avatar:value.avatar,owner:value.owner,updatedon:value.updatedon,status:value.status,toolid:resultTools.tools});
 					console.log('Final Result',this.getFinalResults);
-					}/*,
+					},
             error=>console.log(error),
-            ()=>console.log("finished")*/
+            ()=>console.log("finished")
             );
 }
 
@@ -36,8 +37,8 @@ getTools(value){
 			resultCommunity.forEach((data)=>{
 				this.getTools(data);
 				});
-		}/*,error=>(error),
-            ()=>console.log("finished")*/
+		},error=>(error),
+            ()=>console.log("finished")
 		);
 		}
 	
