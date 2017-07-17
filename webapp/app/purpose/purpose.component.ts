@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { GetPurposeService } from './purpose.service';
 
 @Component({
+	selector:'purpose-component',
   templateUrl: './purpose.component.html',
   styleUrls: ['./purpose.component.css'],
   providers: [GetPurposeService]
