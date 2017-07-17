@@ -1,4 +1,5 @@
 const model = require('cassandra-driver');
+const _ = require('lodash');
 const connectionString = require('../../../../config').connectionString;
 const logger = require('../../../../logger');
 
@@ -36,51 +37,66 @@ function getmappingDetails(tooldata, eventdata, done) {
   });
 }*/
 
-function getEventMapping(data, done){
-  const query = `select * from ${COMMUNITY_TOOL_EVENT_MAP} \
-  where domain = '${data.domain}' and toolid = '${data.toolid}' `;
-
-  client.execute(query, (err, result) => {
-    if(err) {logger.error('Error posting event details', err); return done([500, 'Unexpected error occured'])};
-    if(!err) { return done(undefined, result.rows); }
-  })
-
-
-}
-
 function getToolEventMapping(data, done){
   const query = `select * from ${COMMUNITY_TOOL_EVENT_MAP} \
-  where domain = '${data.domain}' and toolid = '${data.toolid}' `;
-
+  where domain = '${data.domain}' and toolid = '${data.toolid}' and eventid = '${data.event}' `;
   client.execute(query, (err, result) => {
     if(err) {logger.error('Error posting event details', err); return done([500, 'Unexpected error occured'])};
-    if(!err) { return done(undefined, result.rows); }
+    if(result.rows) { return done(undefined, result.rows[0]);
+     }
   })
 
 
 }
 
-function postEventMapping(data, done){
-  const query = `insert into ${COMMUNITY_TOOL_EVENT_MAP} (domain, toolid, eventid, eventname, \
-   eventdescription, communityactivityevent, metadata) values ('${data.domain}', '${data.toolid}', \
-   '${data.eventid}', '${data.eventname}', '${data.eventdescription}', '${data.communityactivityevent}', \
-   '${data.metadata}')`;
-
-   client.execute(query, (err) => {
+function getToolMapping(details, done){
+  const query = `select * from ${COMMUNITY_TOOL_EVENT_MAP} \
+  where domain = '${details.domain}' and toolid = '${details.toolid}' `;
+  const events = [];
+  client.execute(query, (err, result) => {
     if(err) {logger.error('Error posting event details', err); return done([500, 'Unexpected error occured'])};
-    if(!err) { return done(undefined, 'data'); }
-   })
+    if(!_.isEmpty(result.rows)) {
+
+     let data;
+      if(result.rows.length === 1) data = [result.rows]; else data = result.rows;
+
+      data.forEach((index) => {
+        events.push({eventid: index.eventid, eventname: index.eventname, eventdescription: index.eventdecription,
+          communityactivityevent: index.communityactivityevent, metadata: index.metadada})
+      })
+      return done(undefined, {domain: data[0].domain, toolid: data[0].toolid, events});
+     } return done(undefined, result.rows);
+  })
+
 
 }
 
-function updateEventMapping(){
+function postEventMapping(queries, existscheck, done){
+  if(_.isEmpty(existscheck)) {
 
+   client.batch(queries, (err) => {
+    if(err) {logger.error('Error posting event details', err); return done([500, 'Unexpected error occured'])};
+    if(!err) { return done(undefined, 'data posted'); }
+   })
+
+} else return done([400,'Tool Already mapped with this community']);
+}
+function updateEventMapping(queries, existscheck, done){
+  if(!_.isEmpty(existscheck)) {
+    console.log(existscheck)
+    console.log(queries)
+    client.batch(queries,{prepare: true}, (err) => {
+    if(err) {logger.error('Error updating event details', err); return done([500, 'Unexpected error occured'])};
+    if(!err) { return done(undefined, 'data patched'); }
+   })
+
+} else return done([400,'Please map the tool to community first']);
 }
 
 
 module.exports = {
-  getToolEventMapping,
-	getEventMapping,
+  getToolMapping,
+	getToolEventMapping,
   postEventMapping,
   updateEventMapping
 }

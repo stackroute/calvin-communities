@@ -5,12 +5,12 @@ const eventmappingCtrl = require('./eventmapping.controller');
 
 router.get('/:toolid/:domain/:event', (req, res) => {
 	try {
-    eventmappingCtrl.getEventMapping(req.params, (err, results) => {
+    eventmappingCtrl.getToolEventMapping(req.params, (err, results) => {
       if (err) {
         logger.error('Error in eventmappingCtrl.getEventMapping, error: ', err);
         return res.status(err[0]).send({ error: err[1] });
       }
-      return res.status(200).json(results);
+      return res.status(200).jsonp(results);
     });
   } catch (err) {
     logger.error('Unexpected error in fetching event details ', err[1]);
@@ -20,12 +20,12 @@ router.get('/:toolid/:domain/:event', (req, res) => {
 
 router.get('/:toolid/:domain', (req, res) => {
 	try {
-    eventmappingCtrl.getToolEventMapping(req.params, (err, results) => {
+    eventmappingCtrl.getToolMapping(req.params, (err, results) => {
       if (err) {
-        logger.error('Error in eventmappingCtrl.getEventMapping, error: ', err);
+        logger.error('Error in eventmappingCtrl.getToolMapping, error: ', err);
         return res.status(err[0]).send({ error: err[1] });
       }
-      return res.status(200).json(results);
+      return res.status(200).jsonp(results);
     });
   } catch (err) {
     logger.error('Unexpected error in fetching event details ', err[1]);
