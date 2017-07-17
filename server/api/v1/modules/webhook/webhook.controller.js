@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('../../../config');
+const config = require('../../../../appconfig/appconfig');
 const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher');
 
 
