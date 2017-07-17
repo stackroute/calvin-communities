@@ -35,5 +35,5 @@ function getmappingDetails(dataFromBody, done) {
 
 module.exports = {
 	getmappingDetails,
-	getActivityEvents,
+//	getActivityEvents,
 }
