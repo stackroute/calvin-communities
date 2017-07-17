@@ -187,19 +187,23 @@ function getCommunity(domain, counter, done) {
     ], (err, result) => {
       if (err) return done(err);
       /* eslint-disable no-param-reassign*/
+      if(!_.isEmpty(result[0])){
       if (!_.isEmpty(result[1])) {
-        result[0][0].invitations = (result[1][0].invitations || 0 );
-        result[0][0].members = (result[1][0].members || 0 );
+        result[0][0].invitations = (result[1][0].invitations || 0);
+        result[0][0].members = (result[1][0].members || 0);
         result[0][0].requests = (result[1][0].requests || 0);
-        result[0][0].tools = (result[1][0].tools || 0 );
+        result[0][0].tools = (result[1][0].tools || 0);
       } else {
-        console.log("here", result[0][0]);
+
+        // console.log('here', result[0][0]);
+
         result[0][0].invitations = 0;
         result[0][0].members = 0;
         result[0][0].requests = 0;
         result[0][0].tools = 0;
       }
       /* eslint-disable no-param-reassign*/
+      }
       return done(undefined, result[0]);
       // result[0].push(counts);
     });

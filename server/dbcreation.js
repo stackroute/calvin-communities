@@ -15,12 +15,11 @@ const TABLE_COMMUNITIES = 'communities';
 const TABLE_COMMUNITY_MEMBERSHIP = 'communitymembership';
 const TABLE_MEMBERSHIP = 'membership';
 const TABLE_COMMUNITY_TOOLS = 'communitytools';
+const TABLE_COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 const TABLE_TOOLS = 'tools';
 const TABLE_ROLES = 'communityroles';
 const TABLE_REQUESTS = 'communityinviterequests';
 const TABLE_COUNTER = 'communitiescounter';
-const TABLE_TOOL_EVENTS = 'toolevents';
-const TABLE_EVENT_MAPPING = 'eventmapping';
 
 const queries = [];
 
@@ -78,13 +77,28 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} ( 
   toolid text, \
   toolname text, \
   actions set<text>, \
-  activityevents set<text>, \
   createdon timestamp, \
   updatedon timestamp, \
   avatar text, \
   purpose text, \
   PRIMARY KEY (domain, toolid)
 )`);
+
+/**
+ * Describing Table for Community Tool Event to Community Activity Event Mapping
+ * Subscribed events of a tool for a specific community
+ */
+
+queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOL_EVENT_MAP} ( \
+  domain text, \
+  toolid text, \
+  eventid text, \
+  eventname text, \
+  eventdescription text, \
+  communityactivityevent text, \
+  metadata text, \
+  PRIMARY KEY (domain, toolid, eventid)
+  )`);
 
 /**
  * Describing Table for Tools data according to tool's perspective
@@ -141,30 +155,6 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COUNTER} ( \
   PRIMARY KEY (domain)
   )`);
 
-/**
- * Describing Table for Tool Events for Community Toolsink
- */
-
-queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_TOOL_EVENTS} ( \
-  toolid text, \
-  eventid text, \
-  eventname text, \
-  eventdescription text, \
-  metadata text, \
-  PRIMARY KEY (toolid, eventid)
-  )`);
-
-/**
- * Describing Table for Event Mapping for Event Mapping
- */
-
-queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_EVENT_MAPPING} ( \
-  toolid text, \
-  eventid text, \
-  communityeventtype text, \
-  PRIMARY KEY (toolid)
-  )`);
-
 function dboperations(query, done) {
   client.execute(query, (error) => {
     if (error) {
@@ -197,7 +187,7 @@ function tableCreation(done) {
    * creating tables
    */
   async.each(queries, dboperations, (err) => { // eslint-disable-line consistent-return
-    if (err) { logger.debug('Error in DB Creation, trying again...', err); process.exit(1); }
+    if (err) { logger.debug('Error in DB Creation, try again...', err); process.exit(1); }
     logger.debug('Database Created');
   });
   done();
@@ -205,7 +195,7 @@ function tableCreation(done) {
 
 function dbCreate() {
   async.series([keyspaceCreation, tableCreation], (err) => {
-    if (err) { logger.debug('Error in Db Creation, trying again...', err); process.exit(1); }
+    if (err) { logger.debug('Error in Db Creation, try again...', err); process.exit(1); }
   });
 }
 

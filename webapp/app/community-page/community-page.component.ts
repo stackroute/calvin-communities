@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { CommunityPageService } from './community-page.service';
+import * as moment from 'moment';
 
 @Component({
   templateUrl: './community-page.component.html',
@@ -18,7 +19,8 @@ export class CommunityPageComponent {
 
   memberArray = [];
   toolsArray = [];
-
+  createdon;
+  updatedon;
 constructor(private getpurposeservice : CommunityPageService){};
 
 ngOnInit(){
@@ -27,14 +29,23 @@ ngOnInit(){
       this.getpurposeservice.getCommunityDetails("sandhyas")
       .subscribe(
         data =>{
+          this.createdon =data.createdon;
+          this.updatedon =data.updatedon;
+          //console.log("tryinggggggggggggg",this.createdon);
           this.communityObj = data;
+          //console.log("checking for prakhar",this.communityObj);
+
+         data.createdon =  moment(this.createdon).subtract(1, 'days').calendar();
+         data.updatedon =  moment(this.updatedon).subtract(1, 'days').calendar();
+         //console.log("this is converted",this.createdon);
           this.arr.push(data);
-          console.log("Angular Data",data);
+          //console.log("Angular Data",data);
           this.getMembers("sandhyas");
           this.getTools("sandhyas");
         },
         error =>{console.log(error);},
         () =>console.log("finished")
+
 
         );
 /*})*/

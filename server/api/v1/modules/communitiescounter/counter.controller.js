@@ -29,5 +29,5 @@ function getcounter(domain, done) {
 
 module.exports = {
   onevent,
-  getcounter
+  getcounter,
 };
