@@ -1,6 +1,13 @@
 <md-input-container>
   <input mdInput color="accent" mode="search" placeholder="Search for a community...">
 </md-input-container>
+<!-- <div class="search-results"
+            infinite-scroll
+            debounce
+            [infiniteScrollDistance]="5000"
+            [infiniteScrollThrottle]="30"
+            (scrolled)="onScroll(searchString)"
+             > -->
 <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="25px" fxLayoutGap.xs="20px">
   <div *ngIf="getFinalResults" fxFlex="96%" fxLayoutGap="25px" fxLayoutWrap>
     <div class="list-communities" fxFlex="23%" *ngFor="let data of getFinalResults" fx-flex-fill>
@@ -28,15 +35,17 @@
            <md-list>{{tools.toolid}}</md-list>
            </div>
         </md-card-content>
+      <!--   <div fxLayoutAlign="center"> Updated On:{{data.updatedon}}</div> -->
         <md-card-actions fxLayoutAlign="end">
           <button md-raised-button color="accent" (click)="update()">CommunityDetails</button>
         </md-card-actions>
-                <md-card-footer>
+                <!-- <md-card-footer>
           <div fxLayoutAlign="center"> Owner:{{data.owner}}</div>
           <div fxLayoutAlign="center"> Status:{{data.status}}</div>
           <div fxLayoutAlign="center"> Updated On:{{data.updatedon}}</div>
-        </md-card-footer>
+        </md-card-footer> -->
       </md-card>
     </div>
   </div>
 </div>
+<!-- </div> -->

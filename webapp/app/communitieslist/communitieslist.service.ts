@@ -3,7 +3,7 @@ import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class TemplateListService {
+export class CommunitiesListService {
 
 		constructor(private http: Http) { };
 

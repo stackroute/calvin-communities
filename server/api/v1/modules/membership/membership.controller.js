@@ -1,5 +1,35 @@
 const membershipService = require('./membership.service');
+
+const logger = require('../../../../logger');
+
+const registerPublisherService = require('../../../../common/kafkaPublisher');
+
 const communityService = require('./../community/community.controller');
+
+
+function publishMessageforMemberCounter(domainname, count) {
+  let message = { domain: domainname, event: 'newmemberadded', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+function publishMessageforMemberCounterDecrement(domainname, count) {
+  let message = { domain: domainname, event: 'removemember', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
 
 /*
  * Get community Details of a particular member
@@ -18,7 +48,9 @@ function getCommunityList(username, done) {
           results.communityDetails.forEach((data) => {
             result.forEach((values) => {
               if (values.domain === data.domain) {
-                communities.push({ domain: values.domain, name: values.name, avatar: values.avatar, role: data.role });
+                communities.push({
+                  domain: values.domain, name: values.name, avatar: values.avatar, role: data.role,
+                });
               }
             });
           });
@@ -81,8 +113,8 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
  */
 
 function removeMemberFromCommunity(domainName, data, done) {
-  membershipService.getCommunityList(domainName, (err) => {
-    if (!err) {
+  membershipService.getCommunityList(domainName, (error) => {
+    if (!error) {
       membershipService.removeMemberFromCommunity(domainName, data, (err) => {
         if (err) {
           done(err);
@@ -95,6 +127,7 @@ function removeMemberFromCommunity(domainName, data, done) {
   });
 }
 
+<<<<<<< HEAD
 
 function publishMessageforMemberCounter(domainname, count) {
   let message = { domain: domainname, event: 'newmemberadded', body: count };
@@ -119,9 +152,10 @@ function publishMessageforMemberCounterDecrement(domainname, count) {
     }
   });
 }
+=======
+>>>>>>> b2952c376511f69735218eadeab7e11ebabcecec
 module.exports = {
   getCommunityList,
-  // getAvatarForCommunities,
   userCommunityDetails,
   modifyRoleOfMemberInCommunity,
   removeMemberFromCommunity,
