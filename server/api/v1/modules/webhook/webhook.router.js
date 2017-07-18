@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const webhookCtrl = require('./webhook.controller');
-
+/*
 router.post('/:token', (req, res) => {
   try {
   	console.log('router');
@@ -20,5 +20,5 @@ router.post('/:token', (req, res) => {
   }
   return null;
 });
-
+*/
 module.exports = router;

@@ -11,27 +11,7 @@ const client = new model.Client({
   protocolOptions: { port: connectionString.port },
   keyspace: connectionString.keyspace,
 });
-// Get list of events mapping
-function getmappingDetails(tooldata, eventdata, done) {
-  console.log('service');
-  // const toolid = tooldata.toLowerCase();
-  // const eventid = eventdata.toLowerCase();
-  const query = `SELECT * from ${EVENTMAPPING_TABLE} WHERE toolid='${tooldata}' AND eventid = '${eventdata}' `;
-  console.log(query, 'query here');
-  return client.execute(query, (err, results) => {
-    if (err) { console.log(err); }
-    if (!err) {
-      console.log(results);
-      console.log('rows', results.rows);
-      console.log('length', results.rows.length);
-      if (results.rows.length > 0) {
-        done(undefined, { eventmapping: results.rows });
-      } else {
-        console.log('error');
-        done({ error: 'please enter a valid tool id' }, undefined);
-      }
-    } else {
-      done({ error: 'Internal Error occured' }, undefined);
+
 function getToolEventMapping(data, done) {
   const query = `select * from ${COMMUNITY_TOOL_EVENT_MAP} \
   where domain = '${data.domain}' and toolid = '${data.toolid}' and eventid = '${data.event}' `;
@@ -43,6 +23,7 @@ function getToolEventMapping(data, done) {
     return null;
   });
 }
+
 function getToolMapping(details, done) {
   const query = `select * from ${COMMUNITY_TOOL_EVENT_MAP} \
   where domain = '${details.domain}' and toolid = '${details.toolid}' `;
@@ -81,8 +62,6 @@ function postEventMapping(queries, existscheck, done) {
 
 function updateEventMapping(queries, existscheck, done) {
   if (!_.isEmpty(existscheck)) {
-    // console.log(existscheck);
-    // console.log(queries);
     client.batch(queries, { prepare: true }, (err) => {
       if (err) { logger.error('Error updating event details', err); return done([500, 'Unexpected error occured']); }
       if (!err) { return done(undefined, 'data patched'); }
