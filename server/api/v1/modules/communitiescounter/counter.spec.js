@@ -1,4 +1,4 @@
-/*require('chai').should();
+require('chai').should();
 require('../../../../app');
 const counterservice = require('./counter.service');
 const model = require('cassandra-driver');
@@ -251,4 +251,3 @@ describe('Testcases for checking the communitycounter', () => {
       .catch(() => {});
   });
 });
-*/
