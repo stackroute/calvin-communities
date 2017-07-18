@@ -78,5 +78,8 @@ select(val) {
       })
   }
  //  console.log(this.getResults);
+ redirect(template: string) {
+   this.router.navigate(['/templates/communities/'+ template])
+ }
   
 }

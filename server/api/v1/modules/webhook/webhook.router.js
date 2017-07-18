@@ -9,7 +9,7 @@ const config = require('../../../../appconfig/env/development');
 router.post('/:token', (req, res) => {
   try {
   	console.log('router');
-    webhookCtrl.verifyToken(req.query.token, (err, result) => {
+    
     // console.log('router');
     // console.log(req.params.token);
     webhookCtrl.publishEventToTopic(req.params.token, req.body, (err, result) => {
