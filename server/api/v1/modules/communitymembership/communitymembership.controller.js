@@ -212,8 +212,8 @@ function conditionCheckedUpdateMembersRole(domainName, values, dataExistCheckRes
   logger.debug('condition checked to update member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
-    communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, (err)=>{
-    if (err) {
+    communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, (err) => {
+      if (err) {
         done(err);
       }
       publishMessageToTopicForUpdation(domainName, values);
@@ -290,8 +290,8 @@ function conditionCheckedDeleteMembers(domainName, values, dataExistCheckResult,
   logger.debug('condition checked to delete member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
-    communityMembershipService.removeMembersFromCommunity(domainName, values, (err) =>{
-    if (err) {
+    communityMembershipService.removeMembersFromCommunity(domainName, values, (err) => {
+      if (err) {
         done(err);
       }
       publishMessageToTopicForDeletion(domainName, values);
