@@ -24,10 +24,6 @@ const routes: Routes = [
               component: DashboardComponent
           },
           {
-          		path: 'search',
-          		component: SearchComponent
-          },
-          {
               path: 'tools',
               component: ToolsComponent
           },
@@ -45,7 +41,7 @@ const routes: Routes = [
 
           },
           {
-            path: 'communitypage',
+            path: 'communities/:domain',
             component: CommunityPageComponent
           },
           {
