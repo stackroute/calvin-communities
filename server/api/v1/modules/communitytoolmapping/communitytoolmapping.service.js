@@ -39,9 +39,9 @@ function getToolMapping(details, done) {
         events.push({
           eventid: index.eventid,
           eventname: index.eventname,
-          eventdescription: index.eventdecription,
-          communityactivityevent: index.communityactivityevent,
-          metadata: index.metadada,
+          description: index.description,
+          activity: index.activity,
+          metadata: index.metadata,
         });
       });
       return done(undefined, { domain: data[0].domain, toolid: data[0].toolid, events });
@@ -54,10 +54,9 @@ function postEventMapping(queries, existscheck, done) {
   if (_.isEmpty(existscheck)) {
     client.batch(queries, (err) => {
       if (err) { logger.error('Error posting event details', err); return done([500, 'Unexpected error occured']); }
-      if (!err) { return done(undefined, 'data posted'); }
-      return null;
+       return done(undefined, 'data posted');
     });
-  } else return done([400, 'Tool Already mapped with this community']);
+  } else { return done([400, 'Tool Already mapped with this community']);}
 }
 
 function updateEventMapping(queries, existscheck, done) {

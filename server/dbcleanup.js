@@ -15,6 +15,7 @@ const TABLE_COMMUNITIES = 'communities';
 const TABLE_COMMUNITY_MEMBERSHIP = 'communitymembership';
 const TABLE_MEMBERSHIP = 'membership';
 const TABLE_COMMUNITY_TOOLS = 'communitytools';
+const TABLE_COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 const TABLE_TOOLS = 'tools';
 const TABLE_ROLES = 'communityroles';
 const TABLE_REQUESTS = 'communityinviterequests';
@@ -43,6 +44,10 @@ queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} `);
 /**
  * Describing Table for Tools data according to tool's perspective
  */
+
+
+queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_COMMUNITY_TOOL_EVENT_MAP}`);
+
 
 queries.push(`TRUNCATE TABLE ${KEYSPACE}.${TABLE_TOOLS}`);
 

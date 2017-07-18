@@ -76,10 +76,11 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOLS} ( 
   domain text, \
   toolid text, \
   toolname text, \
+  avatar text, \
+  toolurl text, \
   actions set<text>, \
   createdon timestamp, \
   updatedon timestamp, \
-  avatar text, \
   purpose text, \
   PRIMARY KEY (domain, toolid)
 )`);
@@ -94,8 +95,10 @@ queries.push(`CREATE TABLE IF NOT EXISTS ${KEYSPACE}.${TABLE_COMMUNITY_TOOL_EVEN
   toolid text, \
   eventid text, \
   eventname text, \
-  eventdescription text, \
-  communityactivityevent text, \
+  description text, \
+  activity text, \
+  actor text, \
+  object text, \
   metadata text, \
   PRIMARY KEY (domain, toolid, eventid)
   )`);
