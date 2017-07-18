@@ -18,6 +18,9 @@ router.use('/tools', require('./modules/tools'));
 
 router.use('/events', require('./modules/communitytoolmapping'));
 
+router.use('/activityevents', require('./modules/communityactivityevents'));
+
+
 router.use('/webhooks', require('./modules/webhook'));
 
 module.exports = router;

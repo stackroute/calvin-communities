@@ -61,12 +61,9 @@ function getCommunityTool(domain, toolid, done) {
 function getToolsforCRUD(domainName, tool, done) {
   const domainname = domainName.toLowerCase();
   const toolid = tool.toLowerCase();
-  // console.log(domainname);
-  // console.log(toolid);
-  const query = (`SELECT actions from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${toolid}' ALLOW FILTERING`);
+  const query = (`SELECT actions, toolname, purpose, avatar from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${toolid}' ALLOW FILTERING`);
   return client.execute(query, (err, results) => {
     if (!err) {
-      // console.log(results.rows);
       if (results.rows.length > 0) {
         done(undefined, { domain: domainname, toolid, data: results.rows });
       } else {
@@ -119,7 +116,6 @@ function getToolsForEventDeletion(domainName, tool, value, done) {
   return client.execute(query, (err, results) => {
     if (!err) {
       if (results.rows.length > 0) {
-        const arr = results.rows[0].activityevents;
         arr.forEach((val) => {
           if (val === values) {
             flag = true;
@@ -167,10 +163,9 @@ function addTools(data, done) {
       query,
       params: [domain.toLowerCase(),
         val.toolId.toLowerCase(),
-        actions,
-        val.toolname.toLowerCase(),
+        actions, val.toolname.toLowerCase(),
         val.avatar.toLowerCase(),
-        val.purpose.toLowerCase()
+        val.purpose.toLowerCase(),
       ],
     });
   });
@@ -181,12 +176,17 @@ function addTools(data, done) {
     }
     console.log(err); return done({ error: 'Internal Error occured' }, undefined);
   });*/
+    /*console.log(err);
+    return done({ error: 'Internal Error occured' }, undefined);
+  });*/
 }
 
 // Updating tools action and events
 
-function updateTools(data, value, done) {
-  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET actions=actions+{'${data.action.toLowerCase()}'},updatedon=dateof(now()) where domain='${value.domainname.toLowerCase()}' AND toolid='${value.toolid.toLowerCase()}'`);
+function updateTools(data, value, done) { 
+
+  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET actions=actions+{'${data.action.toLowerCase()}'}, updatedon=dateof(now()) where domain='${value.domainname.toLowerCase()}' AND toolid='${value.toolid.toLowerCase()}'`);
+
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);

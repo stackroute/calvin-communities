@@ -16,7 +16,7 @@ const logger = require('../../../../logger');
 
 function publishMessageToTopic(dataFromBody, dataFromURI) {
   // console.log('inside publish');
-  let message = { domain: dataFromURI, tools: dataFromBody, type: 'add' };
+  let message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool' };
   message = JSON.stringify(message);
   // console.log("sending message",message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -29,7 +29,7 @@ function publishMessageToTopic(dataFromBody, dataFromURI) {
 }
 
 function publishMessageToTopics(domainAndTool) {
-  let message = { domain: domainAndTool, type: 'delete' };
+  let message = { domain: domainAndTool, type: 'deletetool' };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -49,11 +49,6 @@ function mergeData(data, previousResult, done){
   if(previousResult.length === 0){
     return done(undefined, previousResult)
   }
-  else {
-    
-  }
-
-
 }
 
 function getCommunityTool(data, done) {
