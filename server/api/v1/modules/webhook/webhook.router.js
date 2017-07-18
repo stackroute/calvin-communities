@@ -7,22 +7,21 @@ const webhookCtrl = require('./webhook.controller');
 const config = require('../../../../appconfig/env/development');
 
 router.post('/:token', (req, res) => {
-  try {
-  	console.log('router');
-    webhookCtrl.verifyToken(req.query.token, (err, result) => {
-    // console.log('router');
-    // console.log(req.params.token);
-    webhookCtrl.publishEventToTopic(req.params.token, req.body, (err, result) => {
-      if (err) {
-        return res.status(400).send(err);
-      }
-      return res.send(result);
-    });
-  } catch (err) {
-    // console.log('errrrr', err);
-    return res.status(500).send({ error: 'Unexpected internal error...' });
-  }
-  return null;
-});
+      try {
+        console.log('router');
+            // console.log('router');
+            // console.log(req.params.token);
+            webhookCtrl.publishEventToTopic(req.params.token, req.body, (err, result) => {
+              if (err) {
+                return res.status(400).send(err);
+              }
+              return res.send(result);
+            });
+          } catch (err) {
+            // console.log('errrrr', err);
+            return res.status(500).send({ error: 'Unexpected internal error...' });
+          }
+          return null;
+        });
 
-module.exports = router;
+    module.exports = router;
