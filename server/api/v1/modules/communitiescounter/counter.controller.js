@@ -1,14 +1,14 @@
 const counterservice = require('./counter.service');
 
 const eventnames = {
-  newmemberadded: counterservice.incrementmember,
-  newtooladded: counterservice.incrementtools,
-  newinvite: counterservice.incrementinvitation,
-  newrequests: counterservice.incrementrequests,
-  removemember: counterservice.decrementmember,
-  removetool: counterservice.decrementtools,
-  rejectinvite: counterservice.decrementinvitation,
-  rejectrequests: counterservice.decrementrequests,
+  'newmemberadded': counterservice.incrementmember,
+  'newtooladded': counterservice.incrementtools,
+  'newinvite': counterservice.incrementinvitation,
+  'newrequests': counterservice.incrementrequests,
+  'removemember': counterservice.decrementmember,
+  'removetool': counterservice.decrementtools,
+  'rejectinvite': counterservice.decrementinvitation,
+  'rejectrequests': counterservice.decrementrequests,
 };
 
 function onevent(domain, eventname, payload, done) {
