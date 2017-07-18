@@ -21,7 +21,7 @@ module.exports = function(eventMessage) {
       }
     })
   }
-  if (eventMessage.type === 'delete') {
+  if (eventMessage.type === 'deletemember') {
     memberCtrl.removeMemberFromCommunity(eventMessage.domain, eventMessage.value, (err, res) => {
       if (err) {
         logger.debug(err);

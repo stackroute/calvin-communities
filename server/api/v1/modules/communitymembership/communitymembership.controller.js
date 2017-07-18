@@ -116,9 +116,9 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
   });
 }
 
-/*
- *PATCH Method- Publish a event
- */
+// /*
+//  *PATCH Method- Publish a event
+//  */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
   message = JSON.stringify(message);
@@ -132,12 +132,14 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   });
 }
 
+
 /*
- *DELETE Method- Publish a event
- */
+*DELETE Method- Publish a event
+*/
+
 
 function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody.length, type: 'delete' };
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'deletemember' };
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
