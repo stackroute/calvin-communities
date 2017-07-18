@@ -16,6 +16,8 @@ router.use('/communitytemplates', require('./modules/communitytemplates'));
 
 router.use('/tools', require('./modules/tools'));
 
+router.use('/activityevents', require('./modules/communityactivityevents'));
+
 router.use('/events', require('./modules/eventmapping'));
 
 router.use('/webhooks', require('./modules/webhook'));
