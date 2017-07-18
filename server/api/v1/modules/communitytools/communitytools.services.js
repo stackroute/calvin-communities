@@ -38,12 +38,9 @@ function getTools(domainName, done) {
 function getToolsforCRUD(domainName, tool, done) {
   const domainname = domainName.toLowerCase();
   const toolid = tool.toLowerCase();
-  console.log(domainname);
-  console.log(toolid);
   const query = (`SELECT actions, toolname, purpose, avatar from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${toolid}' ALLOW FILTERING`);
   return client.execute(query, (err, results) => {
     if (!err) {
-      console.log(results.rows);
       if (results.rows.length > 0) {
         done(undefined, { domain: domainname, toolid, data: results.rows });
       } else {
@@ -148,14 +145,17 @@ function addTools(data, domain, done) {
     if (!err) {
       return getTools(domain, done);
     }
+    console.log(err);
     return done({ error: 'Internal Error occured' }, undefined);
   });
 }
 
 // Updating tools action and events
 
-function updateTools(data, value, done) {
+function updateTools(data, value, done) { 
+
   const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET actions=actions+{'${data.action.toLowerCase()}'}, updatedon=dateof(now()) where domain='${value.domainname.toLowerCase()}' AND toolid='${value.toolid.toLowerCase()}'`);
+
   return client.execute(query, (err, results) => {
     if (!err) {
       done(undefined, results);

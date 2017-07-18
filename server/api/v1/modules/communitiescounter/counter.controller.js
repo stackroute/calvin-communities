@@ -17,7 +17,7 @@ function onevent(domain, eventname, payload, done) {
     done('event not supported..!');
     return;
   }
-
+ console.log(payload);
   eventregistry(domain, payload, done);
 }
 function getcounter(domain, done) {

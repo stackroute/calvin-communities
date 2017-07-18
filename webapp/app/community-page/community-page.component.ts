@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommunityPageService } from './community-page.service';
 import * as moment from 'moment';
 
@@ -21,12 +22,12 @@ export class CommunityPageComponent {
   toolsArray = [];
   createdon;
   updatedon;
-constructor(private getpurposeservice : CommunityPageService){};
+constructor(private getpurposeservice : CommunityPageService, private router: Router, private route: ActivatedRoute){};
 
 ngOnInit(){
 /*  this.alldata.forEach(function(data)
-    { */ 
-      this.getpurposeservice.getCommunityDetails("sandhyas")
+    { */
+      this.getpurposeservice.getCommunityDetails(this.route.snapshot.params['domain'])
       .subscribe(
         data =>{
           this.createdon =data.createdon;
@@ -40,8 +41,8 @@ ngOnInit(){
          //console.log("this is converted",this.createdon);
           this.arr.push(data);
           //console.log("Angular Data",data);
-          this.getMembers("sandhyas");
-          this.getTools("sandhyas");
+          this.getMembers(this.route.snapshot.params['domain']);
+          this.getTools(this.route.snapshot.params['domain']);
         },
         error =>{console.log(error);},
         () =>console.log("finished")
