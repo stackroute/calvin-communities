@@ -48,6 +48,10 @@ const routes: Routes = [
             path: 'communities',
             component: CommunitiesComponent
           },
+          {
+            path: 'templates/communities/:template',
+            component: CommunitiesComponent
+          },
           { path: '**', redirectTo: '/dashboard' }
 
  ];
