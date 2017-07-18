@@ -17,14 +17,28 @@ function getTools(domainName, done) {
 }
 
 // publish event for counter when tool is added
-function PublishEventWhenEventAdded(domainname, count) {
+function PublishEventWhenToolAdded(domainname, count) {
   let message = { domain: domainname, event: 'newtooladded', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
-      logger.debug('error occured', err);
+      // logger.debug('error occured', err);
     } else {
-      logger.debug('result is', res);
+      // logger.debug('result is', res);
+    }
+  });
+}
+
+// publish event for counter when tool is added
+function PublishEventWhenToolDeleted(domainname, count) {
+  console.log('hello world');
+  let message = { domain: domainname, event: 'removetool', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
+    if (err) {
+      // logger.debug('error occured', err);
+    } else {
+      // logger.debug('result is', res);
     }
   });
 }
@@ -45,7 +59,7 @@ function postTools(dataFromBody, domainName, done) {
   // console.log(count === dataFromBody.length);
   if (count === dataFromBody.length) {
     ToolService.addTools(dataFromBody, domainName, done);
-    PublishEventWhenEventAdded(domainName, count);
+    PublishEventWhenToolAdded(domainName, 3);
   } else {
     return done({ error: 'please enter all fields' }, undefined);
   }
@@ -64,26 +78,19 @@ function modifyTool(dataFromBody, dataFromparams, done) {
 // Function for deleting tools
 
 function deleteTool(dataFromURI, done) {
-  ToolService.getToolsForDeletion(dataFromURI.domainname, dataFromURI.toolid, (err) => {
+
+  ToolService.getToolsForDeletion(dataFromURI.toolid, dataFromURI.domainname, (err) => {
     if (!err) {
+      console.log('success');
+      PublishEventWhenToolDeleted(dataFromURI.domainname, 1);
       return ToolService.deleteTools(dataFromURI, done);
     }
     return done(err, undefined);
   });
 }
 
-// publish event for counter when tool is added
-function PublishEventWhenEventAdded(domainname, count) {
-  let message = { domain: domainname, event: 'newtooladded', body: count };
-  message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
-    if (err) {
-      // logger.debug('error occured', err);
-    } else {
-      // logger.debug('result is', res);
-    }
-  });
-}
+
+
 
 // Exporting the functions to be used in router
 

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const logger = require('../../../../logger');
-const eventmappingCtrl = require('./eventmapping.controller');
+const eventmappingCtrl = require('./communitytoolmapping.controller');
 
 router.get('/:tooldata/events/:eventid', (req, res) => {
   console.log('inside router', req.params);

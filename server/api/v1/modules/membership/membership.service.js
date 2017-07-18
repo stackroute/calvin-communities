@@ -76,7 +76,7 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
  */
 
 function removeMemberFromCommunity(domainName, data, done) {
-  const arr = [];
+  /*const arr = [];
   const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
   // console.log(data.length);
   // console.log(typeof (data));
@@ -89,7 +89,7 @@ function removeMemberFromCommunity(domainName, data, done) {
       return done(err);
     }
     return done(undefined, res);
-  });
+  });*/
 }
 
 

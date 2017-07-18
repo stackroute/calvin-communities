@@ -137,8 +137,6 @@ describe('Test cases for tools of a community', () => {
               result.rows[0].toolid.should.deep.equal(results.body[0].tools[0].toolid);
               result.rows[0].actions.should.deep.equal(results
                 .body[0].tools[0].actions);
-              result.rows[0].activityevents.should.deep.equal(results
-                .body[0].tools[0].activityevents);
               return done();
             }
             return null;
@@ -149,7 +147,7 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-  it('should not post if tool already exists', (done) => {
+  /*it('should not post if tool already exists', (done) => {
     request(app)
       .post(`${uri}singer.blr/tools`)
       .send(value.toolsAll)
@@ -472,7 +470,7 @@ describe('Test cases for tools of a community', () => {
         return null;
       });
     return null;
-  });
+  });*/
 
   after('', () => {
     client.execute("DELETE FROM communitytools where domain='engineer.wipro.blr';");
