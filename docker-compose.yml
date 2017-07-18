@@ -7,7 +7,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     ports:
@@ -28,7 +28,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
@@ -47,7 +47,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
@@ -66,7 +66,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     network_mode: host
-    restart: on-failure
+    restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
@@ -83,21 +83,23 @@ services:
   calvin-cassandra:
     image: cassandra:latest
     network_mode: host
-    restart: on-failure
+    restart: always
     expose:
       - 9042
+    volumes:
+      - /database:/var/lib/cassandra
 
   calvin-zookeeper:
     image: wurstmeister/zookeeper
     network_mode: host
-    restart: on-failure
+    restart: always
     expose:
       - 2181
 
   calvin-kafka:
     image: wurstmeister/kafka
     network_mode: host
-    restart: on-failure
+    restart: always
     expose:
       - 9092
     depends_on:
@@ -105,7 +107,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
       KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_CREATE_TOPICS: "topic1:1:1,topic2:1:1,topic3:1:1,topic4:1:1,topic5:1:1"
+      KAFKA_CREATE_TOPICS: "CommunityLifecycleEvents:1:1,ToolEvents:1:1,CommunityActivityEvents:1:1"
       KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

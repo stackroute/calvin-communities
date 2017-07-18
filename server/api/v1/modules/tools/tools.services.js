@@ -16,12 +16,12 @@ const client = new model.Client({
 });
 
 function getDomainsAndTools(done) {
-  console.log("toolsservices");
+  // console.log('toolsservices');
   const query = (`SELECT * FROM ${TOOL_TABLE}`);
 
   return client.execute(query, (err, results) => {
     if (!err) {
-      console.log("result", results.rows);
+      // console.log('result', results.rows);
       done(undefined, results.rows);
     } else {
       done(err, undefined);
@@ -74,7 +74,7 @@ function getToolsForDeletion(domainName, value, done) {
 // Inserting into tools table
 
 function addTools(data, domain, done) {
-  console.log('inside tools reverse');
+  // console.log('inside tools reverse');
   const arr = [];
   let query;
   data.forEach((val) => {

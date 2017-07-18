@@ -18,7 +18,7 @@ function gettingValuesByDomain(domain, done) {
 function publishMessageforInvite(domainname, count) {
   let message = { domain: domainname, event: 'newinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -31,7 +31,7 @@ function publishMessageforInvite(domainname, count) {
 function publishMessageforRequest(domainname, count) {
   let message = { domain: domainname, event: 'newrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -41,9 +41,9 @@ function publishMessageforRequest(domainname, count) {
 }
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
-  let message = { personemail: person, domainname: domain, roleforperson: role};
+  let message = { personemail: person, domainname: domain, roleforperson: role };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic4', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -56,7 +56,7 @@ function PublishEventForMemberAdded(person, domain, role) {
 function PublishEventForRejectionOfInvite(domainname, count) {
   let message = { domain: domainname, event: 'rejectinvite', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -69,7 +69,7 @@ function PublishEventForRejectionOfInvite(domainname, count) {
 function PublishEventForRejectionOfRequest(domainname, count) {
   let message = { domain: domainname, event: 'rejectrequests', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -134,17 +134,17 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
       persons.forEach((b) => {
         if ((b.email !== 'null') && (b.email)) {
           communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams, b.email,
-         (error) => {
-           itera += 1;
-           if (error) {
-             flag3 += 1;
-           } else {
-             flag3 += 0;
-           }
-           if (itera === persons.length) {
-             done(null, flag2, flag3);
-           }
-         });
+            (error) => {
+              itera += 1;
+              if (error) {
+                flag3 += 1;
+              } else {
+                flag3 += 0;
+              }
+              if (itera === persons.length) {
+                done(null, flag2, flag3);
+              }
+            });
         } else {
           return done({ error: 'Please enter valid values!!' });
         }
@@ -157,14 +157,14 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
   if (type === 'request') {
     if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
       communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams,
-       dataFromBody.invitee, (error) => {
-         if (error) {
-           flag3 = 1;
-         } else {
-           flag3 = 0;
-         }
-         done(null, flag2, flag3);
-       });
+        dataFromBody.invitee, (error) => {
+          if (error) {
+            flag3 = 1;
+          } else {
+            flag3 = 0;
+          }
+          done(null, flag2, flag3);
+        });
     } else {
       done({ error: 'Please enter valid values!!' });
     }

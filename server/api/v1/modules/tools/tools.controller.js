@@ -2,6 +2,8 @@
 
 const ToolService = require('./tools.services'); //
 
+const logger = require('../../../../logger');
+
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 
@@ -12,6 +14,19 @@ function getDomainsAndTools(done) {
 
 function getTools(domainName, done) {
   ToolService.getTools(domainName, done);
+}
+
+// publish event for counter when tool is added
+function PublishEventWhenEventAdded(domainname, count) {
+  let message = { domain: domainname, event: 'newtooladded', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
 }
 
 // Function for Posting tools
@@ -30,7 +45,7 @@ function postTools(dataFromBody, domainName, done) {
   // console.log(count === dataFromBody.length);
   if (count === dataFromBody.length) {
     ToolService.addTools(dataFromBody, domainName, done);
-    PublishEventWhenEventAdded(domainName, count );
+    PublishEventWhenEventAdded(domainName, count);
   } else {
     return done({ error: 'please enter all fields' }, undefined);
   }
@@ -61,11 +76,11 @@ function deleteTool(dataFromURI, done) {
 function PublishEventWhenEventAdded(domainname, count) {
   let message = { domain: domainname, event: 'newtooladded', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
-     // logger.debug('error occured', err);
+      // logger.debug('error occured', err);
     } else {
-     // logger.debug('result is', res);
+      // logger.debug('result is', res);
     }
   });
 }

@@ -7,7 +7,7 @@
 
 # dependencies
 /node_modules
-
+/database
 # IDEs and editors
 /.idea
 .project

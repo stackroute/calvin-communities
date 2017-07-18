@@ -1,46 +1,67 @@
-
-
-<div class="container"
-     fxLayout
-     fxLayout.xs="column"
-     fxLayoutAlign="center"
-     fxLayoutGap="0px"
-     fxLayoutGap.xs=".2">
-<md-card fxFlex="25%" *ngFor="let data of getResults" >
-  <md-card-header>
-   <md-card-title>{{data.name}}</md-card-title>
-     <md-card-subtitle>{{data.purpose}}</md-card-subtitle>
-  </md-card-header>
-  <img md-card-image src="https://images.nigms.nih.gov/PublicAssets/5811/NCMIR%20tongue%202.jpg">
-  <md-card-content>
-    <p>
-      {{data.description}}
-    </p>
-  </md-card-content>
-  <md-card-header>
-    <md-card-title>Tags</md-card-title>
-  <div *ngFor="let tag of data.tags">
-    <md-list>
-     <md-list-item>{{tag}}</md-list-item>
-    </md-list>  
-    </div>
-  </md-card-header>
-  <md-tab-group>
-   <md-tab label="Tools">
-    <md-list *ngFor="let tool of data.tools" >
-      {{tool.toolId}}
-    </md-list>
-   </md-tab>
-   <md-tab label="Roles">
-    <md-list *ngFor="let roles of data.roleActions">
-      {{roles.role}}
-    </md-list>
-   </md-tab>
-  </md-tab-group>
- <md-card-actions fxLayoutAlign="end">
-  <button md-raised-button color="primary" (click)="update()">View Communties</button>
- </md-card-actions>
-</md-card>
+<div>
+ <md-select placeholder="Select your option" style="margin-top:2%"[(ngModel)]="selectedValue" fxflex="100%" fxLayoutAlign="center">
+   <div *ngFor="let value of getPurpose">
+    <md-option (click)="select(value)">{{value}}
+    </md-option></div>
+    
+  </md-select>
 </div>
-<router-outlet>
-</router-outlet>
+
+
+<div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div *ngIf="getResults" fxFlex="100%" fxLayoutGap="2%" fxLayoutWrap>
+    <div class="list-communities" fxFlex="30%" *ngFor="let data of getResults" fx-flex-fill>
+      <div *ngFor="let data1 of counter">
+        <div *ngIf="data1.type === data.name">
+      <md-card>
+
+        <md-card-header>
+          <!--<img md-card-avatar src={{data.image}}>-->
+          <md-card-title><strong>{{data.name}}</strong></md-card-title>
+          <md-card-subtitle>{{data.purpose}}</md-card-subtitle>
+        </md-card-header>
+
+       <img md-card-image class="height" src={{data.image}}>
+
+
+        <md-card-content>
+          <p>
+            {{data.description}}
+          </p>
+        </md-card-content>
+
+         <md-card-title class="tags"><h6><strong>Tags</strong></h6></md-card-title>
+         <md-chip-list >
+         <div  *ngFor="let tag of data.tags" class="chip">
+        
+       <md-chip color="accent" selected="true">{{tag}}</md-chip>
+        </div>
+        </md-chip-list>
+        
+        <div>
+         <md-card-title class="tools"><h6><strong>Tools</strong></h6></md-card-title>
+         <md-chip-list>
+         <div *ngFor="let tool of data.tools" class="chiptool" fxFlex="100%">
+        <md-chip fxFlexLayout.xs="column" fxFlex="100%" class="chipsrole">
+          <img md-card-avatar src={{tool.avatar}}>
+         <span>{{tool.toolId}}</span>
+        </md-chip>
+        </div>
+        </md-chip-list>
+        </div>
+
+        <md-card-title class="roles"><h6><strong>Roles</strong></h6></md-card-title>
+         <md-chip-list>
+         <div *ngFor="let roles of data.roleActions" class="chiprole">
+        <md-chip class="chips">{{roles.role}}</md-chip>
+        </div>
+        </md-chip-list>
+        <div fxLayoutAlign="end" class="end">
+        <a href="communities/{{data.name}}">Communities-{{data1.value}}</a>
+        </div>
+      </md-card>
+      </div>  
+      </div>
+    </div>
+    </div>
+    </div>

@@ -1,4 +1,4 @@
-<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+<div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
   <div class="item item-3" fxFlex="70%">
     <div fxLayoutGap="50px" fxLayoutWrap>
       <div class="list-communities item item-1" fxFlex="45%" *ngFor="let tile of alldata;">
@@ -11,7 +11,7 @@
             <md-card-title class="heading">TEMPLATE</md-card-title>
           </md-card-header>
           <md-card-content *ngFor="let tiles of tile.data;">
-            <a href="">{{tiles.name}}</a>
+            {{tiles.name}}
           </md-card-content>
         </md-card>
       </div>

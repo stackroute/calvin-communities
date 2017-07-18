@@ -28,24 +28,6 @@ function getCommunityList(username, done) {
   });
 }
 
-// function getAvatarForCommunities(username, done) {
-//   console.log("Avtar");
-//   const arr =[];
-//   const query = `SELECT domain FROM membership WHERE username = '${username}'`;
-//   return client.execute(query, (err, results) => {
-//     if(!err) {
-//       console.log(results.rows);
-//       results.rows.forEach(function(data){
-//         console.log("data", data);
-//         arr.push(data.domain);
-//       })
-//       done(undefined, arr);
-//     } else {
-//       done(err, undefined);
-//     }
-//   });
-// }
-
 /*
  * Post - Add memebers to the community
  */
@@ -96,9 +78,9 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
 function removeMemberFromCommunity(domainName, data, done) {
   const arr = [];
   const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
-  console.log(data.length);
-  console.log(typeof(data));
-  console.log(data);
+  // console.log(data.length);
+  // console.log(typeof (data));
+  // console.log(data);
   data.forEach((val) => {
     arr.push({ query, params: [val.username.toLowerCase(), domainName.toLowerCase()] });
   });

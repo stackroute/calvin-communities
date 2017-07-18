@@ -403,7 +403,7 @@ describe('get/ post/ patch / delete community ', function () {
       .end(function (err, result) {
         if (err) { done(err); }
         result.status.should.be.equal(400);
-        result.body.error.should.equal('At least one Tag is required to to be passed');
+        result.body.error.should.equal('At least one Tag is required to be passed');
         done();
       });
   });

@@ -104,10 +104,10 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
  *POST Method- Publish a event
  */
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody, type:'add' };
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
-  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -120,10 +120,10 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
  *PATCH Method- Publish a event
  */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody, type:'modify' };
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
-  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -137,11 +137,11 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
  */
 
 function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody.length, type:'delete' };
+  let message = { domain: dataFromURI, value: dataFromBody.length, type: 'delete' };
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
-  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -158,8 +158,13 @@ function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, do
   logger.debug('condition checked to add member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
-    communityMembershipService.addMembersToCommunity(domainName, values, done);
-    publishMessageToTopic(domainName, values);
+    communityMembershipService.addMembersToCommunity(domainName, values, (err) => {
+      if (err) {
+        done(err);
+      }
+      publishMessageToTopic(domainName, values);
+      return done(undefined, { message: 'Member added' });
+    });
   } else {
     done({ error: 'Member detail already exist' });
   }

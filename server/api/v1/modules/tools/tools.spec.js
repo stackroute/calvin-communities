@@ -39,21 +39,21 @@ describe('Test cases for all tools in a community', () => {
       .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(200)
 
-    .end((error, results) => {
-      if (!error) {
-        client.execute('SELECT * from tools where toolid=\'doctors.blr\'', (err, result) => {
-          if (!err) {
-            result.rows.length.should.deep.equal(1);
-            result.rows[0].toolid.should.deep.equal(results.body.toolid);
-            result.rows[0].domains.length.should.be.equal(2);
-            expect(results.body).to.have.property('toolid').a('string');
-            expect(results.body).to.have.property('communities').a('Array');
-            return done();
-          }
-          return null;
-        });
-      }
-    });
+      .end((error, results) => {
+        if (!error) {
+          client.execute('SELECT * from tools where toolid=\'doctors.blr\'', (err, result) => {
+            if (!err) {
+              result.rows.length.should.deep.equal(1);
+              result.rows[0].toolid.should.deep.equal(results.body.toolid);
+              result.rows[0].domains.length.should.be.equal(2);
+              expect(results.body).to.have.property('toolid').a('string');
+              expect(results.body).to.have.property('communities').a('Array');
+              return done();
+            }
+            return null;
+          });
+        }
+      });
     return null;
   });
   it('should throw error if value is not found', (done) => {

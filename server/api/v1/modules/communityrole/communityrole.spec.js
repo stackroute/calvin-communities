@@ -148,7 +148,7 @@ describe('Create a communityrole and update it', () => {
       });
   });
 
-/*          it('Test GET of distinct roles', (done) => {
+  /*          it('Test GET of distinct roles', (done) => {
       request(app)
         .get('/api/v1/communityrole/smallu?onlyroles=\'true\'')
         .then(() => {

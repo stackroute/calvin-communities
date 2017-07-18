@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { OverlayContainer } from '@angular/material';
 
 @Component({
@@ -8,15 +8,4 @@ import { OverlayContainer } from '@angular/material';
 })
 export class AppComponent {
 
-navigation = [
-    { link: 'dashboard', label: 'Dashboard' },
-    { link: 'trending', label: 'Trending Communities' },
-    {link: 'communities', label:'Communities'},
-    { link: 'templates', label: 'Templates' },
-    { link: 'tools', label: ' Tools' },
-    { link: 'search', label: 'Search'},
-    { link: 'templatelist', label: 'TemplateList'},
-    { link: 'purpose', label: 'Purpose'},
-    { link: 'communitypage', label: 'CommunityPage'},
-  ];
 }

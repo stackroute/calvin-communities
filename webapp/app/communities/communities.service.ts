@@ -7,13 +7,14 @@ import 'rxjs/add/operator/map';
 export class CommunitiesService {
 	constructor(private http: Http) { };
 	selectCommunities(){
-		console.log('hi');
+		/*console.log('hiiiiiii');*/
 		return this.http.get(`api/v1/communities`)
 		.map(response => response.json());
 	}
-	selectTools(){
-		console.log('hi');
-		return this.http.get(`api/v1/communitytools`)
+	selectTools(domain){
+		/*console.log('hi tool',domain);*/
+		return this.http.get('api/v1/communitytools/'+domain+'/tools')
 		.map(response => response.json());
+
 	}
 }
