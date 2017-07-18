@@ -5,8 +5,6 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import {MdTabsModule} from '@angular/material';
 import {TemplatesService} from './templates.service';
 import { Params, RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
-import {TemplateListComponent} from '../template-list/template-list.component';
-import {PurposeComponent} from '../purpose/purpose.component';
 
 @Component({
   templateUrl: './templates.component.html',
@@ -21,25 +19,25 @@ domains;
 getpurpose;
   constructor(private TemplateService : TemplatesService,private route: ActivatedRoute, private router: Router )
   {
-     
+
   }
   ngOnInit() {
     this.TemplateService.selectTemplates().subscribe(
-      
+
        data => { this.getResults = data;
-          this.getResults.forEach((data) => 
+          this.getResults.forEach((data) =>
           {
             console.log(this.getPurpose.includes(data.purpose));
            if(!(this.getPurpose.includes(data.purpose))){
-             
+
                 this.getPurpose.push(data.purpose);
            }
-           
+
           });
           this.getCount();
-       }); 
+       });
   }
-  
+
 select(val) {
 
   console.log(val)
@@ -72,14 +70,14 @@ select(val) {
               this.counter.push({value:count,type:template.name});
               count = 0;
             });
-         
+
           })
-    
+
       })
   }
  //  console.log(this.getResults);
  redirect(template: string) {
    this.router.navigate(['/templates/communities/'+ template])
  }
-  
+
 }
