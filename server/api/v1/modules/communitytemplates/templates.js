@@ -11,19 +11,83 @@ module.exports = [{
     toolName: 'Forum',
     purpose: 'Discussions',
     avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+    toolurl: 'www.forum.org',
+    actions: ['postmessage', 'read', 'Likemessage', 'edit', 'share'],
+    events: [{
+      eventid: "id12691189",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijkl.12df3455038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765tyu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijfdsodfiufknfds"
+    }]
   }, {
     toolId: 'WeMedUp',
     toolName: 'WeMedUp- A Medical Tool',
     purpose: 'Medical',
     avatar: 'http://www.wemedup.com/img/logo.png',
+    toolurl: 'www.wemedup.com',
     actions: ['postmesage', 'read', 'Likemessage'],
+    events: [{
+      eventid: "id126911ssx89",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijkl.1234dfdf55038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765tcddxyu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijfdffdsoiufknfds"
+    }]
   }, {
     toolId: 'sermo',
     toolName: 'Sermo- A Tool for Surgeons',
     purpose: 'Medical',
     avatar: 'http://www.worldpharmanews.com/images/logo/sermo.png',
+    toolurl: 'www.sermo.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
+    events: [{
+      eventid: "id1269rtt1189",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijkl.12345sdb5038ejsnsnjdur"
+    }, {
+      eventid: "id98765t234ryu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijfdsoiufksdvsbdnfds"
+    },{
+      eventid: "id987sd65t234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnfdsoijfdsoiufcssvknfds"
+    }]
   }],
   // role actions for the surgeon medical community
   roleActions: [{
@@ -75,19 +139,84 @@ module.exports = [{
     toolName: 'Forum',
     purpose: 'Discussions',
     avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+    toolurl: 'www.forum.org',
+    actions: ['postmessage', 'read', 'Likemessage', 'edit', 'share'],
+    events: [{
+      eventid: "id12691189",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijkl.12df3455038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765tyu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijfdsodfiufknfds"
+    }]
   }, {
     toolId: 'WeMedUp',
     toolName: 'WeMedUp- A Medical Tool',
     purpose: 'Medical',
     avatar: 'http://www.wemedup.com/img/logo.png',
-    actions: ['postmesage', 'read', 'Likemessage'],
+    toolurl: 'www.wemedup.com',
+    actions: ['postmessage', 'read', 'Likemessage'],
+    events: [{
+      eventid: "id126911ssx89",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijkl.1234dfdf55038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765tcddxyu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijfdffdsoiufknfds"
+    }]
   }, {
     toolId: 'sermo',
     toolName: 'Sermo- A Tool for Surgeons',
     purpose: 'Medical',
     avatar: 'http://www.worldpharmanews.com/images/logo/sermo.png',
+    toolurl: "www.sermo.com",
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
+    events: [{
+      eventid: "id1269rtt1189",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijkl.12345sdb5038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765t234ryu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijfdsoiufksdvsbdnfds"
+    },{
+      eventid: "id987sd65t234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnfdsoijfdsoiufcssvknfds"
+    }]
   }],
   // role actions for the specialists community
   roleActions: [{
@@ -142,19 +271,100 @@ module.exports = [{
     toolName: 'Stackoverflow- A Tool for all needs of a Developer',
     purpose: 'IT',
     avatar: 'https://cdn.sstatic.net/Sites/stackoverflow/company/img/logos/so/so-logo.png?v=9c558ec15d8a',
+    toolurl: 'www.stackoverflow.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+    events: [{
+      eventid: "id1269rtt1189",
+      eventname: "post",
+      description: "when someone has a query",
+      activity: "Question",
+      actor: "Service",
+      object: "Note",
+      metadata: "abcdsvdvaefghijkl.12345sdb5038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765t23svsv4ryu",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsdddoijfdsoiufksdvsbdnfds"
+    },{
+      eventid: "id987sd65t234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnfdsoijfdsoiufcssvknfds"
+    }]
   }, {
     toolId: 'theteacherscorner.net',
     toolName: 'The Teacher\'s Corner',
     purpose: 'Teaching',
     avatar: 'https://voxy.com/wp-content/uploads/2016/05/Teachers-Corner-Header-Image-1.jpg',
+    toolurl: 'www.theteacherscorner.net',
     actions: ['postmesage', 'read', 'Likemessage', 'comment', 'share', 'invitation'],
+    events: [{
+      eventid: "id1269rtt1gfd189",
+      eventname: "post",
+      description: "when someone has a query",
+      activity: "Question",
+      actor: "Service",
+      object: "Note",
+      metadata: "abcdsvdvdgfaefghijkl.12345sdb5038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765t2dfg3svsv4ryu",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsdddgfdoijfdsoiufksdvsbdnfds"
+    },{
+      eventid: "id987sd65tdfg234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnfdsoidgfjfdsoiufcssvknfds"
+    }]
   }, {
     toolId: 'Github',
     toolName: 'Github- A World of Repositories',
     purpose: 'IT',
     avatar: 'https://assets-cdn.github.com/images/modules/logos_page/Octocat.png',
+    toolurl: 'www.github.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'upload'],
+    events: [{
+      eventid: "id1269rtt1dvb189",
+      eventname: "create",
+      description: "when someone creates new ripository",
+      activity: "Create",
+      actor: "Organization",
+      object: "Tombstone",
+      metadata: "abcdsvdvaefghijkl.12345sdb5038ejsnsnjdur"
+
+    }, {
+      eventid: "id9876cvd5t23svsv4ryu",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsdddoijfdsoiufksdvsbdnfds"
+    },{
+      eventid: "id987sd65t234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnfdsoijfdsoiufcssvknddfds"
+    }]
   }],
   // role actions for the developer's community
   roleActions: [{
@@ -215,19 +425,101 @@ module.exports = [{
     toolName: 'The Teacher\'s Corner',
     purpose: 'Teaching',
     avatar: 'https://voxy.com/wp-content/uploads/2016/05/Teachers-Corner-Header-Image-1.jpg',
+    toolurl: 'www.theteacherscorner.net',
     actions: ['postmesage', 'read', 'Likemessage'],
+    events: [{
+      eventid: "id1269rtt1gfd189",
+      eventname: "question",
+      description: "when someone has a query",
+      activity: "Question",
+      actor: "Service",
+      object: "Note",
+      metadata: "abcdsvdvfnggfdgfaefghijkl.12345sdb5038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765t2dfg3svsv4ryu",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsddfnddgfdoijfdsoiufksdvsbdnfds"
+    },{
+      eventid: "id987sd65tdfg234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnfdsoiddndgfjfdsoiufcssvknfds"
+    }]
   }, {
     toolId: 'scholastic.com',
     toolName: 'Scholastic- A World of Learners',
     purpose: 'Teaching',
     avatar: 'http://www.bookbusinessmag.com/wp-content/uploads/sites/4/2015/08/1.jpg?x19104',
+    toolurl: 'www.scholastic.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
+    events: [{
+      eventid: "id1269rtt1gfd189",
+      eventname: "post",
+      description: "when someone has a query",
+      activity: "Question",
+      actor: "Service",
+      object: "Note",
+      metadata: "abcdsvdvdgfaefedfghijkl.12345sdb5038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765t2dfg3svsv4ryu",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsddfgdddgfdoijfdsoiufksdvsbdnfds"
+    },
+    {
+      eventid: "id987svds65t2dfg3svsv4ryu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnvdsvnfdsddfgdddgfdoijfdsoiufksdvsbdnfds"
+    },{
+      eventid: "id987sd65tdfg234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnfdsoidfgdgdfhfjfdsoiufcssvknfds"
+    }]
   }, {
     toolId: 'forum',
     toolName: 'Forum',
     purpose: 'Discussions',
     avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit'],
+    toolurl: 'www.forum.org',
+    actions: ['postmessage', 'read', 'Likemessage', 'edit'],
+    events: [{
+      eventid: "id12691189",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijkl.12df3455038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765tyu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijfdsodfiufknfds"
+    }]
   }],
   // role actions for the professor community
   roleActions: [{
@@ -288,19 +580,83 @@ module.exports = [{
     toolName: 'The Abundant Artist- A Place for Artists',
     purpose: 'Art',
     avatar: 'http://theabundantartist.com/wp-content/uploads/2016/04/cropped-taa-logo.png',
+    toolurl: 'thebundantartist.com',
     actions: ['postmessage', 'read', 'Likemessage'],
+    events: [{
+      eventid: "id126911vfbb89",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijfbfdkl.12df3455038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765tfbyu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnfdsoijdfnfdsodfiufknfds"
+    },{
+      eventid: "idsdvs987sd65tdfg234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csnnsvdfdsoiddndgfjfdsoiufcssvknfds"
+    }]
   }, {
     toolId: 'www.creativebloq.com',
     toolName: 'Creative Bloq- Art & design Inspiration',
     purpose: 'Art',
     avatar: 'http://kirileonard.com/wp-content/uploads/2015/06/creative_bloq_logo.png',
+    toolurl: 'www.creativebloq.com',
     actions: ['postmessage', 'read', 'Likemessage', 'edit', 'share', 'upload'],
+    events: [{
+      eventid: "id126911fdfvfbb89",
+      eventname: "upvote",
+      description: "when someone gives positive response",
+      activity: "Like",
+      actor: "Person",
+      object: "Event",
+      metadata: "abcdefghijfbfddfnkl.12df3455038ejsnsnjdur"
+
+    }, {
+      eventid: "id98765tfbydnfu",
+      eventname: "downvote",
+      description: "when someone gives negative response",
+      activity: "Dislike",
+      actor: "Person",
+      object: "Event",
+      metadata: "csndsodfiufknfds"
+    },{
+      eventid: "idsdvs987sd65tdsbfg234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Add",
+      actor: "Person",
+      object: "Article",
+      metadata: "csgfjfdsoiufcssvknfds"
+    }]
   }, {
-    toolId: 'calender',
+    toolId: 'calendar',
     toolName: 'Calendar- All your ToDo Lists, Managed',
     purpose: 'Schedules',
     avatar: 'http://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/calendar-icon.png',
+    toolurl: 'timeanddate.com/calendar',
     actions: ['reminder', 'to-do-list', 'holidays', 'birthday'],
+    events: [{
+      eventid: "idsdvs987sd65tdfg234ryu",
+      eventname: "Post",
+      description: "when someone adds some new information",
+      activity: "Announce",
+      actor: "Person",
+      object: "Event",
+      metadata: "csnnsvdfdsoiddndgfjfdsoiufcssvknfds"
+    }]
   }],
   // role actions for the artist community
   roleActions: [{
