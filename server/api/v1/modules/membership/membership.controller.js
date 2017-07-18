@@ -50,6 +50,7 @@ function userCommunityDetails(domainName, data, done) {
   let count = 0;
   data.forEach((values) => {
     if (domainName && values.username && values.role) {
+      console.log("counting", domainName && values.username && values.role);
       if (domainName !== null && values.username !== null && values.role !== null) {
         count += 1;
       } else {
@@ -62,7 +63,7 @@ function userCommunityDetails(domainName, data, done) {
       if (err) {
         done(err);
       }
-      publishMessageforMemberCounter(domainName, data.length);
+      publishMessageforMemberCounter(domainName, count);
       return done(undefined, { message: 'Inserted' });
     });
   } else {
