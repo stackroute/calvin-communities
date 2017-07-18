@@ -1,20 +1,21 @@
+const logger = require('../../logger');
 const toolService = require('../../api/v1/modules/tools/tools.controller');
 module.exports = function(eventMessage) {
-  console.log('Got a new community event message: ', eventMessage);
-  console.log(eventMessage.type);
+  logger.debug('Got a new community event message: ', eventMessage);
+  logger.debug(eventMessage.type);
   if (eventMessage.type === "add") {
-    console.log(eventMessage.tools);
+    logger.debug(eventMessage.tools);
     toolService.postTools(eventMessage.tools, eventMessage.domain, (err, res) => {
       if (res)
-        console.log('insde the tool');
+        logger.debug('insde the tool');
       if (err)
-        console.log('error');
+        logger.debug('error');
     });
   }
   if (eventMessage.type === "delete") {
-    console.log("delete", eventMessage);
+    logger.debug("delete", eventMessage);
     toolService.deleteTool(eventMessage.domain, (err, res) => {
-      console.log('insde delete');
+      logger.debug('insde delete');
     });
   }
 };
