@@ -55,6 +55,7 @@ function incrementrequests(domain, payload, done) {
 }
 
 function incrementtools(domain, payload, done) {
+  console.log("payss",payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
