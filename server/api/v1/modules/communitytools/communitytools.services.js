@@ -40,7 +40,7 @@ function getToolsforCRUD(domainName, tool, done) {
   const toolid = tool.toLowerCase();
   // console.log(domainname);
   // console.log(toolid);
-  const query = (`SELECT actions, activityevents from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${toolid}' ALLOW FILTERING`);
+  const query = (`SELECT actions, activityevents, toolname, purpose, avatar from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}' and toolid = '${toolid}' ALLOW FILTERING`);
   return client.execute(query, (err, results) => {
     if (!err) {
       // console.log(results.rows);
