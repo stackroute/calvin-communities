@@ -57,7 +57,7 @@ function getCommunityTool(domain, toolid, done) {
   });*/
 }
 
-
+/*
 function getToolsforCRUD(domainName, tool, done) {
   const domainname = domainName.toLowerCase();
   const toolid = tool.toLowerCase();
@@ -133,7 +133,7 @@ function getToolsForEventDeletion(domainName, tool, value, done) {
   });
 }
 
-// Inserting into tools table
+*/// Inserting into tools table
 
 /* function addTools(data, done) {
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,action,activityevents)
@@ -155,6 +155,7 @@ function addTools(data, done) {
     if(err) {logger.debug('an error occured', err); return done([500, 'Internal Server Error']); }
     return done();
   })
+}
   /*const arr = [];
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,actions,toolname, avatar,purpose, createdon,updatedon) values(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
@@ -179,24 +180,25 @@ function addTools(data, done) {
     /*console.log(err);
     return done({ error: 'Internal Error occured' }, undefined);
   });*/
-}
+
 
 // Updating tools action and events
 
-function updateTools(data, value, done) { 
+function updateTool(data, done) {
 
-  const query = (`UPDATE ${COMMUNITY_TOOL_TABLE} SET actions=actions+{'${data.action.toLowerCase()}'}, updatedon=dateof(now()) where domain='${value.domainname.toLowerCase()}' AND toolid='${value.toolid.toLowerCase()}'`);
+  const query = `UPDATE ${COMMUNITY_TOOL_TABLE} SET toolname = ?, avatar = ?, toolurl = ?, actions = ?, purpose = ?, updatedon=dateof(now()) where domain = ? AND toolid= ?`;
 
-  return client.execute(query, (err, results) => {
+  return client.execute(query, data, (err, results) => {
     if (!err) {
-      done(undefined, results);
+      return done(undefined, results);
     } else {
-      done({ error: 'Internal Error occured' }, undefined);
+      logger.debug('error:',err);
+      return done([500, 'Internal server Error']);
     }
   });
 }
 
-// Deleting action
+/*// Deleting action
 
 function deleteAction(value, done) {
   const name = value.name.toLowerCase();
@@ -239,15 +241,17 @@ function deleteTools(domainname, done) {
   });
 }
 
+*/
 module.exports = {
   getCommunityTool,
-  deleteEvent,
+  /*deleteEvent,
   deleteAction,
-  updateTools,
+  */
+  updateTool,
   addTools,
-  getTools,
+  getTools,/*
   deleteTools,
   getToolsForDeletion,
   getToolsforCRUD,
-  getToolsForEventDeletion,
+  getToolsForEventDeletion,*/
 };
