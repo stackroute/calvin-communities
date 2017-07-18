@@ -34,6 +34,28 @@ function getTools(domainName, done) {
     }
   });
 }
+function getCommunityTool(domain, toolid, done) {
+  const query = ('SELECT * FROM '+COMMUNITY_TOOL_TABLE+' where domain = ? and toolid = ?');
+  return client.execute(query, [domain, toolid],(err, res) => {
+    if(err) { logger.debug('Internal Server Error', err); return done([500,'Internal Server Error']);}
+    return done(undefined, res.rows);
+  })
+
+  /*const domainname = domainName.toLowerCase();
+  const query = (`SELECT toolid,actions,createdon,updatedon, toolname, purpose, avatar from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}';`);
+  return client.execute(query, (err, results) => {
+    if (!err) {
+      // console.log(results.rows);
+      if (results.rows.length > 0) {
+        done(undefined, { domain: domainname, tools: results.rows });
+      } else {
+        done({ error: 'please enter a valid domain name' }, undefined);
+      }
+    } else {
+      done({ error: 'Internal Error occured' }, undefined);
+    }
+  });*/
+}
 
 
 function getToolsforCRUD(domainName, tool, done) {
@@ -218,6 +240,7 @@ function deleteTools(domainname, done) {
 }
 
 module.exports = {
+  getCommunityTool,
   deleteEvent,
   deleteAction,
   updateTools,

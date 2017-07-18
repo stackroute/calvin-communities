@@ -15,7 +15,7 @@ const communityToolCtrl = require('./communitytools.controller');
  *
  */
 
-router.get('/:domain/tools', (req, res) => {
+router.get('/:domain', (req, res) => {
   try {
     const domainName = req.params.domainname;
     communityToolCtrl.getTools(domainName, (err, results) => {
@@ -35,14 +35,13 @@ router.get('/:domain/tools', (req, res) => {
 
 router.get('/:domain/tools/:toolid', (req, res) => {
   try {
-    const domainName = req.params;
-    communityToolCtrl.getActions(domainName, (err, results) => {
+    communityToolCtrl.getCommunityTool(req.params, (err, results) => {
       if (err) {
         logger.debug('Error in communityToolCtrl.getTools error: ', err);
-        return res.status(400).send(err);
+        return res.status(err[0]).send('An Error Occurred', err[1]);
       }
 
-      return res.send(results);
+      return res.send(results[0]);
     });
   } catch (err) {
     // console.log('Unexpected error in fetching community roles ', err);
