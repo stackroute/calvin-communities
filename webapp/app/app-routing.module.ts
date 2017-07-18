@@ -24,10 +24,6 @@ const routes: Routes = [
               component: DashboardComponent
           },
           {
-          		path: 'search',
-          		component: SearchComponent
-          },
-          {
               path: 'tools',
               component: ToolsComponent
           },
@@ -45,11 +41,15 @@ const routes: Routes = [
 
           },
           {
-            path: 'communitypage',
+            path: 'communities/:domain',
             component: CommunityPageComponent
           },
           {
             path: 'communities',
+            component: CommunitiesComponent
+          },
+          {
+            path: 'templates/communities/:template',
             component: CommunitiesComponent
           },
           { path: '**', redirectTo: '/dashboard' }

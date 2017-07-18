@@ -1,6 +1,7 @@
 import {Component, Input, NgModule, OnInit} from '@angular/core';
 import { Http, Response} from '@angular/http';
 import {MdButtonModule} from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import {CommunitiesService} from './communities.service';
 // import * as momemt from 'moment';
@@ -15,7 +16,7 @@ export class CommunitiesComponent {
 	getToolsResults =[];
 	getFinalResults =[];
 	//domaindata=[];
-	constructor(private communitiesService : CommunitiesService){};
+	constructor(private communitiesService : CommunitiesService, private router: Router){};
 getTools(value){
 	this.communitiesService.selectTools(value.domain).subscribe(
 		resultTools => { 
@@ -41,8 +42,12 @@ getTools(value){
             ()=>console.log("finished")
 		);
 		}
-	
-}
+	redirect(domain: string) {
+		this.router.navigate(['/communities/'+ domain]);
+	}
+
+
+	}
 
 
 /*

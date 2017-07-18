@@ -19,7 +19,7 @@ getPurpose=[];
 counter=[];
 domains;
 getpurpose;
-  constructor(private TemplateService : TemplatesService,private route: ActivatedRoute)
+  constructor(private TemplateService : TemplatesService,private route: ActivatedRoute, private router: Router )
   {
      
   }

@@ -25,4 +25,4 @@ router.post('/:token', (req, res) => {
   return null;
 });
 
-module.exports = router;
+    module.exports = router;
