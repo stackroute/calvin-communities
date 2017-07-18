@@ -8,7 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ToolsComponent} from './tools/tools.component';
 import { PurposeComponent } from './purpose/purpose.component';
 import { CommunityPageComponent } from './community-page/community-page.component';
-import {CommunitiesListComponent} from './communitieslist/communitieslist.component';
+//import {CommunitiesListComponent} from './communitieslist/communitieslist.component';
 
 
 

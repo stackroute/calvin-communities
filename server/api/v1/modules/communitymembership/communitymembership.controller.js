@@ -107,7 +107,7 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, value: dataFromBody, type: 'add' };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
-  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -123,7 +123,7 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
-  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -141,7 +141,7 @@ function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
-  registerPublisherService.publishToTopic('topic3', message, (err, res) => {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {

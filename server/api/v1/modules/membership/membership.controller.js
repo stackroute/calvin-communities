@@ -6,31 +6,6 @@ const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 const communityService = require('./../community/community.controller');
 
-
-function publishMessageforMemberCounter(domainname, count) {
-  let message = { domain: domainname, event: 'newmemberadded', body: count };
-  message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
-    if (err) {
-      logger.debug('error occured', err);
-    } else {
-      logger.debug('result is', res);
-    }
-  });
-}
-
-function publishMessageforMemberCounterDecrement(domainname, count) {
-  let message = { domain: domainname, event: 'removemember', body: count };
-  message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
-    if (err) {
-      logger.debug('error occured', err);
-    } else {
-      logger.debug('result is', res);
-    }
-  });
-}
-
 /*
  * Get community Details of a particular member
  */
@@ -124,6 +99,31 @@ function removeMemberFromCommunity(domainName, data, done) {
       });
     }
     return done({ error: 'Deletion cannot be done for non-existing user' }, undefined);
+  });
+}
+
+
+function publishMessageforMemberCounter(domainname, count) {
+  let message = { domain: domainname, event: 'newmemberadded', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
+function publishMessageforMemberCounterDecrement(domainname, count) {
+  let message = { domain: domainname, event: 'removemember', body: count };
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
   });
 }
 

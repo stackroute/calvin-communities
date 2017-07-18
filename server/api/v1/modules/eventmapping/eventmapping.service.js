@@ -62,8 +62,6 @@ function postEventMapping(queries, existscheck, done) {
 
 function updateEventMapping(queries, existscheck, done) {
   if (!_.isEmpty(existscheck)) {
-    // console.log(existscheck);
-    // console.log(queries);
     client.batch(queries, { prepare: true }, (err) => {
       if (err) { logger.error('Error updating event details', err); return done([500, 'Unexpected error occured']); }
       if (!err) { return done(undefined, 'data patched'); }

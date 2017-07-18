@@ -2,6 +2,15 @@ const router = require('express').Router();
 const logger = require('../../../../logger');
 const eventmappingCtrl = require('./eventmapping.controller');
 
+router.get('/:tooldata/events/:eventid', (req, res) => {
+  console.log('inside router', req.params);
+  eventmappingCtrl.getmappingDetails(req.params, (err, results) => {
+    if (err) {
+      return res.send(err);
+    }
+    return res.send(results);
+  });
+});
 
 router.get('/:toolid/:domain/:event', (req, res) => {
   try {
@@ -67,6 +76,5 @@ router.patch('/:toolid/:domain', (req, res) => {
   }
   return null;
 });
-
 
 module.exports = router;

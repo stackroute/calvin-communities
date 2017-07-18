@@ -138,6 +138,11 @@ function addTools(data, domain, done) {
     arr.push({
       query,
       params: [domain.toLowerCase(),
+        val.toolId.toLowerCase(),
+        actions, activityEvents,
+        val.toolname.toLowerCase(),
+        val.avatar.toLowerCase(),
+        val.purpose.toLowerCase(),
         val.toolId.toLowerCase(), actions, activityEvents, val.toolname.toLowerCase(),
         val.avatar.toLowerCase(), val.purpose.toLowerCase(),
       ],
