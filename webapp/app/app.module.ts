@@ -53,8 +53,8 @@ import { MdListModule } from '@angular/material';
   NvD3Component,
   CommunityPageComponent,
   FootNoteComponent,
-  NavigationComponent,
-  ],
+  NavigationComponent
+],
   imports: [
     BrowserModule,
     FormsModule,
@@ -66,7 +66,7 @@ import { MdListModule } from '@angular/material';
     ChartsModule
     ],
   providers: [ToolService,GetPurposeService, TemplatesService,
-  TemplateListService, DashboardGraphService,CommunitiesService, CommunityPageService],
+  TemplateListService, DashboardGraphService,CommunitiesService, CommunityPageService,],
   bootstrap: [AppComponent],
 
 })
