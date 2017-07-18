@@ -1,4 +1,5 @@
 /* ---------------------SERVICES----------------------*/
+const logger = require('../../../../logger');
 
 
 const model = require('cassandra-driver');
@@ -129,8 +130,14 @@ function getToolsForEventDeletion(domainName, tool, value, done) {
 }*/
 
 
-function addTools(data, domain, done) {
-  const arr = [];
+function addTools(data, done) {
+  const query = `insert into ${COMMUNITY_TOOL_TABLE} (domain, toolid, toolname, avatar, purpose, toolurl, actions, createdon, updatedon) values (?,?,?,?,?,?,?,dateof(now()),dateof(now()))`;
+
+  client.execute(query, data, (err, result) =>{
+    if(err) {logger.debug('an error occured', err); return done([500, 'Internal Server Error']); }
+    return done();
+  })
+  /*const arr = [];
   const query = (`insert into ${COMMUNITY_TOOL_TABLE} (domain,toolid,actions,toolname, avatar,purpose, createdon,updatedon) values(?,?,?,?,?,?,dateof(now()),dateof(now()))`);
   data.forEach((val) => {
     const actions = val.actions.map(x => x.toLowerCase());
@@ -151,7 +158,7 @@ function addTools(data, domain, done) {
       return getTools(domain, done);
     }
     console.log(err); return done({ error: 'Internal Error occured' }, undefined);
-  });
+  });*/
 }
 
 // Updating tools action and events

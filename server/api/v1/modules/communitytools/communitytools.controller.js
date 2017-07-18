@@ -8,6 +8,8 @@ const async = require('async');
 
 const roleService = require('../communityrole/communityrole.service');
 
+const toolmappingcontroller = require('../communitytoolmapping/communitytoolmapping.controller')
+
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 const logger = require('../../../../logger');
@@ -109,18 +111,25 @@ function modifyTool(dataFromBody, dataFromURI, done) {
   });
 }
 
-function postCommunityTools(dataFromBody, dataFromParams, done) {
-  async.waterfall([
-    checkTool.bind(null, dataFromBody, dataFromParams),
-    postTools.bind(null, dataFromBody, dataFromParams),
+function postCommunityTools(parameters, body, done) {
 
-  ], (err, result) => {
-    if (err) {
-      done(err);
-    } else {
-      done(null, result);
+  if (!_.has(body, 'toolname') || !_.has(body, 'avatar') || !_.has(body, 'toolurl') || !_.has(body, 'purpose') ||
+      !_.has(body, 'actions') || !_.has(parameters, 'domain') || !_.has(parameters, 'toolid') ) {
+    done([400, 'Required Data Not Pushed']);
+  }
+
+  const toolDetails = [parameters.domain, parameters.toolid, body.toolname, body.avatar,body.purpose, body.toolurl, body.actions];
+  async.series([
+    communityToolService.addTools.bind(null, toolDetails),
+    toolmappingcontroller.postEventMapping.bind(null, parameters, body)
+    ], (error, result) => {
+    if(error) {
+      logger.debug('an error occured', error);
+      return done([500, 'Internal server Error']);
     }
-  });
+    return done(undefined, result[1]);
+  })
+
 }
 
 // To delete an action from a tool

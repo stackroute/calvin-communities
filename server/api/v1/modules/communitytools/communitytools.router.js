@@ -15,7 +15,7 @@ const communityToolCtrl = require('./communitytools.controller');
  *
  */
 
-router.get('/:domainname/tools', (req, res) => {
+router.get('/:domain/tools', (req, res) => {
   try {
     const domainName = req.params.domainname;
     communityToolCtrl.getTools(domainName, (err, results) => {
@@ -33,7 +33,7 @@ router.get('/:domainname/tools', (req, res) => {
   return null;
 });
 
-router.get('/:domainname/tools/:toolid', (req, res) => {
+router.get('/:domain/tools/:toolid', (req, res) => {
   try {
     const domainName = req.params;
     communityToolCtrl.getActions(domainName, (err, results) => {
@@ -61,14 +61,14 @@ router.get('/:domainname/tools/:toolid', (req, res) => {
  *
  */
 
-router.post('/:domainname/tools', (req, res) => {
+router.post('/:domain/tools/:toolid', (req, res) => {
   try {
-    const dataFromBody = req.body;
-    const dataFromParams = req.params.domainname;
-    communityToolCtrl.postCommunityTools(dataFromBody, dataFromParams, (err, results) => {
+    //const dataFromBody = req.body;
+   // const dataFromParams = req.params.domainname;
+    communityToolCtrl.postCommunityTools(req.params, req.body, (err, results) => {
       if (err) {
         // console.log('Error in communityToolCtrl.postTools error: ', err);
-        return res.status(400).send(err);
+        return res.status(err[0]).json(err[1]);
       }
       // console.log('updated in communityToolCtrl.postTools ');
       return res.status(201).send(results);
@@ -80,7 +80,7 @@ router.post('/:domainname/tools', (req, res) => {
   return null;
 });
 
-router.patch('/:domainname/tools/:toolid', (req, res) => {
+router.patch('/:domain/tools/:toolid', (req, res) => {
   try {
     const dataFromBody = req.body;
     const dataFromParams = req.params;
@@ -99,7 +99,7 @@ router.patch('/:domainname/tools/:toolid', (req, res) => {
   return null;
 });
 
-router.delete('/:domainname/tools/:toolid/action/:name', (req, res) => {
+router.delete('/:domain/tools/:toolid/action/:name', (req, res) => {
   try {
     communityToolCtrl.deleteAction(req.params, (err) => {
       if (err) {
@@ -115,7 +115,7 @@ router.delete('/:domainname/tools/:toolid/action/:name', (req, res) => {
   return null;
 });
 
-router.delete('/:domainname/tools/:toolid', (req, res) => {
+router.delete('/:domain/tools/:toolid', (req, res) => {
   try {
     communityToolCtrl.deleteTool(req.params, (err) => {
       if (err) {
