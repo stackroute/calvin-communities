@@ -1,14 +1,18 @@
 const router = require('express').Router();
 
+const jwt = require('jsonwebtoken');
+
 const webhookCtrl = require('./webhook.controller');
-/*
+
+const config = require('../../../../appconfig/env/development');
+
 router.post('/:token', (req, res) => {
   try {
   	console.log('router');
     webhookCtrl.verifyToken(req.query.token, (err, result) => {
     // console.log('router');
     // console.log(req.params.token);
-    webhookCtrl.verifyToken(req.params.token, (err, result) => {
+    webhookCtrl.publishEventToTopic(req.params.token, req.body, (err, result) => {
       if (err) {
         return res.status(400).send(err);
       }
@@ -20,5 +24,5 @@ router.post('/:token', (req, res) => {
   }
   return null;
 });
-*/
+
 module.exports = router;

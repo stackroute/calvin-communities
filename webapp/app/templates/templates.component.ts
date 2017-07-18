@@ -13,6 +13,7 @@ import {PurposeComponent} from '../purpose/purpose.component';
   styleUrls: ['./templates.component.css']
 })
 export class TemplatesComponent implements OnInit {
+selectedValue: string;
 getResults=[];
 getPurpose=[];
 counter=[];
