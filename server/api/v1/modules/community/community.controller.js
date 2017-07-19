@@ -79,6 +79,7 @@ function getTemplateDetails(community) {
 
     // getting tools data from specified template for addTools
   const tools = [];
+  console.log(templateDetails[0])
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
       purpose: element.purpose,
@@ -160,7 +161,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         return async.series([
           communityService.addCommunity.bind(null, values[0]),
           roleController.postCommunityRoles.bind(null, community.domain, values[1]),
-          toolsController.postCommunityTools.bind(null, values[2], community.domain),
+        //  toolsController.postCommunityTools.bind(null, values[2], community.domain),
           membershipController.addMembersToCommunity.bind(null,
             community.domain, [values[3]]),
         ],

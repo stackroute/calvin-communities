@@ -1,9 +1,8 @@
 const memberCtrl = require('../../api/v1/modules/membership/membership.controller');
 const logger = require('../../logger.js');
 module.exports = function(eventMessage) {
-  logger.debug('Got a new community event message: ', eventMessage);
-  logger.debug('domain', eventMessage.domain);
-  logger.debug('type', eventMessage.type);
+  // logger.debug('Got a new community event message: ', eventMessage);
+  // logger.debug('domain', eventMessage.domain);
   if (eventMessage.type === 'add') {
     memberCtrl.userCommunityDetails(eventMessage.domain, eventMessage.value, (err, res) => {
       if (err) {
@@ -22,7 +21,7 @@ module.exports = function(eventMessage) {
       }
     })
   }
-  if (eventMessage.type === 'delete') {
+  if (eventMessage.type === 'deletemember') {
     memberCtrl.removeMemberFromCommunity(eventMessage.domain, eventMessage.value, (err, res) => {
       if (err) {
         logger.debug(err);

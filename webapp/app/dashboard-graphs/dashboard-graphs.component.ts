@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { ActivatedRoute, Router } from '@angular/router';
 import { MdCardModule } from '@angular/material';
 import { MdProgressSpinnerModule } from '@angular/material';
 import { DashboardGraphService } from './dashboard-graphs.service';
@@ -17,7 +18,7 @@ import { DashboardGraphService } from './dashboard-graphs.service';
 
 export class DashboardGraphsComponent implements OnInit {
 
-  constructor(private GraphService: DashboardGraphService) {
+  constructor(private GraphService: DashboardGraphService, private router: Router,private route: ActivatedRoute) {
 
   }
   options;
@@ -80,8 +81,8 @@ export class DashboardGraphsComponent implements OnInit {
         },
         pie:{
         dispatch: {
-          elementClick: function(e) {
-            console.log(e.data.type)
+          elementClick: (e) =>{
+            this.router.navigate(['/purpose/communities/'+ e.data.type]);
           },
       }
     }

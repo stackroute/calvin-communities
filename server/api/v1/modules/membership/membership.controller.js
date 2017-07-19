@@ -20,24 +20,28 @@ function getCommunityList(username, done) {
       communityService.getMultipleCommunities(arr, (err, result) => {
         const communities = [];
         if (!err) {
+          const iterate = 0;
           results.communityDetails.forEach((data) => {
             result.forEach((values) => {
               if (values.domain === data.domain) {
+                iterate +=1;
                 communities.push({
                   domain: values.domain, name: values.name, avatar: values.avatar, role: data.role,
                 });
+                if(iterate = communityDetails.length){
+                done(null,communities);
+              }
               }
             });
           });
         } else {
           done(err);
         }
-        const usercommunities = {
+       /* const usercommunities = {
           username,
-          communities,
-        };
-        return done(undefined, usercommunities);
-      });
+          communities,*/
+        });
+        //return done(undefined, usercommunities);
     }
   });
 }
@@ -62,7 +66,7 @@ function userCommunityDetails(domainName, data, done) {
       if (err) {
         done(err);
       }
-      publishMessageforMemberCounter(domainName, data.length);
+      publishMessageforMemberCounter(domainName, count);
       return done(undefined, { message: 'Inserted' });
     });
   } else {
@@ -88,8 +92,12 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
  */
 
 function removeMemberFromCommunity(domainName, data, done) {
+  console.log("remove cointroller");
   membershipService.getCommunityList(domainName, (error) => {
     if (!error) {
+      // console.log("removed member");
+      // console.log(domainName);
+      // console.log(data);
       membershipService.removeMemberFromCommunity(domainName, data, (err) => {
         if (err) {
           done(err);
@@ -105,6 +113,7 @@ function removeMemberFromCommunity(domainName, data, done) {
 
 function publishMessageforMemberCounter(domainname, count) {
   let message = { domain: domainname, event: 'newmemberadded', body: count };
+  console.log("count", count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -117,6 +126,7 @@ function publishMessageforMemberCounter(domainname, count) {
 
 function publishMessageforMemberCounterDecrement(domainname, count) {
   let message = { domain: domainname, event: 'removemember', body: count };
+  console.log("count decrement", count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {

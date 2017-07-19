@@ -15,10 +15,9 @@ const communityToolCtrl = require('./communitytools.controller');
  *
  */
 
-router.get('/:domainname/tools', (req, res) => {
+router.get('/:domain', (req, res) => {
   try {
-    const domainName = req.params.domainname;
-    communityToolCtrl.getTools(domainName, (err, results) => {
+    communityToolCtrl.getTools(req.params.domain, (err, results) => {
       if (err) {
         // console.log('Error in communityToolCtrl.getTools error: ', err);
         return res.status(400).send(err);
@@ -33,16 +32,15 @@ router.get('/:domainname/tools', (req, res) => {
   return null;
 });
 
-router.get('/:domainname/tools/:toolid', (req, res) => {
+router.get('/:domain/tools/:toolid', (req, res) => {
   try {
-    const domainName = req.params;
-    communityToolCtrl.getActions(domainName, (err, results) => {
+    communityToolCtrl.getCommunityTool(req.params, (err, results) => {
       if (err) {
         logger.debug('Error in communityToolCtrl.getTools error: ', err);
-        return res.status(400).send(err);
+        return res.status(err[0]).send('An Error Occurred', err[1]);
       }
 
-      return res.send(results);
+      return res.jsonp(results);
     });
   } catch (err) {
     // console.log('Unexpected error in fetching community roles ', err);
@@ -61,36 +59,29 @@ router.get('/:domainname/tools/:toolid', (req, res) => {
  *
  */
 
-router.post('/:domainname/tools', (req, res) => {
+router.post('/:domain/tools/:toolid', (req, res) => {
   try {
-    const dataFromBody = req.body;
-    const dataFromParams = req.params.domainname;
-    communityToolCtrl.postCommunityTools(dataFromBody, dataFromParams, (err, results) => {
+    communityToolCtrl.postCommunityTool(req.params, req.body, (err, results) => {
       if (err) {
-        // console.log('Error in communityToolCtrl.postTools error: ', err);
-        return res.status(400).send(err);
+        return res.status(err[0]).json(err[1]);
       }
-      // console.log('updated in communityToolCtrl.postTools ');
       return res.status(201).send(results);
     });
   } catch (err) {
-    // console.log('Unexpected error in fetching community roles ', err);
     return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
   return null;
 });
 
-router.patch('/:domainname/tools/:toolid', (req, res) => {
+router.patch('/:domain/tools/:toolid', (req, res) => {
   try {
-    const dataFromBody = req.body;
-    const dataFromParams = req.params;
-    communityToolCtrl.modifyTool(dataFromBody, dataFromParams, (err) => {
+    communityToolCtrl.updateTool(req.params, req.body, (err, result) => {
       if (err) {
         // console.log('Error in communityToolCtrl.postTools error: ', err);
-        return res.status(400).send(err);
+        return res.status(err[0]).send(err[1]);
       }
 
-      return res.send({ message: 'Tool modified' });
+      return res.send(result);
     });
   } catch (err) {
     // console.log('Unexpected error in fetching community roles ', err);
@@ -99,7 +90,7 @@ router.patch('/:domainname/tools/:toolid', (req, res) => {
   return null;
 });
 
-router.delete('/:domainname/tools/:toolid/action/:name', (req, res) => {
+/*router.delete('/:domain/tools/:toolid/action/:name', (req, res) => {
   try {
     communityToolCtrl.deleteAction(req.params, (err) => {
       if (err) {
@@ -115,7 +106,7 @@ router.delete('/:domainname/tools/:toolid/action/:name', (req, res) => {
   return null;
 });
 
-router.delete('/:domainname/tools/:toolid', (req, res) => {
+router.delete('/:domain/tools/:toolid', (req, res) => {
   try {
     communityToolCtrl.deleteTool(req.params, (err) => {
       if (err) {
@@ -129,7 +120,7 @@ router.delete('/:domainname/tools/:toolid', (req, res) => {
     return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
   return null;
-});
+});*/
 
 
 module.exports = router;

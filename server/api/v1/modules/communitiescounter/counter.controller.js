@@ -1,5 +1,7 @@
 const counterservice = require('./counter.service');
 
+console.log("welcome to counter controller");
+
 const eventnames = {
   'newmemberadded': counterservice.incrementmember,
   'newtooladded': counterservice.incrementtools,
@@ -12,12 +14,16 @@ const eventnames = {
 };
 
 function onevent(domain, eventname, payload, done) {
+console.log("counter analysis domain", domain);
+console.log(eventname);
+console.log(payload);
   const eventregistry = eventnames[eventname];
+  console.log("payload", eventregistry);
   if (!eventregistry) {
     done('event not supported..!');
     return;
   }
-
+ console.log(payload);
   eventregistry(domain, payload, done);
 }
 function getcounter(domain, done) {
