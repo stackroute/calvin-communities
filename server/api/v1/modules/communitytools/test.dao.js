@@ -2,7 +2,8 @@ const wrongdata = { message: 'please fill out all fields!!' };
 
 const modified = { message: 'Tool modified' };
 
-const novalue = { error: 'please fill out all values',
+const novalue = {
+  error: 'please fill out all values',
 };
 const deleted = { message: 'deleted' };
 
@@ -31,8 +32,7 @@ const tools = [{
 }];
 
 
-const multipleTools = [
-  {
+const multipleTools = [{
     toolId: 'sermo',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
     activityEvents: ['newannouncement', 'like', 'remove'],
@@ -49,8 +49,7 @@ const multipleTools = [
   },
 ];
 
-const multipleWrongTools = [
-  {
+const multipleWrongTools = [{
     toolId: 'sermo',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
     activityEvents: ['newannouncement', 'like', 'remove'],
@@ -66,28 +65,79 @@ const multipleWrongTools = [
   },
 ];
 
-const toolsAll = [{
-toolId: "sermo",
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"],
-toolname : "sermotool",
-avatar : "abc.jpg",
-purpose : "this tool is for techincal"
- }];
+const toolsAll = {
+  toolname: "sometool",
+  avatar: "somephoto.jpg",
+  toolurl: "abcdef.com/12345",
+  purpose: "maybesomepurpose",
+  actions: ["action1", "action2", "action3", "action4", "action5"],
+  events: [{
+    eventid: "evid",
+    eventname: "evname",
+    description: "evdescription",
+    activity: "somecommunityevent",
+    actor: "some actor",
+    object: "new object",
+    metadata: "someurldatamaybe"
+  }, {
+    eventid: "evid2",
+    eventname: "evname2",
+    description: "evdescription2",
+    activity: "somecommunityevent2",
+    actor: "some actor2",
+    object: "new object2",
+    metadata: "someurldatamaybe2"
+  }]
+};
 
-const wrongtools = [{
-  actions: ['broadcast', 'write'],
-  activityEvents: ['postmessage'],
-}];
+const wrongtools = {
 
-const wrongtool = [
-  [{
-    toolId: '',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-    activityEvents: ['newannouncement', 'like', 'remove'],
-    domain: '',
-  }],
-];
+  avatar: "somephoto.jpg",
+  toolurl: "abcdef.com/12345",
+  purpose: "maybesomepurpose",
+  actions: ["action1", "action2", "action3", "action4", "action5"],
+  events: [{
+    eventid: "evid",
+    eventname: "evname",
+    description: "evdescription",
+    activity: "somecommunityevent",
+    actor: "some actor",
+    object: "new object",
+    metadata: "someurldatamaybe"
+  }, {
+    eventid: "evid2",
+    eventname: "evname2",
+    description: "evdescription2",
+    activity: "somecommunityevent2",
+    actor: "some actor2",
+    object: "new object2",
+    metadata: "someurldatamaybe2"
+  }]
+};
+
+const wrongtool = {
+  avatar: "somephoto.jpg",
+  toolurl: "abcdef.com/12345",
+  purpose: "maybesomepurpose",
+  actions: ["action1", "action2", "action3", "action4", "action5"],
+  events: [{
+    eventid: "evid",
+    eventname: "evname",
+    description: "evdescription",
+    activity: "somecommunityevent",
+    actor: "some actor",
+    object: "new object",
+    metadata: "someurldatamaybe"
+  }, {
+    eventid: "evid2",
+    eventname: "evname2",
+    description: "evdescription2",
+    activity: "somecommunityevent2",
+    actor: "some actor2",
+    object: "new object2",
+    metadata: "someurldatamaybe2"
+  }]
+};
 
 
 const wrongvalue = [{
@@ -98,8 +148,28 @@ const wrongvalue = [{
 }];
 
 const updatetools = {
-  action: 'publish',
-  events: 'post-self',
+  toolname: "sometool",
+  avatar: "somephoto.jpg",
+  toolurl: "abcdef.com/12345",
+  purpose: "maybesomepurpose",
+  actions: ["action1", "action2", "action3", "action4", "action5"],
+  events: [{
+    eventid: "evid",
+    eventname: "evname",
+    description: "evdescription",
+    activity: "somecommunityevent",
+    actor: "some actor",
+    object: "new object",
+    metadata: "someurldatamaybe"
+  }, {
+    eventid: "evid2",
+    eventname: "evname2",
+    description: "evdescription2",
+    activity: "somecommunityevent2",
+    actor: "some actor2",
+    object: "new object2",
+    metadata: "someurldatamaybe2"
+  }]
 };
 const patch = {
   domain: 'engineer.wipro.blr',
