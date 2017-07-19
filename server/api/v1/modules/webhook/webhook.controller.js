@@ -1,36 +1,45 @@
 const jwt = require('jsonwebtoken');
 const async = require('async');
-const config = require('../../../../appconfig/env/development');
+const config = require('../../../../config').jwtdetails;
 const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher');
+const topic = 'ToolEvents';
+// const community
 
 function verifyToken(token, done) {
 
-  jwt.verify(token, config.jwtdetails.secret, (err, decoded) => {
-  console.log('verify token');
+  jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      console.log('error');
+      logger.debug('error', err);
       return done(err);
     }
-    console.log('verified', res);
-    done(null, decoded);
+    console.log(decoded);
+    return done(null, decoded);
   });
 }
 
-function publishEventToTopic(token, eventPayload, done) {
-
-  token = jwt.sign({
-    "domain": "stack",
-    "toolId": "github",
-  }, config.jwtdetails.secret, { expiresIn: config.jwtdetails.expiryTime });
-
-  async.waterfall([
-    verifyToken.bind(null, token),
-    publishEvent.publishEventToTopic.bind(null, topic, payload)
-  ], (err, result) => {
-    if (err) {
-      done(err, 'Internal Error');
+function isSubscribed(eventPayLoad, token,  done) {
+  let count = 0;
+  token.events.forEach((data) => {
+    if(data === eventPayLoad.eventid) {
+      count += 1;
     }
-    done(null, 'published');
+  })
+  if( count === 1) { return done(undefined, eventPayLoad)}
+  if(count !== 1) {return done('not subscribed')}
+
+}
+
+function publishEventToTopic(token, eventPayLoad, done) {
+
+async.waterfall([
+    verifyToken.bind(null, token),
+    isSubscribed.bind(null, eventPayLoad),
+    publishEvent.publishToTopic.bind(null, topic)
+  ], (err, res) => {
+    if (err) {
+      return done();
+    }
+    return done();
   });
 }
 
