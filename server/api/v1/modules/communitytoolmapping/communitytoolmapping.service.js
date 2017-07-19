@@ -50,16 +50,16 @@ function getToolMapping(details, done) {
   });
 }
 
-function postEventMapping(queries, existscheck, done) {
+function postEventMapping(queries, existscheck, done) { // eslint-disable-line consistent-return
   if (_.isEmpty(existscheck)) {
     client.batch(queries, (err) => {
       if (err) { logger.error('Error posting event details', err); return done([500, 'Unexpected error occured']); }
-       return done(undefined, 'data posted');
+      return done(undefined, 'data posted');
     });
-  } else { return done([400, 'Tool Already mapped with this community']);}
+  } else { return done([400, 'Tool Already mapped with this community']); }
 }
 
-function updateEventMapping(queries, existscheck, done) {
+function updateEventMapping(queries, existscheck, done) { // eslint-disable-line consistent-return
   if (!_.isEmpty(existscheck)) {
     client.batch(queries, { prepare: true }, (err) => {
       if (err) { logger.error('Error updating event details', err); return done([500, 'Unexpected error occured']); }

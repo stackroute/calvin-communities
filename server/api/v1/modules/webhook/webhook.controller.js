@@ -4,9 +4,8 @@ const config = require('../../../../appconfig/env/development');
 const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher');
 
 function verifyToken(token, done) {
-
   jwt.verify(token, config.jwtdetails.secret, (err, decoded) => {
-  console.log('verify token');
+    console.log('verify token');
     if (err) {
       console.log('error');
       return done(err);
@@ -17,15 +16,14 @@ function verifyToken(token, done) {
 }
 
 function publishEventToTopic(token, eventPayload, done) {
-
   token = jwt.sign({
-    "domain": "stack",
-    "toolId": "github",
+    domain: 'stack',
+    toolId: 'github',
   }, config.jwtdetails.secret, { expiresIn: config.jwtdetails.expiryTime });
 
   async.waterfall([
     verifyToken.bind(null, token),
-    publishEvent.publishEventToTopic.bind(null, topic, payload)
+    publishEvent.publishEventToTopic.bind(null, topic, payload),
   ], (err, result) => {
     if (err) {
       done(err, 'Internal Error');
@@ -36,4 +34,4 @@ function publishEventToTopic(token, eventPayload, done) {
 
 module.exports = {
   publishEventToTopic,
-}
+};
