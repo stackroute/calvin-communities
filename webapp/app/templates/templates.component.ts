@@ -27,7 +27,6 @@ getpurpose;
        data => { this.getResults = data;
           this.getResults.forEach((data) =>
           {
-            console.log(this.getPurpose.includes(data.purpose));
            if(!(this.getPurpose.includes(data.purpose))){
 
                 this.getPurpose.push(data.purpose);

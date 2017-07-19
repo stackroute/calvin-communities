@@ -116,9 +116,9 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
   });
 }
 
-/*
- *PATCH Method- Publish a event
- */
+// /*
+//  *PATCH Method- Publish a event
+//  */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, value: dataFromBody, type: 'modify' };
   message = JSON.stringify(message);
@@ -132,12 +132,14 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   });
 }
 
+
 /*
- *DELETE Method- Publish a event
- */
+*DELETE Method- Publish a event
+*/
+
 
 function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody.length, type: 'delete' };
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'deletemember' };
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
@@ -210,8 +212,13 @@ function conditionCheckedUpdateMembersRole(domainName, values, dataExistCheckRes
   logger.debug('condition checked to update member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
-    communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, done);
-    publishMessageToTopicForUpdation(domainName, values);
+    communityMembershipService.modifyRoleOfMembersFromCommunity(domainName, values, (err) => {
+      if (err) {
+        done(err);
+      }
+      publishMessageToTopicForUpdation(domainName, values);
+      return done(undefined, { message: 'Role modified' });
+    });
   } else {
     done({ error: 'Member details not available' });
   }
@@ -283,8 +290,14 @@ function conditionCheckedDeleteMembers(domainName, values, dataExistCheckResult,
   logger.debug('condition checked to delete member');
   logger.debug('dataExistCheckResult', dataExistCheckResult);
   if (dataExistCheckResult === values.length) {
-    communityMembershipService.removeMembersFromCommunity(domainName, values, done);
-    publishMessageToTopicForDeletion(domainName, values);
+    communityMembershipService.removeMembersFromCommunity(domainName, values, (err) => {
+      if (err) {
+        done(err);
+      }
+      publishMessageToTopicForDeletion(domainName, values);
+      return done(undefined, { message: 'Member deleted' });
+    });
+    // publishMessageToTopicForDeletion(domainName, values);
   } else {
     done({ error: 'Member details not available' });
   }

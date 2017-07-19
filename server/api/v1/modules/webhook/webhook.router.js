@@ -9,7 +9,7 @@ const config = require('../../../../appconfig/env/development');
 router.post('/:token', (req, res) => {
   try {
   	console.log('router');
-    
+
     // console.log('router');
     // console.log(req.params.token);
     webhookCtrl.publishEventToTopic(req.params.token, req.body, (err, result) => {
@@ -19,10 +19,9 @@ router.post('/:token', (req, res) => {
       return res.send(result);
     });
   } catch (err) {
-    // console.log('errrrr', err);
     return res.status(500).send({ error: 'Unexpected internal error...' });
   }
   return null;
 });
 
-    module.exports = router;
+module.exports = router;

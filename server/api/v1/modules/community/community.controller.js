@@ -81,11 +81,14 @@ function getTemplateDetails(community) {
   const tools = [];
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
+      domain: community.domain,
       purpose: element.purpose,
       toolname: element.toolName,
       avatar: element.avatar,
       toolId: element.toolId,
       actions: element.actions,
+      events: element.events,
+      toolurl: element.toolurl,
     };
     tools.push(toolsobject);
   });
@@ -110,7 +113,15 @@ function getTemplateDetails(community) {
   values.push(members);
   return values;
 }
+function postTools(domain, tools, done) {
+  tools.domain = domain; // eslint-disable-line no-param-reassign
 
+  async.map(tools, toolsController.postCommunityTool,
+   (err, res) => { // eslint-disable-line consistent-return
+     if (err) { logger.debug('Unexpected Error Occured', err); return done(err); }
+     if (res) { return done(null, res); }
+   });
+}
 /**
  * POST For adding new community,
  * POST REQUEST
@@ -152,7 +163,6 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
   if (values === -1) {
     return done([400, 'A Template Name is supposed to be chosen from mentioned list only']);
   }
-
   communityService.getCommunity(community.domain,
     (err, res) => { // eslint-disable-line consistent-return
       if (err) throw err;
@@ -160,7 +170,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         return async.series([
           communityService.addCommunity.bind(null, values[0]),
           roleController.postCommunityRoles.bind(null, community.domain, values[1]),
-          toolsController.postCommunityTools.bind(null, values[2], community.domain),
+          postTools.bind(null, community.domain, values[2]),
           membershipController.addMembersToCommunity.bind(null,
             community.domain, [values[3]]),
         ],
@@ -186,21 +196,21 @@ function getCommunity(domain, counter, done) {
     ], (err, result) => {
       if (err) return done(err);
       /* eslint-disable no-param-reassign*/
-      if(!_.isEmpty(result[0])){
-      if (!_.isEmpty(result[1])) {
-        result[0][0].invitations = (result[1][0].invitations || 0);
-        result[0][0].members = (result[1][0].members || 0);
-        result[0][0].requests = (result[1][0].requests || 0);
-        result[0][0].tools = (result[1][0].tools || 0);
-      } else {
-        logger.debug('here', result[0][0]);
+      if (!_.isEmpty(result[0])) {
+        if (!_.isEmpty(result[1])) {
+          result[0][0].invitations = (result[1][0].invitations || 0);
+          result[0][0].members = (result[1][0].members || 0);
+          result[0][0].requests = (result[1][0].requests || 0);
+          result[0][0].tools = (result[1][0].tools || 0);
+        } else {
+          logger.debug('here', result[0][0]);
 
         // console.log('here', result[0][0]);
-        result[0][0].invitations = 0;
-        result[0][0].members = 0;
-        result[0][0].requests = 0;
-        result[0][0].tools = 0;
-      }
+          result[0][0].invitations = 0;
+          result[0][0].members = 0;
+          result[0][0].requests = 0;
+          result[0][0].tools = 0;
+        }
       /* eslint-disable no-param-reassign*/
       }
       return done(undefined, result[0]);

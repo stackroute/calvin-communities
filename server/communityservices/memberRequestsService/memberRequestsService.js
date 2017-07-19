@@ -9,9 +9,9 @@ module.exports = function member(eventMessage) {
 
   // For member adding when invite accepted or request
 
-   const arr = [];
-if(eventMessage.type === 'inviteaccepted')
-
+if(eventMessage.type = 'inviteaccepted')
+{
+  const arr = [];
   arr.push({
     username: eventMessage.personemail,
     role: eventMessage.roleforperson,
@@ -21,4 +21,5 @@ if(eventMessage.type === 'inviteaccepted')
       logger.debug('check for the communitymembership table whether he is added', res);
     }
   });
+}
 };
