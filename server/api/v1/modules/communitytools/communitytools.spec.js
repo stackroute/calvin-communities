@@ -147,7 +147,7 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-  /*it('should not post if tool already exists', (done) => {
+  /* it('should not post if tool already exists', (done) => {
     request(app)
       .post(`${uri}singer.blr/tools`)
       .send(value.toolsAll)

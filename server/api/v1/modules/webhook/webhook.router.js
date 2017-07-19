@@ -9,7 +9,7 @@ const config = require('../../../../appconfig/env/development');
 router.post('/:token', (req, res) => {
   try {
   	console.log('router');
-    
+
     // console.log('router');
     // console.log(req.params.token);
     webhookCtrl.publishEventToTopic(req.params.token, req.body, (err, result) => {
@@ -25,4 +25,4 @@ router.post('/:token', (req, res) => {
   return null;
 });
 
-    module.exports = router;
+module.exports = router;

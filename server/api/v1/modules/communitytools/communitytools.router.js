@@ -61,12 +61,12 @@ router.get('/:domain/tools/:toolid', (req, res) => {
 
 router.post('/:domain/tools/:toolid', (req, res) => {
   try {
-    newBody = req.body;
+    const clubbingData = req.body;
 
-     newBody.domain = req.params.domain;
-     newBody.toolId = req.params.toolid;
+    clubbingData.domain = req.params.domain;
+    clubbingData.toolId = req.params.toolid;
 
-    communityToolCtrl.postCommunityTool(newBody, (err, results) => {
+    communityToolCtrl.postCommunityTool(clubbingData, (err, results) => {
       if (err) {
         return res.status(err[0]).json(err[1]);
       }
@@ -95,7 +95,7 @@ router.patch('/:domain/tools/:toolid', (req, res) => {
   return null;
 });
 
-/*router.delete('/:domain/tools/:toolid/action/:name', (req, res) => {
+/* router.delete('/:domain/tools/:toolid/action/:name', (req, res) => {
   try {
     communityToolCtrl.deleteAction(req.params, (err) => {
       if (err) {

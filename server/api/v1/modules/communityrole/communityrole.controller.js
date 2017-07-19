@@ -71,7 +71,6 @@ function postRoles(domainName, postedData, count, done) {
     });
   } else {
     done({ error: 'entry already exists' }, undefined);
-    return;
   }
 }
 function postCommunityRoles(domainName, postedData, done) {

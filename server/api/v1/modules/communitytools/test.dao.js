@@ -67,13 +67,13 @@ const multipleWrongTools = [
 ];
 
 const toolsAll = [{
-toolId: "sermo",
-actions: ["postmesage", "read", "Likemessage", "edit", "share"],
-activityEvents: ["newannouncement", "like", "remove"],
-toolname : "sermotool",
-avatar : "abc.jpg",
-purpose : "this tool is for techincal"
- }];
+  toolId: 'sermo',
+  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+  activityEvents: ['newannouncement', 'like', 'remove'],
+  toolname: 'sermotool',
+  avatar: 'abc.jpg',
+  purpose: 'this tool is for techincal',
+}];
 
 const wrongtools = [{
   actions: ['broadcast', 'write'],

@@ -24,13 +24,13 @@ function getCommunityList(username, done) {
           results.communityDetails.forEach((data) => {
             result.forEach((values) => {
               if (values.domain === data.domain) {
-                iterate +=1;
+                iterate += 1;
                 communities.push({
                   domain: values.domain, name: values.name, avatar: values.avatar, role: data.role,
                 });
-                if(iterate = communityDetails.length){
-                done(null,communities);
-              }
+                if (iterate = communityDetails.length) {
+                  done(null, communities);
+                }
               }
             });
           });
@@ -40,8 +40,8 @@ function getCommunityList(username, done) {
        /* const usercommunities = {
           username,
           communities,*/
-        });
-        //return done(undefined, usercommunities);
+      });
+        // return done(undefined, usercommunities);
     }
   });
 }
@@ -92,7 +92,7 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
  */
 
 function removeMemberFromCommunity(domainName, data, done) {
-  console.log("remove cointroller");
+  console.log('remove cointroller');
   membershipService.getCommunityList(domainName, (error) => {
     if (!error) {
       // console.log("removed member");
@@ -113,7 +113,7 @@ function removeMemberFromCommunity(domainName, data, done) {
 
 function publishMessageforMemberCounter(domainname, count) {
   let message = { domain: domainname, event: 'newmemberadded', body: count };
-  console.log("count", count);
+  console.log('count', count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -126,7 +126,7 @@ function publishMessageforMemberCounter(domainname, count) {
 
 function publishMessageforMemberCounterDecrement(domainname, count) {
   let message = { domain: domainname, event: 'removemember', body: count };
-  console.log("count decrement", count);
+  console.log('count decrement', count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {

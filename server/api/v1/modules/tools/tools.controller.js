@@ -78,7 +78,6 @@ function modifyTool(dataFromBody, dataFromparams, done) {
 // Function for deleting tools
 
 function deleteTool(dataFromURI, done) {
-
   ToolService.getToolsForDeletion(dataFromURI.toolid, dataFromURI.domainname, (err) => {
     if (!err) {
       console.log('success');
@@ -88,8 +87,6 @@ function deleteTool(dataFromURI, done) {
     return done(err, undefined);
   });
 }
-
-
 
 
 // Exporting the functions to be used in router
