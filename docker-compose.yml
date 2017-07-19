@@ -20,7 +20,7 @@ services:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
       - '9042'
-      - 'npm start'
+      - 'npm run begin'
 
   calvin-countermgr:
     image: counter
@@ -79,6 +79,24 @@ services:
       - '9042'
       - 'npm run svc.tool'
 
+  calvin-toolsink:
+    image: tool
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: always
+    volumes:
+      - ./dockerScripts:/temp/scripts
+    depends_on:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+    entrypoint:
+      -  /temp/scripts/wait-for-service.sh
+      - '0.0.0.0'
+      - '9042'
+      - 'npm run svc.toolsink'
 
   calvin-cassandra:
     image: cassandra:latest
