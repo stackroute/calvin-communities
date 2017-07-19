@@ -108,6 +108,10 @@ function updateTool(parameters, body, done) {
     !_.has(body, 'actions') || !_.has(parameters, 'domain') || !_.has(parameters, 'toolid') || !_.has(body, 'events')) {
     done([400, 'Required Data Not Pushed']);
   }
+
+ communityToolService.getCommunityTool(parameters.domain, parameters.toolid, (err, res) => {
+  if(err) {logger.debug(err); return done([500, 'Internal Server Error'])};
+  if(res.length !== 0) {
   const data = [body.toolname, body.avatar, body.toolurl, body.actions,
     body.purpose, parameters.domain, parameters.toolid];
   async.parallel([
@@ -117,6 +121,9 @@ function updateTool(parameters, body, done) {
     if (error) { return done([500, 'Internal Error Occured']); }
     return done(undefined, result[1]);
   });
+}
+if(res.length === 0) { return done([400, 'Tool not mapped to this Domain'])}
+});
 }
 
 // Exporting the functions to be used in router
