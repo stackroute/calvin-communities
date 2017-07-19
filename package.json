@@ -11,6 +11,7 @@
     "testcases": "npm run truncatedb && ./node_modules/.bin/mocha *.js server/api/v1/modules/**/*.spec.js",
     "coverage": "npm run truncatedb && istanbul cover node_modules/.bin/_mocha -- -u exports -R spec server/api/v1/modules/**/*.spec.js",
     "e2e": "ng e2e",
+    "begin": "concurrently \"ng build \" \"node bin/www\"",
     "serve": "concurrently \"ng build --watch\" \"nodemon bin/www\"",
     "installdb": "node ./server/dbcreation.js",
     "truncatedb": "node ./server/dbcleanup.js",

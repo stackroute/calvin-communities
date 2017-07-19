@@ -1,7 +1,5 @@
 const counterservice = require('./counter.service');
 
-console.log('welcome to counter controller');
-
 const eventnames = {
   newmemberadded: counterservice.incrementmember,
   newtooladded: counterservice.incrementtools,
