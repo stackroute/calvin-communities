@@ -26,7 +26,6 @@ let server = http.createServer(app);
  */
 
 /* Socket starts*/
-socketServer(server);
 socketServer.attach(server);
 
 /* Socket ends */

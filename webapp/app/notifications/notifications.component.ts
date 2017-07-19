@@ -11,16 +11,19 @@ import {SocketService} from './socket.service';
 export class NotificationsComponent {
     private notifications: any[];
     private ioConnection: any;
+   
 
     constructor(private socketService: SocketService) {}
 
-    ngOnInit(): void {
+    ngOnInit() {
+        this.notifications = [];
         this.initIoConnection();
     }
     
-    private initIoConnection(): void {
+    private initIoConnection() {
         this.ioConnection = this.socketService.get().subscribe((newNotification) => {
-            this.notifications.push(newNotification);
-        });
+            this.notifications.unshift(newNotification);
+            });
+        
     }
 }
