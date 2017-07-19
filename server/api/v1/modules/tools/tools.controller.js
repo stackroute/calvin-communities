@@ -18,7 +18,7 @@ function getTools(domainName, done) {
 
 // publish event for counter when tool is added
 function PublishEventWhenToolAdded(domainname, count) {
-  let message = { domain: domainname, event: 'newtooladded', body: count };
+  let message = { domain: domainname, event: 'newtoolsadded', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -32,7 +32,7 @@ function PublishEventWhenToolAdded(domainname, count) {
 // publish event for counter when tool is added
 function PublishEventWhenToolDeleted(domainname, count) {
   console.log('hello world');
-  let message = { domain: domainname, event: 'removetool', body: count };
+  let message = { domain: domainname, event: 'removetools', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {

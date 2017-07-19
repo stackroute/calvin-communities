@@ -105,7 +105,7 @@ function removeMemberFromCommunity(domainName, data, done) {
 
 
 function publishMessageforMemberCounter(domainname, count) {
-  let message = { domain: domainname, event: 'newmemberadded', body: count };
+  let message = { domain: domainname, event: 'newmembersadded', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -117,7 +117,7 @@ function publishMessageforMemberCounter(domainname, count) {
 }
 
 function publishMessageforMemberCounterDecrement(domainname, count) {
-  let message = { domain: domainname, event: 'removemember', body: count };
+  let message = { domain: domainname, event: 'removemembers', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {

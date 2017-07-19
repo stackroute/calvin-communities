@@ -1,28 +1,30 @@
 const counterservice = require('./counter.service');
-
-const eventnames = {
-  'newmemberadded': counterservice.incrementmember,
-  'newtooladded': counterservice.incrementtools,
-  'newinvite': counterservice.incrementinvitation,
-  'newrequests': counterservice.incrementrequests,
-  'removemember': counterservice.decrementmember,
-  'removetool': counterservice.decrementtools,
-  'rejectinvite': counterservice.decrementinvitation,
+console.log("counter controiller");
+const eventregistry = {
+  'newmembersadded': counterservice.incrementmember,
+  'newtoolsadded': counterservice.incrementtools,
+  'newinvitees': counterservice.incrementinvitation,
+  'newjoinrequests': counterservice.incrementrequests,
+  'removemembers': counterservice.decrementmember,
+  'removetools': counterservice.decrementtools,
+  'rejectinvitees': counterservice.decrementinvitation,
   'rejectrequests': counterservice.decrementrequests,
 };
 
 function onevent(domain, eventname, payload, done) {
-  const eventregistry = eventnames[eventname];
-  if (!eventregistry) {
+  const eventHandlerClosure = eventregistry[eventname];
+  if (!eventHandlerClosure) {
     done('event not supported..!');
     return;
   }
- console.log(payload);
-  eventregistry(domain, payload, done);
+  console.log("countercontroller", payload);
+  eventHandlerClosure(domain, payload, done);
 }
+
 function getcounter(domain, done) {
   counterservice.getcounter(domain, done);
 }
+
 module.exports = {
   onevent,
   getcounter,

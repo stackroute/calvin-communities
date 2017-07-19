@@ -33,11 +33,15 @@ function incrementmember(domain, payload, done) {
 }
 
 function incrementinvitation(domain, payload, done) {
-  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations + ${payload} WHERE domain='${domain}'`;
+  console.log("invitations ", payload);
+  const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations + ${payload} WHERE domain = '${domain}'`;
+  console.log(query)
   return client.execute(query, (err, result) => {
     if (!err) {
+      console.log("counterservices:", result);
       done(null, result);
     } else {
+      console.log("countererror", err);
       done(err, undefined);
     }
   });
@@ -55,7 +59,7 @@ function incrementrequests(domain, payload, done) {
 }
 
 function incrementtools(domain, payload, done) {
-  console.log("payss",payload);
+  console.log("tools",payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET tools = tools + ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
