@@ -65,7 +65,6 @@ const multipleWrongTools = [{
   },
 ];
 
-<<<<<<< HEAD
 const toolsAll = {
   toolname: "sometool",
   avatar: "somephoto.jpg",
@@ -90,16 +89,6 @@ const toolsAll = {
     metadata: "someurldatamaybe2"
   }]
 };
-=======
-const toolsAll = [{
-  toolId: 'sermo',
-  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-  activityEvents: ['newannouncement', 'like', 'remove'],
-  toolname: 'sermotool',
-  avatar: 'abc.jpg',
-  purpose: 'this tool is for techincal',
-}];
->>>>>>> 90232f4c76d9a6bf9e9d475f92da8c5af88f251f
 
 const wrongtools = {
 

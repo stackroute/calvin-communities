@@ -152,13 +152,8 @@ describe('Test cases for tools of a community', () => {
       });
     return null;
   });
-<<<<<<< HEAD
 */
-  /*it('should not post if tool already exists', (done) => {
-=======
-
   /* it('should not post if tool already exists', (done) => {
->>>>>>> 90232f4c76d9a6bf9e9d475f92da8c5af88f251f
     request(app)
       .post(`${uri}singer.blr/tools`)
       .send(value.toolsAll)
