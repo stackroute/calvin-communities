@@ -15,14 +15,14 @@ function getCommunityList(username, done) {
   logger.debug("hello");
   async.waterfall([
     memberCommunityList.bind(null, username),
-    getAvatarDetails.bind(null, arr)
-    ], (err, results) => {
-      if(err) {
-        return done(err);
-      } else {
-        return done(results);
-      }
-    });
+    getAvatarDetails.bind(null)
+  ], (err, results) => {
+    if (err) {
+      return done(err);
+    } else {
+      return done(undefined, results);
+    }
+  });
 }
 
 function memberCommunityList(username, done) {
@@ -41,8 +41,12 @@ function memberCommunityList(username, done) {
 
 function getAvatarDetails(arr, done) {
   logger.debug("ArrayDetails", arr);
+  const domains = [];
   const communities = [];
-  communityService.getMultipleCommunities(arr, (err, results) => {
+  arr.communityDetails.forEach((data) => {
+    domains.push(data.domain);
+  })
+  communityService.getMultipleCommunities(domains, (err, results) => {
     // logger.debug("communitiesresults", results);
     logger.debug("arrayresults", arr);
     if (!err) {
@@ -50,15 +54,17 @@ function getAvatarDetails(arr, done) {
         results.forEach((values) => {
           if (values.domain === data.domain) {
             communities.push({
-             domain: values.domain, avatar: values.avatar, roles: data.roles
+              domain: values.domain,
+              avatar: values.avatar,
+              roles: data.role
             });
           }
         });
 
       });
       const usercommunities = {
-        username,
-        communities,
+        username: arr.username,
+        communities: communities,
       }
       logger.debug("communities", usercommunities);
       return done(null, usercommunities);
@@ -66,42 +72,6 @@ function getAvatarDetails(arr, done) {
   });
 }
 
-// function getCommunityList(username, done) {
-//   const arr = [];
-//   let iterate = 0;
-//   membershipService.getCommunityList(username, (error, results) => {
-//     if (!error) {
-//       results.communityDetails.forEach((data) => {
-//         arr.push(data.domain);
-//       });
-//       logger.debug("array", arr);
-//       communityService.getMultipleCommunities(arr, (err, result) => {
-//         const communities = [];
-//         if (!err) {
-//           results.communityDetails.forEach((data) => {
-//             result.forEach((values) => {
-//               if (values.domain === data.domain) {
-//                 iterate += 1;
-//                 communities.push({
-//                   domain: values.domain, name: values.name, avatar: values.avatar, role: data.role,
-//                 });
-//                 if (iterate = results.communityDetails.length) {
-//                   done(null, communities);
-//                 }
-//               }
-//             });
-//           });
-//         } else {
-//           done(err);
-//         }
-//        /* const usercommunities = {
-//           username,
-//           communities,*/
-//       });
-//         // return done(undefined, usercommunities);
-//     }
-//   });
-// }
 
 /*
  * post the community details
