@@ -148,8 +148,28 @@ const wrongvalue = [{
 }];
 
 const updatetools = {
-  action: 'publish',
-  events: 'post-self',
+  toolname: "sometool",
+  avatar: "somephoto.jpg",
+  toolurl: "abcdef.com/12345",
+  purpose: "maybesomepurpose",
+  actions: ["action1", "action2", "action3", "action4", "action5"],
+  events: [{
+    eventid: "evid",
+    eventname: "evname",
+    description: "evdescription",
+    activity: "somecommunityevent",
+    actor: "some actor",
+    object: "new object",
+    metadata: "someurldatamaybe"
+  }, {
+    eventid: "evid2",
+    eventname: "evname2",
+    description: "evdescription2",
+    activity: "somecommunityevent2",
+    actor: "some actor2",
+    object: "new object2",
+    metadata: "someurldatamaybe2"
+  }]
 };
 const patch = {
   domain: 'engineer.wipro.blr',
