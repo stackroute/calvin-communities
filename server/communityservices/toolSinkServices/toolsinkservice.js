@@ -5,7 +5,7 @@ const model = require('cassandra-driver');
 
 const connectionString = require('../../config').connectionString;
 
-const COMMUNITY_TOOL_TABLE = 'communitytooleventmap';
+const COMMUNITY_TOOL_EVENT_TABLE = 'communitytooleventmap';
 
 // Connecting to cassandra
 
@@ -17,14 +17,14 @@ const client = new model.Client({
 module.exports = function(eventMessage) {
 
   logger.debug('toolsink consumed the event: ', eventMessage);
-  const query = ('SELECT * FROM ' + COMMUNITY_TOOL_TABLE + ' where domain = ? and toolid = ?');
+  const query = ('SELECT * FROM ' + COMMUNITY_TOOL_EVENT_TABLE + ' where domain = ? and toolid = ?');
   return client.execute(query, [eventMessage.domain, eventMessage.toolid], (err, res) => {
     if (err) {
       logger.debug('Internal Server Error');
     } else {
       let message = {
-        domain: res.rows[0].domain,
-        toolid: res.rows[0].toolid,
+        domain: eventMessage.domain,
+        toolid: eventMessage.toolid,
         activitytype: res.rows[0].activity,
         actortype: res.rows[0].actor,
         objecttype: res.rows[0].object,
@@ -32,7 +32,7 @@ module.exports = function(eventMessage) {
         payload: eventMessage,
         refid: "Reference for community to know about the event it published, used for internal purpose"
       };
-      message = JSON.stringify(eventMessage);
+      message = JSON.stringify(message);
       logger.debug("sending message", message);
       registerPublisherService.publishToTopic('CommunityActvityEvents', message, (err, res) => {
         if (err) {
