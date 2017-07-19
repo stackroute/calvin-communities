@@ -36,6 +36,7 @@ import { CommunityPageComponent } from './community-page/community-page.componen
 import { FootNoteComponent } from './foot-note/foot-note.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { MdListModule } from '@angular/material';
+
 @NgModule({
   declarations: [
   AppComponent,
