@@ -12,7 +12,6 @@ function verifyToken(token, done) {
       logger.debug('error', err);
       return done(err);
     }
-    console.log(decoded);
     return done(null, decoded);
   });
 }
@@ -45,4 +44,4 @@ async.waterfall([
 
 module.exports = {
   publishEventToTopic,
-}
+};

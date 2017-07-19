@@ -26,14 +26,20 @@ const client = new model.Client({
 describe('Test cases for tools of a community', () => {
   before(() => {
     // runs before all tests in this block
-    client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'engineer.wipro.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
-    client.execute('insert into communitytools (domain, toolid, actions, activityevents) values(\'doctors.blr\', \'quora\', {\'broadcast\', \'write\'},{\'postmessage\'});');
+    client.execute(`insert into communitytools \
+      (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
+      values('engineer.wipro.blr', 'quora', {'broadcast', 'write'},'http://images.wisegeek.com/cameraman.jpg', \
+       'quora.inc', dateof(now()),'for medical purpose', 'quoratool');`);
+    client.execute(`insert into communitytools \
+      (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
+      values('doctors.blr', 'quora', {'broadcast', 'write'},'http://images.wisegeek.com/cameraman.jpg', \
+       'quora.inc', dateof(now()),'for medical purpose', 'quoratool');`);
   });
 
 
   it('should throw error if value is not found', (done) => {
     request(app)
-      .get(`${uri}wipro.blr/tools`)
+      .get(`${uri}doctors.blr/`)
       .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(400)
       .end((error, results) => {
@@ -56,7 +62,7 @@ describe('Test cases for tools of a community', () => {
 
   it('should give error on post data in database when no values are given', (done) => {
     request(app)
-      .post(`${uri}wipro.blr/tools/`)
+      .post(`${uri}domain.wipro.blr/tools/sermos`)
       .expect(500)
       .end((error, results) => {
         if (!error) {
@@ -79,7 +85,7 @@ describe('Test cases for tools of a community', () => {
 
   it('should give error on post data in database when tool is not given', (done) => {
     request(app)
-      .post(`${uri}wipro.blr/tools`)
+      .post(`${uri}wipro.blr/tools/quora`)
       .send(value.wrongtools)
       .expect(400)
       .end((error, results) => {
@@ -88,7 +94,7 @@ describe('Test cases for tools of a community', () => {
             if (!err) {
               // console.log('Result from testcase', result.rows.length);
               result.rows.length.should.deep.equal(0);
-              results.body.should.deep.equal(value.novalue);
+              results.body.should.deep.equal("Required Data Not Pushed");
               return done();
             }
             return null;
@@ -100,10 +106,10 @@ describe('Test cases for tools of a community', () => {
   });
 
 
-  // username string empty
+ /* // username string empty
   it('should give error on post data in database when tool property is empty', (done) => {
     request(app)
-      .post(`${uri}wipro.blr/tools`)
+      .post(`${uri}wipro.blr/tools/wemedup`)
       .send(value.wrongtool)
       .expect(400)
       .end((error, results) => {
@@ -126,7 +132,7 @@ describe('Test cases for tools of a community', () => {
   // post data in database, all values given
   it('should post data in database ', (done) => {
     request(app)
-      .post(`${uri}singer.blr/tools`)
+      .post(`${uri}singer.blr/tools/sermo`)
       .send(value.toolsAll)
       .end((error, results) => {
         if (!error) {
@@ -146,8 +152,8 @@ describe('Test cases for tools of a community', () => {
       });
     return null;
   });
-
-  /*it('should not post if tool already exists', (done) => {
+*/
+  /* it('should not post if tool already exists', (done) => {
     request(app)
       .post(`${uri}singer.blr/tools`)
       .send(value.toolsAll)
@@ -474,6 +480,7 @@ describe('Test cases for tools of a community', () => {
 
   after('', () => {
     client.execute("DELETE FROM communitytools where domain='engineer.wipro.blr';");
+    client.execute("DELETE FROM communitytools where domain='wipro.blr';");
     client.execute("DELETE FROM communitytools where domain='manager.wipro.blr';");
     client.execute("DELETE FROM communitytools where domain='doctors.blr';");
     client.execute("DELETE FROM communitytools where domain='singer.blr';");

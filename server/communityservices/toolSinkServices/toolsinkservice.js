@@ -1,16 +1,48 @@
 const toolSinkService = require('../../api/v1/modules/communitytools/communitytools.controller');
 const registerPublisherService = require('../../common/kafkaPublisher');
 const logger = require('../../logger.js');
+const model = require('cassandra-driver');
+
+const connectionString = require('../../config').connectionString;
+
+const COMMUNITY_TOOL_EVENT_TABLE = 'communitytooleventmap';
+
+// Connecting to cassandra
+
+const client = new model.Client({
+  contactPoints: [connectionString.contact],
+  protocolOptions: { port: connectionString.port },
+  keyspace: connectionString.keyspace,
+});
 module.exports = function(eventMessage) {
+
   logger.debug('toolsink consumed the event: ', eventMessage);
-  // message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool' };
-  let message = JSON.stringify(eventMessage);
-  logger.debug("sending message", message);
-  registerPublisherService.publishToTopic('CommunityActvityEvents', message, (err, res) => {
+  const query = ('SELECT * FROM ' + COMMUNITY_TOOL_EVENT_TABLE + ' where domain = ? and toolid = ?');
+  return client.execute(query, [eventMessage.domain, eventMessage.toolid], (err, res) => {
     if (err) {
-      logger.debug('error occured', err);
-    } else if (res) {
-      logger.debug('result is', res);
+      logger.debug('Internal Server Error');
+    } else {
+      let message = {
+        domain: eventMessage.domain,
+        toolid: eventMessage.toolid,
+        activitytype: res.rows[0].activity,
+        actortype: res.rows[0].actor,
+        objecttype: res.rows[0].object,
+        timestamp: Date.now(),
+        payload: eventMessage,
+        refid: "Reference for community to know about the event it published, used for internal purpose"
+      };
+      message = JSON.stringify(message);
+      logger.debug("sending message", message);
+      registerPublisherService.publishToTopic('CommunityActvityEvents', message, (err, res) => {
+        if (err) {
+          logger.debug('error occured', err);
+        } else if (res) {
+          logger.debug('result is here', message);
+        }
+      });
     }
-  });
+
+  })
+
 };
