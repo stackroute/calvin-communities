@@ -61,7 +61,12 @@ router.get('/:domain/tools/:toolid', (req, res) => {
 
 router.post('/:domain/tools/:toolid', (req, res) => {
   try {
-    communityToolCtrl.postCommunityTool(req.params, req.body, (err, results) => {
+    newBody = req.body;
+
+     newBody.domain = req.params.domain;
+     newBody.toolId = req.params.toolid;
+
+    communityToolCtrl.postCommunityTool(newBody, (err, results) => {
       if (err) {
         return res.status(err[0]).json(err[1]);
       }

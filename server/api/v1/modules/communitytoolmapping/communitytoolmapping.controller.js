@@ -9,7 +9,7 @@ const token = require('../../../../config').jwtdetails;
 
 const COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 
-function authenticate(domain, toolid, eventids, done) {
+function generateToolToken(domain, toolid, eventids, done) {
   jwt.sign({ domain: domain, toolid: toolid, events: eventids }, token.secret, (err, code) => {
     if (err) { logger.debug(err); return done([400, 'Error in Operation']) }
     if (code) return done(undefined, code);
@@ -40,6 +40,7 @@ function postEventMapping(parameters, details, done) {
       wrongvalues++;
     }
     query = 'insert into ' + COMMUNITY_TOOL_EVENT_MAP + '(domain, toolid, eventid, eventname, description, activity,actor, object, metadata) values (?,?,?,?,?,?,?,?,?)';
+
     eventids.push(data.eventid);
 
     queries.push({
@@ -54,7 +55,7 @@ function postEventMapping(parameters, details, done) {
     async.waterfall([
       eventmappingServices.getToolMapping.bind(null, parameters),
       eventmappingServices.postEventMapping.bind(null, queries),
-      authenticate.bind(null, parameters.domain, parameters.toolid, eventids, done)
+      generateToolToken.bind(null, parameters.domain, parameters.toolid, eventids, done)
     ], (err, result) => {
       if (err) { logger.error('err', err); return done([400, 'Seems you\'re trying to reintegrate this tool with same domain']); }
       if (result) done(undefined, result);
@@ -102,6 +103,6 @@ module.exports = {
   getToolMapping,
   getToolEventMapping,
   postEventMapping,
-  authenticate,
+  generateToolToken,
   updateEventMapping,
 };

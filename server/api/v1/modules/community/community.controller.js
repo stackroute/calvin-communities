@@ -79,14 +79,16 @@ function getTemplateDetails(community) {
 
     // getting tools data from specified template for addTools
   const tools = [];
-  console.log(templateDetails[0])
   templateDetails[0].tools.forEach((element) => {
     const toolsobject = {
+      domain: community.domain,
       purpose: element.purpose,
       toolname: element.toolName,
       avatar: element.avatar,
       toolId: element.toolId,
       actions: element.actions,
+      events: element.events,
+      toolurl: element.toolurl
     };
     tools.push(toolsobject);
   });
@@ -111,7 +113,14 @@ function getTemplateDetails(community) {
   values.push(members);
   return values;
 }
+ function postTools(domain, tools, done) {
+  tools.domain = domain;
 
+  async.map(tools, toolsController.postCommunityTool, (err, res) => {
+    if(err) {logger.debug('Unexpected Error Occured', err); return done(err)}
+    if(res) {return done(null, res);}
+  } )
+ }
 /**
  * POST For adding new community,
  * POST REQUEST
@@ -153,17 +162,17 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
   if (values === -1) {
     return done([400, 'A Template Name is supposed to be chosen from mentioned list only']);
   }
-
   communityService.getCommunity(community.domain,
     (err, res) => { // eslint-disable-line consistent-return
       if (err) throw err;
       if (res.length === 0) {
         return async.series([
           communityService.addCommunity.bind(null, values[0]),
-          roleController.postCommunityRoles.bind(null, community.domain, values[1]),
+          //roleController.postCommunityRoles.bind(null, community.domain, values[1]),
+         postTools.bind(null, community.domain, values[2]),
         //  toolsController.postCommunityTools.bind(null, values[2], community.domain),
-          membershipController.addMembersToCommunity.bind(null,
-            community.domain, [values[3]]),
+          //membershipController.addMembersToCommunity.bind(null,
+           // community.domain, [values[3]]),
         ],
         (error, result) => {
           if (error) { logger.debug(error); return done([500, 'Internal server error']); }

@@ -60,7 +60,7 @@ function mergeData(data, previousResult, done) {
 
 function getCommunityTool(data, done) {
   async.waterfall([
-    communityToolService.getCommunityTool.bind(null, data.domain, data.toolid),
+    communityToolService.getCommunityTool.bind(null, data.domain,data.toolid),
     mergeData.bind(null, data)
   ], (err, res) => {
     if (err) { logger.debug('Unexpected Error', err); return done(err) }
@@ -131,35 +131,38 @@ function getCommunityTool(data, done) {
     });
   }
 */
-function postCommunityTool(parameters, body, done) {
+function postCommunityTool(body, done) {
 
   if (!_.has(body, 'toolname') || !_.has(body, 'avatar') || !_.has(body, 'toolurl') || !_.has(body, 'purpose') ||
-    !_.has(body, 'actions') || !_.has(parameters, 'domain') || !_.has(parameters, 'toolid')) {
-    done([400, 'Required Data Not Pushed']);
+    !_.has(body, 'actions') || !_.has(body, 'domain') || !_.has(body, 'toolId')) {
+    return done([400, 'Required Data Not Provided']);
+
   }
 
-  communityToolService.getCommunityTool(parameters.domain, parameters.toolid, (err, res) => {
-    if (err) { logger.debug('error occurred', err); return done([500, 'Internal Server Error']) }
-    if (res.length !== 0) {
-      logger.debug('domain and tool are already integrated');
-      return done([400, 'Domain & Tool are already Integrated'])
+  communityToolService.getCommunityTool(body.domain, body.toolId, (err, res) => {
+    if (err) {
+      logger.debug('error occurred', err);
+      return done([500, 'Internal Server Error']);
     }
 
-    const toolDetails = [parameters.domain, parameters.toolid, body.toolname, body.avatar, body.purpose, body.toolurl, body.actions];
+    if (res.length !== 0) {
+      logger.debug('domain and tool are already integrated', res);
+      return done([400, 'Domain & Tool are already Integrated']);
+    }
+
+    const toolDetails = [body.domain, body.toolId, body.toolname, body.avatar, body.purpose, body.toolurl, body.actions];
     async.series([
       communityToolService.addTools.bind(null, toolDetails),
-      toolmappingcontroller.postEventMapping.bind(null, parameters, body)
+      toolmappingcontroller.postEventMapping.bind(null, { domain:body.domain, toolid: body.toolId }, body)
     ], (error, result) => {
       if (error) {
         logger.debug('an error occured', error);
         return done([500, error[1]]);
       }
+      console.log("What is the result returned ", result[1]);
       return done(undefined, result[1]);
     })
-
-
   })
-
 }
 
 
