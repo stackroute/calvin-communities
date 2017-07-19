@@ -20,7 +20,7 @@ services:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
       - '9042'
-      - 'npm start'
+      - 'npm run begin'
 
   calvin-countermgr:
     image: counter
