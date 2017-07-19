@@ -174,10 +174,10 @@ function updateTool(parameters, body, done) {
   const data = [body.toolname, body.avatar, body.toolurl, body.actions, body.purpose, parameters.domain, parameters.toolid];
   async.parallel([
     communityToolService.updateTool.bind(null, data),
-    toolmappingcontroller.updateEventMapping(null, parameters, body)
+    toolmappingcontroller.updateEventMapping.bind(null, parameters, body)
   ], (error, result) => {
     if (error) { return done([500, 'Internal Error Occured']) }
-    return done(undefined, result)
+    return done(undefined, result[1])
 
   })
 
