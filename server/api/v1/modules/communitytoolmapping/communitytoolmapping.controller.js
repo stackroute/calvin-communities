@@ -26,9 +26,6 @@ function getToolMapping(parameters, done) {
 }
 
 function postEventMapping(parameters, details, done) {
-
-
-  console.log(parameters, details);
   let wrongvalues = 0;
   const queries = [];
   let query;
@@ -76,13 +73,11 @@ function updateEventMapping(parameters, details, done) {
       !_.has(data, 'activity') || !_.has(data, 'actor') || !_.has(data, 'object') || !_.has(data, 'metadata')) {
       wrongvalues++;
     }
-    console.log('hii')
     eventids.push(data.eventid);
     query = `update ${COMMUNITY_TOOL_EVENT_MAP} set eventname=?, description=?, activity=? , actor =?, object=?, metadata=? where domain=? and toolid=? and eventid=?`;
 
     queries.push({ query, params: [data.eventname, data.description, data.activity, data.actor, data.object, data.metadata, parameters.domain, parameters.toolid, data.eventid] });
   });
-  console.log(eventids)
   if (wrongvalues === 0) {
     async.waterfall([
       eventmappingServices.getToolMapping.bind(null, parameters),
@@ -91,7 +86,7 @@ function updateEventMapping(parameters, details, done) {
 
     ], (err, result) => {
       if (err) { logger.error('err', err); return done([400, 'Unexpected Error, or maybe the tool isn\'t integrated yet']); }
-      if (result) console.log(result); return done(undefined, result);
+      if (result) return done(undefined, result);
     });
   } else {
     done([400, 'Required data inputs were not found']);
