@@ -1,10 +1,13 @@
 const jwt = require('jsonwebtoken');
 const async = require('async');
+const logger = require('../../../../logger');
 const config = require('../../../../config').jwtdetails;
 const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher');
 const topic = 'ToolEvents';
-// const community
 
+/*
+* verify token
+*/
 function verifyToken(token, done) {
 
   jwt.verify(token, config.secret, (err, decoded) => {
@@ -15,7 +18,9 @@ function verifyToken(token, done) {
     return done(null, decoded);
   });
 }
-
+/*
+* check the event whether it is subscribed or not
+*/
 function isSubscribed(eventPayLoad, token,  done) {
   let count = 0;
   token.events.forEach((data) => {
@@ -27,7 +32,9 @@ function isSubscribed(eventPayLoad, token,  done) {
   if(count !== 1) {return done('not subscribed')}
 
 }
-
+/*
+* publish the event on topic
+*/
 function publishEventToTopic(token, eventPayLoad, done) {
 
 async.waterfall([
