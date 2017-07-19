@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const async = require('async');
 const config = require('../../../../config').jwtdetails;
 const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher');
-const topic = 'toolEvents';
+const topic = 'ToolEvents';
 // const community
 
 function verifyToken(token, done) {
