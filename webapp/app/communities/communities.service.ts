@@ -10,7 +10,7 @@ export class CommunitiesService {
 		.map(response => response.json());
 	}
 	selectTools(domain){
-		return this.http.get('api/v1/communitytools/'+domain+'/tools')
+		return this.http.get('api/v1/communitytools/'+domain)
 		.map(response => response.json());
 	}
 }
