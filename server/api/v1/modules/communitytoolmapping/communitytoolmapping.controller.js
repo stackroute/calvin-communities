@@ -87,7 +87,7 @@ function updateEventMapping(parameters, details, done) {
     async.waterfall([
       eventmappingServices.getToolMapping.bind(null, parameters),
       eventmappingServices.updateEventMapping.bind(null, queries),
-      authenticate.bind(null, parameters.domain, parameters.toolid, eventids, done)
+      generateToolToken.bind(null, parameters.domain, parameters.toolid, eventids, done)
 
     ], (err, result) => {
       if (err) { logger.error('err', err); return done([400, 'Unexpected Error, or maybe the tool isn\'t integrated yet']); }

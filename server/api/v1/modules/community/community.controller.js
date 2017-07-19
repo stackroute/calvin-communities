@@ -168,11 +168,10 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
       if (res.length === 0) {
         return async.series([
           communityService.addCommunity.bind(null, values[0]),
-          //roleController.postCommunityRoles.bind(null, community.domain, values[1]),
+          roleController.postCommunityRoles.bind(null, community.domain, values[1]),
          postTools.bind(null, community.domain, values[2]),
-        //  toolsController.postCommunityTools.bind(null, values[2], community.domain),
-          //membershipController.addMembersToCommunity.bind(null,
-           // community.domain, [values[3]]),
+          membershipController.addMembersToCommunity.bind(null,
+            community.domain, [values[3]]),
         ],
         (error, result) => {
           if (error) { logger.debug(error); return done([500, 'Internal server error']); }
