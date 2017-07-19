@@ -80,7 +80,7 @@ services:
       - 'npm run svc.tool'
 
   calvin-toolsink:
-    image: tool
+    image: toolsink
     build:
       context: ./
       dockerfile: Dockerfile
