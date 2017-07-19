@@ -16,13 +16,14 @@ export class SocketService {
     }
 
     public send(message: any): void {
-        this.socket.emit('message', message);
+        this.socket.emit('message', {message:"hai"});
     }
 
     public get() {
         let observable = new Observable(observer => {
-            this.socket.on('notification', (data) => {
-                observer.next(data);
+            this.socket.on('communityEvent', (data) => {
+                console.log("----->",JSON.parse(data));
+                observer.next(JSON.parse(data));
             });
             return () => {
                 this.socket.disconnect();

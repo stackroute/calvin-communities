@@ -1,5 +1,14 @@
-<div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
-  <div fxFlex="60%" *ngFor="let message of notifications" fx-flex-fill>
-    {{message}}
+<md-card>
+<div>
+  <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+    <div>
+      <h2>Notifications ( {{notifications.length}} )</h2>
+    </div>
+  </div>
+  <div *ngFor="let message of notifications" fx-flex-fill>
+    <md-card>
+    <p>{{message.domain}}-{{message.event}}</p>
+    </md-card>
   </div>
 </div>
+</md-card>

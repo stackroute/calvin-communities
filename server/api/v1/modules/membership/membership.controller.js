@@ -93,7 +93,7 @@ function userCommunityDetails(domainName, data, done) {
       if (err) {
         done(err);
       }
-      publishMessageforMemberCounter(domainName, count);
+      publishMessageforMemberCounter(domainName, count,data);
       return done(undefined, { message: 'Inserted' });
     });
   } else {
@@ -129,7 +129,7 @@ function removeMemberFromCommunity(domainName, data, done) {
         if (err) {
           done(err);
         }
-        publishMessageforMemberCounterDecrement(domainName, data.length);
+        publishMessageforMemberCounterDecrement(domainName, data.length,data);
         return done(undefined, { message: 'Deleted' });
       });
     }
@@ -138,8 +138,8 @@ function removeMemberFromCommunity(domainName, data, done) {
 }
 
 
-function publishMessageforMemberCounter(domainname, count) {
-  let message = { domain: domainname, event: 'newmemberadded', body: count };
+function publishMessageforMemberCounter(domainname, count,data) {
+  let message = { domain: domainname, event: 'newmembersadded', body: count , members: data};
   console.log('count', count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -151,8 +151,8 @@ function publishMessageforMemberCounter(domainname, count) {
   });
 }
 
-function publishMessageforMemberCounterDecrement(domainname, count) {
-  let message = { domain: domainname, event: 'removemember', body: count };
+function publishMessageforMemberCounterDecrement(domainname, count ,data) {
+  let message = { domain: domainname, event: 'removemembers', body: count , members : data};
   console.log('count decrement', count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {

@@ -19,7 +19,9 @@
     "svc.tool": "node server/tools.service",
     "svc.member": "node server/member.service",
     "svc.memberrequests": "node server/memberrequests.service",
-    "svc.toolsink": "node server/toolsink.service"
+    "svc.toolsink": "node server/toolsink.service",
+    "svc.notification":"node server/notifications.service",
+    "svc.toolevents":"node server/toolevents.service"
   },
   "private": true,
   "dependencies": {
@@ -58,6 +60,7 @@
     "ng2-charts": "^1.6.0",
     "ng2-nvd3": "^2.0.0-rc3",
     "nvd3": "^1.8.5",
+    "redis": "^2.7.1",
     "rxjs": "^5.1.0",
     "socket.io": "^2.0.3",
     "typescript": "^2.2.2",
