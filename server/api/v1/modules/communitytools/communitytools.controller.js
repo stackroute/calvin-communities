@@ -8,7 +8,7 @@ const toolmappingcontroller = require('../communitytoolmapping/communitytoolmapp
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 const logger = require('../../../../logger');
 
-function publishMessageToTopic(dataFromBody, dataFromURI) {
+function publishMessageToTopic(dataFromURI, dataFromBody) {
   // console.log('inside publish');
   let message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool' };
   message = JSON.stringify(message);
@@ -33,6 +33,7 @@ function publishMessageToTopics(domainAndTool) {
     }
   });
 }
+
 // Function for Getting tools
 
 function getTools(domainName, done) {
@@ -154,6 +155,7 @@ function postCommunityTool(parameters, body, done) {
         logger.debug('an error occured', error);
         return done([500, error[1]]);
       }
+
       return done(undefined, result[1]);
     })
 
