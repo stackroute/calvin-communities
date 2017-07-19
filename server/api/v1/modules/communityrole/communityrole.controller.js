@@ -65,11 +65,13 @@ function postRoles(domainName, postedData, count, done) {
     communityRoleService.postCommunityRoles(domainName, postedData, (err) => {
       if (err) {
         done(err);
+        return;
       }
       return done(undefined, { message: 'Added' });
     });
   } else {
     done({ error: 'entry already exists' }, undefined);
+    return;
   }
 }
 function postCommunityRoles(domainName, postedData, done) {

@@ -12,7 +12,7 @@ module.exports = function (topicNameArray, consumerOptions, callback) {
   // console.log(callback);
   const consumerTopics = topicNameArray.map(topic => ({ topic }));
   console.log('Registering for topics ', consumerTopics);
-
+  console.log('working');
   const client = new kafka.Client();
   const consumer = new Consumer(client, consumerTopics, consumerOptions);
 

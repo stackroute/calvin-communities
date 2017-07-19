@@ -1,7 +1,5 @@
- <md-card>
-      <md-card-title>Updates </md-card-title>
-      <md-card-content flex layout="row" >
-      
-      </md-card-content>
-    </md-card>
-
+<div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div fxFlex="60%" *ngFor="let message of notifications" fx-flex-fill>
+    {{message}}
+  </div>
+</div>
