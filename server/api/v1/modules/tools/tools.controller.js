@@ -47,22 +47,13 @@ function PublishEventWhenToolDeleted(domainname, count) {
 
 function postTools(dataFromBody, domainName, done) {
   let count = 0;
-  dataFromBody.forEach((data) => {
-    if (data.toolId && domainName) {
-      if (data.toolId !== null && domainName !== null) {
-        count += 1;
-      } else {
-        count += 0;
-      }
-    }
-  });
-  // console.log(count === dataFromBody.length);
-  if (count === dataFromBody.length) {
+    if (dataFromBody.toolId && domainName) {
+      if (dataFromBody.toolId !== null && domainName !== null) {
     ToolService.addTools(dataFromBody, domainName, done);
-    PublishEventWhenToolAdded(domainName, 3);
-  } else {
-    return done({ error: 'please enter all fields' }, undefined);
-  }
+    //PublishEventWhenToolAdded(domainName, 1);
+    }
+}
+  // console.log(count === dataFromBody.length);
   return null;
 }
 
