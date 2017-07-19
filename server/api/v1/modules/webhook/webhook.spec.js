@@ -8,17 +8,16 @@ const postdata = {
   'toolId': 'github',
   'eventId': 'Create a new post',
 };
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb21haW4iOiJzb3Ntd2Vkc29td2Rzc3Nzc2Rhc2luIiwidG9vbGlkIjoic29tZGVpZGRkczEiLCJldmVudHMiOlsiZXZpZCIsImV2aWQyIl0sImlhdCI6MTUwMDQ2NTY4Nn0.Vcx1Tcd-I4wTG1zyYxuApFQJesjn5Wb5KKGygztg3Zk';
 describe('publish the event', function() {
-  token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb21haW5OYW1lIjoiZGlnaXRhbCIsInRvb2xJZCI6ImRpc2NvdXJzZSIsInVzZXJuYW1lIjoiY2VhbnN0YWNrZGV2QGdtYWwuY29tIn0.2lqcZGRuvJZqRVWLMoYijIbmEXMIkIkZ51BIAoxTpxY";
   it('token should be verified', function(done) {
     request
       .post(`/api/v1/webhooks/${token}`)
-      .send(postdata)
       .end(function(err, result) {
         if (err) {
           done(err);
         }
-        result.should.be.equal('verified token');
+        result.should.be.equal(postdata);
         done();
       });
   })
