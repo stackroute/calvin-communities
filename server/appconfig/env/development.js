@@ -26,9 +26,15 @@ const loggerConfig = { // config for log4js
    }],
  };
 
+ const jwtdetails = {
+    secret: 'wave18@stackroute',
+    expiryTime: 60 * 500,
+  }
+
 module.exports = {
    connectionString,
    loggerConfig,
    options,
    client,
+   jwtdetails,
  };

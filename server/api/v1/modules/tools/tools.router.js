@@ -45,6 +45,8 @@ router.get('/', (req, res) => {
   } catch (err) {
     return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
+  return null;
 });
 
 module.exports = router;
+

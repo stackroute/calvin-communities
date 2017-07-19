@@ -8,7 +8,7 @@ module.exports = function member(eventMessage) {
 
 
   // For member adding when invite accepted or request
-
+if(eventMessage.type = 'inviteaccepted')
   const arr = [];
   arr.push({
     username: eventMessage.personemail,

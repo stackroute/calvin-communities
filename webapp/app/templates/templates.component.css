@@ -1,0 +1,73 @@
+
+md-card {
+	margin: 10px;
+}
+
+
+.list-communities
+{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+/*
+.tools{
+    margin-left: 60px;
+}
+
+.roles{
+    margin-left:-10px;
+}*/
+
+.height {
+  height: 300px;
+}
+.chip
+{
+    padding-right: 2%;
+    padding-top: 5px;
+
+}
+.chiprole
+{
+ padding-right: 2%;
+padding-top: 5px;
+   
+   
+}
+.chipsrole
+{
+   background:#FBFCFC;
+   color:#2C3E50;
+}
+.chips
+{
+ background:#FBFCFC;
+   color:#2C3E50  ;
+}
+.roles
+{
+      padding-top: 10px;
+}
+.chiptool
+{
+    padding-right: 2%;
+    padding-top: 5px;
+}
+.tools
+{
+  padding-top: 10px;
+}
+.example-form {
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+.end{
+    margin-top: 5px;
+    color:#2C3E50
+}
+a{
+    cursor:pointer;
+}

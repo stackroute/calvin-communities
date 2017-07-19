@@ -1,22 +1,48 @@
 const toolSinkService = require('../../api/v1/modules/communitytools/communitytools.controller');
+const registerPublisherService = require('../../common/kafkaPublisher');
+const logger = require('../../logger.js');
+const model = require('cassandra-driver');
+
+const connectionString = require('../../config').connectionString;
+
+const COMMUNITY_TOOL_TABLE = 'communitytooleventmap';
+
+// Connecting to cassandra
+
+const client = new model.Client({
+  contactPoints: [connectionString.contact],
+  protocolOptions: { port: connectionString.port },
+  keyspace: connectionString.keyspace,
+});
 module.exports = function(eventMessage) {
-  console.log('toolsink consumed the event: ', eventMessage);
-  // console.log(eventMessage.type);
-    toolSinkService.checkTool(eventMessage.tools, eventMessage.domain, (err, res) => {
-      console.log('Registered tool successfully');
-      if(!err) {
-      toolSinkService.getTools(eventMessage.tools, eventMessage.domain), (error, result) => {
-      	if(!error) {
-      		console.log(result);
-      	} else {
-      		console.log(error);
-      	}
-      }
+
+  logger.debug('toolsink consumed the event: ', eventMessage);
+  const query = ('SELECT * FROM ' + COMMUNITY_TOOL_TABLE + ' where domain = ? and toolid = ?');
+  return client.execute(query, [eventMessage.domain, eventMessage.toolid], (err, res) => {
+    if (err) {
+      logger.debug('Internal Server Error');
     } else {
-    	console.log(err);
+      let message = {
+        domain: res.rows[0].domain,
+        toolid: res.rows[0].toolid,
+        activitytype: res.rows[0].activity,
+        actortype: res.rows[0].actor,
+        objecttype: res.rows[0].object,
+        timestamp: Date.now(),
+        payload: eventMessage,
+        refid: "Reference for community to know about the event it published, used for internal purpose"
+      };
+      message = JSON.stringify(eventMessage);
+      logger.debug("sending message", message);
+      registerPublisherService.publishToTopic('CommunityActvityEvents', message, (err, res) => {
+        if (err) {
+          logger.debug('error occured', err);
+        } else if (res) {
+          logger.debug('result is here', message);
+        }
+      });
     }
-    });
+
+  })
 
 };
-
-
