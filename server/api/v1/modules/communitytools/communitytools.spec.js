@@ -274,13 +274,13 @@ describe('Test cases for tools of a community', () => {
   // patch data in database
   it('should show failure message when domain does not exist n database', (done) => {
     request(app)
-      .patch(`${uri}dummyval/tools/${value.patch.tool}`)
+      .patch(`${uri}dummyvalssa/tools/${value.patch.tool}`)
       .send(value.updatetools)
       .end((error, results) => {
         if (!error) {
-          client.execute(`SELECT * from communitytools where domain='dummyval' and toolid = '${value.patch.tool}'`, (err, result) => {
+          client.execute(`SELECT * from communitytools where domain='dummyvalssa' and toolid = '${value.patch.tool}'`, (err, result) => {
             if (!err) {
-              console.log('Result from testcase', result.rows.length);
+              console.log('Result from testcase', result.rows);
               result.rows.length.should.deep.equal(0);
               return done();
             } else {
@@ -293,7 +293,7 @@ describe('Test cases for tools of a community', () => {
       });
     return null;
   });
-  /*
+ 
      // patch data in database
      it('should show failure message when tool does not exist n database', (done) => {
        request(app)
@@ -316,7 +316,7 @@ describe('Test cases for tools of a community', () => {
          });
        return null;
      });
-
+ /*
      //  Delete an action from table
      it('should delete action for a given domain and tool name', (done) => {
        request(app)
