@@ -25,6 +25,7 @@
           <md-list>
             <md-list-item *ngFor="let tool of communityTools.tools">
               <!-- <md-icon md-list-icon>keyboard_arrow_right</md-icon> -->
+              <img md-card-avatar src={{tool.avatar}}>
               <h4 md-line>{{tool.toolid}}</h4>
             </md-list-item>
             <md-divider></md-divider>

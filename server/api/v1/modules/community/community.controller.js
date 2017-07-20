@@ -13,7 +13,17 @@ const logger = require('../../../../logger');
 * Publisher Topic code for counter service
 */
 function publishCommunityCreatedData(data) {
-  message = JSON.stringify({ domain: data.domain, value: data, type: 'add' ,event:'newcommunitycreated'});
+  message = JSON.stringify({
+    domain: data.domain,
+    name: data.name,
+    avatar: data.avatar,
+    purpose: data.purpose,
+    template: data.template,
+    owner: data.owner,
+    type: 'add',
+    event:'newcommunityadded',
+    ts: Date.now()
+  });
 
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
