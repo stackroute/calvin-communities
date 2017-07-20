@@ -77,8 +77,9 @@ function getAvatarDetails(arr, done) {
  */
 
 function userCommunityDetails(domainName, data, done) {
+  console.log('user communities here')
   let count = 0;
-  console.log(data, "here is the data--------------<<<<<");
+  if(data) {
   data.forEach((values) => {
     if (domainName && values.username && values.role) {
       if (domainName !== null && values.username !== null && values.role !== null) {
@@ -93,11 +94,13 @@ function userCommunityDetails(domainName, data, done) {
       if (err) {
         done(err);
       }
+      console.log("BEFORE GOING SOMEWHERE")
       publishMessageforMemberCounter(domainName, count,data);
       return done(undefined, { message: 'Inserted' });
     });
   } else {
     return done({ error: 'please enter all required fields' }, undefined);
+  }
   }
   return null;
 }
@@ -139,9 +142,17 @@ function removeMemberFromCommunity(domainName, data, done) {
 
 
 function publishMessageforMemberCounter(domainname, count,data) {
-  let message = { domain: domainname, event: 'newmembersadded', body: count , members: data};
+  console.log('reached SOME PLACE')
+  console.log("------->", data);
+  let newData = [];
+  data.forEach((db) => {
+    newData.push({member: db.username, role: db.role});
+  })
+
+  let message = { domain: domainname, event: 'newmembersadded', body: count , members: newData, ts: Date.now()};
   console.log('count', count);
   message = JSON.stringify(message);
+  console.log(message,"<-----------")
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);

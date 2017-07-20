@@ -104,12 +104,7 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
  *POST Method- Publish a event
  */
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  console.log(dataFromBody, "body data")
-  let members = [];
-  dataFromBody.forEach((member) => {
-    members.push({ member: member.username, role: member.role})
-  })
-  let message = { domain: dataFromURI, members: members, type: 'add' ,event:'newmembersadded', ts: Date.now()};
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' ,event:'memberadded'};
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -120,7 +115,6 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
     }
   });
 }
-
 // /*
 //  *PATCH Method- Publish a event
 //  */
