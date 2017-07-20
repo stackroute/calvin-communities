@@ -55,7 +55,8 @@ function getCommunityTool(data, done) {
 }
 
 function postCommunityTool(body, done) { // eslint-disable-line consistent-return
-  if (!_.has(body, 'toolname') || !_.has(body, 'avatar') || !_.has(body, 'toolurl') || !_.has(body, 'purpose') ||
+  if (_.isEmpty(body.toolname) ||  _.isEmpty(body.toolurl) || _.isEmpty(body.purpose) ||
+    !_.has(body, 'toolname') || !_.has(body, 'avatar') || !_.has(body, 'toolurl') || !_.has(body, 'purpose') ||
     !_.has(body, 'actions') || !_.has(body, 'domain') || !_.has(body, 'toolId')) {
     return done([400, 'Required Data Not Provided']);
   }

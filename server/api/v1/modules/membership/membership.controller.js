@@ -78,7 +78,7 @@ function getAvatarDetails(arr, done) {
 
 function userCommunityDetails(domainName, data, done) {
   let count = 0;
-  console.log(data);
+  console.log(data, "here is the data--------------<<<<<");
   data.forEach((values) => {
     if (domainName && values.username && values.role) {
       if (domainName !== null && values.username !== null && values.role !== null) {
