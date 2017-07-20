@@ -13,18 +13,19 @@ const logger = require('../../../../logger');
 * Publisher Topic code for counter service
 */
 function publishCommunityCreatedData(data) {
+  console.log(data)
   message = JSON.stringify({
-    domain: data.domain,
-    name: data.name,
-    avatar: data.avatar,
-    purpose: data.purpose,
-    template: data.template,
-    owner: data.owner,
+    domain: data[0].domain,
+    name: data[0].name,
+    avatar: data[0].avatar,
+    purpose: data[0].purpose,
+    template: data[0].template,
+    owner: data[0].owner,
     type: 'add',
     event:'newcommunityadded',
     ts: Date.now()
   });
-
+console.log(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);

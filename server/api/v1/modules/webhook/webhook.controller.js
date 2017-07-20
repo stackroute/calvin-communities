@@ -15,6 +15,7 @@ function verifyToken(token, done) {
       // logger.debug('error', err);
       return done(err);
     }
+    console.log(decoded)
     return done(null, decoded);
   });
 }
@@ -22,6 +23,8 @@ function verifyToken(token, done) {
 * check the event whether it is subscribed or not
 */
 function isSubscribed(eventPayLoad, token,  done) {
+  console.log(eventPayLoad);
+  console.log("ddd token",token);
   let count = 0;
   token.events.forEach((data) => {
     if(data === eventPayLoad.eventid) {
@@ -43,8 +46,10 @@ async.waterfall([
     publishEvent.publishToTopic.bind(null, topic)
   ], (err, res) => {
     if (err) {
+      console.log(err);
       return done();
     }
+    console.log(res)
     return done();
   });
 }
