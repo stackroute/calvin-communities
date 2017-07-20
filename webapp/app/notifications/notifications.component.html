@@ -7,7 +7,9 @@
   </div>
   <div class="content">
   <div *ngFor= " let message of notifications" fx-flex-fill>
-    
+    <div *ngIf="message.event === 'newcommunityadded'">
+    <p>{{message.domain}} Community is Created</p>
+    </div>
     <div *ngIf="message.event === 'memberadded'">
     <p>A New Member is added to {{message.domain}} Community</p>
     </div> 
@@ -23,9 +25,7 @@
     <div *ngIf="message.event === 'memberdeleted'">
     <p>A Member is deleted from {{message.domain}} Community</p>
     </div>
-    <div *ngIf="message.event === 'newcommunitycreated'">
-    <p>{{message.domain}} Community is Created</p>
-    </div>
+    
    </div>
   </div>
 </div>
