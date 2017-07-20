@@ -36,7 +36,7 @@ function isSubscribed(eventPayLoad, token,  done) {
       count += 1;
     }
   })
-  const stringified = JSON.stringify(eventPayLoad)
+  //const stringified = JSON.stringify(eventPayLoad)
   console.log("stringified", stringified)
   if(count === 1) {return done(undefined, stringified)}
   if(count !== 1) {return done('not subscribed')}
