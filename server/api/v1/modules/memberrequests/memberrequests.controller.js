@@ -43,7 +43,7 @@ function publishMessageforRequest(domainname, count,dataFromBody) {
 }
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
-  let message = { personemail: person, domainname: domain, roleforperson: role, type: 'inviteaccepted' };
+  let message = { personemail: person, domainname: domain, roleforperson: role, event: 'inviteaccepted' };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
