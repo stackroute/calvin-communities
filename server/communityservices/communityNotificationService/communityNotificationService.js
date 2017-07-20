@@ -1,6 +1,15 @@
 const redis = require('redis');
-const client = redis.createClient();
+let redisClient = undefined;
+const rediss = require('./../../config').redis;
 
-module.exports = function (eventMessage) { 
-    client.publish('notification', eventMessage);
+module.exports = function (eventMessage) {
+
+     if (!redisClient) {
+    redisClient = redis.createClient({
+      host: rediss.host,
+      port: rediss.port
+    });
+  }
+   
+    redisClient.publish('notification', JSON.stringify(eventMessage));
 }

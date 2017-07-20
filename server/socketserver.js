@@ -1,10 +1,21 @@
 let io  = require('socket.io')();
 const redis = require('redis');
-let redisClient = redis.createClient();
+let redisClient = undefined;
+const config = require('./config').redis;
 
 io.on('connection', (clientSocket) => {
+
+    if (!redisClient) {
+    redisClient = redis.createClient({
+      host: config.host,
+      port: config.port
+    });
+  }
+
   //Subscribe to redis channel on a client connection
   redisClient.subscribe('notification');
+
+
   
   redisClient.on('message', (channel, message) => {
     clientSocket.emit('communityEvent', message);
