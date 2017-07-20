@@ -31,10 +31,7 @@ function getToolMapping(details, done) {
   client.execute(query, (err, result) => {
     if (err) { logger.error('Error posting event details', err); return done([500, 'Unexpected error occured']); }
     if (!_.isEmpty(result.rows)) {
-      let data;
-      if (result.rows.length === 1) data = [result.rows];
-      else data = result.rows;
-
+      const data = result.rows;
       data.forEach((index) => {
         events.push({
           eventid: index.eventid,
