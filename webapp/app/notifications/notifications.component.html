@@ -1,14 +1,31 @@
-<md-card>
+<md-card overflow-y="none">
 <div>
   <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
     <div>
       <h2>Notifications ( {{notifications.length}} )</h2>
     </div>
   </div>
-  <div *ngFor="let message of notifications" fx-flex-fill>
-    <md-card>
-    <p>{{message.domain}}-{{message.event}}</p>
-    </md-card>
+  <div *ngFor= " let message of notifications" fx-flex-fill>
+    
+    <div *ngIf="message.event === 'memberadded'">
+    <p>A New Member is added to {{message.domain}} Community</p>
+    </div> 
+    <div *ngIf="message.event === 'newinvitees'">
+    <p>A New Member is invited to {{message.domain}} Community</p>
+    </div>
+    <div *ngIf="message.event === 'rejectinvitees'">
+    <p>The invited Member rejected the invite from {{message.domain}} Community</p>
+    </div> 
+    <div *ngIf="message.event === 'rolemodifiedformember'">
+    <p>Role Modified for the Member in  {{message.domain}} Community</p>
+    </div>
+    <div *ngIf="message.event === 'memberdeleted'">
+    <p>A Member is deleted from {{message.domain}} Community</p>
+    </div>
+    <div *ngIf="message.event === 'newcommunitycreated'">
+    <p>{{message.domain}} Community is Created</p>
+    </div>
+   
   </div>
 </div>
 </md-card>

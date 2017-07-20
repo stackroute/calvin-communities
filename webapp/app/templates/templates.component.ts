@@ -16,6 +16,8 @@ getResults=[];
 getPurpose=[];
 counter=[];
 domains;
+singular = ' Community ';
+plural = ' Communities ';
 getpurpose;
   constructor(private TemplateService : TemplatesService,private route: ActivatedRoute, private router: Router )
   {

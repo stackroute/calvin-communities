@@ -104,7 +104,7 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
  *POST Method- Publish a event
  */
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' ,event:'newmemberadded'};
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' ,event:'memberadded'};
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {

@@ -57,7 +57,8 @@
         </div>
         </md-chip-list>
         <div fxLayoutAlign="end" class="end">
-        <a (click)="redirect(data.name, data1.value)">{{data1.value}} Communities</a>
+        <a *ngIf="data1.value <= 1" (click)="redirect(data.name, data1.value)">{{data1.value}} {{singular}}</a>          
+        <a *ngIf="data1.value > 1" (click)="redirect(data.name, data1.value)">{{data1.value}} {{plural}}</a>
         </div>
       </md-card>
       </div>  

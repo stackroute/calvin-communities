@@ -11,7 +11,7 @@ import {SocketService} from './socket.service';
 export class NotificationsComponent {
     private notifications: any[];
     private ioConnection: any;
-   
+    //private count = 0;
 
     constructor(private socketService: SocketService) {}
 
@@ -21,9 +21,15 @@ export class NotificationsComponent {
     }
     
     private initIoConnection() {
-        this.ioConnection = this.socketService.get().subscribe((newNotification) => {
+        this.ioConnection = this.socketService.get().subscribe((newNotification) => {  
             this.notifications.unshift(newNotification);
-            });
-        
+     });
+    // this.notifications.forEach((data) => {
+    // if(data.event === 'memberadded')
+    // {
+    //     console.log(this.count,"his")
+    //     this.count++;
+    // }
+    // });
     }
 }
