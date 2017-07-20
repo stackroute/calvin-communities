@@ -12,7 +12,7 @@ function verifyToken(token, done) {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      logger.debug('error', err);
+      // logger.debug('error', err);
       return done(err);
     }
     return done(null, decoded);

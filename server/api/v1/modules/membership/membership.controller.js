@@ -12,7 +12,6 @@ const async = require('async');
  */
 
 function getCommunityList(username, done) {
-  logger.debug("hello");
   async.waterfall([
     memberCommunityList.bind(null, username),
     getAvatarDetails.bind(null)
