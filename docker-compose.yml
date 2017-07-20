@@ -111,6 +111,7 @@ services:
       - calvin-cassandra
       - calvin-zookeeper
       - calvin-kafka
+      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
