@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const controller = require('./memberrequests.controller');
 
+const logger = require('../../../../logger');
 /*
  * Effective URI of the API is GET /memberrequests/:domain
  *
@@ -40,13 +41,15 @@ router.get('/:domain', (req, res) => {
 
 router.post('/:domain/type/:type', (req, res) => {
   try {
+logger.debug("router try", req.body);
     const dataFromBody = req.body;
     const dataFromParams = req.params.domain;
     const type = req.params.type;
-    controller.InsertData(dataFromBody, dataFromParams, type, (err) => {
+    controller.InsertData(dataFromBody, dataFromParams, type, (err, results) => {
       if (err) {
         return res.status(400).send(err);
       }
+      logger.debug("router results", results);
       return res.status(201).send({ message: 'Inserted' });
     });
   } catch (err) {

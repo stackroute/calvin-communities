@@ -76,9 +76,7 @@ function getToolsForDeletion(domainName, value, done) {
 
 function addTools(data, domain, done) {
   // console.log('inside tools reverse');
-  let query;
-
-    query = (`update ${TOOL_TABLE} set domains = domains + {'${domain.toLowerCase()}'}, avatar= '${val.avatar}', toolname = '${val.toolname.toLowerCase()}'  where toolid='${val.toolId.toLowerCase()}';`);
+  const query = (`update ${TOOL_TABLE} set domains = domains + {'${domain.toLowerCase()}'}, avatar= '${data.avatar}', toolname = '${data.toolName.toLowerCase()}'  where toolid='${data.toolId.toLowerCase()}';`);
 
   return client.execute(query, (err) => {
     if (!err) {
