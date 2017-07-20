@@ -1,10 +1,11 @@
 <md-card overflow-y="none">
-<div>
+<div >
   <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
     <div>
-      <h2>Notifications ( {{notifications.length}} )</h2>
+      <h2>Notifications <!-- ( {{notifications.length}} ) --></h2>
     </div>
   </div>
+  <div class="content">
   <div *ngFor= " let message of notifications" fx-flex-fill>
     
     <div *ngIf="message.event === 'memberadded'">
@@ -25,7 +26,7 @@
     <div *ngIf="message.event === 'newcommunitycreated'">
     <p>{{message.domain}} Community is Created</p>
     </div>
-   
+   </div>
   </div>
 </div>
 </md-card>

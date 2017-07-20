@@ -1,3 +1,11 @@
 .top-gap {
 	margin-top: 60px;
 }
+
+.content{
+   max-height: 500px;
+   overflow-y:auto;
+}
+.content::-webkit-scrollbar {
+  display: none;
+}
