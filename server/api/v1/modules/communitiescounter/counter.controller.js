@@ -1,5 +1,4 @@
 const counterservice = require('./counter.service');
-console.log("counter controiller");
 const eventregistry = {
   'newmembersadded': counterservice.incrementmember,
   'newtoolsadded': counterservice.incrementtools,
