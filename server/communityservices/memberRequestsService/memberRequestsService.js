@@ -4,10 +4,11 @@ const ctrl = require('../../api/v1/modules/communitymembership/communitymembersh
 module.exports = function member(eventMessage) {
   logger.debug('Got a new member added ', eventMessage);
 
-  logger.debug('event', eventMessage.domainname);
+  logger.debug('event', eventMessage.domain);
 
 
   // For member adding when invite accepted or request
+
 if(eventMessage.type = 'inviteaccepted')
 {
   const arr = [];
@@ -15,7 +16,7 @@ if(eventMessage.type = 'inviteaccepted')
     username: eventMessage.personemail,
     role: eventMessage.roleforperson,
   });
-  ctrl.addMembersToCommunity(eventMessage.domainname, arr, (err, res) => {
+  ctrl.addMembersToCommunity(eventMessage.domain, arr, (err, res) => {
     if (!err) {
       logger.debug('check for the communitymembership table whether he is added', res);
     }
