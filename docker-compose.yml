@@ -129,3 +129,10 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+  calvin-redis:
+   image: smebberson/alpine-redis
+   network_mode: host
+   restart: always
+   expose:
+    - 6379
