@@ -75,8 +75,10 @@ select(val) {
       })
   }
  //  console.log(this.getResults);
- redirect(template: string) {
+ redirect(template: string, count) {
+   if(count !== 0) {
    this.router.navigate(['/templates/communities/'+ template])
+   }
  }
 
 }
