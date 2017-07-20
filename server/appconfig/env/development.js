@@ -16,6 +16,11 @@ const connectionString = { // config for cassandra
    port: '9042',
  };
 
+ const redis = {
+  host: process.env.REDIS_HOST || '127.0.0.1',
+  port: process.env.REDIS_PORT || 6379
+};
+
 const loggerConfig = { // config for log4js
    appenders: [{
      type: 'console',
@@ -37,4 +42,5 @@ module.exports = {
    options,
    client,
    jwtdetails,
+   redis
  };
