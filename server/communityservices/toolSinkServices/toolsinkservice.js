@@ -30,7 +30,7 @@ module.exports = function(eventMessage) {
         objecttype: res.rows[0].object,
         timestamp: Date.now(),
         payload: eventMessage,
-        refid: "Reference for community to know about the event it published, used for internal purpose"
+        //refid: "Reference for community to know about the event it published, used for internal purpose"
       };
       message = JSON.stringify(message);
       logger.debug("sending message", message);

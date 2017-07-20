@@ -11,7 +11,7 @@ module.exports = [{
     toolName: 'Forum',
     purpose: 'Discussions',
     avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
-    toolurl: 'www.forum.org',
+    toolurl: 'http://www.forum.org',
     actions: ['postmessage', 'read', 'Likemessage', 'edit', 'share'],
     events: [{
       eventid: 'id12691189',
@@ -36,7 +36,7 @@ module.exports = [{
     toolName: 'WeMedUp- A Medical Tool',
     purpose: 'Medical',
     avatar: 'http://www.wemedup.com/img/logo.png',
-    toolurl: 'www.wemedup.com',
+    toolurl: 'http://www.wemedup.com',
     actions: ['postmesage', 'read', 'Likemessage'],
     events: [{
       eventid: 'id126911ssx89',
@@ -61,7 +61,7 @@ module.exports = [{
     toolName: 'Sermo- A Tool for Surgeons',
     purpose: 'Medical',
     avatar: 'http://www.worldpharmanews.com/images/logo/sermo.png',
-    toolurl: 'www.sermo.com',
+    toolurl: 'http://www.sermo.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
     events: [{
       eventid: 'id1269rtt1189',
@@ -139,7 +139,7 @@ module.exports = [{
     toolName: 'Forum',
     purpose: 'Discussions',
     avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
-    toolurl: 'www.forum.org',
+    toolurl: 'http://www.forum.org',
     actions: ['postmessage', 'read', 'Likemessage', 'edit', 'share'],
     events: [{
       eventid: 'id12691189',
@@ -164,7 +164,7 @@ module.exports = [{
     toolName: 'WeMedUp- A Medical Tool',
     purpose: 'Medical',
     avatar: 'http://www.wemedup.com/img/logo.png',
-    toolurl: 'www.wemedup.com',
+    toolurl: 'http://www.wemedup.com',
     actions: ['postmessage', 'read', 'Likemessage'],
     events: [{
       eventid: 'id126911ssx89',
@@ -189,7 +189,7 @@ module.exports = [{
     toolName: 'Sermo- A Tool for Surgeons',
     purpose: 'Medical',
     avatar: 'http://www.worldpharmanews.com/images/logo/sermo.png',
-    toolurl: 'www.sermo.com',
+    toolurl: 'http://www.sermo.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
     events: [{
       eventid: 'id1269rtt1189',
@@ -271,7 +271,7 @@ module.exports = [{
     toolName: 'Stackoverflow- A Tool for all needs of a Developer',
     purpose: 'IT',
     avatar: 'https://cdn.sstatic.net/Sites/stackoverflow/company/img/logos/so/so-logo.png?v=9c558ec15d8a',
-    toolurl: 'www.stackoverflow.com',
+    toolurl: 'http://www.stackoverflow.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
     events: [{
       eventid: 'id1269rtt1189',
@@ -304,7 +304,7 @@ module.exports = [{
     toolName: 'The Teacher\'s Corner',
     purpose: 'Teaching',
     avatar: 'https://voxy.com/wp-content/uploads/2016/05/Teachers-Corner-Header-Image-1.jpg',
-    toolurl: 'www.theteacherscorner.net',
+    toolurl: 'http://www.theteacherscorner.net',
     actions: ['postmesage', 'read', 'Likemessage', 'comment', 'share', 'invitation'],
     events: [{
       eventid: 'id1269rtt1gfd189',
@@ -337,7 +337,7 @@ module.exports = [{
     toolName: 'Github- A World of Repositories',
     purpose: 'IT',
     avatar: 'https://assets-cdn.github.com/images/modules/logos_page/Octocat.png',
-    toolurl: 'www.github.com',
+    toolurl: 'http://www.github.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit', 'upload'],
     events: [{
       eventid: 'id1269rtt1dvb189',
@@ -425,7 +425,7 @@ module.exports = [{
     toolName: 'The Teacher\'s Corner',
     purpose: 'Teaching',
     avatar: 'https://voxy.com/wp-content/uploads/2016/05/Teachers-Corner-Header-Image-1.jpg',
-    toolurl: 'www.theteacherscorner.net',
+    toolurl: 'http://www.theteacherscorner.net',
     actions: ['postmesage', 'read', 'Likemessage'],
     events: [{
       eventid: 'id1269rtt1gfd189',
@@ -458,7 +458,7 @@ module.exports = [{
     toolName: 'Scholastic- A World of Learners',
     purpose: 'Teaching',
     avatar: 'http://www.bookbusinessmag.com/wp-content/uploads/sites/4/2015/08/1.jpg?x19104',
-    toolurl: 'www.scholastic.com',
+    toolurl: 'http://www.scholastic.com',
     actions: ['postmesage', 'read', 'Likemessage', 'edit'],
     events: [{
       eventid: 'id1269rtt1gfd189',
@@ -500,7 +500,7 @@ module.exports = [{
     toolName: 'Forum',
     purpose: 'Discussions',
     avatar: 'http://www.tudiabetes.org/forum/uploads/default/original/3X/3/5/35d47232d1d9cb26dcd2a226952f98137a9080c8.jpg',
-    toolurl: 'www.forum.org',
+    toolurl: 'http://www.forum.org',
     actions: ['postmessage', 'read', 'Likemessage', 'edit'],
     events: [{
       eventid: 'id12691189',
@@ -609,11 +609,11 @@ module.exports = [{
       metadata: 'csnnsvdfdsoiddndgfjfdsoiufcssvknfds',
     }],
   }, {
-    toolId: 'www.creativebloq.com',
+    toolId: 'http://www.creativebloq.com',
     toolName: 'Creative Bloq- Art & design Inspiration',
     purpose: 'Art',
     avatar: 'http://kirileonard.com/wp-content/uploads/2015/06/creative_bloq_logo.png',
-    toolurl: 'www.creativebloq.com',
+    toolurl: 'http://www.creativebloq.com',
     actions: ['postmessage', 'read', 'Likemessage', 'edit', 'share', 'upload'],
     events: [{
       eventid: 'id126911fdfvfbb89',
@@ -668,7 +668,7 @@ module.exports = [{
       toolId: 'calender',
       actions: { bookmark: 'self', add_event: 'self' },
     }, {
-      toolId: 'www.creativebloq.com',
+      toolId: 'http://www.creativebloq.com',
       actions: { edit: 'self', post: 'post_self' },
     }],
   }, {
@@ -677,7 +677,7 @@ module.exports = [{
       toolId: 'calender',
       actions: { edit: 'self', post: 'post_self' },
     }, {
-      toolId: 'www.creativebloq.com',
+      toolId: 'http://www.creativebloq.com',
       actions: { edit: 'self', post: 'post_self' },
     }],
   }, {
@@ -686,13 +686,13 @@ module.exports = [{
       toolId: 'calender',
       actions: { bookmark: 'self', add_event: 'self' },
     }, {
-      toolId: 'www.creativebloq.com',
+      toolId: 'http://www.creativebloq.com',
       actions: { edit: 'self', post: 'post_self' },
     }],
   }, {
     role: 'member',
     toolsActions: [{
-      toolId: 'www.creativebloq.com',
+      toolId: 'http://www.creativebloq.com',
       actions: { edit: 'self', post: 'post_self' },
     }, {
       toolId: 'calender',

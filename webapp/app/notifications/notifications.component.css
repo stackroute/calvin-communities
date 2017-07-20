@@ -9,3 +9,7 @@
 .content::-webkit-scrollbar {
   display: none;
 }
+
+.notifications {
+	text-align: left;
+}
