@@ -22,6 +22,25 @@ services:
       - '9042'
       - 'npm start'
 
+  calvin-notifications:
+    image: notifications
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: always
+    volumes:
+      - ./dockerScripts:/temp/scripts
+    depends_on:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+    entrypoint:
+      -  /temp/scripts/wait-for-service.sh
+      - '0.0.0.0'
+      - '9042'
+      - 'npm run svc.notifications'
+
   calvin-countermgr:
     image: counter
     build:
