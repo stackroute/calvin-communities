@@ -16,7 +16,6 @@ function gettingValuesByDomain(domain, done) {
 
 // Publish the event when invite occured
 function publishMessageforInvite(domainname,count,dataFromBody) {
-  console.log("haaaaaa")
   let message = { domain: domainname, event: 'newinvitees', body: count , invitee : dataFromBody.invitee};
   message = JSON.stringify(message);
   logger.debug("publish invite message" , message);
@@ -43,7 +42,7 @@ function publishMessageforRequest(domainname, count,dataFromBody) {
 }
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
-  let message = { personemail: person, domainname: domain, roleforperson: role, type: 'inviteaccepted' };
+  let message = { personemail: person, domainname: domain, roleforperson: role, event: 'inviteaccepted' };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
