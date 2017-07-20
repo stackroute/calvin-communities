@@ -23,6 +23,11 @@ function verifyToken(token, done) {
 * check the event whether it is subscribed or not
 */
 function isSubscribed(eventPayLoad, token,  done) {
+
+  const stringified = JSON.stringify(eventPayLoad)
+  //Ignore subcribed events for now. (done for demo purpose)
+  return done(undefined, stringified);
+
   console.log(eventPayLoad);
   console.log("ddd token",token);
   let count = 0;
@@ -33,9 +38,8 @@ function isSubscribed(eventPayLoad, token,  done) {
   })
   const stringified = JSON.stringify(eventPayLoad)
   console.log("stringified", stringified)
-  if( count === 1) { return done(undefined, stringified)}
+  if(count === 1) {return done(undefined, stringified)}
   if(count !== 1) {return done('not subscribed')}
-
 }
 /*
 * publish the event on topic
