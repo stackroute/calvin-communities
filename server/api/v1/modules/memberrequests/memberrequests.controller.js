@@ -16,7 +16,6 @@ function gettingValuesByDomain(domain, done) {
 
 // Publish the event when invite occured
 function publishMessageforInvite(domainname,count,dataFromBody) {
-  console.log("haaaaaa")
   let message = { domain: domainname, event: 'newinvitees', body: count , invitee : dataFromBody.invitee};
   message = JSON.stringify(message);
   logger.debug("publish invite message" , message);

@@ -20,7 +20,7 @@ const client = new model.Client({
 
 function getTools(domainName, done) {
   const domainname = domainName.toLowerCase();
-  const query = (`SELECT toolid,actions,createdon,updatedon, toolname, purpose, avatar from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}';`);
+  const query = (`SELECT * from ${COMMUNITY_TOOL_TABLE} WHERE domain='${domainname}';`);
   return client.execute(query, (err, results) => {
     if (!err) {
       // console.log(results.rows);

@@ -31,15 +31,12 @@ getpurpose;
 
                 this.getPurpose.push(data.purpose);
            }
-
           });
           this.getCount();
        });
   }
 
 select(val) {
-
-  console.log(val)
 	this.TemplateService.getAllTemplates(val).subscribe(
 		data =>{
 			this.getResults=data;
@@ -49,7 +46,6 @@ select(val) {
   getCount() {
     let flag = false;
     let count = 0;
-    console.log("result")
     this.TemplateService.selectTemplates()
       .subscribe(p => {
         this.getpurpose = p;
@@ -59,10 +55,7 @@ select(val) {
             this.getpurpose.forEach((template) => {
               this.domains.forEach((domain) => {
                 if (domain.template.toLowerCase() === template.name.toLowerCase()) {
-                  console.log(domain.template)
-                  console.log(template.name)
                   count++;
-                  console.log(count)
                   flag = true;
                 }
               });
