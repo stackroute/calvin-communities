@@ -6,45 +6,72 @@ const registerPublisherService = require('../../../../common/kafkaPublisher');
 
 const communityService = require('./../community/community.controller');
 
+const async = require('async');
 /*
  * Get community Details of a particular member
  */
 
 function getCommunityList(username, done) {
-  const arr = [];
-  membershipService.getCommunityList(username, (error, results) => {
-    if (!error) {
-      results.communityDetails.forEach((data) => {
-        arr.push(data.domain);
-      });
-      communityService.getMultipleCommunities(arr, (err, result) => {
-        const communities = [];
-        if (!err) {
-          const iterate = 0;
-          results.communityDetails.forEach((data) => {
-            result.forEach((values) => {
-              if (values.domain === data.domain) {
-                iterate += 1;
-                communities.push({
-                  domain: values.domain, name: values.name, avatar: values.avatar, role: data.role,
-                });
-                if (iterate = communityDetails.length) {
-                  done(null, communities);
-                }
-              }
-            });
-          });
-        } else {
-          done(err);
-        }
-       /* const usercommunities = {
-          username,
-          communities,*/
-      });
-        // return done(undefined, usercommunities);
+  logger.debug("hello");
+  async.waterfall([
+    memberCommunityList.bind(null, username),
+    getAvatarDetails.bind(null)
+  ], (err, results) => {
+    if (err) {
+      return done(err);
+    } else {
+      return done(undefined, results);
     }
   });
 }
+
+function memberCommunityList(username, done) {
+  logger.debug("memberlist");
+  const arr = [];
+  logger.debug("memberList", username);
+  membershipService.getCommunityList(username, (error, results) => {
+    if (!error) {
+      return done(null, results);
+    } else {
+      return done(err);
+    }
+  });
+}
+
+
+function getAvatarDetails(arr, done) {
+  logger.debug("ArrayDetails", arr);
+  const domains = [];
+  const communities = [];
+  arr.communityDetails.forEach((data) => {
+    domains.push(data.domain);
+  })
+  communityService.getMultipleCommunities(domains, (err, results) => {
+    // logger.debug("communitiesresults", results);
+    logger.debug("arrayresults", arr);
+    if (!err) {
+      arr.communityDetails.forEach((data) => {
+        results.forEach((values) => {
+          if (values.domain === data.domain) {
+            communities.push({
+              domain: values.domain,
+              avatar: values.avatar,
+              roles: data.role
+            });
+          }
+        });
+
+      });
+      const usercommunities = {
+        username: arr.username,
+        communities: communities,
+      }
+      logger.debug("communities", usercommunities);
+      return done(null, usercommunities);
+    }
+  });
+}
+
 
 /*
  * post the community details
@@ -66,7 +93,7 @@ function userCommunityDetails(domainName, data, done) {
       if (err) {
         done(err);
       }
-      publishMessageforMemberCounter(domainName, count);
+      publishMessageforMemberCounter(domainName, count,data);
       return done(undefined, { message: 'Inserted' });
     });
   } else {
@@ -102,7 +129,7 @@ function removeMemberFromCommunity(domainName, data, done) {
         if (err) {
           done(err);
         }
-        publishMessageforMemberCounterDecrement(domainName, data.length);
+        publishMessageforMemberCounterDecrement(domainName, data.length,data);
         return done(undefined, { message: 'Deleted' });
       });
     }
@@ -111,8 +138,8 @@ function removeMemberFromCommunity(domainName, data, done) {
 }
 
 
-function publishMessageforMemberCounter(domainname, count) {
-  let message = { domain: domainname, event: 'newmemberadded', body: count };
+function publishMessageforMemberCounter(domainname, count,data) {
+  let message = { domain: domainname, event: 'newmembersadded', body: count , members: data};
   console.log('count', count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -124,8 +151,8 @@ function publishMessageforMemberCounter(domainname, count) {
   });
 }
 
-function publishMessageforMemberCounterDecrement(domainname, count) {
-  let message = { domain: domainname, event: 'removemember', body: count };
+function publishMessageforMemberCounterDecrement(domainname, count ,data) {
+  let message = { domain: domainname, event: 'removemembers', body: count , members : data};
   console.log('count decrement', count);
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {

@@ -7,20 +7,8 @@ const toolmappingcontroller = require('../communitytoolmapping/communitytoolmapp
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 const logger = require('../../../../logger');
 
-function publishMessageToTopic(dataFromURI, dataFromBody) {
+function publishtools(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool' };
-  message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
-    if (err) {
-      logger.debug('error occured', err);
-    } else if (res) {
-      logger.debug('result is', res);
-    }
-  });
-}
-
-function publishMessageToTopics(domainAndTool) {
-  let message = { domain: domainAndTool, type: 'deletetool' };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -96,7 +84,7 @@ function postCommunityTool(body, done) { // eslint-disable-line consistent-retur
          logger.debug('an error occured', error);
          return done([500, error[1]]);
        }
-
+       publishtools(body.domain, {toolId: body.toolId, avatar: body.avatar, toolName: body.toolname});
        return done(undefined, result[1]);
      });
    });

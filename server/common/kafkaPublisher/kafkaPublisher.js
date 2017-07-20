@@ -10,6 +10,7 @@ function publishToTopic(topic, msgs, callback) {
   // Does the topic exists or not?
 
   producer.on('ready', () => {
+    console.log("payloads of publisher", payloads);
     producer.send(payloads, (err, result) => {
       console.log("published");
       // Close the connection

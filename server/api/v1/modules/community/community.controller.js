@@ -12,10 +12,9 @@ const logger = require('../../../../logger');
 /**
 * Publisher Topic code for counter service
 */
-function publishMessageToTopic(dataFromURI) {
-  let message = { domain: dataFromURI };
-  message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('topic2', message, (err, res) => {
+function publishCommunityCreatedData(data) {
+  message = JSON.stringify(data);
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
     } else {
@@ -176,7 +175,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
         ],
         (error, result) => {
           if (error) { logger.debug(error); return done([500, 'Internal server error']); }
-          publishMessageToTopic(community.domain);
+          publishCommunityCreatedData(result[0]);
           return done(undefined, result[0]);
         });
       } return done([400, 'Domain Already Exists']);

@@ -17,22 +17,22 @@ function getTools(domainName, done) {
 }
 
 // publish event for counter when tool is added
-function PublishEventWhenToolAdded(domainname, count) {
-  let message = { domain: domainname, event: 'newtooladded', body: count };
+function PublishEventWhenToolAdded(domainname, count,dataFromBody) {
+  let message = { domain: domainname, event: 'newtoolsadded', body: count , tools: dataFromBody.toolid };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
-      // logger.debug('error occured', err);
+       logger.debug('error occured', err);
     } else {
-      // logger.debug('result is', res);
+      logger.debug('result is', res);
     }
   });
 }
 
 // publish event for counter when tool is added
-function PublishEventWhenToolDeleted(domainname, count) {
+function PublishEventWhenToolDeleted(domainname, count ,dataFromBody) {
   console.log('hello world');
-  let message = { domain: domainname, event: 'removetool', body: count };
+  let message = { domain: domainname, event: 'removetools', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -47,22 +47,13 @@ function PublishEventWhenToolDeleted(domainname, count) {
 
 function postTools(dataFromBody, domainName, done) {
   let count = 0;
-  dataFromBody.forEach((data) => {
-    if (data.toolId && domainName) {
-      if (data.toolId !== null && domainName !== null) {
-        count += 1;
-      } else {
-        count += 0;
-      }
-    }
-  });
-  // console.log(count === dataFromBody.length);
-  if (count === dataFromBody.length) {
+    if (dataFromBody.toolId && domainName) {
+      if (dataFromBody.toolId !== null && domainName !== null) {
     ToolService.addTools(dataFromBody, domainName, done);
-    PublishEventWhenToolAdded(domainName, 3);
-  } else {
-    return done({ error: 'please enter all fields' }, undefined);
-  }
+    PublishEventWhenToolAdded(domainName, 1,dataFromBody);
+    }
+}
+  // console.log(count === dataFromBody.length);
   return null;
 }
 

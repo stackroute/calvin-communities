@@ -20,7 +20,6 @@ const client = new model.Client({
 
 function array2string(domains) {
   let stringed = "'";
-
   domains.forEach((data) => {
     stringed += `${data.toLowerCase().toString()}','`;
   });
