@@ -42,8 +42,7 @@ function isSubscribed(eventPayLoad, token,  done) {
   eventPayLoad.toolid  = token.toolid;
   const stringified = JSON.stringify(eventPayLoad)
   console.log("stringified", stringified)
-  if(count === 1) {return done(undefined, stringified)}
-  if(count !== 1) {return done('not subscribed')}
+  return done(undefined, stringified)}
 }
 /*
 * publish the event on topic
