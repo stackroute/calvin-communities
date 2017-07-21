@@ -6,8 +6,8 @@ const publishEvent = require('../../../../common/kafkaPublisher/kafkaPublisher')
 const topic = 'ToolEvents';
 
 /*
-* verify token
-*/
+ * verify token
+ */
 function verifyToken(token, done) {
 
   jwt.verify(token, config.secret, (err, decoded) => {
@@ -20,36 +20,36 @@ function verifyToken(token, done) {
   });
 }
 /*
-* check the event whether it is subscribed or not
-*/
-function isSubscribed(eventPayLoad, token,  done) {
+ * check the event whether it is subscribed or not
+ */
+function isSubscribed(eventPayLoad, token, done) {
 
- /* const stringified = JSON.stringify(eventPayLoad)
+  /* const stringified = JSON.stringify(eventPayLoad)
   //Ignore subcribed events for now. (done for demo purpose)
   return done(undefined, stringified);
 */
   console.log(eventPayLoad);
-  console.log("ddd token",token);
- console.log(eventPayLoad , "payload ehre")
- console.log("token here", token);
+  console.log("ddd token", token);
+  console.log(eventPayLoad, "payload ehre")
+  console.log("token here", token);
   let count = 0;
   token.events.forEach((data) => {
-    if(data === eventPayLoad.eventid) {
+    if (data === eventPayLoad.eventid) {
       count += 1;
     }
   })
   eventPayLoad.domain = token.domain;
-  eventPayLoad.toolid  = token.toolid;
+  eventPayLoad.toolid = token.toolid;
   const stringified = JSON.stringify(eventPayLoad)
   console.log("stringified", stringified)
-  return done(undefined, stringified)}
+  return done(undefined, stringified)
 }
 /*
-* publish the event on topic
-*/
+ * publish the event on topic
+ */
 function publishEventToTopic(token, eventPayLoad, done) {
 
-async.waterfall([
+  async.waterfall([
     verifyToken.bind(null, token),
     isSubscribed.bind(null, eventPayLoad),
     publishEvent.publishToTopic.bind(null, topic)
