@@ -40,15 +40,15 @@ for which you need a certain level of infrastructure to run, which are viz;
 2. Install all the dependencies.
 3. Copy Angular Build we did in step 1.
 4. Run 'www' (Backend Code) on port 3000.
-5. Run 'Notifications' service.
-6. Run 'Counter Manager' service.
-7. Run 'Member Reverse Lookup' service.
-8. Run 'Tools Reverse Lookup' service.
-9. Run 'ToolSink Service'.
-10. Run 'Cassandra DB' on port 9042.
-11. Run 'ZooKeeper' on port 2181.
-12. Run 'Kafka' on port 9092.
-13. Run 'Redis DB' on port 6379.
+5. Run 'Cassandra DB' on port 9042.
+6. Run 'ZooKeeper' on port 2181.
+7. Run 'Kafka' on port 9092.
+8. Run 'Redis DB' on port 6379.
+9. Run 'Notifications' service.
+10. Run 'Counter Manager' service.
+11. Run 'Member Reverse Lookup' service.
+12. Run 'Tools Reverse Lookup' service.
+13. Run 'ToolSink Service'.
 
 For Smooth working of your dockerized app, keep above mentioned ports free on your Host Machine 
 OR
@@ -63,7 +63,7 @@ Change the ports for the services in 'docker-compose.yml' as per your need.
 
 Get all the above running on above mentioned ports respectively.
 
-# Steps for Starting all the services Individually.
+# Steps for Running all the services Individually.
 
 ## Starting Node app
 
@@ -71,22 +71,22 @@ Get all the above running on above mentioned ports respectively.
 - This will build & host the Angular Code, Backend APIs along with creating the required Database for our app.
 
 ### Starting Counter Service
-- Run this command to start the node app 'npm run svc.counter'. 
+- Run this command to start Counters Service: 'npm run svc.counter'. 
 
 ### Starting Tool Reverse Lookup Service
-- Run this command to start the node app 'npm run svc.tool'. 
+- Run this command to start Tools Reverse Lookup Sevice: 'npm run svc.tool'. 
 
 ### Starting Member Reverse Lookup Service
-- Run this command to start the node app 'npm run svc.member'. 
+- Run this command to start Members Reverse Lookup Service: 'npm run svc.member'. 
 
 ### Starting Member Requests Service
-- Run this command to start the node app 'npm run svc.memberrequests'. 
+- Run this command to start Member Requests Service: 'npm run svc.memberrequests'. 
 
 ### Starting Toolsink Service
-- Run this command to start the node app 'npm run svc.toolsink'. 
+- Run this command to start ToolSink Service: 'npm run svc.toolsink'. 
 
 ### Starting Notifications Service
-- Run this command to start the node app 'npm run svc.notifications'. 
+- Run this command to start Notifications Service: 'npm run svc.notifications'. 
 
 
 
