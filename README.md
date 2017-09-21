@@ -38,17 +38,17 @@ for which you need a certain level of infrastructure to run, which are viz;
 
 1. Copy all the code.
 2. Install all the dependencies.
-3. Copy Angular Build we did in step 1.
+3. Copy Angular Build we did in step 0.
 4. Run 'www' (Backend Code) on port 3000.
 5. Run 'Cassandra DB' on port 9042.
 6. Run 'ZooKeeper' on port 2181.
 7. Run 'Kafka' on port 9092.
-8. Run 'Redis DB' on port 6379.
+8. Run 'Redis' on port 6379.
 9. Run 'Notifications' service.
 10. Run 'Counter Manager' service.
 11. Run 'Member Reverse Lookup' service.
 12. Run 'Tools Reverse Lookup' service.
-13. Run 'ToolSink Service'.
+13. Run 'ToolSink' Service.
 
 For Smooth working of your dockerized app, keep above mentioned ports free on your Host Machine 
 OR
@@ -59,7 +59,7 @@ Change the ports for the services in 'docker-compose.yml' as per your need.
 - Get Cassandra DB from [here](http://cassandra.apache.org/download/) .
 - Get Apache Zookeeper from [here](https://zookeeper.apache.org/) .
 - Get Apache Kafka from [here](https://kafka.apache.org/downloads) .
-- Get Redis DB from [here](https://redis.io/download) .
+- Get Redis from [here](https://redis.io/download) .
 
 Get all the above running on above mentioned ports respectively.
 
