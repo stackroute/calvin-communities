@@ -1,35 +1,108 @@
-# CalvinCommunities
+# Calvin- Communities 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.3.
 
-## Development server
+## Overview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Calvin- Communities repository has all the backend APIs for 'Calvin- Practitioners Platform' along with Angular based Front-End for Admin Panel.
 
-## Code scaffolding
+The Backend API code & Front-End UI code is in [server] & [webapp] directories respectively.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+also, most of the tasks are implemented as micro-services. 
+for which you need a certain level of infrastructure to run, which are viz;
 
-## Build
+## Prerequisites
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### Git
+- You can find documentation and download git [here][git-home].
+- After Downloading, clone this repository with 'git clone https://github.com/stackroute/calvin-communities'.
+- after cloning, move to branch [dev-wave-18] with 'git checkout -b dev-wave-18'
 
-## Running unit tests
+### Node.js and Tools
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Get [Node.js][node].
+- Install the tool dependencies: `npm install`
 
-## Running end-to-end tests
+### Docker
+- You can download required docker & docker-compose versions from [here](https://www.docker.com),  according to your host system OS.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
 
-## Further help
+# Steps to Dockerize this app
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## step-0 Building angular code
 
-## Command used to generate this project
-Project is originally generated usign Angular CLI, and was added the express part manually
+- Before Dockerizing the App, we need to build the angular code for admin panel with this command  'npm run build'
 
-Below is the command used to generate the code
-`ng new --directory calvinCommunities --source-dir webapp --prefix calvin --routing true --skip-install true calvinCommunities`
+## step-1 dockerizing the app
 
+-  To Dockerize this app including all the services, use command 'docker-compose up' (prefix 'sudo', if required). it will do the following for you :
+
+1. Copy all the code.
+2. Install all the dependencies.
+3. Copy Angular Build we did in step 1.
+4. Run 'www' (Backend Code) on port 3000.
+5. Run 'Notifications' service.
+6. Run 'Counter Manager' service.
+7. Run 'Member Reverse Lookup' service.
+8. Run 'Tools Reverse Lookup' service.
+9. Run 'ToolSink Service'.
+10. Run 'Cassandra DB' on port 9042.
+11. Run 'ZooKeeper' on port 2181.
+12. Run 'Kafka' on port 9092.
+13. Run 'Redis DB' on port 6379.
+
+For Smooth working of your dockerized app, keep above mentioned ports free on your Host Machine 
+OR
+Change the ports for the services in 'docker-compose.yml' as per your need.
+
+# Prerequisites for running all Micro Services Individually.
+
+- Get Cassandra DB from [here](http://cassandra.apache.org/download/) .
+- Get Apache Zookeeper from [here](https://zookeeper.apache.org/) .
+- Get Apache Kafka from [here](https://kafka.apache.org/downloads) .
+- Get Redis DB from [here](https://redis.io/download) .
+
+Get all the above running on above mentioned ports respectively.
+
+# Steps for Starting all the services Individually.
+
+## Starting Node app
+
+- Run this command to start the node app 'npm run serve'. 
+- This will build & host the Angular Code, Backend APIs along with creating the required Database for our app.
+
+### Starting Counter Service
+- Run this command to start the node app 'npm run svc.counter'. 
+
+### Starting Tool Reverse Lookup Service
+- Run this command to start the node app 'npm run svc.tool'. 
+
+### Starting Member Reverse Lookup Service
+- Run this command to start the node app 'npm run svc.member'. 
+
+### Starting Member Requests Service
+- Run this command to start the node app 'npm run svc.memberrequests'. 
+
+### Starting Toolsink Service
+- Run this command to start the node app 'npm run svc.toolsink'. 
+
+### Starting Notifications Service
+- Run this command to start the node app 'npm run svc.notifications'. 
+
+
+
+# Other useful Commands:
+
+```
+  'npm run installdb'    --> Create Keyspaces, Tables etc in Cassandra DB.
+  'npm run truncatedb'   --> Truncate all the data from the database.
+  'npm run coverage'     --> To check the code coverage by your testcaes with help of Istanbul.
+  'npm run testcases'    --> Run all mocha testcases written for the app.
+  'npm run lint'         --> To check all the Lint Errors in your code.
+  'npm run test'         --> To check all the Lint Errors as well as test cases.
+  'npm start'            --> Run only backend API code.
+```
+
+## For detailed information on APIs, please visit our wiki page [here](https://github.com/stackroute/calvin-communities/wiki)
+
+[git-home]: https://git-scm.com/
+[node]: https://nodejs.org/
