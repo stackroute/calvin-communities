@@ -16,6 +16,7 @@ for which you need a certain level of infrastructure to run, which are viz;
 - You can find documentation and download git [here][git-home].
 - After Downloading, clone this repository with 'git clone https://github.com/stackroute/calvin-communities'.
 - after cloning, move to branch [dev-wave-18] with 'git checkout -b dev-wave-18'
+- pull the latest commit code from this branch by using 'git pull origin dev-wave-18'
 
 ### Node.js and Tools
 
