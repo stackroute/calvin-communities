@@ -20,42 +20,49 @@ for which you need a certain level of infrastructure to run, which are viz;
 
 ### Node.js and Tools
 
-- Get [Node.js][node].
+- Get Node v8 or above from here [Node.js][node].
 - Install the tool dependencies: `npm install`
+
+### Angular CLI
+- Install Angular CLI, follow instructuions at https://cli.angular.io
 
 ### Docker
 - You can download required docker & docker-compose versions from [here](https://www.docker.com),  according to your host system OS.
 
+# Deploying or Running the App
+
+You can run the app locally or as a fully dockerized set of containers, below explained how to deploy as a Dockerized set of containers.
 
 # Steps to Dockerize this app
 
+Clone the project locally, ensure all pre-requisites are installed
+
 ## step-0 Building angular code
 
-- Before Dockerizing the App, we need to build the angular code for admin panel with this command  'npm run build'
+- Before Dockerizing the App, we need to build the angular code on the local or host machine
+- Angular code provide Admin panel UI
+- To build the angualr code, please run command `npm run build`
+- once the build is complete, verify if `dist` folder is created, which will have built code and gets baked into docker images in the next steps.
 
-## step-1 dockerizing the app
+## step-1 dockerize the app
 
--  To Dockerize this app including all the services, use command 'docker-compose up' (prefix 'sudo', if required). it will do the following for you :
+- Need to build the docker image for the app
+- To build the image, use command `docker-compose build` (prefix `sudo`, if required)
+- Once the build is completed successfully, run the command `docker images` and see if the new image names you can see as per the image names given in the `docker-compose.yml` file
 
-1. Copy all the code.
-2. Install all the dependencies.
-3. Copy Angular Build we did in step 0.
-4. Run 'www' (Backend Code) on port 3000.
-5. Run 'Cassandra DB' on port 9042.
-6. Run 'ZooKeeper' on port 2181.
-7. Run 'Kafka' on port 9092.
-8. Run 'Redis' on port 6379.
-9. Run 'Notifications' service.
-10. Run 'Counter Manager' service.
-11. Run 'Member Reverse Lookup' service.
-12. Run 'Tools Reverse Lookup' service.
-13. Run 'ToolSink' Service.
+## step-2 run the dockerized app
+- Ensure, ports [`3000`, `9042`, `2181`, `9092`, `6379`] are free on your Host Machine OR change the ports for the services in `docker-compose.yml` as per your need before running the app
+- Use command `docker-compose up` to run the app in foreground and command `docker-compose up -d` to run in background
+- Assuming now the services are up, you can view the logs using command `docker-compose logs -f --tail=1` to see the running log
+- Please refer docker-compose reference to check other useful commands on viewing the logs in more advanced way
 
-For Smooth working of your dockerized app, keep above mentioned ports free on your Host Machine 
-OR
-Change the ports for the services in 'docker-compose.yml' as per your need.
+Above steps should ensure the app is running and now you should be able to access th UI from http://localhost:3000 and API from http://localhost:3000/api/v1/
 
-# Prerequisites for running all Micro Services Individually.
+Refer the API documentation from [here](https://github.com/stackroute/calvin-communities/wiki)
+
+# Running services locally
+
+## Prerequisites for running all Micro Services individually and locally
 
 - Get Cassandra DB from [here](http://cassandra.apache.org/download/) .
 - Get Apache Zookeeper from [here](https://zookeeper.apache.org/) .
@@ -64,44 +71,29 @@ Change the ports for the services in 'docker-compose.yml' as per your need.
 
 Get all the above running on above mentioned ports respectively.
 
-# Steps for Running all the services Individually.
+### Starting Node app
 
-## Starting Node app
+- Run this command to start the node app `npm run serve`. 
+- This will build & host the Angular Code, Backend APIs along with creating the required Database for our app, (yes DB is automatically created if not exists already)
 
-- Run this command to start the node app 'npm run serve'. 
-- This will build & host the Angular Code, Backend APIs along with creating the required Database for our app.
+### Start required services using these commands 
 
-### Starting Counter Service
-- Run this command to start Counters Service: 'npm run svc.counter'. 
+- **Counter Service**  `npm run svc.counter`
+- **Reverse Lookup Service** `npm run svc.tool` 
+- **Member Reverse Lookup Service** `npm run svc.member`
+- **Member Requests Service**  `npm run svc.memberrequests`
+- **Toolsink Service** `npm run svc.toolsink`
+- **Notifications Service** `npm run svc.notifications`
 
-### Starting Tool Reverse Lookup Service
-- Run this command to start Tools Reverse Lookup Sevice: 'npm run svc.tool'. 
+### Other commands available, if needed
 
-### Starting Member Reverse Lookup Service
-- Run this command to start Members Reverse Lookup Service: 'npm run svc.member'. 
-
-### Starting Member Requests Service
-- Run this command to start Member Requests Service: 'npm run svc.memberrequests'. 
-
-### Starting Toolsink Service
-- Run this command to start ToolSink Service: 'npm run svc.toolsink'. 
-
-### Starting Notifications Service
-- Run this command to start Notifications Service: 'npm run svc.notifications'. 
-
-
-
-# Other useful Commands:
-
-```
-  'npm run installdb'    --> Create Keyspaces, Tables etc in Cassandra DB.
-  'npm run truncatedb'   --> Truncate all the data from the database.
-  'npm run coverage'     --> To check the code coverage by your testcaes with help of Istanbul.
-  'npm run testcases'    --> Run all mocha testcases written for the app.
-  'npm run lint'         --> To check all the Lint Errors in your code.
-  'npm run test'         --> To check all the Lint Errors as well as test cases.
-  'npm start'            --> Run only backend API code.
-```
+  `npm run installdb`    --> Create Keyspaces, Tables etc in Cassandra DB.
+  `npm run truncatedb`   --> Truncate all the data from the database.
+  `npm run coverage`     --> To check the code coverage by your testcaes with help of Istanbul.
+  `npm run testcases`    --> Run all mocha testcases written for the app. BEST OF LUCK...!
+  `npm run lint`         --> To check all the Lint Errors in your code.
+  `npm run test`         --> To check all the Lint Errors as well as test cases.
+  `npm start`            --> Run only backend API code, junk UI :-) 
 
 ## For detailed information on APIs, please visit our wiki page [here](https://github.com/stackroute/calvin-communities/wiki)
 
