@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from './app.material.module';
 import { MdListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,10 +53,10 @@ import { NavigationComponent } from './navigation/navigation.component';
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
-    MaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+    MaterialModule
     ],
   providers: [ToolService, TemplatesService,
   DashboardGraphService,CommunitiesService, CommunityPageService,],
