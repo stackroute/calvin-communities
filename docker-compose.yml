@@ -148,7 +148,7 @@ services:
     depends_on:
       - calvin-zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 172.23.238.141
+      KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_CREATE_TOPICS: "CommunityLifecycleEvents:1:1,ToolEvents:1:1,CommunityActivityEvents:1:1"
       KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
