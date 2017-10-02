@@ -33,110 +33,110 @@ const tools = [{
 
 
 const multipleTools = [{
-    toolId: 'sermo',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-    activityEvents: ['newannouncement', 'like', 'remove'],
-  },
-  {
-    toolId: 'quora',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-    activityEvents: ['newannouncement', 'like', 'remove'],
-  },
-  {
-    toolId: 'hulu',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-    activityEvents: ['newannouncement', 'like', 'remove'],
-  },
+  toolId: 'sermo',
+  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+  activityEvents: ['newannouncement', 'like', 'remove'],
+},
+{
+  toolId: 'quora',
+  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+  activityEvents: ['newannouncement', 'like', 'remove'],
+},
+{
+  toolId: 'hulu',
+  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+  activityEvents: ['newannouncement', 'like', 'remove'],
+},
 ];
 
 const multipleWrongTools = [{
-    toolId: 'sermo',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-    activityEvents: ['newannouncement', 'like', 'remove'],
-  },
-  {
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-    activityEvents: ['newannouncement', 'like', 'remove'],
-  },
-  {
-    toolId: 'hulu',
-    actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
-    activityEvents: ['newannouncement', 'like', 'remove'],
-  },
+  toolId: 'sermo',
+  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+  activityEvents: ['newannouncement', 'like', 'remove'],
+},
+{
+  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+  activityEvents: ['newannouncement', 'like', 'remove'],
+},
+{
+  toolId: 'hulu',
+  actions: ['postmesage', 'read', 'Likemessage', 'edit', 'share'],
+  activityEvents: ['newannouncement', 'like', 'remove'],
+},
 ];
 
 const toolsAll = {
-  toolname: "sometool",
-  avatar: "somephoto.jpg",
-  toolurl: "abcdef.com/12345",
-  purpose: "maybesomepurpose",
-  actions: ["action1", "action2", "action3", "action4", "action5"],
+  toolname: 'sometool',
+  avatar: 'somephoto.jpg',
+  toolurl: 'abcdef.com/12345',
+  purpose: 'maybesomepurpose',
+  actions: ['action1', 'action2', 'action3', 'action4', 'action5'],
   events: [{
-    eventid: "evid",
-    eventname: "evname",
-    description: "evdescription",
-    activity: "somecommunityevent",
-    actor: "some actor",
-    object: "new object",
-    metadata: "someurldatamaybe"
+    eventid: 'evid',
+    eventname: 'evname',
+    description: 'evdescription',
+    activity: 'somecommunityevent',
+    actor: 'some actor',
+    object: 'new object',
+    metadata: 'someurldatamaybe',
   }, {
-    eventid: "evid2",
-    eventname: "evname2",
-    description: "evdescription2",
-    activity: "somecommunityevent2",
-    actor: "some actor2",
-    object: "new object2",
-    metadata: "someurldatamaybe2"
-  }]
+    eventid: 'evid2',
+    eventname: 'evname2',
+    description: 'evdescription2',
+    activity: 'somecommunityevent2',
+    actor: 'some actor2',
+    object: 'new object2',
+    metadata: 'someurldatamaybe2',
+  }],
 };
 
 const wrongtools = {
 
-  avatar: "somephoto.jpg",
-  toolurl: "abcdef.com/12345",
-  purpose: "maybesomepurpose",
-  actions: ["action1", "action2", "action3", "action4", "action5"],
+  avatar: 'somephoto.jpg',
+  toolurl: 'abcdef.com/12345',
+  purpose: 'maybesomepurpose',
+  actions: ['action1', 'action2', 'action3', 'action4', 'action5'],
   events: [{
-    eventid: "evid",
-    eventname: "evname",
-    description: "evdescription",
-    activity: "somecommunityevent",
-    actor: "some actor",
-    object: "new object",
-    metadata: "someurldatamaybe"
+    eventid: 'evid',
+    eventname: 'evname',
+    description: 'evdescription',
+    activity: 'somecommunityevent',
+    actor: 'some actor',
+    object: 'new object',
+    metadata: 'someurldatamaybe',
   }, {
-    eventid: "evid2",
-    eventname: "evname2",
-    description: "evdescription2",
-    activity: "somecommunityevent2",
-    actor: "some actor2",
-    object: "new object2",
-    metadata: "someurldatamaybe2"
-  }]
+    eventid: 'evid2',
+    eventname: 'evname2',
+    description: 'evdescription2',
+    activity: 'somecommunityevent2',
+    actor: 'some actor2',
+    object: 'new object2',
+    metadata: 'someurldatamaybe2',
+  }],
 };
 
 const wrongtool = {
-  avatar: "somephoto.jpg",
-  toolurl: "abcdef.com/12345",
-  purpose: "maybesomepurpose",
-  actions: ["action1", "action2", "action3", "action4", "action5"],
+  avatar: 'somephoto.jpg',
+  toolurl: 'abcdef.com/12345',
+  purpose: 'maybesomepurpose',
+  actions: ['action1', 'action2', 'action3', 'action4', 'action5'],
   events: [{
-    eventid: "evid",
-    eventname: "evname",
-    description: "evdescription",
-    activity: "somecommunityevent",
-    actor: "some actor",
-    object: "new object",
-    metadata: "someurldatamaybe"
+    eventid: 'evid',
+    eventname: 'evname',
+    description: 'evdescription',
+    activity: 'somecommunityevent',
+    actor: 'some actor',
+    object: 'new object',
+    metadata: 'someurldatamaybe',
   }, {
-    eventid: "evid2",
-    eventname: "evname2",
-    description: "evdescription2",
-    activity: "somecommunityevent2",
-    actor: "some actor2",
-    object: "new object2",
-    metadata: "someurldatamaybe2"
-  }]
+    eventid: 'evid2',
+    eventname: 'evname2',
+    description: 'evdescription2',
+    activity: 'somecommunityevent2',
+    actor: 'some actor2',
+    object: 'new object2',
+    metadata: 'someurldatamaybe2',
+  }],
 };
 
 
@@ -148,28 +148,28 @@ const wrongvalue = [{
 }];
 
 const updatetools = {
-  toolname: "sometool",
-  avatar: "somephoto.jpg",
-  toolurl: "abcdef.com/12345",
-  purpose: "maybesomepurpose",
-  actions: ["action1", "action2", "action3", "action4", "action5"],
+  toolname: 'sometool',
+  avatar: 'somephoto.jpg',
+  toolurl: 'abcdef.com/12345',
+  purpose: 'maybesomepurpose',
+  actions: ['action1', 'action2', 'action3', 'action4', 'action5'],
   events: [{
-    eventid: "evid",
-    eventname: "evname",
-    description: "evdescription",
-    activity: "somecommunityevent",
-    actor: "some actor",
-    object: "new object",
-    metadata: "someurldatamaybe"
+    eventid: 'evid',
+    eventname: 'evname',
+    description: 'evdescription',
+    activity: 'somecommunityevent',
+    actor: 'some actor',
+    object: 'new object',
+    metadata: 'someurldatamaybe',
   }, {
-    eventid: "evid2",
-    eventname: "evname2",
-    description: "evdescription2",
-    activity: "somecommunityevent2",
-    actor: "some actor2",
-    object: "new object2",
-    metadata: "someurldatamaybe2"
-  }]
+    eventid: 'evid2',
+    eventname: 'evname2',
+    description: 'evdescription2',
+    activity: 'somecommunityevent2',
+    actor: 'some actor2',
+    object: 'new object2',
+    metadata: 'someurldatamaybe2',
+  }],
 };
 const patch = {
   domain: 'engineer.wipro.blr',

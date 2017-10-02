@@ -16,7 +16,6 @@ const domain = 'roshini1';
 
 
 describe('Testcases for checking the communitycounter', () => {
-  console.log("hi i am in Testcases")
   before(() => {
     client.execute(`UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members + 1,requests = requests + 1,invitations = invitations + 1,tools = tools + 1 WHERE domain='${domain}'`)
       .then(() => {})
@@ -30,7 +29,7 @@ describe('Testcases for checking the communitycounter', () => {
         logger.debug(err);
         done(err);
       }
-      counterservice.getcounter(domain, (err2, result2) => {
+      counterctrl.getcounter(domain, (err2, result2) => {
         if (err2) {
           logger.debug(err2);
           done(err2);
@@ -66,7 +65,8 @@ describe('Testcases for checking the communitycounter', () => {
     });
   });
   // it('Testing  counterctrl::incrementinvitation for sucess scenario', (done) => {
-  //   const query = `SELECT invitations FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
+  // const query = `SELECT invitations FROM ${COMMUNITIES_COUNTER_TABLE}
+  // where domain = '${domain}'`;
   //   client.execute(query, (err, result) => { // eslint-disable-line consistent-return
   //     if (err) {
   //       logger.debug(err);
@@ -110,7 +110,7 @@ describe('Testcases for checking the communitycounter', () => {
   //             done(errquery);
   //           }
   //           parseInt(resultupdated.rows[0].tools) // eslint-disable-line radix
-  //             .should.deep.equal(parseInt(result.rows[0].tools) + 1); // eslint-disable-line radix
+  // .should.deep.equal(parseInt(result.rows[0].tools) + 1); // eslint-disable-line radix
   //         });
   //       });
   //     done();
@@ -134,7 +134,7 @@ describe('Testcases for checking the communitycounter', () => {
   //           done(errquery);
   //         }
   //         parseInt(resultupdated.rows[0].requests) // eslint-disable-line radix
-  //           .should.deep.equal(parseInt(result.rows[0].requests) + 1); // eslint-disable-line radix
+  // .should.deep.equal(parseInt(result.rows[0].requests) + 1); // eslint-disable-line radix
   //       });
   //     });
   //     done();
@@ -160,7 +160,7 @@ describe('Testcases for checking the communitycounter', () => {
   //             done(errquery);
   //           }
   //           parseInt(resultupdated.rows[0].members) // eslint-disable-line radix
-  //             .should.deep.equal(parseInt(result.rows[0].members) - 1); // eslint-disable-line radix
+  // .should.deep.equal(parseInt(result.rows[0].members) - 1); // eslint-disable-line radix
   //         });
   //       });
   //     done();
@@ -213,14 +213,15 @@ describe('Testcases for checking the communitycounter', () => {
   //             done(errquery);
   //           }
   //           parseInt(resultupdated.rows[0].tools) // eslint-disable-line radix
-  //             .should.deep.equal(parseInt(result.rows[0].tools) - 1); // eslint-disable-line radix
+  // .should.deep.equal(parseInt(result.rows[0].tools) - 1); // eslint-disable-line radix
   //         });
   //       });
   //     done();
   //   });
   // });
   // it('Testing communityservice::decrementinvitation for sucess scenario', (done) => {
-  //   const query = `SELECT invitations FROM ${COMMUNITIES_COUNTER_TABLE} where domain = '${domain}'`;
+  //   const query = `SELECT invitations FROM ${COMMUNITIES_COUNTER_TABLE}
+  // where domain = '${domain}'`;
   //   client.execute(query, (err, result) => { // eslint-disable-line consistent-return
   //     if (err) {
   //       logger.debug(err);

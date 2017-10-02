@@ -8,8 +8,7 @@ const registerPublisherService = require('../../../../common/kafkaPublisher');
 const logger = require('../../../../logger');
 
 function publishtools(dataFromURI, dataFromBody) {
-  
-  let message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool', event: 'newtoolsadded'};
+  let message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool', event: 'newtoolsadded' };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -56,7 +55,7 @@ function getCommunityTool(data, done) {
 }
 
 function postCommunityTool(body, done) { // eslint-disable-line consistent-return
-  if (_.isEmpty(body.toolname) ||  _.isEmpty(body.toolurl) || _.isEmpty(body.purpose) ||
+  if (_.isEmpty(body.toolname) || _.isEmpty(body.toolurl) || _.isEmpty(body.purpose) ||
     !_.has(body, 'toolname') || !_.has(body, 'avatar') || !_.has(body, 'toolurl') || !_.has(body, 'purpose') ||
     !_.has(body, 'actions') || !_.has(body, 'domain') || !_.has(body, 'toolId')) {
     return done([400, 'Required Data Not Provided']);
@@ -86,7 +85,9 @@ function postCommunityTool(body, done) { // eslint-disable-line consistent-retur
          logger.debug('an error occured', error);
          return done([500, error[1]]);
        }
-       publishtools(body.domain, {toolId: body.toolId, avatar: body.avatar, toolName: body.toolname});
+       publishtools(body.domain, { toolId: body.toolId,
+         avatar: body.avatar,
+         toolName: body.toolname });
        return done(undefined, result[1]);
      });
    });
@@ -99,21 +100,22 @@ function updateTool(parameters, body, done) {
     done([400, 'Required Data Not Pushed']);
   }
 
- communityToolService.getCommunityTool(parameters.domain, parameters.toolid, (err, res) => {
-  if(err) {logger.debug(err); return done([500, 'Internal Server Error'])};
-  if(res.length !== 0) {
-  const data = [body.toolname, body.avatar, body.toolurl, body.actions,
-    body.purpose, parameters.domain, parameters.toolid];
-  async.parallel([
-    communityToolService.updateTool.bind(null, data),
-    toolmappingcontroller.updateEventMapping.bind(null, parameters, body),
-  ], (error, result) => {
-    if (error) { return done([500, 'Internal Error Occured']); }
-    return done(undefined, result[1]);
-  });
-}
-if(res.length === 0) { return done([400, 'Tool not mapped to this Domain'])}
-});
+  communityToolService.getCommunityTool(parameters.domain, parameters.toolid,
+    (err, res) => { // eslint-disable-line consistent-return
+      if (err) { logger.debug(err); return done([500, 'Internal Server Error']); }
+      if (res.length !== 0) {
+        const data = [body.toolname, body.avatar, body.toolurl, body.actions,
+          body.purpose, parameters.domain, parameters.toolid];
+        async.parallel([
+          communityToolService.updateTool.bind(null, data),
+          toolmappingcontroller.updateEventMapping.bind(null, parameters, body),
+        ], (error, result) => {
+          if (error) { return done([500, 'Internal Error Occured']); }
+          return done(undefined, result[1]);
+        });
+      }
+      if (res.length === 0) { return done([400, 'Tool not mapped to this Domain']); }
+    });
 }
 
 // Exporting the functions to be used in router

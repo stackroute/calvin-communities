@@ -1,13 +1,14 @@
 const counterservice = require('./counter.service');
+
 const eventregistry = {
-  'newmembersadded': counterservice.incrementmember,
-  'newtoolsadded': counterservice.incrementtools,
-  'newinvitees': counterservice.incrementinvitation,
-  'newjoinrequests': counterservice.incrementrequests,
-  'removemembers': counterservice.decrementmember,
-  'removetools': counterservice.decrementtools,
-  'rejectinvitees': counterservice.decrementinvitation,
-  'rejectrequests': counterservice.decrementrequests,
+  newmembersadded: counterservice.incrementmember,
+  newtoolsadded: counterservice.incrementtools,
+  newinvitees: counterservice.incrementinvitation,
+  newjoinrequests: counterservice.incrementrequests,
+  removemembers: counterservice.decrementmember,
+  removetools: counterservice.decrementtools,
+  rejectinvitees: counterservice.decrementinvitation,
+  rejectrequests: counterservice.decrementrequests,
 };
 
 function onevent(domain, eventname, payload, done) {
@@ -16,7 +17,6 @@ function onevent(domain, eventname, payload, done) {
     done('event not supported..!');
     return;
   }
-  console.log("countercontroller", payload);
   eventHandlerClosure(domain, done);
 }
 

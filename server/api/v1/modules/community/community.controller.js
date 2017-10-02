@@ -13,8 +13,8 @@ const logger = require('../../../../logger');
 * Publisher Topic code for counter service
 */
 function publishCommunityCreatedData(data) {
-  console.log(data)
-  message = JSON.stringify({
+  logger.debug(data);
+  const message = JSON.stringify({
     domain: data[0].domain,
     name: data[0].name,
     avatar: data[0].avatar,
@@ -22,10 +22,10 @@ function publishCommunityCreatedData(data) {
     template: data[0].template,
     owner: data[0].owner,
     type: 'add',
-    event:'newcommunityadded',
-    ts: Date.now()
+    event: 'newcommunityadded',
+    ts: Date.now(),
   });
-console.log(message);
+  logger.debug(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
@@ -206,7 +206,7 @@ function getCommunity(domain, counter, done) {
       counterController.getcounter.bind(null, domain.toLowerCase()),
     ], (err, result) => {
       if (err) return done(err);
-      /* eslint-disable no-param-reassign*/
+      /* eslint-disable no-param-reassign */
       if (!_.isEmpty(result[0])) {
         if (!_.isEmpty(result[1])) {
           result[0][0].invitations = (result[1][0].invitations || 0);
@@ -216,13 +216,13 @@ function getCommunity(domain, counter, done) {
         } else {
           logger.debug('here', result[0][0]);
 
-        // console.log('here', result[0][0]);
+        // logger.debug('here', result[0][0]);
           result[0][0].invitations = 0;
           result[0][0].members = 0;
           result[0][0].requests = 0;
           result[0][0].tools = 0;
         }
-      /* eslint-disable no-param-reassign*/
+      /* eslint-disable no-param-reassign */
       }
       return done(undefined, result[0]);
       // result[0].push(counts);
@@ -261,7 +261,7 @@ function updateCommunity(domainName, community, done) {
     /*    const param = [community.name, community.avatar, community.description,
      community.visibility,
       community.tags, community.updatedby, status, domainName.toLowerCase(),
-    ];*/
+    ]; */
     const param = [community.name, community.avatar, community.description, community.visibility,
       community.tags, community.updatedby, domainName.toLowerCase(),
     ];

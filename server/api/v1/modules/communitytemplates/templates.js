@@ -1,5 +1,5 @@
 module.exports = [{
-  /* template for the surgeon -- medical community*/
+  /* template for the surgeon -- medical community */
   name: 'Surgeon',
   purpose: 'Medical',
   image: 'http://www.theportlandhospital.com/uploads/data/files/Pioneering%20Surgery.jpg',
@@ -127,7 +127,7 @@ module.exports = [{
       actions: { edit: 'self', post: 'post_self' },
     }],
   }],
-}, { /* template for the specialists -- medical community*/
+}, { /* template for the specialists -- medical community */
   name: 'Specialists',
   purpose: 'Medical',
   image: 'http://www.pamf.org/findadoctor/feature-locations.jpg',
@@ -259,7 +259,7 @@ module.exports = [{
       actions: { edit: 'self', post: 'post_self' },
     }],
   }],
-}, { /* template for the developer's -- technical community*/
+}, { /* template for the developer's -- technical community */
   name: 'Developer',
   purpose: 'Technical',
   image: 'https://andela.com/wp-content/uploads/2016/04/151209HR005.jpg',
@@ -413,7 +413,7 @@ module.exports = [{
       actions: { edit: 'self', post: 'post_self' },
     }],
   }],
-}, { /* template for the professor -- teacher's community*/
+}, { /* template for the professor -- teacher's community */
   name: 'Professor',
   purpose: 'Teaching',
   image: 'https://cdn2.certificationmap.com/content/cdb9ec0fd3a04753855c0d58d63824aa/master-of-arts-in-teaching.jpg',
@@ -568,7 +568,7 @@ module.exports = [{
       actions: { edit: 'self', post: 'post_self' },
     }],
   }],
-}, { /* template for the artist -- arts community*/
+}, { /* template for the artist -- arts community */
   name: 'Artist',
   purpose: 'Arts',
   image: 'http://i.dailymail.co.uk/i/pix/2012/01/26/article-0-1177A45E000005DC-437_634x405.jpg',

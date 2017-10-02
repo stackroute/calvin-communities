@@ -32,7 +32,7 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
       done({ error: 'entry already exists' }, undefined);
     }
   }, 100);
-}*/
+} */
 function checkRole(domainName, postedData, done) {
   let count = 0;
   let iterations = 0;
@@ -67,7 +67,7 @@ function postRoles(domainName, postedData, count, done) {
         done(err);
         return;
       }
-      return done(undefined, { message: 'Added' });
+      return done(undefined, { message: 'Added' }); // eslint-disable-line consistent-return
     });
   } else {
     done({ error: 'entry already exists' }, undefined);
@@ -124,7 +124,7 @@ function checkRole2(domainName, role, done) {
   });
 }
 function patchRoles(patchData, domainName, role, count, done) {
-  /*  if (count === patchData.length) {*/
+  /*  if (count === patchData.length) { */
   logger.debug('patchData.length', patchData.length);
   if (count > 0) {
     communityRoleService.patchCommunityRoles(patchData, domainName, role, done);
@@ -135,7 +135,7 @@ function patchRoles(patchData, domainName, role, count, done) {
 function patchCommunityRoles(patchData, domainName, role, done) {
   /* const params = [patchData[0].actions, domainName.toLowerCase(),
     role.toLowerCase(), patchData[0].toolId.toLowerCase(),
-  ];*/
+  ]; */
   async.waterfall([
     checkRole2.bind(null, domainName, role),
     patchRoles.bind(null, patchData, domainName, role),

@@ -79,7 +79,7 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
           results.rows.forEach(function(data){
 
           logger.debug('my unique array', Array.from(new Set(data)));
-        }*/
+        } */
 
         // for(obj in results.rows)
         // {
@@ -93,11 +93,11 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
 
         const finalArr = [];
         /* let arr=[];
-        let abject={};*/
+        let abject={}; */
         unique.forEach((item) => {
           const obj = {};
           // logger.debug("item is",item);
-          /* arr.push(item);*/
+          /* arr.push(item); */
           obj.role = item;
           logger.debug('obj', obj);
           finalArr.push(obj);
@@ -106,9 +106,9 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
         /* abject.role=arr;
         console.log("Only roles:",abject);
         let str=JSON.stringify(abject);
-        console.log("json parsed",JSON.parse(str))*/
+        console.log("json parsed",JSON.parse(str)) */
         // console.log("Only roles:",JSON.parse(JSON.strigify(abject)));
-        done(null, /* abject*/finalArr);
+        done(null, /* abject */finalArr);
         // logger.debug(finalArr);
 
 
@@ -126,7 +126,7 @@ function getCommunityRolesOnly(domainName, onlyroles, done) {
         // logger.debug(JSON.parse(result));
         // logger.debug("FINAL RESULT VALUE IS", result);
         // result=result;
-        /* JSON.parse(JSON.stringify(result));*/
+        /* JSON.parse(JSON.stringify(result)); */
         // logger.debug("JSON PARSE",JSON.parse(result));
         // logger.debug("FINAL RESULT VALUE",result);
         // done(undefined, [result]);
@@ -280,7 +280,7 @@ function postCommunityRoles(domainName, postedData, done) {
       done(err, undefined);
     }
   });
-}*/
+} */
 
 
 /* function postCommunityRoles(postedData, done) {
@@ -310,7 +310,7 @@ function postCommunityRoles(domainName, postedData, done) {
       done(err, undefined);
     }
   });
-}*/
+} */
 /* function patchCommunityRoles(values, done) {
   logger.debug('Values from Patch service',typeof values," and its value is");
  let actions = '';
@@ -353,7 +353,7 @@ function postCommunityRoles(domainName, postedData, done) {
       done(err, undefined);
     }
   });
-}*/
+} */
 
 /* function patchCommunityRoles(values, done) {
   logger.debug('Values from Patch service', values);
@@ -368,7 +368,7 @@ function postCommunityRoles(domainName, postedData, done) {
       done(err, undefined);
     }
   });
-}*/
+} */
 function patchCommunityRoles(patchData, domainName, role, done) {
   logger.debug('Inside Patch Request');
   const arr = [];

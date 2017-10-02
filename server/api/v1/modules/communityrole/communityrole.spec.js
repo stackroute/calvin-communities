@@ -19,7 +19,7 @@ const client = new model.Client({
 });
 
 const postdata = [{
-  /* domain: 'prakhar',*/
+  /* domain: 'prakhar', */
   role: 'developer',
   actions: {
     post: 'true',
@@ -28,7 +28,7 @@ const postdata = [{
   toolId: 'quora',
 
 }, {
-  /* domain: 'africans',*/
+  /* domain: 'africans', */
   role: 'cricketer',
   actions: {
     post: 'true',
@@ -166,7 +166,7 @@ describe('Create a communityrole and update it', () => {
           logger.debug('In error');
           done(err);
         });
-    });*/
+    }); */
 
 
   it('Update actions of communityrole', (done) => {

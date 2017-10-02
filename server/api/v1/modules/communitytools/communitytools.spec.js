@@ -1,3 +1,4 @@
+
 const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
@@ -26,14 +27,14 @@ const client = new model.Client({
 describe('Test cases for tools of a community', () => {
   before(() => {
     // runs before all tests in this block
-    client.execute(`insert into communitytools \
+    client.execute('insert into communitytools \
       (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
-      values('engineer.wipro.blr', 'quora', {'broadcast', 'write'},'http://images.wisegeek.com/cameraman.jpg', \
-       'quora.inc', dateof(now()),'for medical purpose', 'quoratool');`);
-    client.execute(`insert into communitytools \
+      values(\'engineer.wipro.blr\', \'quora\', {\'broadcast\', \'write\'},\'http://images.wisegeek.com/cameraman.jpg\', \
+       \'quora.inc\', dateof(now()),\'for medical purpose\', \'quoratool\');');
+    client.execute('insert into communitytools \
       (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
-      values('doctors.blr', 'quora', {'broadcast', 'write'},'http://images.wisegeek.com/cameraman.jpg', \
-       'quora.inc', dateof(now()),'for medical purpose', 'quoratool');`);
+      values(\'doctors.blr\', \'quora\', {\'broadcast\', \'write\'},\'http://images.wisegeek.com/cameraman.jpg\', \
+       \'quora.inc\', dateof(now()),\'for medical purpose\', \'quoratool\');');
   });
 
 
@@ -46,12 +47,10 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
             if (!err) {
-              // console.log('Result from testcase', result.rows.length);
               result.rows.length.should.deep.equal(0);
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -70,13 +69,11 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'domains.wipro.blr\' and toolid = \'sermos\'', (err, result) => {
             if (!err) {
-              console.log('Result from testcase', result.rows.length);
               result.rows.length.should.deep.equal(0);
-              results.body.should.deep.equal("Required Data Not Provided");
+              results.body.should.deep.equal('Required Data Not Provided');
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -96,13 +93,11 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
             if (!err) {
-              // console.log('Result from testcase', result.rows.length);
               result.rows.length.should.deep.equal(0);
-              results.body.should.deep.equal("Required Data Not Provided");
+              results.body.should.deep.equal('Required Data Not Provided');
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -122,13 +117,11 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
             if (!err) {
-              // console.log('Result from testcase', result.rows.length);
               result.rows.length.should.deep.equal(0);
-              results.body.should.deep.equal("Required Data Not Provided");
+              results.body.should.deep.equal('Required Data Not Provided');
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -146,16 +139,13 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\' and toolid = \'sermo\'', (err, result) => {
             if (!err) {
-              console.log(result.rows);
-              console.log
-              result.rows.length.should.deep.equal(1);
-              result.rows[0].domain.should.deep.equal("singer.blr");
-              result.rows[0].toolid.should.deep.equal("sermo");
+              p.equal(1);
+              result.rows[0].domain.should.deep.equal('singer.blr');
+              result.rows[0].toolid.should.deep.equal('sermo');
               result.rows[0].actions.should.deep.equal(value.toolsAll.actions);
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -173,13 +163,11 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\'', (err, result) => {
             if (!err) {
-              // console.log('Result from testcase', result.rows.length);
               result.rows.length.should.deep.equal(1);
-              results.body.should.deep.equal({ "error": "Resource not found" });
+              results.body.should.deep.equal({ error: 'Resource not found' });
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -197,17 +185,14 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\' and toolid = \'sermo\'', (err, result) => {
             if (!err) {
-              console.log(result.rows[0].domain);
-              console.log(results.body);
-              result.rows.length.should.deep.equal(1);
+              gth.should.deep.equal(1);
               result.rows[0].domain.should.deep.equal('singer.blr');
               expect(results.body).to.have.property('domain').a('string');
               expect(results.body).to.have.property('toolid').a('string');
               expect(results.body).to.have.property('events').a('Array');
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -226,16 +211,13 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\'', (err, result) => {
             if (!err) {
-              console.log(results.body);
-              console.log(result.rows);
-              result.rows.length.should.deep.equal(1);
+              th.should.deep.equal(1);
               result.rows[0].actions.should.deep.equal(results.body.tools[0].actions);
               expect(results.body).to.have.property('domain').a('string');
               expect(results.body).to.have.property('tools').a('Array');
               return done(null, results);
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -243,7 +225,6 @@ describe('Test cases for tools of a community', () => {
       });
     return null;
   });
-
 
 
   // patch data in database
@@ -255,13 +236,11 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
             if (!err) {
-              // console.log('Result from testcase', result.rows.length);
               result.rows.length.should.deep.equal(1);
               result.rows[0].domain.should.deep.equal('engineer.wipro.blr');
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -276,16 +255,14 @@ describe('Test cases for tools of a community', () => {
     request(app)
       .patch(`${uri}dummyvalssa/tools/${value.patch.tool}`)
       .send(value.updatetools)
-      .end((error, results) => {
+      .end((error, results) => { // eslint-disable-line no-unused-vars
         if (!error) {
           client.execute(`SELECT * from communitytools where domain='dummyvalssa' and toolid = '${value.patch.tool}'`, (err, result) => {
             if (!err) {
-              console.log('Result from testcase', result.rows);
               result.rows.length.should.deep.equal(0);
               return done();
-            } else {
-              return done(err);
             }
+            return done(err);
           });
         } else {
           return done(error);
@@ -293,17 +270,16 @@ describe('Test cases for tools of a community', () => {
       });
     return null;
   });
- 
+
      // patch data in database
-     it('should show failure message when tool does not exist n database', (done) => {
-       request(app)
+  it('should show failure message when tool does not exist n database', (done) => {
+    request(app)
          .patch(`${uri}${value.patch.domain}/tools/${value.notExisting.tool}`)
          .send(value.updatetools)
          .end((error, results) => {
            if (!error) {
              client.execute(`SELECT * from communitytools where domain='${value.patch.domain}' and toolid = '${value.notExisting.tool}'`, (err, result) => {
                if (!err) {
-                 // console.log('Result from testcase', result.rows.length);
                  result.rows.length.should.deep.equal(0);
                  return done();
                }
@@ -314,8 +290,8 @@ describe('Test cases for tools of a community', () => {
            }
            return null;
          });
-       return null;
-     });
+    return null;
+  });
  /*
      //  Delete an action from table
      it('should delete action for a given domain and tool name', (done) => {
@@ -326,8 +302,7 @@ describe('Test cases for tools of a community', () => {
              done(err);
              return;
            }
-           // console.log(res.body);
-           res.body.should.deep.equal(value.actionDeleted);
+           qual(value.actionDeleted);
            done();
          });
        return null;
@@ -340,9 +315,10 @@ describe('Test cases for tools of a community', () => {
          .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
          .end((error, results) => {
            if (!error) {
-             client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
+client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\'
+and toolid = \'quora\'', (err, result) => {
                if (!err) {
-                 // console.log('Result from testcase', result.rows.length);
+
                  result.rows.length.should.deep.equal(0);
                  return done();
                }
@@ -361,9 +337,10 @@ describe('Test cases for tools of a community', () => {
          .delete(`${uri}${value.patchUpper.domain}/tools/${value.patchUpper.tool}`)
          .end((error, results) => {
            if (!error) {
-             client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
+client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\'
+and toolid = \'quora\'', (err, result) => {
                if (!err) {
-                 // console.log('Result from testcase', result.rows.length);
+
                  result.rows.length.should.deep.equal(0);
                  return done();
                }
@@ -383,9 +360,10 @@ describe('Test cases for tools of a community', () => {
          .delete(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
          .end((error, results) => {
            if (!error) {
-             client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
+client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\'
+and toolid = \'quora\'', (err, result) => {
                if (!err) {
-                 // console.log('Result from testcase', result.rows.length);
+
                  result.rows.length.should.deep.equal(0);
                  return done();
                }
@@ -406,7 +384,8 @@ describe('Test cases for tools of a community', () => {
          .send(value.multipleTools)
          .end((error, results) => {
            if (!error) {
-             client.execute('SELECT * from communitytools where domain=\'dancer.blr\'', (err, result) => {
+             client.execute('SELECT * from communitytools where domain=\'dancer.blr\'',
+             (err, result) => {
                if (!err) {
                  result.rows.length.should.deep.equal(3);
                  result.rows[0].domain.should.deep.equal(results.body[0].domain);
@@ -426,13 +405,15 @@ describe('Test cases for tools of a community', () => {
        return null;
      });
 
-     it('should not post data in database for multple values when a single array is wrong', (done) => {
+     it('should not post data in database for multple values when a single array is wrong',
+     (done) => {
        request(app)
          .post(`${uri}dancerss.blr/tools`)
          .send(value.multipleWrongTools)
          .end((error, results) => {
            if (!error) {
-             client.execute('SELECT * from communitytools where domain=\'dancerss.blr\'', (err, result) => {
+             client.execute('SELECT * from communitytools where domain=\'dancerss.blr\'',
+             (err, result) => {
                if (!err) {
                  result.rows.length.should.deep.equal(0);
                  results.body.should.deep.equal(value.novalue);
@@ -446,7 +427,7 @@ describe('Test cases for tools of a community', () => {
            return null;
          });
        return null;
-     });*/
+     }); */
 
   after('', () => {
     client.execute("DELETE FROM communitytools where domain='engineer.wipro.blr';");

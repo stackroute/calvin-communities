@@ -26,7 +26,6 @@ function incrementmember(domain, done) {
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members + 1 WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      console.log('counter service', result);
       done(null, result);
     } else {
       done(err, undefined);
@@ -35,15 +34,11 @@ function incrementmember(domain, done) {
 }
 
 function incrementinvitation(domain, payload, done) {
-  console.log("invitations ", payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET invitations = invitations + ${payload} WHERE domain = '${domain}'`;
-  console.log(query)
   return client.execute(query, (err, result) => {
     if (!err) {
-      console.log("counterservices:", result);
       done(null, result);
     } else {
-      console.log("countererror", err);
       done(err, undefined);
     }
   });
@@ -83,11 +78,9 @@ function decrementrequests(domain, payload, done) {
 }
 
 function decrementmember(domain, payload, done) {
-  console.log('decrementmember', payload);
   const query = `UPDATE ${COMMUNITIES_COUNTER_TABLE} SET members = members - ${payload} WHERE domain='${domain}'`;
   return client.execute(query, (err, result) => {
     if (!err) {
-      console.log('counter service', result);
       done(null, result);
     } else {
       done(err, undefined);

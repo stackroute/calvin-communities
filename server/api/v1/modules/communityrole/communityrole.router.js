@@ -98,7 +98,7 @@ router.patch('/:domain/:role', controller.patchcommunityrole);
     logger.debug(`error:${err}`);
     res.status(400).send({ error: 'Unexpected error occurred, please try again...!' });
   }
-});*/
+}); */
 router.post('/:domainname', (req, res) => {
   try {
     const domainName = req.params.domainname;
@@ -141,7 +141,7 @@ router.post('/:domainname', (req, res) => {
   } catch (err) {
     res.status(400).send({ error: 'Unexpected error occurred, please try again...!' });
   }
-});*/
+}); */
 router.patch('/:domainname/roles/:role', (req, res) => {
   try {
     const domainName = req.params.domainname;

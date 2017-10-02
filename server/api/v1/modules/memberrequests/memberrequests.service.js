@@ -48,7 +48,7 @@ function InsertDataRequest(data, dataFromParams, status, type, done) {
   });
 }
 
-//Query for delete the row for rejected invite or request
+// Query for delete the row for rejected invite or request
 
 function rejectedInviteOrRequest(domain, person, done) {
   const query = (`DELETE from ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);
@@ -61,7 +61,7 @@ function rejectedInviteOrRequest(domain, person, done) {
   });
 }
 
-//Query for get the values for particular domain and person
+// Query for get the values for particular domain and person
 
 function gettingValuesByDomainAndPerson(domain, person, done) {
   const query = (`SELECT * FROM ${InviteRequestTable} WHERE domain = '${domain}' AND person = '${person}' `);
@@ -74,7 +74,7 @@ function gettingValuesByDomainAndPerson(domain, person, done) {
   });
 }
 
-//Query for get the values for particular domain
+// Query for get the values for particular domain
 
 function gettingValuesByDomain(domain, done) {
   const query = (`SELECT * FROM ${InviteRequestTable} WHERE domain = '${domain}' `);
@@ -91,7 +91,7 @@ function gettingValuesByDomain(domain, done) {
   });
 }
 
-//Query for Update status for type request
+// Query for Update status for type request
 
 function updateStatusForRequest(domain, person, bodyData, statuss, done) {
   const status = statuss.toLowerCase();
@@ -101,7 +101,7 @@ function updateStatusForRequest(domain, person, bodyData, statuss, done) {
   client.execute(query, err => done(err));
 }
 
-//Query for update status for type invite
+// Query for update status for type invite
 
 function updateStatusForInvite(domain, person, statuss, done) {
   const status = statuss.toLowerCase();

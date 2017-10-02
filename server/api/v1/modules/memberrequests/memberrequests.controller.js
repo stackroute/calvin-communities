@@ -7,7 +7,7 @@ const logger = require('../../../../logger');
 
 let status = '';
 
-//Getting the table details for particular domain
+// Getting the table details for particular domain
 
 function gettingValuesByDomain(domain, done) {
   const domainname = domain.toLowerCase();
@@ -15,10 +15,10 @@ function gettingValuesByDomain(domain, done) {
 }
 
 // Publish the event when invite occured
-function publishMessageforInvite(domainname,count,dataFromBody) {
-  let message = { domain: domainname, event: 'newinvitees', body: count , invitee : dataFromBody.invitee};
+function publishMessageforInvite(domainname, count, dataFromBody) {
+  let message = { domain: domainname, event: 'newinvitees', body: count, invitee: dataFromBody.invitee };
   message = JSON.stringify(message);
-  logger.debug("publish invite message" , message);
+  logger.debug('publish invite message', message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
       logger.debug('error occured', err);
@@ -28,9 +28,9 @@ function publishMessageforInvite(domainname,count,dataFromBody) {
   });
 }
 
-//Publish the event when invite occur
-function publishMessageforRequest(domainname, count,dataFromBody) {
-  let message = { domain: domainname, event: 'newjoinrequests', body: count , requester : dataFromBody.invitee };
+// Publish the event when invite occur
+function publishMessageforRequest(domainname, count, dataFromBody) {
+  let message = { domain: domainname, event: 'newjoinrequests', body: count, requester: dataFromBody.invitee };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -83,7 +83,7 @@ function PublishEventForRejectionOfRequest(domainname, count) {
 // Insert the values into the table for both request and invite
 
 function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations, done) {
-  logger.debug("role checked");
+  logger.debug('role checked');
   let flag2 = 0;
   let iteration = iterations;
 
@@ -92,7 +92,7 @@ function ConditionForCheckingRole(dataFromBody, dataFromParams, type, iterations
   }
   if (type === 'invite') {
     const persons = dataFromBody.invitee;
-    logger.debug("invite", persons);
+    logger.debug('invite', persons);
     persons.forEach((b) => {
       if ((b.email !== 'null') && (b.email)) {
         if ((type.toLowerCase() === 'invite' && b.role.toLowerCase() !== '')) {
@@ -210,7 +210,7 @@ function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, flag
         if (err) {
           done(err);
         }
-        publishMessageforRequest(dataFromParams, flag2,dataFromBody);
+        publishMessageforRequest(dataFromParams, flag2, dataFromBody);
         return done(undefined, { message: 'Inserted' });
       });
     } else {
@@ -220,7 +220,7 @@ function CallingServiceForInsert(dataFromBody, dataFromParams, type, flag2, flag
 }
 
 function InsertData(dataFromBody, dataFromParams, type, done) {
-  logger.debug("invite controller");
+  logger.debug('invite controller');
   const iteration = 0;
   async.waterfall([
     ConditionForCheckingRole.bind(null, dataFromBody, dataFromParams, type, iteration),
@@ -324,7 +324,7 @@ function updateStatusForRequest(params, bodyData, done) {
     }
   });
 }
-//Deleting the row in the table when the request or invite is rejected
+// Deleting the row in the table when the request or invite is rejected
 
 function rejectedInviteOrRequest(domainvalue, personvalue, done) {
   let flag = false;

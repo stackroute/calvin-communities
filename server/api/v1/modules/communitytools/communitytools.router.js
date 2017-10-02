@@ -70,7 +70,7 @@ router.post('/:domain/tools/:toolid', (req, res) => {
       if (err) {
         return res.status(err[0]).json(err[1]);
       }
-      return res.status(201).json({communityToolToken: results});
+      return res.status(201).json({ communityToolToken: results });
     });
   } catch (err) {
     return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
@@ -86,7 +86,7 @@ router.patch('/:domain/tools/:toolid', (req, res) => {
         return res.status(err[0]).send(err[1]);
       }
 
-      return res.status(202).json({communityToolToken: result});
+      return res.status(202).json({ communityToolToken: result });
     });
   } catch (err) {
     // console.log('Unexpected error in fetching community roles ', err);
@@ -125,7 +125,7 @@ router.delete('/:domain/tools/:toolid', (req, res) => {
     return res.status(500).send({ error: 'Unexpected error occurred, please try again...!' });
   }
   return null;
-});*/
+}); */
 
 
 module.exports = router;

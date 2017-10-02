@@ -41,7 +41,7 @@ router.get('/:domain', (req, res) => {
 
 router.post('/:domain/type/:type', (req, res) => {
   try {
-logger.debug("router try", req.body);
+    logger.debug('router try', req.body);
     const dataFromBody = req.body;
     const dataFromParams = req.params.domain;
     const type = req.params.type;
@@ -49,7 +49,7 @@ logger.debug("router try", req.body);
       if (err) {
         return res.status(400).send(err);
       }
-      logger.debug("router results", results);
+      logger.debug('router results', results);
       return res.status(201).send({ message: 'Inserted' });
     });
   } catch (err) {

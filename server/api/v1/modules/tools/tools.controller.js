@@ -17,8 +17,9 @@ function getTools(domainName, done) {
 }
 
 // publish event for counter when tool is added
-/*function PublishEventWhenToolAdded(domainname, count,dataFromBody) {
-  let message = { domain: domainname, event: 'newtoolsadded', body: count , tools: dataFromBody.toolid };
+/* function PublishEventWhenToolAdded(domainname, count,dataFromBody) {
+  let message = { domain: domainname, event: 'newtoolsadded',
+  body: count , tools: dataFromBody.toolid };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -27,31 +28,33 @@ function getTools(domainName, done) {
       logger.debug('result is', res);
     }
   });
-}*/
+} */
 
 // publish event for counter when tool is added
-function PublishEventWhenToolDeleted(domainname, count ,dataFromBody) {
+function PublishEventWhenToolDeleted(domainname, count,
+  dataFromBody) { // eslint-disable-line no-unused-vars
   let message = { domain: domainname, event: 'removetools', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
-    if (err) {
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message,
+    (err, res) => { // eslint-disable-line no-unused-vars
+      if (err) {
       // logger.debug('error occured', err);
-    } else {
+      } else {
       // logger.debug('result is', res);
-    }
-  });
+      }
+    });
 }
 
 // Function for Posting tools
 
 function postTools(dataFromBody, domainName, done) {
-  let count = 0;
-    if (dataFromBody.toolId && domainName) {
-      if (dataFromBody.toolId !== null && domainName !== null) {
-    ToolService.addTools(dataFromBody, domainName, done);
-    //PublishEventWhenToolAdded(domainName, 1,dataFromBody);
+  const count = 0; // eslint-disable-line no-unused-vars
+  if (dataFromBody.toolId && domainName) {
+    if (dataFromBody.toolId !== null && domainName !== null) {
+      ToolService.addTools(dataFromBody, domainName, done);
+    // PublishEventWhenToolAdded(domainName, 1,dataFromBody);
     }
-}
+  }
   // console.log(count === dataFromBody.length);
   return null;
 }
@@ -70,7 +73,7 @@ function modifyTool(dataFromBody, dataFromparams, done) {
 function deleteTool(dataFromURI, done) {
   ToolService.getToolsForDeletion(dataFromURI.toolid, dataFromURI.domainname, (err) => {
     if (!err) {
-      console.log('success');
+      logger.debug('success');
       PublishEventWhenToolDeleted(dataFromURI.domainname, 1);
       return ToolService.deleteTools(dataFromURI, done);
     }

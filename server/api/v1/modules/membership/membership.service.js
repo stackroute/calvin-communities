@@ -21,8 +21,7 @@ function getCommunityList(username, done) {
   const query = `SELECT domain, role FROM membership WHERE username = '${username}' `;
   return client.execute(query, (err, results) => {
     if (!err) {
-      console.log(results.rows)
-      done(undefined, { username: username, communityDetails: results.rows });
+      done(undefined, { username, communityDetails: results.rows });
     } else {
       done(err, undefined);
     }
@@ -75,9 +74,9 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
 /*
  * Delete- Remove member from a community
  */
-
+/*
 function removeMemberFromCommunity(domainName, data, done) {
-  /* const arr = [];
+   const arr = [];
   const query = (`DELETE FROM ${MEMBERSHIP_TABLE} WHERE username =? AND domain = ? `);
   // console.log(data.length);
   // console.log(typeof (data));
@@ -90,13 +89,13 @@ function removeMemberFromCommunity(domainName, data, done) {
       return done(err);
     }
     return done(undefined, res);
-  });*/
-}
+  });
+} */
 
 
 module.exports = {
   userCommunityDetails,
   getCommunityList,
   modifyRoleOfMemberInCommunity,
-  removeMemberFromCommunity,
+  // removeMemberFromCommunity,
 };

@@ -171,6 +171,6 @@ describe('Test cases for all tools in a community', () => {
     client.execute("DELETE FROM tools where toolid='doctors.blr';");
     /*    client.execute("DELETE FROM tools where toolid='quora';");
         client.execute("DELETE FROM tools where toolid='sermo';");
-        client.execute("DELETE FROM tools where toolid='stack-overflow';");*/
+        client.execute("DELETE FROM tools where toolid='stack-overflow';"); */
   });
 });

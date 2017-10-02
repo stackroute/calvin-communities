@@ -14,9 +14,9 @@ const membershipCtrl = require('./membership.controller');
  *
  */
 
-router.get('/:username', (req, res) => {
+router.get('/:username', (req, res) => { // eslint-disable-line consistent-return
   try {
-    logger.debug("req.body", req.params.username);
+    logger.debug('req.body', req.params.username);
     membershipCtrl.getCommunityList(req.params.username.toLowerCase(), (err, results) => {
       if (err) {
         return res.status(400).send({ error: 'username does not exist ' });
