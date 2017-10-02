@@ -301,7 +301,7 @@ module.exports = [{
     }],
   }, {
     toolId: 'theteacherscorner.net',
-    toolName: 'The Teacher\'s Corner',
+    toolName: 'The Teachers Corner',
     purpose: 'Teaching',
     avatar: 'https://voxy.com/wp-content/uploads/2016/05/Teachers-Corner-Header-Image-1.jpg',
     toolurl: 'http://www.theteacherscorner.net',

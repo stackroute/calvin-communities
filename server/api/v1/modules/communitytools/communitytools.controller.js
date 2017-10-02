@@ -8,7 +8,8 @@ const registerPublisherService = require('../../../../common/kafkaPublisher');
 const logger = require('../../../../logger');
 
 function publishtools(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool' };
+  
+  let message = { domain: dataFromURI, tools: dataFromBody, type: 'addtool', event: 'newtoolsadded'};
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {

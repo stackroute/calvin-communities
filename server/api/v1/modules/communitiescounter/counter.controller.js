@@ -17,7 +17,7 @@ function onevent(domain, eventname, payload, done) {
     return;
   }
   console.log("countercontroller", payload);
-  eventHandlerClosure(domain, payload, done);
+  eventHandlerClosure(domain, done);
 }
 
 function getcounter(domain, done) {

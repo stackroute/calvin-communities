@@ -1,9 +1,11 @@
 const memberCtrl = require('../../api/v1/modules/membership/membership.controller');
 const logger = require('../../logger.js');
+const events = require('../../appconfig/index').events;
 module.exports = function(eventMessage) {
   // logger.debug('Got a new community event message: ', eventMessage);
   // logger.debug('domain', eventMessage.domain);
-  if (eventMessage.type === 'add') {
+  if (eventMessage.event === events.addmember ) {
+
     memberCtrl.userCommunityDetails(eventMessage.domain, eventMessage.value, (err, res) => {
       if (err) {
         logger.debug(err);

@@ -17,7 +17,7 @@ function getTools(domainName, done) {
 }
 
 // publish event for counter when tool is added
-function PublishEventWhenToolAdded(domainname, count,dataFromBody) {
+/*function PublishEventWhenToolAdded(domainname, count,dataFromBody) {
   let message = { domain: domainname, event: 'newtoolsadded', body: count , tools: dataFromBody.toolid };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -27,11 +27,10 @@ function PublishEventWhenToolAdded(domainname, count,dataFromBody) {
       logger.debug('result is', res);
     }
   });
-}
+}*/
 
 // publish event for counter when tool is added
 function PublishEventWhenToolDeleted(domainname, count ,dataFromBody) {
-  console.log('hello world');
   let message = { domain: domainname, event: 'removetools', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -50,7 +49,7 @@ function postTools(dataFromBody, domainName, done) {
     if (dataFromBody.toolId && domainName) {
       if (dataFromBody.toolId !== null && domainName !== null) {
     ToolService.addTools(dataFromBody, domainName, done);
-    PublishEventWhenToolAdded(domainName, 1,dataFromBody);
+    //PublishEventWhenToolAdded(domainName, 1,dataFromBody);
     }
 }
   // console.log(count === dataFromBody.length);

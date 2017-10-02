@@ -1,9 +1,11 @@
 const logger = require('../../logger');
 const toolService = require('../../api/v1/modules/tools/tools.controller');
+const events = require('../../appconfig/index').events;
+
 module.exports = function(eventMessage) {
   logger.debug('Got a new community event message: ', eventMessage);
   logger.debug(eventMessage.type);
-  if (eventMessage.type === "addtool") {
+  if (eventMessage.event === events.addtool ) {
     logger.debug(eventMessage.tools);
     toolService.postTools(eventMessage.tools, eventMessage.domain, (err, res) => {
       if (res)

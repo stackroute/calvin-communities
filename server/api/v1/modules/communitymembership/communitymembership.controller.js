@@ -8,6 +8,8 @@ const logger = require('../../../../logger');
 
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
+const events = require('../../../../appconfig/index').events;
+
 /*
  *POST and UPDATE Method
  *Condition check for null value of username and role for add and modify member details
@@ -104,7 +106,7 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(dataExistCheck,
  *POST Method- Publish a event
  */
 function publishMessageToTopic(dataFromURI, dataFromBody) {
-  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' ,event:'memberadded'};
+  let message = { domain: dataFromURI, value: dataFromBody, type: 'add' ,event: events.addmember };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -115,9 +117,9 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
     }
   });
 }
-// /*
-//  *PATCH Method- Publish a event
-//  */
+/*
+ *PATCH Method- Publish a event
+ */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   let message = { domain: dataFromURI, value: dataFromBody, type: 'modify',event:'rolemodifiedformember' };
   message = JSON.stringify(message);

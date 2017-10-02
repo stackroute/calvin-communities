@@ -95,7 +95,7 @@ function userCommunityDetails(domainName, data, done) {
         done(err);
       }
       console.log("BEFORE GOING SOMEWHERE")
-      publishMessageforMemberCounter(domainName, count,data);
+      //publishMessageforMemberCounter(domainName, count,data);
       return done(undefined, { message: 'Inserted' });
     });
   } else {
@@ -141,7 +141,7 @@ function removeMemberFromCommunity(domainName, data, done) {
 }
 
 
-function publishMessageforMemberCounter(domainname, count,data) {
+/*function publishMessageforMemberCounter(domainname, count,data) {
   console.log('reached SOME PLACE')
   console.log("------->", data);
   let newData = [];
@@ -160,7 +160,7 @@ function publishMessageforMemberCounter(domainname, count,data) {
       logger.debug('result is', res);
     }
   });
-}
+}*/
 
 function publishMessageforMemberCounterDecrement(domainname, count ,data) {
   let message = { domain: domainname, event: 'removemembers', body: count , members : data};

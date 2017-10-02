@@ -85,7 +85,7 @@ function truncatetable(query, done) {
 function truncatedb() {
   async.map(queries, truncatetable, (error) => { // eslint-disable-line consistent-return
     if (error) {
-      return logger.debug('Error in truncatin database, please try again later...');
+      logger.debug('Error in truncating database, please try again later...');
     }
     logger.debug('Database Truncated');
     process.exit();

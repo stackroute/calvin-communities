@@ -43,8 +43,16 @@ const jwtdetails = {
   expiryTime: 60 * 500,
 }
 
+
+const events = {
+  addmember: 'newmembersadded',
+  addtool: 'newtoolsadded',
+  addcommunity: 'newcommunityadded',
+}
+
 module.exports = {
    connectionString,
+   events,
    loggerConfig,
    options,
    client,
