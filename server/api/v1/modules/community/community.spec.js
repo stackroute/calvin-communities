@@ -157,7 +157,8 @@ describe('get/ post/ patch / delete community ', function () {
       .send(alldata)
       .end(function () {
         const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
-        client.execute(query,
+        client.execute(
+          query,
           function (error, dbresult) { // eslint-disable-line consistent-return
             if (error) {
               logger.debug('First Test', error);
@@ -169,7 +170,8 @@ describe('get/ post/ patch / delete community ', function () {
             dbresult.rows[0].avatar.should.be.equal(alldata.avatar);
             dbresult.rows[0].owner.should.be.equal(alldata.owner);
             done();
-          });
+          }
+          );
       });
   });
 
@@ -415,7 +417,8 @@ describe('get/ post/ patch / delete community ', function () {
 
 
   it('should give details for multiple domains', function (done) {
-    communityCtrl.getMultipleCommunities(dataarray,
+    communityCtrl.getMultipleCommunities(
+      dataarray,
       function (error, result) { // eslint-disable-line consistent-return
         if (error) logger.debug(error);
         result.length.should.be.equal(dataarray.length);

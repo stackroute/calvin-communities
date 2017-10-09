@@ -46,7 +46,8 @@ describe('Testcases for checking the communitycounter', () => {
         logger.debug(err);
         return done(err);
       }
-      counterctrl.newmemberadded(domain,
+      counterctrl.newmemberadded(
+        domain,
         (err2) => { // eslint-disable-line consistent-return
           if (err2) {
             logger.debug(err2);
@@ -60,7 +61,8 @@ describe('Testcases for checking the communitycounter', () => {
             parseInt(resultupdated.rows[0].members) // eslint-disable-line radix
               .should.deep.equal(parseInt(result.rows[0].members) + 1); // eslint-disable-line radix
           });
-        });
+        }
+        );
       done();
     });
   });

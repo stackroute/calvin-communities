@@ -17,10 +17,10 @@ function gettingValuesByDomain(domain, done) {
 // Publish the event when invite occured
 function publishMessageforInvite(domainname, count, dataFromBody) {
   let message = {
-  domain: domainname,
-  event: 'newinvitees',
-  body: count,
-  invitee: dataFromBody.invitee
+    domain: domainname,
+    event: 'newinvitees',
+    body: count,
+  invitee: dataFromBody.invitee,
   };
   message = JSON.stringify(message);
   logger.debug('publish invite message', message);
@@ -39,7 +39,7 @@ function publishMessageforRequest(domainname, count, dataFromBody) {
   domain: domainname,
   event: 'newjoinrequests',
   body: count,
-  requester: dataFromBody.invitee
+  requester: dataFromBody.invitee,
   };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {

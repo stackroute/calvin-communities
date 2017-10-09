@@ -9,7 +9,8 @@ const logger = require('../../../../logger');
 
 function publishtools(dataFromURI, dataFromBody) {
   let message = {
-    domain: dataFromURI, tools: dataFromBody, type: 'addtool', event: 'newtoolsadded' };
+    domain: dataFromURI, tools: dataFromBody, type: 'addtool', event: 'newtoolsadded'
+  };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -30,8 +31,8 @@ function mergeData(data, previousResult, done) { // eslint-disable-line consiste
   if (previousResult.length === 0) {
     return done(undefined, []);
   }
-  toolmappingcontroller.getToolMapping(
-    data, (err, res) => { // eslint-disable-line consistent-return
+  toolmappingcontroller.getToolMapping(data,
+    (err, res) => { // eslint-disable-line consistent-return
       if (err) { logger.debug('Unexpected Error', err); return done([500, 'Internal Server Error']); }
       const result = res;
       if (result) {
@@ -42,8 +43,7 @@ function mergeData(data, previousResult, done) { // eslint-disable-line consiste
         result.updatedon = previousResult[0].updatedon;
         return done(undefined, result);
       }
-    }
-    );
+  });
 }
 
 function getCommunityTool(data, done) {
@@ -82,21 +82,21 @@ function postCommunityTool(body, done) { // eslint-disable-line consistent-retur
         communityToolService.addTools.bind(
           null, toolDetails),
         toolmappingcontroller.postEventMapping.bind(
-          null,{ domain: body.domain, toolid: body.toolId },
-          body
-          ),
-        ], (error, result) => {
-         if (error) {
+          null, { domain: body.domain, toolid: body.toolId },
+          body,
+        ),
+      ], (error, result) => {
+        if (error) {
           logger.debug('an error occured', error);
           return done([500, error[1]]);
         }
-        publishtools(
-          body.domain, { toolId: body.toolId,
+        publishtools(body.domain, { toolId: body.toolId,
           avatar: body.avatar,
-          toolName: body.toolname });
+          toolName: body.toolname
+        });
         return done(undefined, result[1]);
-     });
-   });
+      });
+    });
 }
 
 

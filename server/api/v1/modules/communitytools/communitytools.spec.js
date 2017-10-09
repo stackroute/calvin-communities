@@ -135,7 +135,7 @@ describe('Test cases for tools of a community', () => {
     request(app)
       .post(`${uri}singer.blr/tools/sermo`)
       .send(value.toolsAll)
-      .end((error, results) => {
+      .end((error) => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\' and toolid = \'sermo\'', (err, result) => {
             if (!err) {
@@ -278,7 +278,7 @@ describe('Test cases for tools of a community', () => {
           client.execute(`SELECT * from communitytools where domain='${value.patch.domain}' and toolid = '${value.notExisting.tool}'`, (err, result) => {
             if (!err) {
               result.rows.length.should.deep.equal(0);
-           return done();
+        return done();
             }
             return null;
           });

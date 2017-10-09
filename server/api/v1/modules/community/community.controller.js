@@ -127,11 +127,13 @@ function getTemplateDetails(community) {
 function postTools(domain, tools, done) {
   tools.domain = domain; // eslint-disable-line no-param-reassign
 
-  async.map(tools, toolsController.postCommunityTool,
-   (err, res) => { // eslint-disable-line consistent-return
-     if (err) { logger.debug('Unexpected Error Occured', err); return done(err); }
-     if (res) { return done(null, res); }
-   });
+  async.map(
+    tools, toolsController.postCommunityTool,
+    (err, res) => { // eslint-disable-line consistent-return
+      if (err) { logger.debug('Unexpected Error Occured', err); return done(err); }
+      if (res) { return done(null, res); }
+    }
+    );
 }
 /**
  * POST For adding new community,
@@ -174,16 +176,20 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
   if (values === -1) {
     return done([400, 'A Template Name is supposed to be chosen from mentioned list only']);
   }
-  communityService.getCommunity(community.domain,
+  communityService.getCommunity(
+    community.domain,
     (err, res) => { // eslint-disable-line consistent-return
       if (err) throw err;
       if (res.length === 0) {
-        return async.series([
+        return async.series(
+          [
           communityService.addCommunity.bind(null, values[0]),
           roleController.postCommunityRoles.bind(null, community.domain, values[1]),
           postTools.bind(null, community.domain, values[2]),
-          membershipController.addMembersToCommunity.bind(null,
-            community.domain, [values[3]]),
+          membershipController.addMembersToCommunity.bind(
+            null,
+            community.domain, [values[3]]
+            ),
         ],
         (error, result) => {
           if (error) { logger.debug(error); return done([500, 'Internal server error']); }
@@ -215,8 +221,6 @@ function getCommunity(domain, counter, done) {
           result[0][0].tools = (result[1][0].tools || 0);
         } else {
           logger.debug('here', result[0][0]);
-
-        // logger.debug('here', result[0][0]);
           result[0][0].invitations = 0;
           result[0][0].members = 0;
           result[0][0].requests = 0;

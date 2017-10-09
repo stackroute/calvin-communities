@@ -12,14 +12,14 @@ describe('Test GET request to API /activityevents/', () => {
   it('Fetch all activityevents types', (done) => {
     request(app)
       .get(`${apiVersion}/activityevents`)
-          .end((err, res) => {
-            if (err) {
-              done(err);
-              return;
-            }
-            res.body.should.deep.equal(activityevents);
-            res.body.length.should.be.equal(activityevents.length);
-            done();
-          });
+      .end((err, res) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        res.body.should.deep.equal(activityevents);
+        res.body.length.should.be.equal(activityevents.length);
+        done();
+      });
   });
 });

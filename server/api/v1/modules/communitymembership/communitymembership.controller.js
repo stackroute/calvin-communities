@@ -45,8 +45,8 @@ function checkConditionForNull(flagged, domainName, values, done) {
 
 function checkCondtionRoleExistenseForaDomain(
   roleExistCheck,
-  iterateRole, domainName, values, nullCheckResult, done
-  ) {
+  iterateRole, domainName, values, nullCheckResult, done,
+) {
   logger.debug('iam in role check');
   logger.debug('nullCheckResult', nullCheckResult);
   let roleExist = roleExistCheck;
@@ -78,7 +78,7 @@ function checkCondtionRoleExistenseForaDomain(
 
 function checkCondtionDataExistenseInDataBaseToAddMembers(
   dataExistCheck,
-  iterateData, domainName, values, roleExistCheckResult, done
+  iterateData, domainName, values, roleExistCheckResult, done,
   ) {
   logger.debug('iam in dataExist check to add member');
   logger.debug('roleExistCheckResult', roleExistCheckResult);
@@ -100,8 +100,8 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(
             logger.debug('dataExist', dataExist);
             done(null, dataExist);
           }
-        }
-        );
+        },
+      );
     });
   } else {
     done({ error: 'Specified role is not available for this community' });
@@ -113,7 +113,8 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(
  */
 function publishMessageToTopic(dataFromURI, dataFromBody) {
   let message = {
-    domain: dataFromURI, value: dataFromBody, type: 'add', event: events.addmember };
+    domain: dataFromURI, value: dataFromBody, type: 'add', event: events.addmember
+  };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -129,7 +130,8 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
  */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   let message = {
-    domain: dataFromURI, value: dataFromBody, type: 'modify', event: 'rolemodifiedformember' };
+    domain: dataFromURI, value: dataFromBody, type: 'modify', event: 'rolemodifiedformember'
+  };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -149,7 +151,8 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
 
 function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
   let message = {
-    domain: dataFromURI, value: dataFromBody, type: 'deletemember', event: 'memberdeleted' };
+    domain: dataFromURI, value: dataFromBody, type: 'deletemember', event: 'memberdeleted'
+  };
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
@@ -196,7 +199,8 @@ function checkCondtionDataExistenseInDataBaseToUpdate(
   let dataExist = dataExistCheck;
   if (roleExistCheckResult === values.length) {
     values.forEach((data) => {
-      communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
+      communityMembershipService.checkCommunityToUpdateMembersDetails(
+        domainName,
         data.username, (error, message) => {
           iterateDataExist += 1;
           if (message) {
@@ -209,7 +213,8 @@ function checkCondtionDataExistenseInDataBaseToUpdate(
             logger.debug('dataExist', dataExist);
             done(null, dataExist);
           }
-        });
+        }
+        );
     });
   } else {
     done({ error: 'Specified role is not available for this community' });
@@ -268,7 +273,7 @@ function checkConditionForNullToDelete(flagged, domainName, values, done) {
 
 function checkCondtionDataExistenseInDataBaseToDeleteMembers(
   dataExistCheck,
-  iterateData, domainName, values, nullCheckResult, done
+  iterateData, domainName, values, nullCheckResult, done,
   ) {
   logger.debug('hi iam checking dataExist to delete member');
   logger.debug('nullCheckResult', nullCheckResult);
@@ -331,7 +336,7 @@ function addMembersToCommunity(domainName, values, done) {
     checkConditionForNull.bind(null, flag, domainName, values),
     checkCondtionRoleExistenseForaDomain.bind(
       null,
-      roleExist, iterateRoleExist, domainName, values
+      roleExist, iterateRoleExist, domainName, values,
       ),
     checkCondtionDataExistenseInDataBaseToAddMembers.bind(
       null,
@@ -359,8 +364,10 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
   const iterateDataExist = 0;
   async.waterfall([
     checkConditionForNull.bind(null, flag, domainName, values),
-    checkCondtionRoleExistenseForaDomain.bind(null,
-      roleExist, iterateRoleExist, domainName, values),
+    checkCondtionRoleExistenseForaDomain.bind(
+      null,
+      roleExist, iterateRoleExist, domainName, values
+      ),
     checkCondtionDataExistenseInDataBaseToUpdate.bind(
       null,
       dataExist, iterateDataExist, domainName, values
