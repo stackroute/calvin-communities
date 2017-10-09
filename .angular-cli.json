@@ -19,9 +19,15 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "calvin",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "styles.scss"
       ],
-      "scripts": [],
+      "stylePreprocessorOptions": {
+        "includePaths": ["./", "./themes"]
+      },
+      "scripts": [
+        "../node_modules/hammerjs/hammer.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

@@ -1,0 +1,54 @@
+<div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="0px" fxLayoutGap.xs=".2">
+  <md-card fxFlex="55%" class="parent card">
+    <md-card-header>
+        <!-- <img md-card-avatar src={{communityObj.avatar}} /> -->
+        <!-- {{communityObj | json }} -->
+        <md-card-title>{{communityObj.name}}</md-card-title>
+        <md-card-subtitle>{{communityObj.purpose}}</md-card-subtitle>
+        <md-card-subtitle>Created by : {{communityObj.createdby}} On {{communityObj.createdon}}</md-card-subtitle>
+        <md-card-subtitle>Last Updated On : {{communityObj.updatedon}}</md-card-subtitle>
+    </md-card-header>
+    <br>
+    <md-card-content>
+      <div>
+        <img md-card-image src={{communityObj.avatar}} />
+      </div>
+      <div>
+        <h2>Description:</h2>
+        {{communityObj.description}}
+      </div>
+      <div><hr><br>
+        <h2 class="title">Tools</h2>
+        <hr/>
+        <div>
+          <!--{{communityTools | json }}-->
+          <md-list>
+            <md-list-item *ngFor="let tool of communityTools.tools">
+              <!-- <md-icon md-list-icon>keyboard_arrow_right</md-icon> -->
+              <img md-card-avatar src={{tool.avatar}}>
+              <h4 md-line>{{tool.toolid}}</h4>
+            </md-list-item>
+            <md-divider></md-divider>
+          </md-list>
+        </div>
+      </div>
+      <br>
+      <div>
+        <h2 class="title">Members</h2>
+        <hr/>
+        <div>
+         <!--{{communityMembers | json }}-->
+          <md-list>
+            <md-list-item *ngFor="let member of communityMembers.MemberDetails">
+              <md-icon md-list-icon>person</md-icon>
+              <h4 md-line>{{member.username}}</h4>
+              <p md-line> {{member.role}} </p>
+            </md-list-item>
+            <md-divider></md-divider>
+          </md-list>
+        </div>
+      </div>
+
+    </md-card-content>
+  </md-card>
+</div>
