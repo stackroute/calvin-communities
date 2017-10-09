@@ -1,0 +1,33 @@
+<!-- <md-input-container>
+  <input mdInput color="accent" mode="search" placeholder="Search for a community...">
+</md-input-container> -->
+<div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="30px">
+  <div *ngIf="getFinalResults" fxFlex="96%" fxLayoutGap="2%" fxLayoutWrap>
+    <div class="list-communities" fxFlex="31%" *ngFor="let data of getFinalResults" fx-flex-fill>
+      <md-card>
+        <md-card-header>
+          <md-card-title>{{data.name}}</md-card-title>
+          <img md-card-avatar src={{data.avatar}}>
+          <md-card-title>{{data.domain}}</md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <md-card-title>Purpose</md-card-title>
+          {{data.purpose}}
+        </md-card-content>
+        <md-card-content>
+          <md-card-title>Description</md-card-title>
+          {{data.description}}
+        </md-card-content>
+        <md-card-content>
+          <md-card-title>Tools</md-card-title>
+          <div *ngFor="let tools of data.toolid">
+            <md-list>{{tools.toolid}}</md-list>
+          </div>
+        </md-card-content>
+        <md-card-actions fxLayoutAlign="end">
+          <button md-raised-button color="accent" (click)="redirect(data.domain)">CommunityDetails</button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </div>
+</div>

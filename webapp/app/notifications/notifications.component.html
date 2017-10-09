@@ -1,0 +1,31 @@
+<md-card overflow-y="none">
+<div >
+  <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+    <div>
+      <md-card-title>Notifications <!-- ( {{notifications.length}} ) --></md-card-title>
+    </div>
+  </div>
+  <div class="content">
+  <div *ngFor= "let message of notifications" fx-flex-fill>
+    <md-card class="notifications" *ngIf="message.event === 'newcommunityadded'" (click)="redirect(message.domain)">
+    <p><md-icon>language</md-icon> {{message.domain}} Community is Created</p>
+    </md-card>
+    <md-card class="notifications" *ngIf="message.event === 'memberadded'" (click)="redirect(message.domain)">
+    <p><md-icon>face</md-icon> New Member added to {{message.domain}} Community</p>
+    </md-card>
+    <md-card class="notifications" *ngIf="message.event === 'newinvitees'" (click)="redirect(message.domain)">
+    <p>A New Member is invited to {{message.domain}} Community</p>
+    </md-card>
+    <md-card class="notifications" *ngIf="message.event === 'rejectinvitees'" (click)="redirect(message.domain)">
+    <p>The invited Member rejected the invite from {{message.domain}} Community</p>
+    </md-card>
+    <md-card class="notifications" *ngIf="message.event === 'rolemodifiedformember'" (click)="redirect(message.domain)">
+    <p>Role Modified for the Member in  {{message.domain}} Community</p>
+    </md-card>
+    <md-card class="notifications" *ngIf="message.event === 'memberdeleted'" (click)="redirect(message.domain)">
+    <p>Member removed from {{message.domain}} Community</p>
+    </md-card>
+   </div>
+  </div>
+</div>
+</md-card>
