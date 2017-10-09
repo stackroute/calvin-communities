@@ -1,0 +1,29 @@
+
+    <div
+     fxLayout
+     fxLayout.xs="row"
+     fxLayoutAlign="center"
+     fxLayoutGap="10px"
+     fxLayoutGap.xs="0">
+       <div class="item item-3" fxFlex >
+       <md-card>
+       <md-card-title>ToolsGraph</md-card-title>
+    <md-card-subtitle>Tools Used Frequently</md-card-subtitle>
+
+  <div style="display: block">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  <button (click)="randomize()">Update</button>
+  </md-card>
+</div>
+</div>
+ 
+
+
