@@ -16,7 +16,9 @@ const membership = require('./membership.service');
 
 const apiVersion = '/api/v1/';
 
-const connectionString = require('../../../../config').connectionString;
+const config = require('../../../../config');
+
+const connectionString = config.connectionString;
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],

@@ -31,8 +31,10 @@ function getTools(domainName, done) {
 } */
 
 // publish event for counter when tool is added
-function PublishEventWhenToolDeleted(domainname, count,
-  dataFromBody) { // eslint-disable-line no-unused-vars
+function PublishEventWhenToolDeleted(
+  domainname, count, // eslint-disable-line no-unused-vars
+  dataFromBody // eslint-disable-line no-unused-vars
+  ) {
   let message = { domain: domainname, event: 'removetools', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message,
@@ -42,7 +44,8 @@ function PublishEventWhenToolDeleted(domainname, count,
       } else {
       // logger.debug('result is', res);
       }
-    });
+    }
+    );
 }
 
 // Function for Posting tools

@@ -9,11 +9,13 @@ const token = require('../../../../config').jwtdetails;
 const COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 
 function generateToolToken(domain, toolid, eventids, done) {
-  jwt.sign({ domain, toolid, events: eventids },
-   token.secret, (err, code) => { // eslint-disable-line consistent-return
-     if (err) { logger.debug(err); return done([400, 'Error in Operation']); }
-     if (code) return done(undefined, code);
-   });
+  jwt.sign(
+    { domain, toolid, events: eventids },
+    token.secret, (err, code) => { // eslint-disable-line consistent-return
+      if (err) { logger.debug(err); return done([400, 'Error in Operation']); }
+      if (code) return done(undefined, code);
+    }
+    );
 }
 
 function getToolEventMapping(parameters, done) {
@@ -75,10 +77,12 @@ function updateEventMapping(parameters, details, done) {
     eventids.push(data.eventid);
     query = `update ${COMMUNITY_TOOL_EVENT_MAP} set eventname=?, description=?, activity=? , actor =?, object=?, metadata=? where domain=? and toolid=? and eventid=?`;
 
-    queries.push({ query,
+    queries.push(
+      { query,
       params: [data.eventname, data.description, data.activity,
         data.actor, data.object, data.metadata, parameters.domain,
-        parameters.toolid, data.eventid] });
+        parameters.toolid, data.eventid] }
+        );
   });
   if (wrongvalues === 0) {
     async.waterfall([

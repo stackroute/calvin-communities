@@ -7,34 +7,17 @@ const registerPublisherService = require('../../../../common/kafkaPublisher');
 const communityService = require('./../community/community.controller');
 
 const async = require('async');
-/*
- * Get community Details of a particular member
- */
-
-function getCommunityList(username, done) {
-  async.waterfall([
-    memberCommunityList.bind(null, username),
-    getAvatarDetails.bind(null),
-  ], (err, results) => {
-    if (err) {
-      return done(err);
-    }
-    return done(undefined, results);
-  });
-}
 
 function memberCommunityList(username, done) {
   logger.debug('memberlist');
-  const arr = [];
   logger.debug('memberList', username);
   membershipService.getCommunityList(username, (error, results) => {
     if (!error) {
       return done(null, results);
     }
-    return done(err);
+    return done(error);
   });
 }
-
 
 function getAvatarDetails(arr, done) {
   logger.debug('ArrayDetails', arr);
@@ -67,6 +50,24 @@ function getAvatarDetails(arr, done) {
     }
   });
 }
+/*
+ * Get community Details of a particular member
+ */
+
+function getCommunityList(username, done) {
+  async.waterfall([
+    memberCommunityList.bind(null, username),
+    getAvatarDetails.bind(null),
+  ], (err, results) => {
+    if (err) {
+      return done(err);
+    }
+    return done(undefined, results);
+  });
+}
+
+
+
 
 
 /*
@@ -92,7 +93,6 @@ function userCommunityDetails(domainName, data, done) {
           done(err);
         }
         logger.debug('BEFORE GOING SOMEWHERE');
-      // publishMessageforMemberCounter(domainName, count,data);
         return done(undefined, { message: 'Inserted' });
       });
     } else {
@@ -113,6 +113,23 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
     return done({ error: 'Modification cannot be done for the non-existing user' }, undefined);
   });
 }
+
+
+function publishMessageforMemberCounterDecrement(domainname, count, data) {
+  let message = {
+  domain: domainname, event: 'removemembers', body: count, members: data
+  };
+  logger.debug('count decrement', count);
+  message = JSON.stringify(message);
+  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
+    if (err) {
+      logger.debug('error occured', err);
+    } else {
+      logger.debug('result is', res);
+    }
+  });
+}
+
 
 /*
  * Remove member from the community
@@ -146,7 +163,9 @@ function removeMemberFromCommunity(domainName, data, done) {
     newData.push({member: db.username, role: db.role});
   })
 
-  let message = { domain: domainname, event: 'newmembersadded', body: count , members: newData, ts: Date.now()};
+  let message = {
+  domain: domainname,
+  event: 'newmembersadded', body: count , members: newData, ts: Date.now()};
   logger.debug('count', count);
   message = JSON.stringify(message);
   logger.debug(message,"<-----------")
@@ -159,18 +178,7 @@ function removeMemberFromCommunity(domainName, data, done) {
   });
 } */
 
-function publishMessageforMemberCounterDecrement(domainname, count, data) {
-  let message = { domain: domainname, event: 'removemembers', body: count, members: data };
-  logger.debug('count decrement', count);
-  message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
-    if (err) {
-      logger.debug('error occured', err);
-    } else {
-      logger.debug('result is', res);
-    }
-  });
-}
+
 
 module.exports = {
   getCommunityList,

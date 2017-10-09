@@ -3,7 +3,9 @@
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config').connectionString;
+const config = require('../../../../config');
+
+const connectionString = config.connectionString;
 
 const TOOL_TABLE = 'tools';
 
@@ -36,9 +38,11 @@ function getTools(domainName, done) {
     if (!err) {
       if (results.rows.length > 0) {
         // console.log("in service", results.rows[0]);
-        done(undefined, { toolid: domainName,
+        done(undefined, {
+          toolid: domainName,
           toolname: results.rows[0].toolname,
-          communities: results.rows[0].domains });
+          communities: results.rows[0].domains
+        });
       } else {
         done({ error: 'please enter a valid domain name' }, undefined);
       }

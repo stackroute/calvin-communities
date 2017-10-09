@@ -1,1 +1,1 @@
- module.exports = require('./registerConsumerService');
+module.exports = require('./registerConsumerService');

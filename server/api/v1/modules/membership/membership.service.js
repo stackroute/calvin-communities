@@ -1,6 +1,8 @@
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config').connectionString;
+const config = require('../../../../config');
+
+const connectionString = config.connectionString;
 
 const logger = require('../../../../logger');
 

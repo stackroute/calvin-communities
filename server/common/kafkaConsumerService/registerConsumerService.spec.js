@@ -1,4 +1,5 @@
 const chai = require('chai');
+
 const should = chai.should(); // eslint-disable-line no-unused-vars
 const kafka = require('kafka-node');
 const kafkaPublisher = require('../kafkaPublisher/kafkaPublisher');
@@ -13,9 +14,8 @@ describe('Testing registering a consumer service to kafka topic', () => {
     const consumerOptions = { autoCommit: false };
     const msg = { event: 'new-community', payload: { domain: 'calvin.sro1', name: 'Calvin StackRoute One' } };
 
-    kafkaPublisher.publishToTopic(topicNameArray[0], JSON.stringify(msg), (err, res) => {
+    kafkaPublisher.publishToTopic(topicNameArray[0], JSON.stringify(msg), (err) => {
       if (err) {
-        console.log('Error in publishing topic ', err);
         done(err);
       }
 
@@ -36,5 +36,5 @@ describe('Testing registering a consumer service to kafka topic', () => {
         done();
         return;
       });
-  });*/
+  }); */
 });

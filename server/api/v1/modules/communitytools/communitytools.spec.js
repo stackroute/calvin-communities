@@ -43,7 +43,7 @@ describe('Test cases for tools of a community', () => {
       .get(`${uri}doctors.blr/`)
       .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(200)
-      .end((error, results) => {
+      .end((error) => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'wipro.blr\'', (err, result) => {
             if (!err) {
@@ -139,7 +139,6 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\' and toolid = \'sermo\'', (err, result) => {
             if (!err) {
-              p.equal(1);
               result.rows[0].domain.should.deep.equal('singer.blr');
               result.rows[0].toolid.should.deep.equal('sermo');
               result.rows[0].actions.should.deep.equal(value.toolsAll.actions);
@@ -185,7 +184,6 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\' and toolid = \'sermo\'', (err, result) => {
             if (!err) {
-              gth.should.deep.equal(1);
               result.rows[0].domain.should.deep.equal('singer.blr');
               expect(results.body).to.have.property('domain').a('string');
               expect(results.body).to.have.property('toolid').a('string');
@@ -211,7 +209,6 @@ describe('Test cases for tools of a community', () => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'singer.blr\'', (err, result) => {
             if (!err) {
-              th.should.deep.equal(1);
               result.rows[0].actions.should.deep.equal(results.body.tools[0].actions);
               expect(results.body).to.have.property('domain').a('string');
               expect(results.body).to.have.property('tools').a('Array');
@@ -271,28 +268,28 @@ describe('Test cases for tools of a community', () => {
     return null;
   });
 
-     // patch data in database
+  // patch data in database
   it('should show failure message when tool does not exist n database', (done) => {
     request(app)
-         .patch(`${uri}${value.patch.domain}/tools/${value.notExisting.tool}`)
-         .send(value.updatetools)
-         .end((error, results) => {
-           if (!error) {
-             client.execute(`SELECT * from communitytools where domain='${value.patch.domain}' and toolid = '${value.notExisting.tool}'`, (err, result) => {
-               if (!err) {
-                 result.rows.length.should.deep.equal(0);
-                 return done();
-               }
-               return null;
-             });
-           } else if (!results) {
-             return done(error);
-           }
-           return null;
-         });
+      .patch(`${uri}${value.patch.domain}/tools/${value.notExisting.tool}`)
+      .send(value.updatetools)
+      .end((error, results) => {
+        if (!error) {
+          client.execute(`SELECT * from communitytools where domain='${value.patch.domain}' and toolid = '${value.notExisting.tool}'`, (err, result) => {
+            if (!err) {
+              result.rows.length.should.deep.equal(0);
+           return done();
+            }
+            return null;
+          });
+        } else if (!results) {
+          return done(error);
+        }
+        return null;
+      });
     return null;
   });
- /*
+  /*
      //  Delete an action from table
      it('should delete action for a given domain and tool name', (done) => {
        request(app)

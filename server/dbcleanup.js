@@ -1,7 +1,8 @@
 const model = require('cassandra-driver');
 const async = require('async');
 const logger = require('log4js').getLogger();
-const connectionString = require('./config').connectionString;
+const config = require('./config');
+const connectionString = config.connectionString;
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],

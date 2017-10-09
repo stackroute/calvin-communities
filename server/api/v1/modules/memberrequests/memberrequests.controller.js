@@ -16,7 +16,12 @@ function gettingValuesByDomain(domain, done) {
 
 // Publish the event when invite occured
 function publishMessageforInvite(domainname, count, dataFromBody) {
-  let message = { domain: domainname, event: 'newinvitees', body: count, invitee: dataFromBody.invitee };
+  let message = {
+  domain: domainname,
+  event: 'newinvitees',
+  body: count,
+  invitee: dataFromBody.invitee
+  };
   message = JSON.stringify(message);
   logger.debug('publish invite message', message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -30,7 +35,12 @@ function publishMessageforInvite(domainname, count, dataFromBody) {
 
 // Publish the event when invite occur
 function publishMessageforRequest(domainname, count, dataFromBody) {
-  let message = { domain: domainname, event: 'newjoinrequests', body: count, requester: dataFromBody.invitee };
+  let message = {
+  domain: domainname,
+  event: 'newjoinrequests',
+  body: count,
+  requester: dataFromBody.invitee
+  };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -42,7 +52,12 @@ function publishMessageforRequest(domainname, count, dataFromBody) {
 }
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
-  let message = { personemail: person, domainname: domain, roleforperson: role, event: 'inviteaccepted' };
+  let message = {
+  personemail: person,
+  domainname: domain,
+  roleforperson: role,
+  event: 'inviteaccepted'
+  };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
@@ -136,7 +151,8 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
     if (flag2 === persons.length) {
       persons.forEach((b) => {
         if ((b.email !== 'null') && (b.email)) {
-          communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams, b.email,
+          communityMemberService.checkCommunityToUpdateMembersDetails(
+            dataFromParams, b.email,
             (error) => {
               itera += 1;
               if (error) {
@@ -147,7 +163,8 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
               if (itera === persons.length) {
                 done(null, flag2, flag3);
               }
-            });
+            }
+            );
         } else {
           return done({ error: 'Please enter valid values!!' });
         }
@@ -159,7 +176,8 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
   }
   if (type === 'request') {
     if ((dataFromBody.invitee) && (dataFromBody.invitee !== 'null')) {
-      communityMemberService.checkCommunityToUpdateMembersDetails(dataFromParams,
+      communityMemberService.checkCommunityToUpdateMembersDetails(
+        dataFromParams,
         dataFromBody.invitee, (error) => {
           if (error) {
             flag3 = 1;

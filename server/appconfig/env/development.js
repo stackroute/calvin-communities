@@ -23,11 +23,10 @@ const connectionString = { // config for cassandra
   port: '9042',
 };
 
- const redis = {
+const redis = {
   host: process.env.REDIS_HOST || '127.0.0.1',
-  port: process.env.REDIS_PORT || 6379
+  port: process.env.REDIS_PORT || 6379,
 };
-
 const loggerConfig = { // config for log4js
   appenders: [{
     type: 'console',
@@ -41,22 +40,23 @@ const loggerConfig = { // config for log4js
 const jwtdetails = {
   secret: 'wave18@stackroute',
   expiryTime: 60 * 500,
-}
+};
 
 
 const events = {
   addmember: 'newmembersadded',
   addtool: 'newtoolsadded',
   addcommunity: 'newcommunityadded',
-}
+};
 
 module.exports = {
-   connectionString,
-   events,
-   loggerConfig,
-   options,
-   client,
-   jwtdetails,
-   redis
- };
+  connectionString,
+  events,
+  loggerConfig,
+  options,
+  consumeroptions,
+  client,
+  jwtdetails,
+  redis,
+};
 

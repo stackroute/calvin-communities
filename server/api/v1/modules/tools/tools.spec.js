@@ -14,7 +14,9 @@ const uri = '/api/v1/tools/';
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config').connectionString;
+const config = require('../../../../config');
+
+const connectionString = config.connectionString;
 
 const toolController = require('./tools.controller');
 
