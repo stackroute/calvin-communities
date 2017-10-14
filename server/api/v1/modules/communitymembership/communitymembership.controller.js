@@ -192,7 +192,7 @@ function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, do
 function checkCondtionDataExistenseInDataBaseToUpdate(
   dataExistCheck,
   iterateData, domainName, values, roleExistCheckResult, done,
-  ) {
+) {
   let iterateDataExist = iterateData;
   logger.debug('iam in dataExist check to update member');
   logger.debug('roleExistCheckResult', roleExistCheckResult);
@@ -295,7 +295,7 @@ function checkCondtionDataExistenseInDataBaseToDeleteMembers(
             logger.debug('dataExist', dataExist);
             done(null, dataExist);
           }
-        }
+        },
       );
     });
   } else {
@@ -343,7 +343,7 @@ function addMembersToCommunity(domainName, values, done) {
     checkCondtionDataExistenseInDataBaseToAddMembers.bind(
       null,
       dataExist, iterateDataExist, domainName, values,
-      ),
+    ),
     conditionCheckedAddMembers.bind(null, domainName, values),
   ], (err, result) => {
     if (err) {

@@ -199,7 +199,7 @@ describe('get/ post/ patch / delete community ', function () {
             }
             dbresult.rows[0].domain.should.be.equal(alldata.domain);
             done();
-          }
+          },
         );
       });
   });
@@ -228,7 +228,8 @@ describe('get/ post/ patch / delete community ', function () {
             dbresult.rows[0].avatar.should.be.equal(result.body.avatar);
             dbresult.rows[0].owner.should.be.equal(result.body.owner);
             done();
-          });
+          }
+        );
       });
   });
 
@@ -245,7 +246,8 @@ describe('get/ post/ patch / delete community ', function () {
         result.body.length.should.be.equal(0);
         result.status.should.be.equal(200);
         const query = 'SELECT * FROM communities where domain = \'chiKen\'';
-        client.execute(query,
+        client.execute(
+          query,
           function (error, dbresult) { // eslint-disable-line consistent-return
             if (error) {
               logger.debug('Fourth Test', error);

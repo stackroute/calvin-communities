@@ -82,7 +82,7 @@ function updateEventMapping(parameters, details, done) {
       params: [data.eventname, data.description, data.activity,
         data.actor, data.object, data.metadata, parameters.domain,
         parameters.toolid, data.eventid],
-    }, );
+    });
   });
   if (wrongvalues === 0) {
     async.waterfall([

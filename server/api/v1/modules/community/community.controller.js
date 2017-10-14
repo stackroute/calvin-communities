@@ -195,7 +195,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
             if (error) { logger.debug(error); return done([500, 'Internal server error']); }
             publishCommunityCreatedData(result[0]);
             return done(undefined, result[0]);
-          }
+          },
         );
       } return done([400, 'Domain Already Exists']);
     },

@@ -51,10 +51,10 @@ describe('Test cases for tools of a community', () => {
             }
             return done(err);
           });
-          return null;
         } else {
           return done(error);
         }
+        return null;
       });
     return null;
   });
@@ -103,6 +103,7 @@ describe('Test cases for tools of a community', () => {
         } else {
           return done(error);
         }
+        return null;
       });
     return null;
   });
@@ -150,6 +151,7 @@ describe('Test cases for tools of a community', () => {
         } else {
           return done(error);
         }
+        return null;
       });
     return null;
   });
@@ -265,6 +267,7 @@ describe('Test cases for tools of a community', () => {
         } else {
           return done(error);
         }
+        return null;
       });
     return null;
   });

@@ -44,7 +44,7 @@ function mergeData(data, previousResult, done) { // eslint-disable-line consiste
         result.updatedon = previousResult[0].updatedon;
         return done(undefined, result);
       }
-    }
+    },
   );
 }
 
@@ -98,7 +98,8 @@ function postCommunityTool(body, done) { // eslint-disable-line consistent-retur
         });
         return done(undefined, result[1]);
       });
-  });
+    }
+    );
 }
 
 
