@@ -171,7 +171,7 @@ describe('get/ post/ patch / delete community ', function () {
             dbresult.rows[0].owner.should.be.equal(alldata.owner);
             done();
           },
-          );
+        );
       });
   });
 
@@ -199,7 +199,8 @@ describe('get/ post/ patch / delete community ', function () {
             }
             dbresult.rows[0].domain.should.be.equal(alldata.domain);
             done();
-          });
+          }
+        );
       });
   });
 
@@ -214,7 +215,8 @@ describe('get/ post/ patch / delete community ', function () {
       .end(function (err, result) {
         if (err) { done(err); }
         const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
-        client.execute(query,
+        client.execute(
+          query,
           function (error, dbresult) { // eslint-disable-line consistent-return
             if (error) {
               logger.debug('First Test', error);

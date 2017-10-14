@@ -27,14 +27,13 @@ const client = new model.Client({
 describe('Test cases for tools of a community', () => {
   before(() => {
     // runs before all tests in this block
-    client.execute(`insert into communitytools \
-      (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
-      values(\'engineer.wipro.blr\', \'quora\', {\'broadcast\', \'write\'},\'http://images.wisegeek.com/cameraman.jpg\', \
-       \'quora.inc\', dateof(now()),\'for medical purpose\', \'quoratool\');');
-    client.execute('insert into communitytools \
-      (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
-      values(\'doctors.blr\', \'quora\', {\'broadcast\', \'write\'},\'http://images.wisegeek.com/cameraman.jpg\', \
-       \'quora.inc\', dateof(now()),\'for medical purpose\', \'quoratool\');`);
+    client.execute(`insert into communitytools (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
+      values('engineer.wipro.blr', 'quora', {'broadcast', 'write'},'http://images.wisegeek.com/cameraman.jpg',
+       'quora.inc', dateof(now()),'for medical purpose', 'quoratool');');
+    client.execute('insert into communitytools
+      (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname)
+      values('doctors.blr', 'quora', {'broadcast', 'write'},'http://images.wisegeek.com/cameraman.jpg',
+       'quora.inc', dateof(now()),'for medical purpose', 'quoratool');`);
   });
 
 
@@ -52,6 +51,7 @@ describe('Test cases for tools of a community', () => {
             }
             return done(err);
           });
+          return null;
         } else {
           return done(error);
         }
@@ -78,6 +78,7 @@ describe('Test cases for tools of a community', () => {
         } else {
           return done(error);
         }
+        return null;
       });
     return null;
   });

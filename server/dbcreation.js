@@ -184,7 +184,7 @@ function keyspaceCreation(done) {
         logger.debug('Keyspace Created, Moving ahead...');
         done();
       }
-  });
+    });
 }
 
 function tableCreation(done) {

@@ -79,7 +79,7 @@ function checkCondtionRoleExistenseForaDomain(
 function checkCondtionDataExistenseInDataBaseToAddMembers(
   dataExistCheck,
   iterateData, domainName, values, roleExistCheckResult, done,
-  ) {
+) {
   logger.debug('iam in dataExist check to add member');
   logger.debug('roleExistCheckResult', roleExistCheckResult);
   let iterateDataExist = iterateData;
@@ -214,7 +214,7 @@ function checkCondtionDataExistenseInDataBaseToUpdate(
             done(null, dataExist);
           }
         },
-        );
+      );
     });
   } else {
     done({ error: 'Specified role is not available for this community' });
@@ -295,7 +295,8 @@ function checkCondtionDataExistenseInDataBaseToDeleteMembers(
             logger.debug('dataExist', dataExist);
             done(null, dataExist);
           }
-        });
+        }
+      );
     });
   } else {
     done({ error: 'Value of username cannot be empty' });
@@ -338,7 +339,7 @@ function addMembersToCommunity(domainName, values, done) {
     checkCondtionRoleExistenseForaDomain.bind(
       null,
       roleExist, iterateRoleExist, domainName, values,
-      ),
+    ),
     checkCondtionDataExistenseInDataBaseToAddMembers.bind(
       null,
       dataExist, iterateDataExist, domainName, values,

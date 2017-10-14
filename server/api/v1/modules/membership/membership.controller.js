@@ -48,7 +48,7 @@ function getAvatarDetails(arr, done) {
       logger.debug('communities', usercommunities);
       return done(null, usercommunities);
     }
-    return;
+    return null;
   });
 }
 /*

@@ -44,7 +44,8 @@ function mergeData(data, previousResult, done) { // eslint-disable-line consiste
         result.updatedon = previousResult[0].updatedon;
         return done(undefined, result);
       }
-    });
+    }
+  );
 }
 
 function getCommunityTool(data, done) {
@@ -66,38 +67,38 @@ function postCommunityTool(body, done) { // eslint-disable-line consistent-retur
 
   communityToolService.getCommunityTool(
     body.domain, body.toolId,
-   (err, res) => { // eslint-disable-line consistent-return
-     if (err) {
-       logger.debug('error occurred', err);
-       return done([500, 'Internal Server Error']);
-     }
+    (err, res) => { // eslint-disable-line consistent-return
+      if (err) {
+        logger.debug('error occurred', err);
+        return done([500, 'Internal Server Error']);
+      }
 
-     if (res.length !== 0) {
-       logger.debug('domain and tool are already integrated', res);
-       return done([400, 'Domain & Tool are already Integrated']);
-     }
+      if (res.length !== 0) {
+        logger.debug('domain and tool are already integrated', res);
+        return done([400, 'Domain & Tool are already Integrated']);
+      }
 
-     const toolDetails = [body.domain, body.toolId, body.toolname,
-       body.avatar, body.purpose, body.toolurl, body.actions];
-     async.series([
-       communityToolService.addTools.bind(null, toolDetails),
-       toolmappingcontroller.postEventMapping.bind(
+      const toolDetails = [body.domain, body.toolId, body.toolname,
+        body.avatar, body.purpose, body.toolurl, body.actions];
+      async.series([
+        communityToolService.addTools.bind(null, toolDetails),
+        toolmappingcontroller.postEventMapping.bind(
           null, { domain: body.domain, toolid: body.toolId },
           body,
         ),
-     ], (error, result) => {
-       if (error) {
-         logger.debug('an error occured', error);
-         return done([500, error[1]]);
-       }
-       publishtools(body.domain, {
-         toolId: body.toolId,
-         avatar: body.avatar,
-         toolName: body.toolname,
-       });
-       return done(undefined, result[1]);
-     });
-   });
+      ], (error, result) => {
+        if (error) {
+          logger.debug('an error occured', error);
+          return done([500, error[1]]);
+        }
+        publishtools(body.domain, {
+          toolId: body.toolId,
+          avatar: body.avatar,
+          toolName: body.toolname,
+        });
+        return done(undefined, result[1]);
+      });
+  });
 }
 
 

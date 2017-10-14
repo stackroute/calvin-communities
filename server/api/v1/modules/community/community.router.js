@@ -62,7 +62,7 @@ router.get('/:domain', (req, res) => { // eslint-disable-line consistent-return
   try {
     let counter = false;
     if (req.query.counter && req.query.counter.toString() === 'true') {
-      const counts  = req.query.counter;
+      const counts = req.query.counter;
       counter = counts;
     }
     communityCtrl.getCommunity(req.params.domain, counter, (err, results) => {
@@ -101,7 +101,7 @@ router.patch('/:domain', (req, res) => { // eslint-disable-line consistent-retur
         }
         return res.status(202).jsonp(results[0]);
       },
-      );
+    );
   } catch (err) {
     logger.error('Unexpected error in patching community ', err[1]);
     return res.status(500).send({ error: 'Unexpected error occurred, try again later' });
