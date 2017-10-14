@@ -128,8 +128,8 @@ describe('Test cases for tools of a community', () => {
         } else {
           return done(error);
         }
+        return null;
       });
-    return null;
   });
 
   // post data in database, all values given
@@ -245,8 +245,8 @@ describe('Test cases for tools of a community', () => {
         } else {
           return done(error);
         }
+        return null;
       });
-    return null;
   });
 
 

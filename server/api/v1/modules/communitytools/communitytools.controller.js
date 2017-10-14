@@ -98,8 +98,8 @@ function postCommunityTool(body, done) { // eslint-disable-line consistent-retur
         });
         return done(undefined, result[1]);
       });
-    }
-    );
+    },
+  );
 }
 
 
@@ -125,7 +125,8 @@ function updateTool(parameters, body, done) {
         });
       }
       if (res.length === 0) { return done([400, 'Tool not mapped to this Domain']); }
-    });
+    }
+  );
 }
 
 // Exporting the functions to be used in router

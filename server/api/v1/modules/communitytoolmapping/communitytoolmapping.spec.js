@@ -89,17 +89,17 @@ describe('Test cases for all tool mapping events in a community', () => {
       (error, results) => { // eslint-disable-line no-unused-vars
         if (!error) {
           client.execute('select * FROM communitytooleventmap WHERE domain = \'wipro.blr\' and toolid = \'sermo\'; ', (err, result) => {
-          if (!err) {
+            if (!err) {
               result.rows.length.should.deep.equal(1);
               /* result.rows[0].toolid.should.deep.equal(results.toolid);
             result.rows[0].domain.should.deep.equal(results.domain); */
               /* expect(results).to.have.property('toolid').a('string');
             expect(results).to.have.property('eventname').a('string'); */
-            return done();
-          }
-          return null;
-        });
-      }
+              return done();
+            }
+            return null;
+          });
+        }
       },
     );
     return null;

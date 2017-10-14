@@ -274,7 +274,7 @@ function checkConditionForNullToDelete(flagged, domainName, values, done) {
 function checkCondtionDataExistenseInDataBaseToDeleteMembers(
   dataExistCheck,
   iterateData, domainName, values, nullCheckResult, done,
-  ) {
+) {
   logger.debug('hi iam checking dataExist to delete member');
   logger.debug('nullCheckResult', nullCheckResult);
   let dataExist = dataExistCheck;
@@ -369,7 +369,7 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
     checkCondtionRoleExistenseForaDomain.bind(
       null,
       roleExist, iterateRoleExist, domainName, values,
-      ),
+    ),
     checkCondtionDataExistenseInDataBaseToUpdate.bind(
       null,
       dataExist, iterateDataExist, domainName, values,

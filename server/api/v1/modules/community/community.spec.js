@@ -228,7 +228,7 @@ describe('get/ post/ patch / delete community ', function () {
             dbresult.rows[0].avatar.should.be.equal(result.body.avatar);
             dbresult.rows[0].owner.should.be.equal(result.body.owner);
             done();
-          }
+          },
         );
       });
   });
@@ -256,7 +256,8 @@ describe('get/ post/ patch / delete community ', function () {
             dbresult.rows.length.should.be.equal(result.body.length);
             done();
           });
-      });
+      }
+    );
   });
 
   /**
@@ -271,7 +272,8 @@ describe('get/ post/ patch / delete community ', function () {
       .end(function (err) {
         if (err) { done(err); }
         const query = `SELECT * FROM communities where domain = '${editdata.domain}'`;
-        client.execute(query,
+        client.execute(
+          query,
           function (error, dbresult) { // eslint-disable-line consistent-return
             if (error) {
               logger.debug('Fifth Test', error);

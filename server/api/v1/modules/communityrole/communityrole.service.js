@@ -19,15 +19,15 @@ function flattenFormat(doc) {
     Object.keys(elem.actions).map(
       key =>
       // return { role: doc.role, toolid: doc.toolid, action: key, grant: doc.actions[key] }
-      arr.push({
-        role: elem.role,
-        toolid: elem.toolid,
-        action: key,
-        grant: elem.actions[key]
-      }),
-    {}
-    );},
-  );
+        arr.push({
+          role: elem.role,
+          toolid: elem.toolid,
+          action: key,
+          grant: elem.actions[key],
+        }),
+      {},
+    );
+  }, );
   obj.domain = doc[0].domain;
   logger.debug(obj);
   logger.debug('Array is ', arr);
