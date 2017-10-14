@@ -2,7 +2,7 @@
 const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
-const expect = chai.expect;
+const { expect } = chai;
 const app = require('../../../../app');
 
 const request = require('supertest');
@@ -15,7 +15,7 @@ const uri = '/api/v1/communitytools/';
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],
@@ -278,7 +278,7 @@ describe('Test cases for tools of a community', () => {
           client.execute(`SELECT * from communitytools where domain='${value.patch.domain}' and toolid = '${value.notExisting.tool}'`, (err, result) => {
             if (!err) {
               result.rows.length.should.deep.equal(0);
-        return done();
+              return done();
             }
             return null;
           });

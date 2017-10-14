@@ -6,7 +6,7 @@ const app = require('../../../../app');
 const supertest = require('supertest');
 const communityCtrl = require('./community.controller');
 const logger = require('../../../../logger');
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 // Should is used as assert on data, hence lint thinks should is never used,
 // to avoid it, require is not assigned to a variable
@@ -170,7 +170,7 @@ describe('get/ post/ patch / delete community ', function () {
             dbresult.rows[0].avatar.should.be.equal(alldata.avatar);
             dbresult.rows[0].owner.should.be.equal(alldata.owner);
             done();
-          }
+          },
           );
       });
   });
@@ -190,7 +190,8 @@ describe('get/ post/ patch / delete community ', function () {
         result.body.error.should.equal('Domain Already Exists');
         result.status.should.be.equal(400);
         const query = `SELECT * FROM communities where domain = '${alldata.domain}'`;
-        client.execute(query,
+        client.execute(
+          query,
           function (error, dbresult) { // eslint-disable-line consistent-return
             if (error) {
               logger.debug('Second Test', error);

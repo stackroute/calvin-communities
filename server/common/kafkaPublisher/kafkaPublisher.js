@@ -1,12 +1,12 @@
 const kafkaNode = require('kafka-node');
 
-const HighLevelProducer = kafkaNode.HighLevelProducer;
+const { HighLevelProducer } = kafkaNode;
 
 function publishToTopic(topic, msgs, callback) {
   const client = new kafkaNode.Client();
   const producer = new HighLevelProducer(client);
   // msgs=JSON.stringify(msgs);
-  const payloads = [{ topic: topic, messages: msgs }];
+  const payloads = [{ topic, messages: msgs }];
   // Does the topic exists or not?
 
   producer.on('ready', () => {
@@ -25,7 +25,7 @@ function publishToTopic(topic, msgs, callback) {
     });
   });
 
-  producer.on('error', (err) => {
+  producer.on('error', () => {
   });
 }
 

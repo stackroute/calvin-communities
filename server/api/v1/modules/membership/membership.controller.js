@@ -66,10 +66,6 @@ function getCommunityList(username, done) {
   });
 }
 
-
-
-
-
 /*
  * post the community details
  */
@@ -117,7 +113,7 @@ function modifyRoleOfMemberInCommunity(domainName, data, done) {
 
 function publishMessageforMemberCounterDecrement(domainname, count, data) {
   let message = {
-  domain: domainname, event: 'removemembers', body: count, members: data
+    domain: domainname, event: 'removemembers', body: count, members: data,
   };
   logger.debug('count decrement', count);
   message = JSON.stringify(message);
@@ -177,7 +173,6 @@ function removeMemberFromCommunity(domainName, data, done) {
     }
   });
 } */
-
 
 
 module.exports = {

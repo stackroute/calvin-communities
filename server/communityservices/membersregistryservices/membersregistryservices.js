@@ -4,7 +4,7 @@ const logger = require('../../logger.js');
 
 const config = require('../../appconfig/index');
 
-const events = config.events;
+const { events } = config;
 
 module.exports = function (eventMessage) {
   // logger.debug('Got a new community event message: ', eventMessage);
@@ -21,12 +21,12 @@ module.exports = function (eventMessage) {
   if (eventMessage.type === 'modify') {
     memberCtrl.modifyRoleOfMemberInCommunity(
       eventMessage.domain, eventMessage.value, (err) => {
-      if (err) {
-        logger.debug(err);
-      } else {
-        logger.debug('Modified community');
-      }
-    });
+        if (err) {
+          logger.debug(err);
+        } else {
+          logger.debug('Modified community');
+        }
+      });
   }
   if (eventMessage.type === 'deletemember') {
     memberCtrl.removeMemberFromCommunity(eventMessage.domain, eventMessage.value, (err) => {

@@ -15,7 +15,7 @@ const logger = require('../../../../logger');
 
 router.get('/:domain', (req, res) => {
   try {
-    const domain = req.params.domain;
+    const { domain } = req.params;
     controller.gettingValuesByDomain(domain, (err, results) => {
       if (err) {
         // console.log('Error in controller.gettingValuesByDomain error: ', err);
@@ -44,7 +44,7 @@ router.post('/:domain/type/:type', (req, res) => {
     logger.debug('router try', req.body);
     const dataFromBody = req.body;
     const dataFromParams = req.params.domain;
-    const type = req.params.type;
+    const { type }= req.params;
     controller.InsertData(dataFromBody, dataFromParams, type, (err, results) => {
       if (err) {
         return res.status(400).send(err);
@@ -71,7 +71,7 @@ router.post('/:domain/type/:type', (req, res) => {
 
 router.patch('/invite/:domain/person/:person', (req, res) => {
   try {
-    const params = req.params;
+    const { params } = req;
     // const body = req.body;
     controller.updateStatusForInvite(params, (err) => {
       if (err) {
@@ -127,8 +127,9 @@ router.patch('/request/:domain/person/:person', (req, res) => {
 
 router.delete('/:domain/person/:person', (req, res) => {
   try {
-    const domain = req.params.domain;
-    const person = req.params.person;
+    const { params } = req;
+    const { domain }= params;
+    const { person } = params;
     controller.rejectedInviteOrRequest(domain, person, (err) => {
       if (err) {
         // console.log('Error in  controller.rejectedInviteRequest error: ', err);

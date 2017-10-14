@@ -33,18 +33,19 @@ function getTools(domainName, done) {
 // publish event for counter when tool is added
 function PublishEventWhenToolDeleted(
   domainname, count, // eslint-disable-line no-unused-vars
-  dataFromBody // eslint-disable-line no-unused-vars
+  dataFromBody, // eslint-disable-line no-unused-vars
   ) {
   let message = { domain: domainname, event: 'removetools', body: count };
   message = JSON.stringify(message);
-  registerPublisherService.publishToTopic('CommunityLifecycleEvents', message,
+  registerPublisherService.publishToTopic(
+    'CommunityLifecycleEvents', message,
     (err, res) => { // eslint-disable-line no-unused-vars
       if (err) {
       // logger.debug('error occured', err);
       } else {
       // logger.debug('result is', res);
       }
-    }
+    },
     );
 }
 

@@ -10,7 +10,7 @@ const tableCommunities = 'communities';
  *
  */
 
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],

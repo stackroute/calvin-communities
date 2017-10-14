@@ -132,7 +132,7 @@ function postTools(domain, tools, done) {
     (err, res) => { // eslint-disable-line consistent-return
       if (err) { logger.debug('Unexpected Error Occured', err); return done(err); }
       if (res) { return done(null, res); }
-    }
+    },
     );
 }
 /**
@@ -183,21 +183,22 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
       if (res.length === 0) {
         return async.series(
           [
-          communityService.addCommunity.bind(null, values[0]),
-          roleController.postCommunityRoles.bind(null, community.domain, values[1]),
-          postTools.bind(null, community.domain, values[2]),
-          membershipController.addMembersToCommunity.bind(
+            communityService.addCommunity.bind(null, values[0]),
+            roleController.postCommunityRoles.bind(null, community.domain, values[1]),
+            postTools.bind(null, community.domain, values[2]),
+            membershipController.addMembersToCommunity.bind(
             null,
-            community.domain, [values[3]]
+            community.domain, [values[3]],
             ),
-        ],
+          ],
         (error, result) => {
           if (error) { logger.debug(error); return done([500, 'Internal server error']); }
           publishCommunityCreatedData(result[0]);
           return done(undefined, result[0]);
         });
       } return done([400, 'Domain Already Exists']);
-    });
+    },
+  );
 }
 
 /**

@@ -1,6 +1,6 @@
 const model = require('cassandra-driver');
 const _ = require('lodash');
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 const logger = require('../../../../logger');
 
 const COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';

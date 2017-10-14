@@ -1,6 +1,6 @@
 const kafka = require('kafka-node'); // configs for kafka consumer
 
-const Client = kafka.Client;
+const { Client } = kafka;
 
 const client = new Client('localhost:2181');
 

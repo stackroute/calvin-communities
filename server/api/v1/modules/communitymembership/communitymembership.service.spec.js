@@ -3,7 +3,7 @@ const app = require('../../../../app');
 const request = require('supertest');
 const model = require('cassandra-driver');
 const logger = require('../../../../logger');
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],

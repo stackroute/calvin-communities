@@ -1,7 +1,7 @@
 const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
-const expect = chai.expect;
+const { expect } = chai;
 const app = require('../../../../app');
 const request = require('supertest');
 
@@ -12,7 +12,7 @@ const uri = '/api/v1/memberrequests/';
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],

@@ -44,7 +44,7 @@ const router = express.Router();
 router.get('/:domainname', (req, res) => {
   try {
     const domainName = req.params.domainname;
-    const onlyroles = req.query.onlyroles;
+    const { onlyroles } = req.query;
     logger.debug('onlyroles: ', onlyroles);
     if (onlyroles === 'true') {
       communityRoleCtrl.getCommunityRolesOnly(domainName, onlyroles, (err, results) => {
@@ -145,7 +145,7 @@ router.post('/:domainname', (req, res) => {
 router.patch('/:domainname/roles/:role', (req, res) => {
   try {
     const domainName = req.params.domainname;
-    const role = req.params.role;
+    const { role } = req.params;
     const values = req.body;
 
     communityRoleCtrl.patchCommunityRoles(values, domainName, role, (err) => {

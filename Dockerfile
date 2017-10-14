@@ -1,4 +1,6 @@
-FROM mhart/alpine-node
+FROM mhart/alpine-node:8
+
+MAINTAINER https://hub.docker.com/u/mhart/
 
 RUN apk update && \
     apk add git && \

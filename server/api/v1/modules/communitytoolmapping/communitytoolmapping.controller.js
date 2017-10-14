@@ -78,11 +78,11 @@ function updateEventMapping(parameters, details, done) {
     query = `update ${COMMUNITY_TOOL_EVENT_MAP} set eventname=?, description=?, activity=? , actor =?, object=?, metadata=? where domain=? and toolid=? and eventid=?`;
 
     queries.push({
-        query,
-        params: [data.eventname, data.description, data.activity,
+      query,
+      params: [data.eventname, data.description, data.activity,
         data.actor, data.object, data.metadata, parameters.domain,
-        parameters.toolid, data.eventid]
-      },
+        parameters.toolid, data.eventid],
+    },
         );
   });
   if (wrongvalues === 0) {

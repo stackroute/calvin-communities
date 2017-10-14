@@ -4,7 +4,7 @@ const counterctrl = require('./counter.service');
 const model = require('cassandra-driver');
 
 const COMMUNITIES_COUNTER_TABLE = 'communitiescounter';
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 const logger = require('../../../../logger');
 
 const client = new model.Client({
@@ -61,8 +61,8 @@ describe('Testcases for checking the communitycounter', () => {
             parseInt(resultupdated.rows[0].members) // eslint-disable-line radix
               .should.deep.equal(parseInt(result.rows[0].members) + 1); // eslint-disable-line radix
           });
-        }
-        );
+        },
+      );
       done();
     });
   });

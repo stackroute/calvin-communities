@@ -20,7 +20,7 @@ function publishMessageforInvite(domainname, count, dataFromBody) {
     domain: domainname,
     event: 'newinvitees',
     body: count,
-  invitee: dataFromBody.invitee,
+    invitee: dataFromBody.invitee,
   };
   message = JSON.stringify(message);
   logger.debug('publish invite message', message);
@@ -36,10 +36,10 @@ function publishMessageforInvite(domainname, count, dataFromBody) {
 // Publish the event when invite occur
 function publishMessageforRequest(domainname, count, dataFromBody) {
   let message = {
-  domain: domainname,
-  event: 'newjoinrequests',
-  body: count,
-  requester: dataFromBody.invitee,
+    domain: domainname,
+    event: 'newjoinrequests',
+    body: count,
+    requester: dataFromBody.invitee,
   };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -53,10 +53,10 @@ function publishMessageforRequest(domainname, count, dataFromBody) {
 // publish event for member when he accepted the invitation or approved the request
 function PublishEventForMemberAdded(person, domain, role) {
   let message = {
-  personemail: person,
-  domainname: domain,
-  roleforperson: role,
-  event: 'inviteaccepted'
+    personemail: person,
+    domainname: domain,
+    roleforperson: role,
+    event: 'inviteaccepted',
   };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
@@ -163,8 +163,8 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
               if (itera === persons.length) {
                 done(null, flag2, flag3);
               }
-            }
-            );
+            },
+          );
         } else {
           return done({ error: 'Please enter valid values!!' });
         }
@@ -185,7 +185,8 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
             flag3 = 0;
           }
           done(null, flag2, flag3);
-        });
+        }
+      );
     } else {
       done({ error: 'Please enter valid values!!' });
     }
@@ -265,7 +266,8 @@ function updateStatusForInvite(params, done) {
     let inviteType = '';
     if (result !== undefined && result.length > 0) {
       inviteType = result[0].type;
-      role = result[0].role;
+      const rol = result[0].role;
+      role = rol;
       flag = true;
     }
     if ((flag) && ((inviteType === 'invite'))) {
@@ -354,7 +356,8 @@ function rejectedInviteOrRequest(domainvalue, personvalue, done) {
     if (result !== undefined && result.length > 0) {
       const checkdomain = result[0].domain;
       const checkperson = result[0].person;
-      type = result[0].type;
+      const ttype = result[0].type;
+      type = ttype;
       if (checkdomain === domainname && checkperson === personname) {
         flag = true;
       }

@@ -8,7 +8,7 @@ const logger = require('../../../../logger');
 
 const registerPublisherService = require('../../../../common/kafkaPublisher');
 
-const events = require('../../../../appconfig/index').events;
+const { events } = require('../../../../appconfig/index');
 
 /*
  *POST and UPDATE Method
@@ -113,7 +113,7 @@ function checkCondtionDataExistenseInDataBaseToAddMembers(
  */
 function publishMessageToTopic(dataFromURI, dataFromBody) {
   let message = {
-    domain: dataFromURI, value: dataFromBody, type: 'add', event: events.addmember
+    domain: dataFromURI, value: dataFromBody, type: 'add', event: events.addmember,
   };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
@@ -130,7 +130,7 @@ function publishMessageToTopic(dataFromURI, dataFromBody) {
  */
 function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
   let message = {
-    domain: dataFromURI, value: dataFromBody, type: 'modify', event: 'rolemodifiedformember'
+    domain: dataFromURI, value: dataFromBody, type: 'modify', event: 'rolemodifiedformember',
   };
   message = JSON.stringify(message);
   logger.debug('membershipService', message);
@@ -151,7 +151,7 @@ function publishMessageToTopicForUpdation(dataFromURI, dataFromBody) {
 
 function publishMessageToTopicForDeletion(dataFromURI, dataFromBody) {
   let message = {
-    domain: dataFromURI, value: dataFromBody, type: 'deletemember', event: 'memberdeleted'
+    domain: dataFromURI, value: dataFromBody, type: 'deletemember', event: 'memberdeleted',
   };
   logger.debug('membershipService', message);
   message = JSON.stringify(message);
@@ -191,7 +191,7 @@ function conditionCheckedAddMembers(domainName, values, dataExistCheckResult, do
 
 function checkCondtionDataExistenseInDataBaseToUpdate(
   dataExistCheck,
-  iterateData, domainName, values, roleExistCheckResult, done
+  iterateData, domainName, values, roleExistCheckResult, done,
   ) {
   let iterateDataExist = iterateData;
   logger.debug('iam in dataExist check to update member');
@@ -213,7 +213,7 @@ function checkCondtionDataExistenseInDataBaseToUpdate(
             logger.debug('dataExist', dataExist);
             done(null, dataExist);
           }
-        }
+        },
         );
     });
   } else {
@@ -281,7 +281,8 @@ function checkCondtionDataExistenseInDataBaseToDeleteMembers(
   let iterateDataExist = iterateData;
   if (nullCheckResult === values.length) {
     values.forEach((data) => {
-      communityMembershipService.checkCommunityToUpdateMembersDetails(domainName,
+      communityMembershipService.checkCommunityToUpdateMembersDetails(
+        domainName,
         data.username, (error, message) => {
           iterateDataExist += 1;
           if (message) {
@@ -340,7 +341,7 @@ function addMembersToCommunity(domainName, values, done) {
       ),
     checkCondtionDataExistenseInDataBaseToAddMembers.bind(
       null,
-      dataExist, iterateDataExist, domainName, values
+      dataExist, iterateDataExist, domainName, values,
       ),
     conditionCheckedAddMembers.bind(null, domainName, values),
   ], (err, result) => {
@@ -366,11 +367,11 @@ function modifyRoleOfMembersFromCommunity(domainName, values, done) {
     checkConditionForNull.bind(null, flag, domainName, values),
     checkCondtionRoleExistenseForaDomain.bind(
       null,
-      roleExist, iterateRoleExist, domainName, values
+      roleExist, iterateRoleExist, domainName, values,
       ),
     checkCondtionDataExistenseInDataBaseToUpdate.bind(
       null,
-      dataExist, iterateDataExist, domainName, values
+      dataExist, iterateDataExist, domainName, values,
       ),
     conditionCheckedUpdateMembersRole.bind(null, domainName, values),
   ], (err, result) => {
@@ -394,7 +395,7 @@ function removeMembersFromCommunity(domainName, values, done) {
     checkConditionForNullToDelete.bind(null, flag, domainName, values),
     checkCondtionDataExistenseInDataBaseToDeleteMembers.bind(
       null,
-      dataExist, iterateDataExist, domainName, values
+      dataExist, iterateDataExist, domainName, values,
       ),
     conditionCheckedDeleteMembers.bind(null, domainName, values),
   ], (err, result) => {

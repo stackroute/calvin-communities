@@ -1,6 +1,6 @@
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 const InviteRequestTable = 'communityinviterequests';
 

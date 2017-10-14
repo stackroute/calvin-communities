@@ -1,8 +1,9 @@
 const model = require('cassandra-driver');
 const logger = require('log4js').getLogger();
 const async = require('async');
-const config = require('./config');
-const connectionString = config.connectionString;
+
+const { connectionString } = require('./config');
+
 
 const client = new model.Client({
   contactPoints: [connectionString.contact],
@@ -176,14 +177,14 @@ function keyspaceCreation(done) {
   client.execute(`CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE} WITH replication = \
   {'class': 'SimpleStrategy', 'replication_factor': '1'} \
  `, (err) => {
-      if (err) {
-       logger.debug('Error in Keyspace Creation, trying again...');
-        process.exit();
-      } else {
-        logger.debug('Keyspace Created, Moving ahead...');
-        done();
-      }
-    });
+    if (err) {
+      logger.debug('Error in Keyspace Creation, trying again...');
+      process.exit();
+    } else {
+      logger.debug('Keyspace Created, Moving ahead...');
+      done();
+    }
+  });
 }
 
 function tableCreation(done) {

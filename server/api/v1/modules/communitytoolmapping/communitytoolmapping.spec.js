@@ -1,7 +1,7 @@
 const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
-const expect = chai.expect;
+const { expect } = chai;
 const app = require('../../../../app'); // eslint-disable-line no-unused-vars
 
 const request = require('supertest'); // eslint-disable-line no-unused-vars
@@ -10,7 +10,7 @@ const toolEventService = require('./communitytoolmapping.controller');
 
 const model = require('cassandra-driver');
 
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 const COMMUNITY_TOOL_EVENT_MAP = 'communitytooleventmap';
 
@@ -50,16 +50,16 @@ describe('Test cases for all tool mapping events in a community', () => {
       if (!error) {
         client.execute(`select * from ${COMMUNITY_TOOL_EVENT_MAP} \
         where domain = 'engineer.wipro.blr' and toolid = 'sermo' and eventid = 'evid' `, (err, result) => {
-            if (!err) {
-              result.rows.length.should.deep.equal(1);
-              result.rows[0].toolid.should.deep.equal(results.toolid);
-              result.rows[0].domain.should.deep.equal(results.domain);
-              expect(results).to.have.property('toolid').a('string');
-              expect(results).to.have.property('eventname').a('string');
-              return done();
-            }
-            return null;
-          });
+          if (!err) {
+            result.rows.length.should.deep.equal(1);
+            result.rows[0].toolid.should.deep.equal(results.toolid);
+            result.rows[0].domain.should.deep.equal(results.domain);
+            expect(results).to.have.property('toolid').a('string');
+            expect(results).to.have.property('eventname').a('string');
+            return done();
+          }
+          return null;
+        });
       }
     });
     return null;
@@ -76,9 +76,9 @@ describe('Test cases for all tool mapping events in a community', () => {
               return done();
             }
             return null;
-        });
-      }
-    }
+          });
+        }
+      },
     );
     return null;
   });
@@ -87,10 +87,10 @@ describe('Test cases for all tool mapping events in a community', () => {
     toolEventService.getToolMapping(
       eventData,
     (error, results) => { // eslint-disable-line no-unused-vars
-        if (!error) {
-          client.execute('select * FROM communitytooleventmap WHERE domain = \'wipro.blr\' and toolid = \'sermo\'; ', (err, result) => {
+      if (!error) {
+        client.execute('select * FROM communitytooleventmap WHERE domain = \'wipro.blr\' and toolid = \'sermo\'; ', (err, result) => {
           if (!err) {
-              result.rows.length.should.deep.equal(1);
+            result.rows.length.should.deep.equal(1);
               /* result.rows[0].toolid.should.deep.equal(results.toolid);
             result.rows[0].domain.should.deep.equal(results.domain); */
               /* expect(results).to.have.property('toolid').a('string');
@@ -100,7 +100,7 @@ describe('Test cases for all tool mapping events in a community', () => {
           return null;
         });
       }
-    }
+    },
     );
     return null;
   });

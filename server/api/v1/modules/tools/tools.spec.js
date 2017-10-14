@@ -2,7 +2,7 @@ const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
 
-const expect = chai.expect;
+const { expect } = chai;
 
 const app = require('../../../../app');
 
@@ -14,9 +14,7 @@ const uri = '/api/v1/tools/';
 
 const model = require('cassandra-driver');
 
-const config = require('../../../../config');
-
-const connectionString = config.connectionString;
+const { connectionString } = require('../../../../config');
 
 const toolController = require('./tools.controller');
 

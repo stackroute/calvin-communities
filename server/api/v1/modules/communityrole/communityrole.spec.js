@@ -8,7 +8,7 @@ const logger = require('../../../../logger');
 
 const request = require('supertest');
 
-const connectionString = require('../../../../config').connectionString;
+const { connectionString } = require('../../../../config');
 
 const model = require('cassandra-driver');
 

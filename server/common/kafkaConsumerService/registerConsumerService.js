@@ -1,7 +1,8 @@
 require('async');
 const kafka = require('kafka-node');
 
-const Consumer = kafka.Consumer;
+const { Consumer } = kafka;
+
 const logger = require('../../logger');
 
 
