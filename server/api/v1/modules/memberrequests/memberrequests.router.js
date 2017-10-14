@@ -44,7 +44,7 @@ router.post('/:domain/type/:type', (req, res) => {
     logger.debug('router try', req.body);
     const dataFromBody = req.body;
     const dataFromParams = req.params.domain;
-    const { type }= req.params;
+    const { type } = req.params;
     controller.InsertData(dataFromBody, dataFromParams, type, (err, results) => {
       if (err) {
         return res.status(400).send(err);
@@ -99,7 +99,7 @@ router.patch('/invite/:domain/person/:person', (req, res) => {
 
 router.patch('/request/:domain/person/:person', (req, res) => {
   try {
-    const params = req.params;
+    const { params } = req;
     const bodyData = req.body;
     controller.updateStatusForRequest(params, bodyData, (err) => {
       if (err) {
@@ -128,7 +128,7 @@ router.patch('/request/:domain/person/:person', (req, res) => {
 router.delete('/:domain/person/:person', (req, res) => {
   try {
     const { params } = req;
-    const { domain }= params;
+    const { domain } = params;
     const { person } = params;
     controller.rejectedInviteOrRequest(domain, person, (err) => {
       if (err) {

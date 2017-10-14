@@ -2,7 +2,7 @@ const logger = require('../../logger');
 const toolService = require('../../api/v1/modules/tools/tools.controller');
 const config = require('../../appconfig/index');
 
-const {events: events } = config;
+const { events } = config;
 
 module.exports = function (eventMessage) {
   logger.debug('Got a new community event message: ', eventMessage);
@@ -21,7 +21,9 @@ module.exports = function (eventMessage) {
   if (eventMessage.type === 'deletetool') {
     logger.debug('delete', eventMessage);
     toolService.deleteTool(eventMessage.domain, (err) => {
-      logger.debug('insde delete');
+      if (!err) {
+        logger.debug('insde delete');
+      }
     });
   }
 };

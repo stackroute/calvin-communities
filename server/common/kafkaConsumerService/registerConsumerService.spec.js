@@ -1,7 +1,6 @@
 const chai = require('chai');
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
-const kafka = require('kafka-node');
 const kafkaPublisher = require('../kafkaPublisher/kafkaPublisher');
 
 const registerConsumerService = require('./registerConsumerService');

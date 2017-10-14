@@ -27,14 +27,14 @@ const client = new model.Client({
 describe('Test cases for tools of a community', () => {
   before(() => {
     // runs before all tests in this block
-    client.execute('insert into communitytools \
+    client.execute(`insert into communitytools \
       (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
       values(\'engineer.wipro.blr\', \'quora\', {\'broadcast\', \'write\'},\'http://images.wisegeek.com/cameraman.jpg\', \
        \'quora.inc\', dateof(now()),\'for medical purpose\', \'quoratool\');');
     client.execute('insert into communitytools \
       (domain, toolid, actions, avatar, toolurl, createdon,purpose,toolname) \
       values(\'doctors.blr\', \'quora\', {\'broadcast\', \'write\'},\'http://images.wisegeek.com/cameraman.jpg\', \
-       \'quora.inc\', dateof(now()),\'for medical purpose\', \'quoratool\');');
+       \'quora.inc\', dateof(now()),\'for medical purpose\', \'quoratool\');`);
   });
 
 
@@ -229,7 +229,7 @@ describe('Test cases for tools of a community', () => {
     request(app)
       .patch(`${uri}${value.patch.domain}/tools/${value.patch.tool}`)
       .send(value.updatetools)
-      .end((error, results) => {
+      .end((error) => {
         if (!error) {
           client.execute('SELECT * from communitytools where domain=\'engineer.wipro.blr\' and toolid = \'quora\'', (err, result) => {
             if (!err) {

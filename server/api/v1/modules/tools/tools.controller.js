@@ -34,7 +34,7 @@ function getTools(domainName, done) {
 function PublishEventWhenToolDeleted(
   domainname, count, // eslint-disable-line no-unused-vars
   dataFromBody, // eslint-disable-line no-unused-vars
-  ) {
+) {
   let message = { domain: domainname, event: 'removetools', body: count };
   message = JSON.stringify(message);
   registerPublisherService.publishToTopic(
@@ -46,7 +46,7 @@ function PublishEventWhenToolDeleted(
       // logger.debug('result is', res);
       }
     },
-    );
+  );
 }
 
 // Function for Posting tools

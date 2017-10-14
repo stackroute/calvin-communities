@@ -185,7 +185,7 @@ function ConditionForCheckingMember(dataFromBody, dataFromParams, type, flag2, d
             flag3 = 0;
           }
           done(null, flag2, flag3);
-        }
+        },
       );
     } else {
       done({ error: 'Please enter valid values!!' });
