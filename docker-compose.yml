@@ -141,7 +141,7 @@ services:
       - calvin-cassandra
       - calvin-zookeeper
       - calvin-kafka
-      - calvin-redisi
+      - calvin-redis
     links:
       - calvin-cassandra
       - calvin-zookeeper
