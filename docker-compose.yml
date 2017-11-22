@@ -83,7 +83,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    network_mode: host
+    # network_mode: host
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
