@@ -6,7 +6,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    network_mode: host
+    # network_mode: host
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
@@ -28,7 +28,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    network_mode: host
+    # network_mode: host
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
@@ -48,7 +48,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    network_mode: host
+    # network_mode: host
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
@@ -88,7 +88,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    network_mode: host
+    # network_mode: host
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
@@ -108,7 +108,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    network_mode: host
+    # network_mode: host
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
@@ -125,23 +125,23 @@ services:
 
   calvin-cassandra:
     image: cassandra:latest
-    network_mode: host
+    # network_mode: host
     restart: always
     expose:
       - 9042
     volumes:
-      - /database:/var/lib/cassandra
+      - /data/calvin-community:/var/lib/cassandra
 
   calvin-zookeeper:
     image: wurstmeister/zookeeper
-    network_mode: host
+    # network_mode: host
     restart: always
     expose:
       - 2181
 
   calvin-kafka:
     image: wurstmeister/kafka
-    network_mode: host
+    # network_mode: host
     restart: always
     expose:
       - 9092
@@ -157,7 +157,7 @@ services:
 
   calvin-redis:
    image: smebberson/alpine-redis
-   network_mode: host
+   # network_mode: host
    restart: always
    expose:
     - 6379
