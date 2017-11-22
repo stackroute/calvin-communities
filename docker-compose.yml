@@ -17,6 +17,11 @@ services:
       - calvin-zookeeper
       - calvin-kafka
       - calvin-redis
+    links:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -33,6 +38,11 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+      - calvin-redis
+    links:
       - calvin-cassandra
       - calvin-zookeeper
       - calvin-kafka
@@ -57,6 +67,11 @@ services:
       - calvin-zookeeper
       - calvin-kafka
       - calvin-redis
+    links:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -73,6 +88,11 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+      - calvin-redis
+    links:
       - calvin-cassandra
       - calvin-zookeeper
       - calvin-kafka
@@ -97,6 +117,11 @@ services:
       - calvin-zookeeper
       - calvin-kafka
       - calvin-redis
+    links:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -113,6 +138,11 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     depends_on:
+      - calvin-cassandra
+      - calvin-zookeeper
+      - calvin-kafka
+      - calvin-redisi
+    links:
       - calvin-cassandra
       - calvin-zookeeper
       - calvin-kafka
@@ -146,6 +176,8 @@ services:
     expose:
       - 9092
     depends_on:
+      - calvin-zookeeper
+    links:
       - calvin-zookeeper
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
