@@ -1,5 +1,5 @@
 const kafkaNode = require('kafka-node');
-const config = requie('../../appconfig/');
+const config = require('../../appconfig/');
 
 const { HighLevelProducer } = kafkaNode;
 
