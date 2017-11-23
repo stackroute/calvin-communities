@@ -13,9 +13,9 @@ services:
     ports:
       - 8080:3000
     entrypoint:
-      # -  /temp/scripts/wait-for-service.sh
-      # - '0.0.0.0'
-      # - '9042'
+      -  /temp/scripts/wait-for-service.sh
+      - '127.0.0.1'
+      - '9042'
       - 'npm start'
     environment:
       ZOOKEEPER_HOST: "127.0.0.1"
@@ -31,9 +31,9 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     entrypoint:
-      # -  /temp/scripts/wait-for-service.sh
-      # - '0.0.0.0'
-      # - '9042'
+      -  /temp/scripts/wait-for-service.sh
+      - '127.0.0.1'
+      - '9042'
       - 'npm run svc.notifications'
     environment:
       ZOOKEEPER_HOST: "127.0.0.1"
@@ -49,9 +49,9 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     entrypoint:
-      # -  /temp/scripts/wait-for-service.sh
-      # - '0.0.0.0'
-      # - '9042'
+      -  /temp/scripts/wait-for-service.sh
+      - '127.0.0.1'
+      - '9042'
       - 'npm run svc.counter'
     environment:
       ZOOKEEPER_HOST: "127.0.0.1"
@@ -67,9 +67,9 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     entrypoint:
-      # -  /temp/scripts/wait-for-service.sh
-      # - '0.0.0.0'
-      # - '9042'
+      -  /temp/scripts/wait-for-service.sh
+      - '127.0.0.1'
+      - '9042'
       - 'npm run svc.member'
     environment:
       ZOOKEEPER_HOST: "127.0.0.1"
@@ -85,9 +85,9 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     entrypoint:
-      # -  /temp/scripts/wait-for-service.sh
-      # - '0.0.0.0'
-      # - '9042'
+      -  /temp/scripts/wait-for-service.sh
+      - '127.0.0.1'
+      - '9042'
       - 'npm run svc.tool'
     environment:
       ZOOKEEPER_HOST: "127.0.0.1"
@@ -103,9 +103,9 @@ services:
     volumes:
       - ./dockerScripts:/temp/scripts
     entrypoint:
-      # -  /temp/scripts/wait-for-service.sh
-      # - '0.0.0.0'
-      # - '9042'
+      -  /temp/scripts/wait-for-service.sh
+      - '127.0.0.1'
+      - '9042'
       - 'npm run svc.toolsink'
     environment:
       ZOOKEEPER_HOST: "127.0.0.1"
