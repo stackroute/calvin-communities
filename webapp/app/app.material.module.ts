@@ -6,7 +6,7 @@ import {
   MdSelectModule,
   MdToolbarModule,
   MdCheckboxModule,
-  MatSlideToggleModule,
+  /*MatSlideToggleModule,
   MatSidenavModule,
   MatListModule,
   MatTabsModule,
@@ -14,7 +14,7 @@ import {
   MatProgressSpinnerModule,
   MatChipsModule,
   MatPaginatorModule,
-  MatIconModule
+  MatIconModule*/
 } from '@angular/material';
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import {
     MdSelectModule,
     MdToolbarModule,
     MdCheckboxModule,
-    MatSlideToggleModule,
+    /*MatSlideToggleModule,
     MatListModule,
     MatSidenavModule,
     MatTabsModule,
@@ -32,7 +32,7 @@ import {
     MatProgressSpinnerModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule*/
   ],
   exports: [
     MdInputModule,
@@ -40,7 +40,7 @@ import {
     MdSelectModule,
     MdToolbarModule,
     MdCheckboxModule,
-    MatSlideToggleModule,
+    /*MatSlideToggleModule,
     MatSidenavModule,
     MatListModule,
     MatTabsModule,
@@ -48,7 +48,7 @@ import {
     MatProgressSpinnerModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule*/
   ]
 })
 export class MaterialModule { }
