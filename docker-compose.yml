@@ -14,7 +14,7 @@ services:
       - 8080:3000
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
-      - '127.0.0.1'
+      - '10.20.1.218'
       - '9042'
       - 'npm start'
     environment:
@@ -33,7 +33,7 @@ services:
       - ./dockerScripts:/temp/scripts
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
-      - '127.0.0.1'
+      - '10.20.1.218'
       - '9042'
       - 'npm run svc.notifications'
     environment:
@@ -52,7 +52,7 @@ services:
       - ./dockerScripts:/temp/scripts
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
-      - '127.0.0.1'
+      - '10.20.1.218'
       - '9042'
       - 'npm run svc.counter'
     environment:
@@ -71,7 +71,7 @@ services:
       - ./dockerScripts:/temp/scripts
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
-      - '127.0.0.1'
+      - '10.20.1.218'
       - '9042'
       - 'npm run svc.member'
     environment:
@@ -90,7 +90,7 @@ services:
       - ./dockerScripts:/temp/scripts
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
-      - '127.0.0.1'
+      - '10.20.1.218'
       - '9042'
       - 'npm run svc.tool'
     environment:
@@ -109,7 +109,7 @@ services:
       - ./dockerScripts:/temp/scripts
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
-      - '127.0.0.1'
+      - '10.20.1.218'
       - '9042'
       - 'npm run svc.toolsink'
     environment:
