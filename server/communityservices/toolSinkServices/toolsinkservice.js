@@ -23,7 +23,7 @@ module.exports = function (eventMessage) {
       logger.debug('dberror', err);
       logger.debug('Internal Server Error');
     } else {
-      logger.debug(res , ;res 'here');
+      // logger.debug(res , ;res 'here');
       if (res.rows) {
        let message = {
           domain: eventMessage.domain,
