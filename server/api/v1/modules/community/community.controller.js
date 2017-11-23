@@ -13,7 +13,6 @@ const logger = require('../../../../logger');
 * Publisher Topic code for counter service
 */
 function publishCommunityCreatedData(data) {
-  logger.debug(data);
   const message = JSON.stringify({
     domain: data[0].domain,
     name: data[0].name,
@@ -25,10 +24,10 @@ function publishCommunityCreatedData(data) {
     event: 'newcommunityadded',
     ts: Date.now(),
   });
-  logger.debug(message);
+  logger.debug("publishCommunityCreatedData::newcommunityadded ", message);
   registerPublisherService.publishToTopic('CommunityLifecycleEvents', message, (err, res) => {
     if (err) {
-      logger.debug('error occured', err);
+      logger.debug('error occurred', err);
     } else {
       logger.debug('result is', res);
     }
@@ -192,6 +191,7 @@ function addCommunity(community, done) { // eslint-disable-line consistent-retur
             ),
           ],
           (error, result) => {
+            console.log("Finished community creation with error: ", error, " result ", result);
             if (error) { logger.debug(error); return done([500, 'Internal server error']); }
             publishCommunityCreatedData(result[0]);
             return done(undefined, result[0]);

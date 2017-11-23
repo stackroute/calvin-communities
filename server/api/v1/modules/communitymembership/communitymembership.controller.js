@@ -346,6 +346,7 @@ function addMembersToCommunity(domainName, values, done) {
     ),
     conditionCheckedAddMembers.bind(null, domainName, values),
   ], (err, result) => {
+    logger.debug("finished addMembersToCommunity with error: ", err, " result ", result);
     if (err) {
       done(err);
     } else {

@@ -4,6 +4,11 @@ const { Client } = kafka;
 
 const client = new Client( (process.env.ZOOKEEPER_HOST || 'localhost') + ':2181');
 
+const kafkaConfig = {
+  ZOOKEEPER_HOST: (process.env.ZOOKEEPER_HOST || 'localhost'),
+  ZOOKEEPER_CLIENT_URL: ( (process.env.ZOOKEEPER_HOST || 'localhost') + ':2181')
+}
+
 const options = {
   autoCommit: true,
   fetchMaxWaitMs: 1000,
@@ -58,5 +63,6 @@ module.exports = {
   client,
   jwtdetails,
   redis,
+  kafkaConfig
 };
 
