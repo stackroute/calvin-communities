@@ -18,8 +18,9 @@ services:
       - '9042'
       - 'npm start'
     environment:
-      ZOOKEEPER_HOST: "127.0.0.1"
-      CASSANDRA_HOST: "127.0.0.1"
+      ZOOKEEPER_HOST: 10.20.1.218
+      REDIS_HOST: 10.20.1.218
+      CASSANDRA_HOST: 10.20.1.218
 
   calvin-notifications:
     image: notifications
@@ -36,8 +37,9 @@ services:
       - '9042'
       - 'npm run svc.notifications'
     environment:
-      ZOOKEEPER_HOST: "127.0.0.1"
-      CASSANDRA_HOST: "127.0.0.1"
+      ZOOKEEPER_HOST: 10.20.1.218
+      REDIS_HOST: 10.20.1.218
+      CASSANDRA_HOST: 10.20.1.218
 
   calvin-countermgr:
     image: counter
@@ -54,8 +56,9 @@ services:
       - '9042'
       - 'npm run svc.counter'
     environment:
-      ZOOKEEPER_HOST: "127.0.0.1"
-      CASSANDRA_HOST: "127.0.0.1"
+      ZOOKEEPER_HOST: 10.20.1.218
+      REDIS_HOST: 10.20.1.218
+      CASSANDRA_HOST: 10.20.1.218
 
   calvin-memberlookup:
     image: member
@@ -72,8 +75,9 @@ services:
       - '9042'
       - 'npm run svc.member'
     environment:
-      ZOOKEEPER_HOST: "127.0.0.1"
-      CASSANDRA_HOST: "127.0.0.1"
+      ZOOKEEPER_HOST: 10.20.1.218
+      REDIS_HOST: 10.20.1.218
+      CASSANDRA_HOST: 10.20.1.218
 
   calvin-toollookup:
     image: tool
@@ -90,8 +94,9 @@ services:
       - '9042'
       - 'npm run svc.tool'
     environment:
-      ZOOKEEPER_HOST: "127.0.0.1"
-      CASSANDRA_HOST: "127.0.0.1"
+      ZOOKEEPER_HOST: 10.20.1.218
+      REDIS_HOST: 10.20.1.218
+      CASSANDRA_HOST: 10.20.1.218
 
   calvin-toolsink:
     image: toolsink
@@ -108,8 +113,9 @@ services:
       - '9042'
       - 'npm run svc.toolsink'
     environment:
-      ZOOKEEPER_HOST: "127.0.0.1"
-      CASSANDRA_HOST: "127.0.0.1"
+      ZOOKEEPER_HOST: 10.20.1.218
+      REDIS_HOST: 10.20.1.218
+      CASSANDRA_HOST: 10.20.1.218
 
   # calvin-cassandra:
   #   image: cassandra:latest
