@@ -6,6 +6,26 @@ import {
   MdSelectModule,
   MdToolbarModule,
   MdCheckboxModule,
+  //Importing with alias
+  MdSlideToggleModule as MatSlideToggleModule,
+  MdSidenavModule as MatSidenavModule,
+  MdListModule as MatListModule,
+  MdTabsModule as MatTabsModule,
+  MdCardModule as MatCardModule,
+  MdProgressSpinnerModule as MatProgressSpinnerModule,
+  MdChipsModule as MatChipsModule,
+  MdPaginatorModule as MatPaginatorModule,
+  MdIconModule as MatIconModule,
+  //Imported with original component name as well
+  MdSlideToggleModule,
+  MdSidenavModule,
+  MdListModule,
+  MdTabsModule,
+  MdCardModule,
+  MdProgressSpinnerModule,
+  MdChipsModule,
+  MdPaginatorModule,
+  MdIconModule
   /*MatSlideToggleModule,
   MatSidenavModule,
   MatListModule,
@@ -16,6 +36,8 @@ import {
   MatPaginatorModule,
   MatIconModule*/
 } from '@angular/material';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +46,7 @@ import {
     MdSelectModule,
     MdToolbarModule,
     MdCheckboxModule,
-    /*MatSlideToggleModule,
+    MatSlideToggleModule,
     MatListModule,
     MatSidenavModule,
     MatTabsModule,
@@ -32,7 +54,16 @@ import {
     MatProgressSpinnerModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatIconModule*/
+    MatIconModule,
+    MdSlideToggleModule,
+    MdSidenavModule,
+    MdListModule,
+    MdTabsModule,
+    MdCardModule,
+    MdProgressSpinnerModule,
+    MdChipsModule,
+    MdPaginatorModule,
+    MdIconModule
   ],
   exports: [
     MdInputModule,
@@ -40,7 +71,7 @@ import {
     MdSelectModule,
     MdToolbarModule,
     MdCheckboxModule,
-    /*MatSlideToggleModule,
+    MatSlideToggleModule,
     MatSidenavModule,
     MatListModule,
     MatTabsModule,
@@ -48,7 +79,16 @@ import {
     MatProgressSpinnerModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatIconModule*/
+    MatIconModule,
+    MdSlideToggleModule,
+    MdSidenavModule,
+    MdListModule,
+    MdTabsModule,
+    MdCardModule,
+    MdProgressSpinnerModule,
+    MdChipsModule,
+    MdPaginatorModule,
+    MdIconModule
   ]
 })
 export class MaterialModule { }
