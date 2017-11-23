@@ -12,16 +12,6 @@ services:
       - ./dockerScripts:/temp/scripts
     ports:
       - 8080:3000
-    depends_on:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
-    links:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -37,16 +27,6 @@ services:
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
-    depends_on:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
-    links:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -62,16 +42,6 @@ services:
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
-    depends_on:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
-    links:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -87,16 +57,6 @@ services:
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
-    depends_on:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
-    links:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -112,16 +72,6 @@ services:
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
-    depends_on:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
-    links:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
@@ -137,59 +87,49 @@ services:
     restart: always
     volumes:
       - ./dockerScripts:/temp/scripts
-    depends_on:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
-    links:
-      - calvin-cassandra
-      - calvin-zookeeper
-      - calvin-kafka
-      - calvin-redis
     entrypoint:
       -  /temp/scripts/wait-for-service.sh
       - '0.0.0.0'
       - '9042'
       - 'npm run svc.toolsink'
 
-  calvin-cassandra:
-    image: cassandra:latest
-    # network_mode: host
-    restart: always
-    expose:
-      - 9042
-    volumes:
-      - /data/calvin-community:/var/lib/cassandra
+  # calvin-cassandra:
+  #   image: cassandra:latest
+  #   # network_mode: host
+  #   restart: always
+  #   expose:
+  #     - 9042
+  #   volumes:
+  #     - /data/calvin-community:/var/lib/cassandra
 
-  calvin-zookeeper:
-    image: wurstmeister/zookeeper
-    # network_mode: host
-    restart: always
-    expose:
-      - 2181
+  # calvin-zookeeper:
+  #   image: wurstmeister/zookeeper
+  #   # network_mode: host
+  #   restart: always
+  #   expose:
+  #     - 2181
 
-  calvin-kafka:
-    image: wurstmeister/kafka
-    # network_mode: host
-    restart: always
-    expose:
-      - 9092
-    depends_on:
-      - calvin-zookeeper
-    links:
-      - calvin-zookeeper
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
-      KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_CREATE_TOPICS: "CommunityLifecycleEvents:1:1,ToolEvents:1:1,CommunityActivityEvents:1:1"
-      KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+  # calvin-kafka:
+  #   image: wurstmeister/kafka
+  #   # network_mode: host
+  #   restart: always
+  #   expose:
+  #     - 9092
+  #   depends_on:
+  #     - calvin-zookeeper
+  #   links:
+  #     - calvin-zookeeper
+  #   environment:
+  #     KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
+  #     KAFKA_ADVERTISED_PORT: 9092
+  #     KAFKA_CREATE_TOPICS: "CommunityLifecycleEvents:1:1,ToolEvents:1:1,CommunityActivityEvents:1:1"
+  #     KAFKA_ZOOKEEPER_CONNECT: 0.0.0.0:2181
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
 
-  calvin-redis:
-   image: smebberson/alpine-redis
-   # network_mode: host
-   restart: always
-   expose:
-    - 6379
+  # calvin-redis:
+  #  image: smebberson/alpine-redis
+  #  # network_mode: host
+  #  restart: always
+  #  expose:
+  #   - 6379
