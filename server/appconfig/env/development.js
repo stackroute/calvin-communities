@@ -2,7 +2,7 @@ const kafka = require('kafka-node'); // configs for kafka consumer
 
 const { Client } = kafka;
 
-const client = new Client('localhost:2181');
+const client = new Client( (process.env.ZOOKEEPER_HOST || 'localhost') + ':2181');
 
 const options = {
   autoCommit: true,
@@ -19,7 +19,7 @@ const consumeroptions = {
 
 const connectionString = { // config for cassandra
   keyspace: 'calvincommunity',
-  contact: '127.0.0.1',
+  contact: (process.env.CASSANDRA_HOST || '127.0.0.1'),
   port: '9042',
 };
 
